@@ -67,11 +67,6 @@ dependencyManagement {
     }
 }
 
-
-detekt {
-    config.setFrom("detekt-config.yml")
-}
-
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
@@ -80,7 +75,7 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks.register("stage") {
-    dependsOn("npmInstallWeb", "buildWeb", "copyDist", tasks.bootJar)
+    dependsOn("npmInstallWeb", "copyDist", tasks.bootJar)
 }
 
 val dockerComposeFile = "./docker/docker-compose.yaml"
@@ -118,16 +113,21 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+detekt {
+    config.setFrom("detekt-config.yml")
+}
+
 tasks.register<Exec>("copyDist") {
     dependsOn("buildWeb")
     commandLine("cp", "-r", "web/dist", "src/main/resources/public")
 }
-tasks.register<Exec>("npmInstallWeb"){
-    workingDir = project.file("web")
-    commandLine("sh", "-c", "npm", "install")
+tasks.register<NpmTask>("npmInstallWeb"){
+    this.workingDir.set(project.fileTree("web").dir)
+    args.set(listOf("install", "--legacy-peer-deps"))
 }
 
-tasks.register<Exec>("buildWeb") {
-    workingDir = project.file("web")
-    commandLine("sh", "-c", "npm", "run", "build")
+tasks.register<NpmTask>("buildWeb") {
+    dependsOn("npmInstallWeb")
+    workingDir.set(project.fileTree("web").dir)
+    args.set(listOf("run", "build"))
 }
