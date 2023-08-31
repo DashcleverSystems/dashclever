@@ -75,7 +75,7 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks.register("stage") {
-    dependsOn(tasks.bootJar, "npmInstall", "copyDist")
+    dependsOn(tasks.bootJar, "npmInstallWeb", "copyDist")
 }
 
 val dockerComposeFile = "./docker/docker-compose.yaml"
