@@ -67,6 +67,11 @@ dependencyManagement {
     }
 }
 
+
+detekt {
+    config.setFrom("detekt-config.yml")
+}
+
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
@@ -75,7 +80,7 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks.register("stage") {
-    dependsOn("npmInstallWeb", "copyDist", tasks.bootJar)
+    dependsOn("nodeSetup", "npmSetup", "npmInstallWeb", "copyDist", tasks.bootJar)
 }
 
 val dockerComposeFile = "./docker/docker-compose.yaml"
@@ -111,10 +116,6 @@ tasks.register<Exec>("cleanDev") {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-}
-
-detekt {
-    config.setFrom("detekt-config.yml")
 }
 
 tasks.register<Exec>("copyDist") {
