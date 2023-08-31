@@ -1,10 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { CoreTranslateService } from './core/translate/core-translate.service';
+import { environment } from '@env/environments';
+import { Language } from './shared/enums/languages';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  title = 'web-app';
+export class AppComponent implements OnInit, OnDestroy {
+  constructor(private coreTranslateService: CoreTranslateService) {}
+
+  ngOnInit(): void {
+    this.coreTranslateService.init(
+      environment.defaultLanguage as Language,
+      environment.supportedLanguages as Language[]
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.coreTranslateService.destroy();
+  }
 }

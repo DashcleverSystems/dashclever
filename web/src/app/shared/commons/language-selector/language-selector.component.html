@@ -1,0 +1,9 @@
+<ul>
+  <li
+    class="pointer"
+    *ngFor="let lang of availableLanguages"
+    (click)="changeLanguage(lang.code)"
+  >
+    {{ "enum.Language." + lang.code | translate }}
+  </li>
+</ul>

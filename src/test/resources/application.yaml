@@ -1,0 +1,29 @@
+spring:
+    liquibase:
+        driver-class-name: org.postgresql.Driver
+        change-log: classpath:/db/changelog.yaml
+        url: ${jdbc.db.url}
+        default-schema: public
+        user: ${jdbc.db.username}
+        password: ${jdbc.db.password}
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        url: ${jdbc.db.url}
+        username: ${jdbc.db.username}
+        password: ${jdbc.db.password}
+    jpa:
+        hibernate:
+            ddl-auto: none
+        database: postgresql
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+jwt:
+    secret: tests_secret
+    issuer: http://localhost
+logging:
+    level:
+        org:
+            hibernate:
+                SQL: DEBUG
+                orm:
+                    jdbc:
+                        bind: TRACE
