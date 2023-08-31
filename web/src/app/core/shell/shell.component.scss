@@ -1,0 +1,25 @@
+@import "src/assets/styles/variables";
+
+.shell-container {
+  display: flex;
+  max-width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+
+  &.mobile {
+    flex-direction: column;
+  }
+
+  .content {
+    width: 100vw;
+    height: auto;
+    background-color: $secondary-light;
+
+    &.mobile {
+      width: 100vw;
+      margin-left: 0;
+      height: 100%;
+    }
+  }
+}

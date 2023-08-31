@@ -1,0 +1,43 @@
+name: deploy_heroku
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deploy_heroku:
+    runs-on: ubuntu-latest
+
+    env:
+      TF_VAR_app_name: dashclever-backend
+      PG_BACKEND_CONN_STR: ${{ secrets.TERRAFORM_BACKEND_CONN_STR }}
+      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: hashicorp/setup-terraform@v2
+
+      - name: tarball code
+        run: |+
+          mkdir tar
+          cd tar
+          tar --exclude='terraform' \
+          --exclude='.git' \
+          --exclude='.idea' \
+          --exclude='.cicd' \
+          --exclude='*.tar.gz' \
+          --exclude='.gradle' \
+          --exclude='build' \
+          --exclude='.github' \
+          --exclude='tar' \
+          -czvf app.tar.gz ../
+
+      - name: terraform init
+        run: terraform -chdir=terraform init -backend-config="conn_str=$PG_BACKEND_CONN_STR" -backend-config="schema_name=dashclever-spring-tf-state"
+
+      - name: terraform plan
+        run: terraform -chdir=terraform plan
+
+      - name: terraform apply
+        run: terraform -chdir=terraform apply -auto-approve

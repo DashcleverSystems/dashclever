@@ -1,0 +1,30 @@
+<div class="side-panel-container">
+  <div class="side-panel-el" #container>
+    <div class="menu-container">
+      <ng-container *ngTemplateOutlet="nav"></ng-container>
+    </div>
+  </div>
+</div>
+
+<ng-template #nav>
+  <div class="nav">
+    <ul>
+      <li *ngFor="let route of navList; trackBy: trackBy">
+        <ng-container
+          *ngTemplateOutlet="nav_item; context: { item: route }"
+        ></ng-container>
+      </li>
+    </ul>
+  </div>
+</ng-template>
+
+<ng-template #nav_item let-item="item">
+  <div
+    class="item-el pointer"
+    [routerLink]="item.url"
+    routerLinkActive="active"
+    [pTooltip]="item.name"
+  >
+    <i [ngClass]="'icon icon--' + item?.iconName"></i>
+  </div>
+</ng-template>

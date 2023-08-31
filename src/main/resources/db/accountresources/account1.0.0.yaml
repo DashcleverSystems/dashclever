@@ -1,0 +1,47 @@
+databaseChangeLog:
+  - changeSet:
+      id: accountresources_account1.0.0
+      author: damian
+      changes:
+        - createTable:
+            tableName: ACCOUNT
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    - primaryKey: true
+                    - nullable: false
+                    - unique: true
+              - column:
+                  name: username
+                  type: varchar(48)
+                  constraints:
+                    - nullable: false
+                    - unique: true
+              - column:
+                    name: email
+                    type: varchar(48)
+              - column:
+                  name: password_hash
+                  type: varchar(144)
+                  constraints:
+                    - nullable: false
+              - column:
+                    name: version
+                    type: int
+        - createTable:
+              tableName: EMPLOYEESHIP
+              columns:
+                  - column:
+                        name: account_id
+                        type: uuid
+                        constraints:
+                            - primaryKey: true
+                            - nullable: false
+                  - column:
+                        name: employee_id
+                        type: uuid
+                        constraints:
+                            -   primaryKey: true
+                            -   nullable: false

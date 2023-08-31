@@ -1,0 +1,36 @@
+databaseChangeLog:
+    - changeSet:
+          id: accountresources_employee1.0.0
+          author: damian
+          changes:
+              - createTable:
+                    tableName: EMPLOYEE
+                    columns:
+                        - column:
+                              name: id
+                              type: uuid
+                              constraints:
+                                  - primaryKey: true
+                                  - nullable: false
+                                  - unique: true
+                        - column:
+                              name: first_name
+                              type: varchar(48)
+                        - column:
+                              name: last_name
+                              type: varchar(48)
+                        - column:
+                              name: workplace
+                              type: int
+                        - column:
+                              name: version
+                              type: int
+                        - column:
+                              name: workshop_id
+                              type: uuid
+              - addForeignKeyConstraint:
+                    baseTableName: EMPLOYEE
+                    baseColumnNames: workshop_id
+                    referencedTableName: WORKSHOP
+                    referencedColumnNames: id
+                    constraintName: fk_employees_workshop

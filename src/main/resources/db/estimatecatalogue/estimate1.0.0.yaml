@@ -1,0 +1,81 @@
+databaseChangeLog:
+    - changeSet:
+          id: estimatecatalogue_estimate1.0.0
+          author: damian
+          changes:
+              - createSequence:
+                    dataType: int
+                    incrementBy: 50
+                    startValue: 99
+                    schemaName: public
+                    sequenceName: rm_estimatecatalogue_job_id_generator_sequence
+              - createTable:
+                    tableName: RM_ESTIMATECATALOGUE_ESTIMATE
+                    columns:
+                        - column:
+                              name: id
+                              type: uuid
+                              constraints:
+                                  - primaryKey: true
+                                  - nullable: false
+                                  - unique: true
+                        - column:
+                              name: estimate_id
+                              type: varchar(24)
+                              constraints:
+                                  -   unique: true
+                        - column:
+                              name: registration
+                              type: varchar(128)
+                              constraints:
+                                  - nullable: false
+                        - column:
+                              name: brand
+                              type: varchar(144)
+                        - column:
+                              name: model
+                              type: varchar(24)
+                        - column:
+                              name: base_color_with_code
+                              type: varchar(24)
+                        - column:
+                                name: varnishing_paint_info
+                                type: varchar(256)
+                        - column:
+                              name: version
+                              type: int
+              - createTable:
+                    tableName: RM_ESTIMATECATALOGUE_JOB
+                    columns:
+                        - column:
+                              name: id
+                              type: int
+                              constraints:
+                                  -   primaryKey: true
+                                  -   nullable: false
+                                  -   unique: true
+                        - column:
+                              name: estimate_id
+                              type: uuid
+                        - column:
+                              name: name
+                              type: varchar(512)
+                        - column:
+                              name: man_minutes
+                              type: int
+                        - column:
+                              name: denomination
+                              type: int
+                        - column:
+                              name: currency
+                              type: varchar(24)
+                        - column:
+                              name: job_type
+                              type: varchar(24)
+                    constraints:
+                        - foreignKey:
+                              constraintName: RM_ESTIMATECATALOGUE_JOB_ESTIMATE_fk
+                              baseColumnNames: estimate_id
+                              baseTableName: RM_ESTIMATECATALOGUE_JOB
+                              referencedColumnNames: id
+                              referencedTableName: RM_ESTIMATECATALOGUE_ESTIMATE

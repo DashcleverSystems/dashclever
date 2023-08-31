@@ -1,0 +1,1 @@
+web: java -jar build/libs/app-0.0.1-SNAPSHOT.jar --server.port=$PORT --jdbc.db.url=$JDBC_DATABASE_URL --jdbc.db.username=$JDBC_DATABASE_USERNAME --jdbc.db.password=$JDBC_DATABASE_PASSWORD --spring.security.logging=$SECURITY_LOGGING_LEVEL

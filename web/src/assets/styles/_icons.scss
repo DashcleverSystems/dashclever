@@ -1,0 +1,76 @@
+@import "./variables.scss";
+
+.icon {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: auto;
+  vertical-align: middle;
+  display: inline-flex;
+  position: relative;
+  height: 24px;
+  width: 24px;
+
+  &.small {
+    transform: scale(0.75);
+  }
+
+  &--menu {
+    mask-image: url("~assets/images/icons/menu_icon.svg");
+    -webkit-mask-image: url("~assets/images/icons/menu_icon.svg");
+    background-color: $icon-bg;
+    mask-size: cover;
+  }
+
+  &--close {
+    mask-image: url("~assets/images/icons/close_icon.svg");
+    -webkit-mask-image: url("~assets/images/icons/close_icon.svg");
+    background-color: $icon-bg;
+    mask-size: cover;
+  }
+
+  &--home {
+    mask-image: url("~assets/images/icons/home_icon.svg");
+    -webkit-mask-image: url("~assets/images/icons/home_icon.svg");
+    background-color: $icon-bg;
+    mask-size: cover;
+  }
+
+  &--repair {
+    mask-image: url("~assets/images/icons/repair_icon.svg");
+    -webkit-mask-image: url("~assets/images/icons/repair_icon.svg");
+    background-color: $icon-bg;
+    mask-size: cover;
+  }
+
+  &--repair_process {
+    mask-image: url("~assets/images/icons/repair_process_icon.svg");
+    -webkit-mask-image: url("~assets/images/icons/repair_process_icon.svg");
+    background-color: $icon-bg;
+    mask-size: cover;
+  }
+
+  &--manage {
+    mask-image: url("~assets/images/icons/manage_icon.svg");
+    -webkit-mask-image: url("~assets/images/icons/manage_icon.svg");
+    background-color: $icon-bg;
+    mask-size: cover;
+  }
+
+  @each $icon in $icons {
+    &--#{$icon} {
+      background-image: url("/assets/images/icons/" + $icon + ".png");
+    }
+  }
+
+  &.light {
+    background-color: $secondary-dark;
+  }
+
+  &.rotate {
+    transform: rotate(180deg);
+  }
+
+  &.rotate90 {
+    transform: rotate(90deg);
+  }
+}

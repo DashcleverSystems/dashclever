@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: default_sequence
+      author: damian
+      changes:
+        - createSequence:
+            dataType: int
+            incrementBy: 50
+            startValue: 99
+            schemaName: public
+            sequenceName: default_sequence
