@@ -17,9 +17,25 @@
       padding: 0 25px 0 25px;
       margin-left: 0;
       margin-top: 10px;
+      width: 80vw;
+      height: 3rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
       ul {
         display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 3rem;
+
+        @media only screen and (min-width: 300px) {
+          gap: 2.1rem;
+        }
+
+        li {
+          scale: 1.3;
+        }
       }
     }
   }

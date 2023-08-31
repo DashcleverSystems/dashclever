@@ -1,0 +1,14 @@
+{
+  "Home": "Home",
+  "enum": {
+    "Panel": {
+      "MANAGE_STAFF": "Manage staff",
+      "INSIGHT_REPAIR": "Insight repair",
+      "REPAIR_PROCESS": "Repair process"
+    },
+    "Language": {
+      "pl": "Polish",
+      "en": "English"
+    }
+  }
+}

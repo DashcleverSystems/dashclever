@@ -38,6 +38,7 @@ resource "heroku_build" "dashclever_backend_build" {
 resource "heroku_config" "conf" {
     vars = {
         SECURITY_LOGGING_LEVEL = var.security_logging_level
+        GRADLE_TASK = "stage"
     }
 }
 

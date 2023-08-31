@@ -1,0 +1,14 @@
+{
+  "Home": "Strona główna",
+  "enum": {
+    "Panel": {
+      "MANAGE_STAFF": "Zarządzanie zespołem",
+      "INSIGHT_REPAIR": "Przypisane naprawy",
+      "REPAIR_PROCESS": "Proces napraw"
+    },
+    "Language": {
+      "pl": "Polski",
+      "en": "Angielski"
+    }
+  }
+}

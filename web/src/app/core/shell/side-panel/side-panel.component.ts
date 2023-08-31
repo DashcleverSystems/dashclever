@@ -10,7 +10,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { ShellRoute, ShellRoutes } from '../shell-routes';
+import { IShellRoute, ShellRoutes } from '../shell-routes';
 
 @Component({
   selector: 'app-side-panel',
@@ -33,7 +33,8 @@ export class SidePanelComponent implements OnInit, AfterViewInit, OnChanges {
     this.open = val;
   }
 
-  navList: ShellRoute[] = [];
+  navList: IShellRoute[] = [];
+
   trackBy = (index: number, el: any) => index;
 
   constructor(private _cdr: ChangeDetectorRef) {}

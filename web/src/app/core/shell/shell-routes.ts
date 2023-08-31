@@ -1,10 +1,11 @@
-import { Component, ComponentRef, Type } from '@angular/core';
+import { Type } from '@angular/core';
 import { HomeComponent } from 'src/app/content/main/home/home.component';
 import { InsightRepairPanelComponent } from 'src/app/content/main/panels/insight-repair-panel/insight-repair-panel.component';
 import { ManagePanelComponent } from 'src/app/content/main/panels/manage-panel/manage-panel.component';
 import { RepairProcessPanelComponent } from 'src/app/content/main/panels/repair-process-panel/repair-process-panel.component';
+import { Panel } from 'src/app/shared/enums/panels';
 
-export interface ShellRoute {
+export interface IShellRoute {
   url: string;
   name: string;
   permissions: string[];
@@ -13,7 +14,7 @@ export interface ShellRoute {
   data?: any;
 }
 
-export const ShellRoutes: ShellRoute[] = [
+export const ShellRoutes: IShellRoute[] = [
   {
     url: 'home',
     name: 'Home',
@@ -23,21 +24,21 @@ export const ShellRoutes: ShellRoute[] = [
   },
   {
     url: 'manage',
-    name: 'Manage',
+    name: 'enum.Panel.' + Panel.MANAGE_STAFF,
     component: ManagePanelComponent,
     iconName: 'manage',
     permissions: [],
   },
   {
     url: 'insight-repair',
-    name: 'Insight Repair',
+    name: 'enum.Panel.' + Panel.INSIGHT_REPAIR,
     component: InsightRepairPanelComponent,
     iconName: 'repair',
     permissions: [],
   },
   {
     url: 'repair-process',
-    name: 'Repair Process',
+    name: 'enum.Panel.' + Panel.REPAIR_PROCESS,
     component: RepairProcessPanelComponent,
     iconName: 'repair_process',
     permissions: [],

@@ -23,7 +23,7 @@
     class="item-el pointer"
     [routerLink]="item.url"
     routerLinkActive="active"
-    [pTooltip]="item.name"
+    [pTooltip]="item.name | translate"
   >
     <i [ngClass]="'icon icon--' + item?.iconName"></i>
   </div>
