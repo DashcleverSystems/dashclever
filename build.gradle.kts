@@ -80,7 +80,7 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks.register("stage") {
-    dependsOn("npmInstallWeb", "copyDist", tasks.bootJar)
+    dependsOn("npmInstallWeb", "buildWeb", "copyDist", tasks.bootJar)
 }
 
 val dockerComposeFile = "./docker/docker-compose.yaml"
@@ -122,13 +122,12 @@ tasks.register<Exec>("copyDist") {
     dependsOn("buildWeb")
     commandLine("cp", "-r", "web/dist", "src/main/resources/public")
 }
-tasks.register<NpmTask>("npmInstallWeb"){
-    this.workingDir.set(project.fileTree("web").dir)
-    args.set(listOf("install", "--legacy-peer-deps"))
+tasks.register<Exec>("npmInstallWeb"){
+    workingDir = project.file("web")
+    commandLine("sh", "-c", "npm", "install")
 }
 
-tasks.register<NpmTask>("buildWeb") {
-    dependsOn("npmInstallWeb")
-    workingDir.set(project.fileTree("web").dir)
-    args.set(listOf("run", "build"))
+tasks.register<Exec>("buildWeb") {
+    workingDir = project.file("web")
+    commandLine("sh", "-c", "npm", "run", "build")
 }
