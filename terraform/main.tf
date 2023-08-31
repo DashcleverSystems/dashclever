@@ -28,7 +28,7 @@ resource "heroku_addon" "dev_db" {
 
 resource "heroku_build" "dashclever_backend_build" {
     app_id     = heroku_app.app_dev.id
-    buildpacks = ["gradle", "nodejs"]
+    buildpacks = ["https://github.com/heroku/heroku-buildpack-gradle.git", "https://github.com/heroku/heroku-buildpack-nodejs.git"]
 
     source {
         path = "../tar/app.tar.gz"
