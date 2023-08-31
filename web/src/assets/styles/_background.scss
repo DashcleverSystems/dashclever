@@ -1,0 +1,13 @@
+.background {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  vertical-align: middle;
+  display: inline-flex;
+  position: relative;
+
+  &--login {
+    background-image: url("~assets/images/background/login_background.svg");
+    background-size: cover;
+  }
+}

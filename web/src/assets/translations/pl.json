@@ -10,5 +10,13 @@
       "pl": "Polski",
       "en": "Angielski"
     }
+  },
+  "toast": {
+    "router": {
+      "permissions": {
+        "message": "Nie masz uprawnień aby odwiedzić tą stronę.",
+        "title": "Brak uprawnień"
+      }
+    }
   }
 }

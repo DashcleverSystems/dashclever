@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -18,7 +17,7 @@ import { IShellRoute, ShellRoutes } from '../shell-routes';
   styleUrls: ['./side-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidePanelComponent implements OnInit, AfterViewInit, OnChanges {
+export class SidePanelComponent implements OnInit, OnChanges {
   @Input() mobile: boolean = false;
 
   @ViewChild('container') container: ElementRef<HTMLDivElement> | undefined;
@@ -43,8 +42,6 @@ export class SidePanelComponent implements OnInit, AfterViewInit, OnChanges {
     this.navList = ShellRoutes;
     this._cdr.markForCheck();
   }
-
-  ngAfterViewInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
     const mobile = changes['mobile'];

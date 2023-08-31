@@ -7,6 +7,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./core/shell/shell.module').then((m) => m.ShellModule),
   },
+  {
+    path: 'login',
+    loadChildren: () =>
+      import('./core/auth/auth.module').then((m) => m.AuthModule),
+  },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 

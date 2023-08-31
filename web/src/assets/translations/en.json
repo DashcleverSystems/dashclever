@@ -10,5 +10,13 @@
       "pl": "Polish",
       "en": "English"
     }
+  },
+  "toast": {
+    "router": {
+      "permissions": {
+        "message": "You have no permission to visit this page.",
+        "title": "No permission"
+      }
+    }
   }
 }

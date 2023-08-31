@@ -11,7 +11,7 @@ import pl from '../../../assets/translations/pl.json';
 import en from '../../../assets/translations/en.json';
 
 import { Language } from '@app/shared/enums/languages';
-import { Subscription } from 'rxjs';
+import { Subscription, last, skip } from 'rxjs';
 import { coreStoreActions } from '../store/core-store.actions';
 
 const languageKey = 'language';
@@ -39,11 +39,16 @@ export class CoreTranslateService {
 
     this.langChangeSubscription = this.store
       .select(CoreSelectors.selectedLanguage)
+      .pipe(skip(1))
       .subscribe((event: Language) => {
         localStorage.setItem(languageKey, event);
       });
 
-    this.translateService.use(this.defaultLanguage);
+    const lastUsedLanguage = localStorage.getItem(languageKey);
+    if (lastUsedLanguage) {
+      this.translateService.use(lastUsedLanguage);
+      this.language = lastUsedLanguage as Language;
+    } else this.translateService.use(this.defaultLanguage);
   }
 
   destroy() {
@@ -59,7 +64,7 @@ export class CoreTranslateService {
       this.translateService.getBrowserCultureLang() ||
       '';
 
-    let isSupportedLanguage = this.supportedLanguages.includes(newLanguage);
+    const isSupportedLanguage = this.supportedLanguages.includes(newLanguage);
     if (!newLanguage || !isSupportedLanguage) {
       newLanguage = this.defaultLanguage;
     }

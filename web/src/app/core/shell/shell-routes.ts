@@ -27,20 +27,20 @@ export const ShellRoutes: IShellRoute[] = [
     name: 'enum.Panel.' + Panel.MANAGE_STAFF,
     component: ManagePanelComponent,
     iconName: 'manage',
-    permissions: [],
+    permissions: [Panel.MANAGE_STAFF],
   },
   {
     url: 'insight-repair',
     name: 'enum.Panel.' + Panel.INSIGHT_REPAIR,
     component: InsightRepairPanelComponent,
     iconName: 'repair',
-    permissions: [],
+    permissions: [Panel.INSIGHT_REPAIR],
   },
   {
     url: 'repair-process',
     name: 'enum.Panel.' + Panel.REPAIR_PROCESS,
     component: RepairProcessPanelComponent,
     iconName: 'repair_process',
-    permissions: [],
+    permissions: [Panel.REPAIR_PROCESS],
   },
 ];

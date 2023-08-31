@@ -13,6 +13,8 @@ import { ApiPrefixInterceptor } from './core/interceptors/api-prefix.interceptor
 import { ErrorHandlerInterceptor } from './core/interceptors/error-handler.interceptor';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '@env/environments';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,6 +24,7 @@ import { environment } from '@env/environments';
     CoreModule,
     ContentModule,
     AppRoutingModule,
+    ToastModule,
     TranslateModule.forRoot(),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     ServiceWorkerModule.register('ngsw-worker.js', {
@@ -39,6 +42,7 @@ import { environment } from '@env/environments';
       useClass: ErrorHandlerInterceptor,
       multi: true,
     },
+    MessageService,
   ],
   bootstrap: [AppComponent],
 })

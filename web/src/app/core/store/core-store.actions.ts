@@ -5,5 +5,6 @@ export const coreStoreActions = createActionGroup({
   source: 'Core',
   events: {
     'Change Language': props<{ lang: Language }>(),
+    'Change permissions': props<{ permissions: string[] }>(),
   },
 });
