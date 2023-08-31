@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { CoreActions, CoreSelectors } from '../store';
+import { CoreSelectors } from '../store';
 
 // @ts-ignore
 // @ts-nocheck
