@@ -17,7 +17,7 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     if (!/^(http|https):/i.test(req.url)) {
-      req = req.clone({ url: environment.apiUrl + req.url });
+      req = req.clone({ url: environment.api_url + req.url });
     }
     return next.handle(req);
   }

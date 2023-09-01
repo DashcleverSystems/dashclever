@@ -1,1 +1,29 @@
-<div class="login-container background background--login"></div>
+<div class="login-container background background--login">
+  <div class="form" [formGroup]="form">
+    <div class="flex flex-column gap-2">
+      <label htmlFor="username">{{ 'login.username' | translate }}</label>
+      <input
+        pInputText
+        id="field-username"
+        aria-describedby="username-help"
+        formControlName="username"
+      />
+    </div>
+    <div class="flex flex-column gap-2">
+      <label htmlFor="password">{{ 'login.password' | translate }}</label>
+      <input
+        pInputText
+        id="field-password"
+        type="password"
+        aria-describedby="password-help"
+        formControlName="password"
+      />
+    </div>
+    <div class="submit-button">
+      <button pButton (click)="onSubmit()">
+        {{ 'login.submit' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+<p-toast></p-toast>

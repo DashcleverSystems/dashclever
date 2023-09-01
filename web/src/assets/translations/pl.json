@@ -1,5 +1,14 @@
 {
   "Home": "Strona główna",
+  "login": {
+    "username": "Nazwa użytkownika",
+    "password": "Hasło",
+    "submit": "Zaloguj"
+  },
+  "shell": {
+    "logout": "Wyloguj",
+    "login": "Zaloguj"
+  },
   "enum": {
     "Panel": {
       "MANAGE_STAFF": "Zarządzanie zespołem",

@@ -1,5 +1,14 @@
 {
   "Home": "Home",
+  "login": {
+    "username": "Username",
+    "password": "Password",
+    "submit": "Submit"
+  },
+  "shell": {
+    "logout": "Logout",
+    "login": "Login"
+  },
   "enum": {
     "Panel": {
       "MANAGE_STAFF": "Manage staff",

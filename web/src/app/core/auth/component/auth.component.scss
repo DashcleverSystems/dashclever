@@ -1,4 +1,28 @@
+@import "src/assets/styles/variables";
+@import "src/assets/styles/_animations.scss";
+
 .login-container {
   width: 100vw;
   height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .form {
+    animation: fadeInDown 1.5s;
+
+    .submit-button {
+      width: 100%;
+      margin-top: 1rem;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      height: 50px;
+
+      button {
+        animation: fadeInUp forwards 1s;
+      }
+    }
+  }
 }
