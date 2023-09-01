@@ -1,5 +1,3 @@
-import com.github.gradle.node.npm.task.NpmTask
-import com.github.gradle.node.npm.task.NpxTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -23,6 +21,10 @@ repositories {
 }
 
 extra["testcontainersVersion"] = "1.18.0"
+
+tasks.processResources.configure {
+    dependsOn(copyWebBuildToResources)
+}
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -74,38 +76,36 @@ tasks.withType<KotlinCompile> {
     }
 }
 
-tasks.register("stage") {
-    dependsOn("npmInstallWeb", "copyDist", tasks.bootJar)
+val stage = tasks.register("stage") {
+    dependsOn(tasks.bootJar)
 }
 
 val dockerComposeFile = "./docker/docker-compose.yaml"
-val dockerComposeAppVolumeName = "app-db-volume"
-val dockerComposeKeycloakVolumeName = "keycloak-db-volume"
+val dockerComposeAppVolumeName = "dashclever-volume"
 
-tasks.register<Exec>("setDev") {
+val setDev = tasks.register<Exec>("setDev") {
     commandLine("docker", "compose", "-p", project.name, "-f", dockerComposeFile, "up", "-d", "--build", "--remove-orphans")
     doLast {
         tasks.bootRun.configure {
-            systemProperty("jdbc.db.url", "jdbc:postgresql://localhost:5432/app-db")
+            systemProperty("jdbc.db.url", "jdbc:postgresql://localhost:5432/dashclever")
             systemProperty("jdbc.db.username", "postgres")
             systemProperty("jdbc.db.password", "postgres")
-            systemProperty("app.jwt.issuer", "http://localhost")
-            systemProperty("app.jwt.secret", "uberSecretJwt")
             systemProperty("spring.security.logging", "TRACE")
         }
     }
 }
 
-tasks.register("bootDev") {
-    dependsOn("bootRun", "setDev")
+val bootDev = tasks.register("bootDev") {
+    dependsOn(tasks.bootRun, setDev)
     tasks.getByName("bootRun").mustRunAfter(tasks.getByName("setDev"))
 }
 
-tasks.register<Exec>("stopDev") {
+val stopDev = tasks.register<Exec>("stopDev") {
     commandLine("docker", "compose", "-p", project.name, "-f", dockerComposeFile, "stop")
 }
 
-tasks.register<Exec>("cleanDev") {
+val cleanDev = tasks.register<Exec>("cleanDev") {
+    dependsOn(tasks.clean)
     commandLine("docker", "compose", "-p", project.name, "-f", dockerComposeFile, "down", "--volumes", "--remove-orphans")
 }
 
@@ -117,17 +117,16 @@ detekt {
     config.setFrom("detekt-config.yml")
 }
 
-tasks.register<Exec>("copyDist") {
-    dependsOn("buildWeb")
-    commandLine("cp", "-r", "web/dist", "src/main/resources/public")
-}
-tasks.register<NpmTask>("npmInstallWeb"){
-    this.workingDir.set(project.fileTree("web").dir)
-    args.set(listOf("install", "--legacy-peer-deps"))
+val copyWebBuildToResources = tasks.register<Copy>("copyWebBuildToResources") {
+    dependsOn("web:buildWeb")
+    from("web/dist")
+    destinationDir = fileTree("src/main/resources/public").dir
 }
 
-tasks.register<NpmTask>("buildWeb") {
-    dependsOn("npmInstallWeb")
-    workingDir.set(project.fileTree("web").dir)
-    args.set(listOf("run", "build"))
+tasks.clean.configure {
+    dependsOn(cleanWebBuild)
+}
+
+val cleanWebBuild = tasks.register<Delete>("cleanDist") {
+    delete = setOf("web/dist", "src/main/resources/public")
 }

@@ -1,50 +1,53 @@
 terraform {
-  required_providers {
-    heroku = {
-      source  = "heroku/heroku"
-      version = "~> 5.0"
+    required_providers {
+        heroku = {
+            source  = "heroku/heroku"
+            version = "~> 5.0"
+        }
     }
-  }
 
-  backend "pg" {}
+    backend "pg" {}
 }
 
 resource "heroku_app" "app_dev" {
-  name   = "${var.app_name}-dev"
-  region = "eu"
+    name   = "${var.app_name}-dev"
+    region = "eu"
 }
 
 resource "heroku_formation" "dev_formation" {
-  app_id   = heroku_app.app_dev.id
-  quantity = 1
-  size     = "eco"
-  type     = "web"
+    app_id   = heroku_app.app_dev.id
+    quantity = 1
+    size     = "eco"
+    type     = "web"
 }
 
 resource "heroku_addon" "dev_db" {
-  app_id = heroku_app.app_dev.id
-  plan   = "heroku-postgresql:mini"
+    app_id = heroku_app.app_dev.id
+    plan   = "heroku-postgresql:mini"
 }
 
 resource "heroku_build" "dashclever_backend_build" {
-  app_id     = heroku_app.app_dev.id
-  buildpacks = ["https://github.com/heroku/heroku-buildpack-gradle.git"]
+    app_id     = heroku_app.app_dev.id
+    buildpacks = [
+        "https://github.com/heroku/heroku-buildpack-nodejs.git",
+        "https://github.com/heroku/heroku-buildpack-gradle.git",
+    ]
 
-  source {
-    path = "../tar/app.tar.gz"
-  }
+    source {
+        path = "../tar/app.tar.gz"
+    }
 }
 
 resource "heroku_config" "conf" {
     vars = {
         SECURITY_LOGGING_LEVEL = var.security_logging_level
-        GRADLE_TASK = "stage"
+        GRADLE_TASK            = "stage --stacktrace"
     }
 }
 
 resource "heroku_app_config_association" "dev_conf_assoc" {
-    app_id         = heroku_app.app_dev.id
-    vars = heroku_config.conf.vars
+    app_id = heroku_app.app_dev.id
+    vars   = heroku_config.conf.vars
 }
 
 #resource "heroku_app" "app_prd" {
