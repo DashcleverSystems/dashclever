@@ -81,17 +81,15 @@ val stage = tasks.register("stage") {
 }
 
 val dockerComposeFile = "./docker/docker-compose.yaml"
-val dockerComposeAppVolumeName = "app-db-volume"
+val dockerComposeAppVolumeName = "dashclever-volume"
 
 val setDev = tasks.register<Exec>("setDev") {
     commandLine("docker", "compose", "-p", project.name, "-f", dockerComposeFile, "up", "-d", "--build", "--remove-orphans")
     doLast {
         tasks.bootRun.configure {
-            systemProperty("jdbc.db.url", "jdbc:postgresql://localhost:5432/app-db")
+            systemProperty("jdbc.db.url", "jdbc:postgresql://localhost:5432/dashclever")
             systemProperty("jdbc.db.username", "postgres")
             systemProperty("jdbc.db.password", "postgres")
-            systemProperty("app.jwt.issuer", "http://localhost")
-            systemProperty("app.jwt.secret", "uberSecretJwt")
             systemProperty("spring.security.logging", "TRACE")
         }
     }
@@ -107,6 +105,7 @@ val stopDev = tasks.register<Exec>("stopDev") {
 }
 
 val cleanDev = tasks.register<Exec>("cleanDev") {
+    dependsOn(tasks.clean)
     commandLine("docker", "compose", "-p", project.name, "-f", dockerComposeFile, "down", "--volumes", "--remove-orphans")
 }
 

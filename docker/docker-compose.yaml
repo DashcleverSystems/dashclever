@@ -5,13 +5,13 @@ services:
   postgresql:
     image: postgres:15
     volumes:
-      - app-db-volume:/var/lib/postgresql/data
+      - dashclever-volume:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=app-db
+      - POSTGRES_DB=dashclever
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     ports:
       - "5432:5432"
 
 volumes:
-  app-db-volume:
+  dashclever-volume:
