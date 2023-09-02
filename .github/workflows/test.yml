@@ -1,0 +1,18 @@
+name: On-Demand Workflow
+
+on:
+    workflow_dispatch: # This event allows you to manually trigger the workflow
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v2
+
+            # Add your workflow steps here
+            - name: Run Your Custom Commands
+              run: |
+                  echo "This is an example on-demand workflow."
+                  # Add your custom commands or scripts here
