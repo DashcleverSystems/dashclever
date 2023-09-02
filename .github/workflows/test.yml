@@ -2,6 +2,9 @@ name: On-Demand Workflow
 
 on:
     workflow_dispatch: # This event allows you to manually trigger the workflow
+    pull_request:
+        branches:
+            - main
 
 jobs:
     build:
