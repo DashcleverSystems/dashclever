@@ -1,8 +1,9 @@
 name: deploy_heroku
 on:
-  pull_request:
-    branches:
-      - main
+    workflow_dispatch: # This event allows you to manually trigger the workflow
+    push:
+        branches:
+            - main
 
 jobs:
   deploy_heroku:
