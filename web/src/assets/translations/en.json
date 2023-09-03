@@ -3,7 +3,19 @@
   "login": {
     "username": "Username",
     "password": "Password",
-    "submit": "Submit"
+    "email": "Email",
+    "submit": "Submit",
+    "register": "Register",
+    "info": {
+      "register": {
+        "title": "No account?",
+        "button": "Register"
+      },
+      "login": {
+        "title": "Already have an account?",
+        "button": "Login"
+      }
+    }
   },
   "shell": {
     "logout": "Logout",

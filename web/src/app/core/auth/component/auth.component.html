@@ -30,13 +30,53 @@
       />
     </div>
     <div class="submit-button">
-      <div class="register-info" *ngIf="!isRegisterForm">
-        Nie masz konta? <br /><span>zarejestruj się</span>
-      </div>
-      <button pButton (click)="onSubmit()">
-        {{ 'login.submit' | translate }}
-      </button>
+      <span [ngSwitch]="">
+        <p *ngSwitchCase="true"></p>
+        <p *ngSwitchCase="false"></p>
+        <p *ngSwitchDefault></p>
+      </span>
+      <ng-container [ngSwitch]="isRegisterForm">
+        <ng-container
+          *ngSwitchCase="true"
+          [ngTemplateOutlet]="registerForm"
+        ></ng-container>
+        <ng-container
+          *ngSwitchCase="false"
+          [ngTemplateOutlet]="loginForm"
+        ></ng-container>
+      </ng-container>
     </div>
   </div>
 </div>
 <p-toast></p-toast>
+
+<ng-template #loginForm>
+  <div class="info">
+    {{ 'login.info.register.title' | translate }} <br /><span
+      class="pointer underline"
+      (click)="onRegister()"
+      >{{ 'login.info.register.button' | translate }}</span
+    >
+  </div>
+  <button pButton type="submit" [disabled]="form.invalid" (click)="onSubmit()">
+    {{ 'login.submit' | translate }}
+  </button>
+</ng-template>
+
+<ng-template #registerForm>
+  <div class="info">
+    {{ 'login.info.login.title' | translate }} <br /><span
+      class="pointer underline"
+      (click)="onLogin()"
+      >{{ 'login.info.login.button' | translate }}</span
+    >
+  </div>
+  <button
+    pButton
+    type="submit"
+    [disabled]="form.invalid"
+    (click)="onRegisterSubmit()"
+  >
+    {{ 'login.register' | translate }}
+  </button>
+</ng-template>

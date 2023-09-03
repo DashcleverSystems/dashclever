@@ -12,8 +12,9 @@ import {
   isAuthorized,
 } from '../store/core-store.selectors';
 import { ToastService } from '@app/shared/services/toast.service';
-import { AuthService } from './component/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { coreStoreActions } from '../store/core-store.actions';
+import { IWorkshop } from '@app/shared/models/workshop';
 
 @Injectable({
   providedIn: 'root',
@@ -48,6 +49,15 @@ export class PermissionService {
       switchMap((isAuth) => {
         if (!isAuth) {
           return this.isLogged().pipe(
+            switchMap(() => this.getPermissions()),
+            tap((workshops) => {
+              this.store.dispatch(
+                coreStoreActions.loginSuccessfully({ logged: true })
+              );
+              this.store.dispatch(
+                coreStoreActions.changeWorkshops({ workshops })
+              );
+            }),
             switchMap(() => of(true)),
             catchError(() => this.notAuthorized())
           );
@@ -74,6 +84,10 @@ export class PermissionService {
           of(permissions.some((p) => avPermissions.includes(p)))
         )
       );
+  }
+
+  getPermissions() {
+    return this.http.get<IWorkshop[]>('/api/account/access');
   }
 
   private checkPermissions(permissions: string[]): Observable<boolean> {

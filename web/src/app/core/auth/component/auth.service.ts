@@ -7,37 +7,32 @@ import {
   Validators,
 } from '@angular/forms';
 import { ICredentials } from '@app/shared/models/user';
-import { IWorkshop } from '@app/shared/models/workshop';
 
 export interface ILoginForm {
   username: FormControl<string | null>;
   password: FormControl<string | null>;
-}
-
-export type IRegisterForm = {
   email: FormControl<string | null>;
-} & ILoginForm;
+}
 
 @Injectable()
 export class AuthService {
   constructor(private fb: FormBuilder, private http: HttpClient) {}
 
   createForm(): FormGroup<ILoginForm> {
-    return this.fb.group({
-      username: this.fb.control<string | null>(null, Validators.required),
-      password: this.fb.control<string | null>(null, Validators.required),
-    });
-  }
-
-  createRegisterForm(): FormGroup<IRegisterForm> {
-    return this.fb.group({
-      username: this.fb.control<string | null>(null, Validators.required),
+    const form = this.fb.group({
+      username: this.fb.control<string | null>(null, [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(24),
+      ]),
       password: this.fb.control<string | null>(null, Validators.required),
       email: this.fb.control<string | null>(null, [
         Validators.required,
         Validators.email,
       ]),
     });
+
+    return form;
   }
 
   login(data: ICredentials) {
@@ -48,11 +43,11 @@ export class AuthService {
     return this.http.post<void>('/api/login', form);
   }
 
-  logout() {
-    return this.http.post<void>('/api/logout', {});
+  register(data: ICredentials & { email: string }) {
+    return this.http.post('api/account', data);
   }
 
-  getPermissions() {
-    return this.http.get<IWorkshop[]>('/api/account/access');
+  logout() {
+    return this.http.post<void>('/api/logout', {});
   }
 }

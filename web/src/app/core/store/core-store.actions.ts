@@ -14,7 +14,7 @@ export const coreStoreActions = createActionGroup({
     Logout: emptyProps(),
     'Logout successfully': emptyProps(),
     Unauthorized: emptyProps(),
-
+    'Get workshops': emptyProps(),
     'Change Workshops': props<{ workshops: IWorkshop[] }>(),
   },
 });

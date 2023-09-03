@@ -3,6 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthService } from './component/auth.service';
 import { coreStoreActions } from '../store/core-store.actions';
 import {
+  EMPTY,
   catchError,
   exhaustMap,
   finalize,
@@ -14,6 +15,7 @@ import {
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { isAuthorized } from '../store/core-store.selectors';
+import { PermissionService } from './permission.service';
 
 @Injectable()
 export class AuthEffects {
@@ -36,7 +38,7 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(coreStoreActions.loginSuccessfully),
       exhaustMap((logged) =>
-        this.service
+        this.permissionService
           .getPermissions()
           .pipe(
             map((workshops) => coreStoreActions.changeWorkshops({ workshops }))
@@ -75,6 +77,7 @@ export class AuthEffects {
   constructor(
     private actions$: Actions,
     private service: AuthService,
+    private permissionService: PermissionService,
     private router: Router,
     private store: Store
   ) {}

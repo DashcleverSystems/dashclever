@@ -3,7 +3,19 @@
   "login": {
     "username": "Nazwa użytkownika",
     "password": "Hasło",
-    "submit": "Zaloguj"
+    "email": "Email",
+    "submit": "Zaloguj",
+    "register": "Zarejestruj",
+    "info": {
+      "register": {
+        "title": "Nie masz konta?",
+        "button": "Zarejestruj się"
+      },
+      "login": {
+        "title": "Masz konto?",
+        "button": "Zaloguj się"
+      }
+    }
   },
   "shell": {
     "logout": "Wyloguj",

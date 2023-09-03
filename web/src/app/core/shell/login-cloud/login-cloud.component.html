@@ -1,8 +1,9 @@
 <div
-  *ngIf="!mobile"
   class="login-cloud-container"
+  [class.mobile]="mobile"
   (click)="onLogout()"
   id="login-cloud"
 >
-  {{ 'shell.logout' | translate }} <i class="icon icon--logout light ml-1"></i>
+  {{ !mobile ? ('shell.logout' | translate) : '' }}
+  <i class="icon icon--logout light ml-1"></i>
 </div>

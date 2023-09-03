@@ -1,9 +1,11 @@
 const HttpsProxyAgent = require('https-proxy-agent');
 
+const url = process.env['api_url'];
+
 const proxyConfig = [
   {
     context: '/api',
-    target: 'http://localhost:9999/',
+    target: url ?? 'http://localhost:9999/',
     changeOrigin: true,
     secure: false,
   },

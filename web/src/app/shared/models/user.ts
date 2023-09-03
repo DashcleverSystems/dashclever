@@ -6,4 +6,5 @@ export interface MUser {
 export interface ICredentials {
   username: string;
   password: string;
+  email?: string;
 }

@@ -25,4 +25,10 @@
   &:hover {
     scale: 1.025;
   }
+
+  &.mobile {
+    top: auto;
+    bottom: 2rem;
+    width: 50px;
+  }
 }
