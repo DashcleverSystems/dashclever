@@ -5,7 +5,7 @@ const url = process.env['api_url'];
 const proxyConfig = [
   {
     context: '/api',
-    target: url ?? 'http://localhost:9999/',
+    target: url ?? 'https://dashclever-backend-dev-d0e0ee1c5dfd.herokuapp.com/',
     changeOrigin: true,
     secure: false,
   },
