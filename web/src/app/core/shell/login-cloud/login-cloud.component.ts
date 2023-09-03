@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { coreStoreActions } from '@app/core/store/core-store.actions';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-login-cloud',
@@ -7,4 +9,10 @@ import { Component, Input } from '@angular/core';
 })
 export class LoginCloudComponent {
   @Input() mobile: boolean | undefined;
+
+  constructor(private store: Store) {}
+
+  onLogout(): void {
+    this.store.dispatch(coreStoreActions.logout());
+  }
 }

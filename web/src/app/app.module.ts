@@ -8,7 +8,7 @@ import { ContentModule } from './content/content.module';
 import { AppRoutingModule } from './app-routing.module';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TranslateModule } from '@ngx-translate/core';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ApiPrefixInterceptor } from './core/interceptors/api-prefix.interceptor';
 import { ErrorHandlerInterceptor } from './core/interceptors/error-handler.interceptor';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -24,6 +24,7 @@ import { ToastModule } from 'primeng/toast';
     CoreModule,
     ContentModule,
     AppRoutingModule,
+    HttpClientModule,
     ToastModule,
     TranslateModule.forRoot(),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
@@ -32,11 +33,6 @@ import { ToastModule } from 'primeng/toast';
     }),
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ApiPrefixInterceptor,
-      multi: true,
-    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorHandlerInterceptor,

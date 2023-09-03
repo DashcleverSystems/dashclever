@@ -1,7 +1,7 @@
 <div
   *ngIf="!mobile"
   class="login-cloud-container"
-  [routerLink]="['/login']"
+  (click)="onLogout()"
   id="login-cloud"
 >
   {{ 'shell.logout' | translate }} <i class="icon icon--logout light ml-1"></i>

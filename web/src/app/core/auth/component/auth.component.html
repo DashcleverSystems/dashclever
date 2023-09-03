@@ -19,7 +19,20 @@
         formControlName="password"
       />
     </div>
+    <div class="flex flex-column gap-2" *ngIf="emailControl as control">
+      <label htmlFor="email">{{ 'login.email' | translate }}</label>
+      <input
+        pInputText
+        id="field-email"
+        type="email"
+        aria-describedby="email-help"
+        formControlName="email"
+      />
+    </div>
     <div class="submit-button">
+      <div class="register-info" *ngIf="!isRegisterForm">
+        Nie masz konta? <br /><span>zarejestruj się</span>
+      </div>
       <button pButton (click)="onSubmit()">
         {{ 'login.submit' | translate }}
       </button>

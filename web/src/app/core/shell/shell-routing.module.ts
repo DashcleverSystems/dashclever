@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ShellComponent } from './shell.component';
 import { ShellRoutes } from './shell-routes';
-import { AuthGuard } from '../auth/permission.service';
 
 const routes: Routes = [
   {
@@ -16,7 +15,7 @@ const routes: Routes = [
           ...route?.data,
           permissions: route.permissions,
         },
-        canActivate: [AuthGuard],
+        canActivate: route.canActivate,
       };
     }),
   },

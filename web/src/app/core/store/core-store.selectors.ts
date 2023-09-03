@@ -14,6 +14,16 @@ export const availablePermissions = createSelector(
   }
 );
 
-export const user = createSelector(coreStoreSelectors, (_state) => {
-  return _state.user;
-});
+export const isAuthorized = createSelector(
+  coreStoreSelectors,
+  (_state) => _state.logged
+);
+
+export const getWorkshops = createSelector(coreStoreSelectors, (_state) =>
+  _state.workshops.map((w) => ({ ...w, accesses: undefined }))
+);
+
+export const getUsersByWorkshop = (workshopId: string) =>
+  createSelector(coreStoreSelectors, (_state) =>
+    _state.workshops.find((w) => w.workshopId === workshopId)
+  );

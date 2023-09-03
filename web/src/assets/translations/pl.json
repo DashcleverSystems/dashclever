@@ -21,6 +21,10 @@
     }
   },
   "toast": {
+    "unauthorized": {
+      "title": "Brak uprawnień",
+      "message": "Nie masz uprawnień aby wykonać tą akcje lub twoja sekcja wygasła."
+    },
     "router": {
       "permissions": {
         "message": "Nie masz uprawnień aby odwiedzić tą stronę.",

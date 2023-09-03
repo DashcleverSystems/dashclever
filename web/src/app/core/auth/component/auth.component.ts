@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AuthService, ILoginForm } from './auth.service';
-import { FormGroup } from '@angular/forms';
+import { AuthService, ILoginForm, IRegisterForm } from './auth.service';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { coreStoreActions } from '@app/core/store/core-store.actions';
 
@@ -9,9 +9,19 @@ import { coreStoreActions } from '@app/core/store/core-store.actions';
   styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent {
-  form: FormGroup<ILoginForm> = this.authService.createForm();
+  isRegisterForm: boolean = false;
+
+  form: FormGroup<ILoginForm | IRegisterForm> = this.authService.createForm();
 
   constructor(private authService: AuthService, private store: Store) {}
+
+  get emailControl() {
+    const control = this.form.get('email');
+    if (control) {
+      return control;
+    }
+    return undefined;
+  }
 
   onSubmit(): void {
     if (this.form.invalid) {

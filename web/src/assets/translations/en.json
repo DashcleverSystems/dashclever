@@ -21,6 +21,10 @@
     }
   },
   "toast": {
+    "unauthorized": {
+      "title": "Unauthorized",
+      "message": "You are not authorized to execute this action or your session lapsed."
+    },
     "router": {
       "permissions": {
         "message": "You have no permission to visit this page.",

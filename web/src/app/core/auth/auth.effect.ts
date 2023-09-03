@@ -2,7 +2,18 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthService } from './component/auth.service';
 import { coreStoreActions } from '../store/core-store.actions';
-import { catchError, exhaustMap, map, of } from 'rxjs';
+import {
+  catchError,
+  exhaustMap,
+  finalize,
+  map,
+  of,
+  switchMap,
+  tap,
+} from 'rxjs';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { isAuthorized } from '../store/core-store.selectors';
 
 @Injectable()
 export class AuthEffects {
@@ -11,14 +22,60 @@ export class AuthEffects {
       ofType(coreStoreActions.login),
       exhaustMap((action) =>
         this.service.login(action.credentials).pipe(
-          map((user) =>
-            coreStoreActions.loginSuccessfully({ credentials: user })
-          ),
+          map((user) => {
+            this.router.navigate(['home']);
+            return coreStoreActions.loginSuccessfully({ logged: true });
+          }),
           catchError((err) => of(coreStoreActions.loginFail()))
         )
       )
     )
   );
-  constructor(private actions$: Actions, private service: AuthService) {}
-}
 
+  loginSuccessfully$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(coreStoreActions.loginSuccessfully),
+      exhaustMap((logged) =>
+        this.service
+          .getPermissions()
+          .pipe(
+            map((workshops) => coreStoreActions.changeWorkshops({ workshops }))
+          )
+      )
+    )
+  );
+
+  logout$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(coreStoreActions.logout),
+      exhaustMap(() =>
+        this.service.logout().pipe(
+          map(
+            () => coreStoreActions.logoutSuccessfully(),
+            catchError(() => of(coreStoreActions.logoutSuccessfully))
+          ),
+          finalize(() => this.router.navigate(['login']))
+        )
+      )
+    )
+  );
+
+  unauthorized$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(coreStoreActions.unauthorized),
+      switchMap(() => this.store.select(isAuthorized)),
+      map((isAuthorized) => {
+        if (isAuthorized) return coreStoreActions.logout();
+
+        return coreStoreActions.loginFail();
+      })
+    )
+  );
+
+  constructor(
+    private actions$: Actions,
+    private service: AuthService,
+    private router: Router,
+    private store: Store
+  ) {}
+}

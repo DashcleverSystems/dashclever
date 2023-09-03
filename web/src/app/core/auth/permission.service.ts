@@ -6,9 +6,14 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, of, switchMap } from 'rxjs';
-import { availablePermissions } from '../store/core-store.selectors';
+import { Observable, catchError, of, switchMap, tap } from 'rxjs';
+import {
+  availablePermissions,
+  isAuthorized,
+} from '../store/core-store.selectors';
 import { ToastService } from '@app/shared/services/toast.service';
+import { AuthService } from './component/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +22,8 @@ export class PermissionService {
   constructor(
     private router: Router,
     private store: Store,
-    private toast: ToastService
+    private toast: ToastService,
+    private http: HttpClient
   ) {}
 
   canActivate(
@@ -35,6 +41,21 @@ export class PermissionService {
     }
 
     return this.notPermitted();
+  }
+
+  isAuthorized(): Observable<boolean> {
+    return this.store.select(isAuthorized).pipe(
+      switchMap((isAuth) => {
+        if (!isAuth) {
+          return this.isLogged().pipe(
+            switchMap(() => of(true)),
+            catchError(() => this.notAuthorized())
+          );
+        }
+
+        return of(isAuth);
+      })
+    );
   }
 
   hasPermission(permission: string): Observable<boolean> {
@@ -78,10 +99,31 @@ export class PermissionService {
 
     return of(false);
   }
+
+  private notAuthorized(): Observable<false> {
+    this.toast.error({
+      title: 'toast.unauthorized.title',
+      message: 'toast.unauthorized.message',
+      translate: true,
+    });
+
+    this.router.navigate(['login']);
+
+    return of(false);
+  }
+
+  private isLogged(): Observable<any> {
+    return this.http.get('/api/account');
+  }
 }
 
-export const AuthGuard: CanActivateFn = (
+export const PermissionGuard: CanActivateFn = (
   next: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ): boolean | Observable<boolean> =>
   inject(PermissionService).canActivate(next, state);
+
+export const AuthorizedGuard: CanActivateFn = (
+  next: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+): boolean | Observable<boolean> => inject(PermissionService).isAuthorized();
