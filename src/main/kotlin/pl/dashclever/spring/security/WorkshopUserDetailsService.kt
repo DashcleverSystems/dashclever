@@ -16,7 +16,7 @@ class WorkshopUserDetailsService(
     fun workshopSpecificUserOfAuthentication(workshopId: UUID, authentication: Authentication): WorkshopUserDetails {
         val currentUser: IdUserDetails = authentication.principal as IdUserDetails?
             ?: throw ResponseStatusException(HttpStatus.FORBIDDEN, "Could not set workshop specific")
-        val accesses: Set<AccessDto> = this.accessesReader.findAccountAccesses(currentUser.id)
+        val accesses: Set<AccessDto> = this.accessesReader.accountAccesses(currentUser.id)
         val access = accesses.firstOrNull { it.workshopId == workshopId }
             ?: throw ResponseStatusException(HttpStatus.FORBIDDEN, "Did not find requested access")
         return WorkshopUserDetails(
@@ -31,7 +31,7 @@ class WorkshopUserDetailsService(
     fun employeeSpecificUserOfAuthentication(employeeId: UUID, authentication: Authentication): WorkshopUserDetails {
         val currentUser: IdUserDetails = authentication.principal as IdUserDetails?
             ?: throw ResponseStatusException(HttpStatus.FORBIDDEN, "Could not set workshop specific")
-        val accesses: Set<AccessDto> = this.accessesReader.findAccountAccesses(currentUser.id)
+        val accesses: Set<AccessDto> = this.accessesReader.accountAccesses(currentUser.id)
         val access = accesses.firstOrNull { it.employeeId == employeeId }
             ?: throw ResponseStatusException(HttpStatus.FORBIDDEN, "Did not find requested access")
         return WorkshopUserDetails(
