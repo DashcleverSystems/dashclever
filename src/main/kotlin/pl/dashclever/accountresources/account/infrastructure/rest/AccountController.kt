@@ -24,7 +24,9 @@ import pl.dashclever.accountresources.account.readmodel.AccessesReader
 import pl.dashclever.accountresources.account.readmodel.AccountDto
 import pl.dashclever.accountresources.account.readmodel.AccountReader
 import pl.dashclever.accountresources.account.readmodel.WorkshopAccessesDto
+import pl.dashclever.spring.security.EntryUserDetails
 import pl.dashclever.spring.security.IdUserDetails
+import pl.dashclever.spring.security.WorkshopUserDetails
 import pl.dashclever.spring.security.WorkshopUserDetailsService
 import java.net.URI
 
@@ -75,6 +77,24 @@ internal class AccountController(
         val accDto = accountReader.findByUsername(loggedUserDetails.username)
             .orElseThrow { IllegalArgumentException("Could not find authenticated user") }
         return accessesReader.findAccountWorkshopAccesses(accDto.id)
+    }
+
+    @GetMapping
+    fun currentUser(authentication: Authentication?): AccessDto? {
+        if (authentication == null)
+            throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
+        fun WorkshopUserDetails.toAccessDto(): AccessDto {
+            val accesses = accessesReader.findAccountWorkshopAccesses(this.id)
+            val access = accesses.firstOrNull { it.workshopId == this.workshopId }
+                ?: throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
+            return access.accesses.firstOrNull { it.employeeId == this.employeeId }
+                ?: throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
+        }
+        return when(authentication.principal) {
+            is EntryUserDetails -> null
+            is WorkshopUserDetails -> (authentication.principal as WorkshopUserDetails).toAccessDto()
+            else -> throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
+        }
     }
 
     @PostMapping("/access")

@@ -50,7 +50,7 @@ internal class SecurityConfig(
             .and()
             .exceptionHandling()
             .accessDeniedHandler { _, response, _ -> response.status = HttpStatus.FORBIDDEN.value() }
-            .authenticationEntryPoint { _, response, _ -> response.status = HttpStatus.UNAUTHORIZED.value() }
+            .authenticationEntryPoint { _, response, _ -> response.status = HttpStatus.FORBIDDEN.value() }
             .and()
             .build()
     }
