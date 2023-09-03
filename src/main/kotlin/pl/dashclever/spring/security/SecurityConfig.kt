@@ -9,11 +9,14 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import pl.dashclever.accountresources.account.readmodel.AccountReader
+
 
 @Configuration
 internal class SecurityConfig(
-    private val accountReader: AccountReader
+    private val accountReader: AccountReader,
+    private val corsFilter: CorsFilter
 ) {
 
     @Bean
@@ -27,6 +30,7 @@ internal class SecurityConfig(
     @Bean
     fun configure(http: HttpSecurity): SecurityFilterChain {
         return http
+            .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter::class.java)
             .csrf().disable()
             .authorizeHttpRequests()
             .requestMatchers(HttpMethod.GET, "/*").permitAll()
