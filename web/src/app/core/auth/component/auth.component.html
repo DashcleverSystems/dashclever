@@ -1,0 +1,77 @@
+<div class="login-container background background--login">
+  <div class="form" [formGroup]="form">
+    <div class="flex flex-column gap-2">
+      <label htmlFor="username">{{ 'login.username' | translate }}</label>
+      <input
+        pInputText
+        id="field-username"
+        aria-describedby="username-help"
+        formControlName="username"
+      />
+    </div>
+    <div class="flex flex-column gap-2">
+      <label htmlFor="password">{{ 'login.password' | translate }}</label>
+      <input
+        pInputText
+        id="field-password"
+        type="password"
+        aria-describedby="password-help"
+        formControlName="password"
+      />
+    </div>
+    <div class="flex flex-column gap-2" *ngIf="emailControl as control">
+      <label htmlFor="email">{{ 'login.email' | translate }}</label>
+      <input
+        pInputText
+        id="field-email"
+        type="email"
+        aria-describedby="email-help"
+        formControlName="email"
+      />
+    </div>
+    <div class="submit-button">
+      <ng-container [ngSwitch]="isRegisterForm">
+        <ng-container
+          *ngSwitchCase="true"
+          [ngTemplateOutlet]="registerForm"
+        ></ng-container>
+        <ng-container
+          *ngSwitchCase="false"
+          [ngTemplateOutlet]="loginForm"
+        ></ng-container>
+      </ng-container>
+    </div>
+  </div>
+</div>
+<p-toast></p-toast>
+
+<ng-template #loginForm>
+  <div class="info">
+    {{ 'login.info.register.title' | translate }} <br /><span
+      class="pointer underline"
+      (click)="onRegister()"
+      >{{ 'login.info.register.button' | translate }}</span
+    >
+  </div>
+  <button pButton type="submit" [disabled]="form.invalid" (click)="onSubmit()">
+    {{ 'login.submit' | translate }}
+  </button>
+</ng-template>
+
+<ng-template #registerForm>
+  <div class="info">
+    {{ 'login.info.login.title' | translate }} <br /><span
+      class="pointer underline"
+      (click)="onLogin()"
+      >{{ 'login.info.login.button' | translate }}</span
+    >
+  </div>
+  <button
+    pButton
+    type="submit"
+    [disabled]="form.invalid"
+    (click)="onRegisterSubmit()"
+  >
+    {{ 'login.register' | translate }}
+  </button>
+</ng-template>

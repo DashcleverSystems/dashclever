@@ -1,5 +1,26 @@
 {
   "Home": "Strona główna",
+  "login": {
+    "username": "Nazwa użytkownika",
+    "password": "Hasło",
+    "email": "Email",
+    "submit": "Zaloguj",
+    "register": "Zarejestruj",
+    "info": {
+      "register": {
+        "title": "Nie masz konta?",
+        "button": "Zarejestruj się"
+      },
+      "login": {
+        "title": "Masz konto?",
+        "button": "Zaloguj się"
+      }
+    }
+  },
+  "shell": {
+    "logout": "Wyloguj",
+    "login": "Zaloguj"
+  },
   "enum": {
     "Panel": {
       "MANAGE_STAFF": "Zarządzanie zespołem",
@@ -9,6 +30,18 @@
     "Language": {
       "pl": "Polski",
       "en": "Angielski"
+    }
+  },
+  "toast": {
+    "unauthorized": {
+      "title": "Brak uprawnień",
+      "message": "Nie masz uprawnień aby wykonać tą akcje lub twoja sekcja wygasła."
+    },
+    "router": {
+      "permissions": {
+        "message": "Nie masz uprawnień aby odwiedzić tą stronę.",
+        "title": "Brak uprawnień"
+      }
     }
   }
 }

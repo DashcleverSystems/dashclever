@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ShellComponent } from './shell.component';
-import { HomeComponent } from 'src/app/content/main/home/home.component';
 import { ShellRoutes } from './shell-routes';
 
 const routes: Routes = [
@@ -16,6 +15,7 @@ const routes: Routes = [
           ...route?.data,
           permissions: route.permissions,
         },
+        canActivate: route.canActivate,
       };
     }),
   },

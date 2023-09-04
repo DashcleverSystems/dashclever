@@ -56,6 +56,20 @@
     mask-size: cover;
   }
 
+  &--login {
+    mask-image: url("~assets/images/icons/login_icon.svg");
+    -webkit-mask-image: url("~assets/images/icons/login_icon.svg");
+    background-color: $icon-bg;
+    mask-size: cover;
+  }
+
+  &--logout {
+    mask-image: url("~assets/images/icons/logout_icon.svg");
+    -webkit-mask-image: url("~assets/images/icons/logout_icon.svg");
+    background-color: $icon-bg;
+    mask-size: cover;
+  }
+
   @each $icon in $icons {
     &--#{$icon} {
       background-image: url("/assets/images/icons/" + $icon + ".png");

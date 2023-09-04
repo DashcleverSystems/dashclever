@@ -4,14 +4,16 @@ import {
   Component,
   ElementRef,
   OnDestroy,
+  OnInit,
   ViewChild,
 } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './shell.component.html',
   styleUrls: ['./shell.component.scss'],
 })
-export class ShellComponent implements AfterViewInit, OnDestroy {
+export class ShellComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('container') container: ElementRef<HTMLDivElement> | undefined;
   @ViewChild('content') content: ElementRef<HTMLDivElement> | undefined;
 
@@ -35,7 +37,14 @@ export class ShellComponent implements AfterViewInit, OnDestroy {
     }
   );
 
-  constructor(private _cdr: ChangeDetectorRef) {}
+  constructor(private _cdr: ChangeDetectorRef, private router: Router) {}
+
+  ngOnInit(): void {
+    const { url } = this.router;
+    if (url === '/') {
+      this.router.navigate(['home']);
+    }
+  }
 
   ngAfterViewInit(): void {
     if (this.container) {

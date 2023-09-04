@@ -1,4 +1,5 @@
 @import "src/assets/styles/variables";
+@import "src/assets/styles/_animations.scss";
 
 .side-panel-container {
   background-color: $secondary-light;
@@ -12,6 +13,7 @@
     padding: 25px 0 25px 0;
     margin-left: 10px;
     border-radius: 25px;
+    animation: fadeInLeft both 1s;
 
     &.mobile {
       padding: 0 25px 0 25px;
@@ -22,6 +24,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      animation: fadeInDown both 1s;
 
       ul {
         display: flex;
@@ -54,6 +57,11 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        transition: scale 600ms;
+
+        &:hover {
+          scale: 1.2;
+        }
 
         &.active {
           border-bottom: 1px solid $primary-middle;

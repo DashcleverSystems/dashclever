@@ -12,6 +12,8 @@ body {
   font-family: "nato-sans-chorasmian";
 }
 
+@import "./components";
+@import "./background";
 @import "./mixins.scss";
 @import "./variables.scss";
 @import "./icons";

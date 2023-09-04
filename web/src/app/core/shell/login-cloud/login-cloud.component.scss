@@ -1,0 +1,34 @@
+@import "src/assets/styles/variables";
+@import "src/assets/styles/_animations.scss";
+
+.login-cloud-container {
+  position: fixed;
+  height: 50px;
+  width: 150px;
+  background-color: $primary-middle;
+  right: 2rem;
+  top: 2rem;
+  border-radius: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+  color: $secondary-light;
+  box-shadow: 6px 6px 22px -12px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 6px 6px 22px -12px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 6px 6px 22px -12px rgba(0, 0, 0, 0.75);
+
+  transition: scale 500ms;
+  animation: fadeInRight both 1s;
+
+  &:hover {
+    scale: 1.025;
+  }
+
+  &.mobile {
+    top: auto;
+    bottom: 2rem;
+    width: 50px;
+  }
+}

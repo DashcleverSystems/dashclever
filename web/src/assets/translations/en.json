@@ -1,5 +1,26 @@
 {
   "Home": "Home",
+  "login": {
+    "username": "Username",
+    "password": "Password",
+    "email": "Email",
+    "submit": "Submit",
+    "register": "Register",
+    "info": {
+      "register": {
+        "title": "No account?",
+        "button": "Register"
+      },
+      "login": {
+        "title": "Already have an account?",
+        "button": "Login"
+      }
+    }
+  },
+  "shell": {
+    "logout": "Logout",
+    "login": "Login"
+  },
   "enum": {
     "Panel": {
       "MANAGE_STAFF": "Manage staff",
@@ -9,6 +30,18 @@
     "Language": {
       "pl": "Polish",
       "en": "English"
+    }
+  },
+  "toast": {
+    "unauthorized": {
+      "title": "Unauthorized",
+      "message": "You are not authorized to execute this action or your session lapsed."
+    },
+    "router": {
+      "permissions": {
+        "message": "You have no permission to visit this page.",
+        "title": "No permission"
+      }
     }
   }
 }

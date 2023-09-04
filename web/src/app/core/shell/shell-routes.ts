@@ -4,6 +4,7 @@ import { InsightRepairPanelComponent } from 'src/app/content/main/panels/insight
 import { ManagePanelComponent } from 'src/app/content/main/panels/manage-panel/manage-panel.component';
 import { RepairProcessPanelComponent } from 'src/app/content/main/panels/repair-process-panel/repair-process-panel.component';
 import { Panel } from 'src/app/shared/enums/panels';
+import { AuthorizedGuard, PermissionGuard } from '../auth/permission.service';
 
 export interface IShellRoute {
   url: string;
@@ -12,6 +13,7 @@ export interface IShellRoute {
   component?: Type<any>;
   iconName?: string;
   data?: any;
+  canActivate?: any[];
 }
 
 export const ShellRoutes: IShellRoute[] = [
@@ -21,26 +23,30 @@ export const ShellRoutes: IShellRoute[] = [
     component: HomeComponent,
     iconName: 'home',
     permissions: [],
+    canActivate: [AuthorizedGuard],
   },
   {
     url: 'manage',
     name: 'enum.Panel.' + Panel.MANAGE_STAFF,
     component: ManagePanelComponent,
     iconName: 'manage',
-    permissions: [],
+    permissions: [Panel.MANAGE_STAFF],
+    canActivate: [AuthorizedGuard, PermissionGuard],
   },
   {
     url: 'insight-repair',
     name: 'enum.Panel.' + Panel.INSIGHT_REPAIR,
     component: InsightRepairPanelComponent,
     iconName: 'repair',
-    permissions: [],
+    permissions: [Panel.INSIGHT_REPAIR],
+    canActivate: [AuthorizedGuard, PermissionGuard],
   },
   {
     url: 'repair-process',
     name: 'enum.Panel.' + Panel.REPAIR_PROCESS,
     component: RepairProcessPanelComponent,
     iconName: 'repair_process',
-    permissions: [],
+    permissions: [Panel.REPAIR_PROCESS],
+    canActivate: [AuthorizedGuard, PermissionGuard],
   },
 ];

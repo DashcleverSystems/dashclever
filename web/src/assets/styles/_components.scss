@@ -1,0 +1,33 @@
+@import "./variables.scss";
+
+:root {
+  .p-inputtext {
+    &:enabled:hover {
+      border-color: $primary-dark;
+    }
+
+    &:enabled:focus {
+      box-shadow: 0 0 0 0.2rem $primary-light;
+      border-color: $primary-dark;
+    }
+  }
+
+  .p-button {
+    background-color: $primary-middle;
+    border-color: $primary-middle;
+
+    &:enabled:hover {
+      background: $primary-dark;
+      border-color: $primary-dark;
+    }
+
+    &:enabled:active {
+      background: $primary-dark;
+      border-color: $primary-dark;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 0.2rem $primary-light;
+    }
+  }
+}
