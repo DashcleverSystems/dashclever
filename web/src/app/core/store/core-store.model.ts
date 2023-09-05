@@ -8,4 +8,6 @@ export interface ICoreStore {
   permissions: string[];
   logged: boolean;
   workshops: IWorkshop[];
+  selectedWorkshop: IWorkshop | undefined;
+  selectedUser: IAccess | undefined;
 }

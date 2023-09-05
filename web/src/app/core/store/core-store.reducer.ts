@@ -8,6 +8,8 @@ export const initialState: ICoreStore = {
   permissions: [],
   logged: false,
   workshops: [],
+  selectedWorkshop: undefined,
+  selectedUser: undefined,
 };
 
 export const coreStoreReducer = createReducer(

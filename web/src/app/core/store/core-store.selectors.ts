@@ -23,6 +23,11 @@ export const getWorkshops = createSelector(coreStoreSelectors, (_state) =>
   _state.workshops.map((w) => ({ ...w, accesses: undefined }))
 );
 
+export const getUsers = createSelector(
+  coreStoreSelectors,
+  (_state) => _state.selectedWorkshop?.accesses
+);
+
 export const getUsersByWorkshop = (workshopId: string) =>
   createSelector(coreStoreSelectors, (_state) =>
     _state.workshops.find((w) => w.workshopId === workshopId)

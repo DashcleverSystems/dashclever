@@ -1,0 +1,26 @@
+<div class="items-container" [class.visible]="visible">
+  <div class="info">{{ title }}</div>
+  <ul class="items-list" #listContainer>
+    <li *ngFor="let item of itemList | async; index as index">
+      <ng-container
+        *ngTemplateOutlet="
+        Item;
+          context: {
+            item,index
+          }
+        "
+      ></ng-container>
+    </li>
+  </ul>
+</div>
+
+<ng-template #Item let-item="item" let-index="index">
+  <div
+    #itemRef
+    class="item"
+    [attr.id]="itemId(item, index)"
+    (click)="onSelected(index,item, itemRef)"
+  >
+    {{ item[value] }}
+  </div>
+</ng-template>
