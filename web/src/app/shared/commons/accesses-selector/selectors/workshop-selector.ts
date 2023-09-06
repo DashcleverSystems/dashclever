@@ -4,6 +4,7 @@ import { IWorkshop } from '@app/shared/models/workshop';
 import { Store } from '@ngrx/store';
 import { Observable, of, takeUntil, tap } from 'rxjs';
 import { getWorkshops } from '@app/core/store/core-store.selectors';
+import { coreStoreActions } from '@app/core/store/core-store.actions';
 
 @Component({
   selector: 'app-workshop-selector',
@@ -30,5 +31,7 @@ export class WorkshopSelectorComponent
     );
   }
 
-  override onClick(): void {}
+  override onClick(index: number, workshop: IWorkshop | undefined): void {
+    this.store.dispatch(coreStoreActions.selectWorkshop({ workshop: workshop ?? undefined }))
+  }
 }

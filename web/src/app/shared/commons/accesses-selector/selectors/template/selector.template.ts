@@ -24,9 +24,11 @@ export abstract class SelectorListComponent<T>
 
   abstract itemList: Observable<T[]>;
   value: string = 'value';
+  alternativeValue: string = 'alternativeValue';
   title: string = 'Choose Item';
   itemName: string = 'Item';
   initialValue: T | undefined;
+
 
   itemId(item: any, index: number): string {
     const haveId = this.hasId(item);
@@ -46,14 +48,14 @@ export abstract class SelectorListComponent<T>
     this.destroy$.complete();
   }
 
-  abstract onClick(index: number, item: T | null): void;
+  abstract onClick(index: number, item: T | undefined): void;
 
   onSelected(index: number, item: T, itemRef: HTMLDivElement): void {
     const isSelected = itemRef.classList.contains('selected');
     this.addClassToSelectedItem(itemRef);
 
     if (isSelected) {
-      this.onClick(index, null);
+      this.onClick(index, undefined);
     } else {
       this.onClick(index, item);
     }

@@ -21,6 +21,6 @@
     [attr.id]="itemId(item, index)"
     (click)="onSelected(index,item, itemRef)"
   >
-    {{ item[value] }}
+    {{ item[value] === '' || item[value] === null || item[value] === undefined ? (alternativeValue | translate ) : item[value] }}
   </div>
 </ng-template>

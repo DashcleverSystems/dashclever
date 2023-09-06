@@ -9,7 +9,7 @@ export const initialState: ICoreStore = {
   logged: false,
   workshops: [],
   selectedWorkshop: undefined,
-  selectedUser: undefined,
+  selectedAccess: undefined,
 };
 
 export const coreStoreReducer = createReducer(
@@ -47,5 +47,18 @@ export const coreStoreReducer = createReducer(
   on(coreStoreActions.changeWorkshops, (_state, { workshops }) => ({
     ..._state,
     workshops: workshops,
+  })),
+  on(coreStoreActions.selectWorkshop, (_state, { workshop }) => {
+    const foundWorkshop = _state.workshops.find(w => w.workshopId === workshop?.workshopId);
+
+    return {
+      ..._state,
+      selectedWorkshop: foundWorkshop ?? undefined,
+    }
+  }),
+  on(coreStoreActions.selectAccess, (_state, { access }) => ({
+    ..._state,
+    selectedAccess: access,
+    permissions: access?.authorities ?? []
   }))
 );

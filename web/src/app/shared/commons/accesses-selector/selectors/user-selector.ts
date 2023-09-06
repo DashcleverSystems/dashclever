@@ -4,6 +4,7 @@ import { IAccess } from '@app/shared/models/accesses';
 import { Observable, map, of, skipWhile, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { getUsers } from '@app/core/store/core-store.selectors';
+import { coreStoreActions } from '@app/core/store/core-store.actions';
 
 @Component({
   selector: 'app-user-selector',
@@ -16,6 +17,7 @@ export class UserSelectorComponent
 {
   override itemList: Observable<IAccess[]> = of([]);
   override value: string = 'employeeFirstName';
+  override alternativeValue: string = 'accessesSelector.owner';
   override title: string = 'Choose User';
   override itemName: string = 'User';
 
@@ -24,7 +26,7 @@ export class UserSelectorComponent
   }
 
   ngOnInit(): void {
-    this.itemList = this.store.select(getUsers).pipe(
+      this.itemList = this.store.select(getUsers).pipe(
       takeUntil(this.destroy$),
       skipWhile((users) => !users),
       map((users) => {
@@ -39,5 +41,7 @@ export class UserSelectorComponent
     );
   }
 
-  override onClick(): void {}
+  override onClick(index: number, access: IAccess | undefined): void {
+    this.store.dispatch(coreStoreActions.selectAccess({ access }))
+  }
 }

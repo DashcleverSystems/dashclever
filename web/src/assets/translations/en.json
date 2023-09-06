@@ -43,5 +43,8 @@
         "title": "No permission"
       }
     }
+  },
+  "accessesSelector": {
+    "owner": "Owner"
   }
 }

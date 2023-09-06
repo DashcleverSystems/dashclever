@@ -9,5 +9,5 @@ export interface ICoreStore {
   logged: boolean;
   workshops: IWorkshop[];
   selectedWorkshop: IWorkshop | undefined;
-  selectedUser: IAccess | undefined;
+  selectedAccess: IAccess | undefined;
 }
