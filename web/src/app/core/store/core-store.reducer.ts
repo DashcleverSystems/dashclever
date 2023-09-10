@@ -49,16 +49,19 @@ export const coreStoreReducer = createReducer(
     workshops: workshops,
   })),
   on(coreStoreActions.selectWorkshop, (_state, { workshop }) => {
-    const foundWorkshop = _state.workshops.find(w => w.workshopId === workshop?.workshopId);
+    const foundWorkshop = _state.workshops.find(
+      (w) => w.workshopId === workshop?.workshopId
+    );
 
     return {
       ..._state,
       selectedWorkshop: foundWorkshop ?? undefined,
-    }
+      selectedAccess: undefined,
+    };
   }),
   on(coreStoreActions.selectAccess, (_state, { access }) => ({
     ..._state,
     selectedAccess: access,
-    permissions: access?.authorities ?? []
+    permissions: access?.authorities ?? [],
   }))
 );

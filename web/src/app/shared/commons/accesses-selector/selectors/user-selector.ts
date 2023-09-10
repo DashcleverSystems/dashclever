@@ -1,10 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectorListComponent } from './template/selector.template';
 import { IAccess } from '@app/shared/models/accesses';
-import { Observable, map, of, skipWhile, takeUntil } from 'rxjs';
+import {
+  Observable,
+  combineLatest,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  of,
+  skipWhile,
+  take,
+  takeUntil,
+} from 'rxjs';
 import { Store } from '@ngrx/store';
-import { getUsers } from '@app/core/store/core-store.selectors';
+import {
+  getSelectedAccess,
+  getUsers,
+} from '@app/core/store/core-store.selectors';
 import { coreStoreActions } from '@app/core/store/core-store.actions';
+import { isEqual } from 'lodash';
 
 @Component({
   selector: 'app-user-selector',
@@ -26,9 +40,10 @@ export class UserSelectorComponent
   }
 
   ngOnInit(): void {
-      this.itemList = this.store.select(getUsers).pipe(
+    this.itemList = this.store.select(getUsers).pipe(
       takeUntil(this.destroy$),
       skipWhile((users) => !users),
+      debounceTime(100),
       map((users) => {
         if (Array.isArray(users) && users.length > 0) {
           this.visible = true;
@@ -39,9 +54,29 @@ export class UserSelectorComponent
         }
       })
     );
+
+    this.store
+      .select(getSelectedAccess)
+      .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe((item) => {
+        if (!item) {
+          this.removeSelected();
+        }
+      });
   }
 
   override onClick(index: number, access: IAccess | undefined): void {
-    this.store.dispatch(coreStoreActions.selectAccess({ access }))
+    this.store.dispatch(coreStoreActions.selectAccess({ access }));
+  }
+
+  override defineInitialValue(): void {
+    combineLatest([this.itemList, this.store.select(getSelectedAccess)])
+      .pipe(take(1))
+      .subscribe(([items, access]) => {
+        const exists = items.find((acc) => isEqual(acc, access));
+        if (exists) {
+          this.selectSpecificItem(exists);
+        }
+      });
   }
 }

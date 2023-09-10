@@ -44,6 +44,14 @@ export class PermissionService {
     return this.notPermitted();
   }
 
+  authorizedIsNeeded(): Observable<boolean> {
+    return this.isAuthorized().pipe(
+      switchMap((authorized) =>
+        authorized ? this.router.navigate(['home']) : of(true)
+      )
+    );
+  }
+
   isAuthorized(): Observable<boolean> {
     return this.store.select(isAuthorized).pipe(
       switchMap((isAuth) => {
@@ -141,3 +149,9 @@ export const AuthorizedGuard: CanActivateFn = (
   next: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ): boolean | Observable<boolean> => inject(PermissionService).isAuthorized();
+
+export const AuthorizationIsNeeded: CanActivateFn = (
+  next: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+): boolean | Observable<boolean> =>
+  inject(PermissionService).authorizedIsNeeded();

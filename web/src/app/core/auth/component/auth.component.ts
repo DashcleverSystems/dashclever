@@ -3,7 +3,6 @@ import { AuthService, ILoginForm } from './auth.service';
 import { FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { coreStoreActions } from '@app/core/store/core-store.actions';
-import { ToastService } from '@app/shared/services/toast.service';
 
 @Component({
   templateUrl: './auth.component.html',
@@ -14,11 +13,7 @@ export class AuthComponent {
 
   form: FormGroup<ILoginForm> = this.authService.createForm();
 
-  constructor(
-    private authService: AuthService,
-    private store: Store,
-    private toast: ToastService
-  ) {
+  constructor(private authService: AuthService, private store: Store) {
     this.onLogin();
   }
 

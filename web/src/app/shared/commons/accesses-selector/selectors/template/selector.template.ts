@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { isEqual } from 'lodash';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, take } from 'rxjs';
 
 @Component({
   template: '',
@@ -20,15 +20,15 @@ export abstract class SelectorListComponent<T>
     | ElementRef<HTMLUListElement>
     | undefined;
   @Input() visible: boolean = false;
-  @Output() clicked: Subject<void> = new Subject<void>();
+  @Output() clicked: Subject<T | null> = new Subject<T | null>();
 
   abstract itemList: Observable<T[]>;
   value: string = 'value';
   alternativeValue: string = 'alternativeValue';
   title: string = 'Choose Item';
   itemName: string = 'Item';
-  initialValue: T | undefined;
 
+  protected selected: { [key: string]: any } = {};
 
   itemId(item: any, index: number): string {
     const haveId = this.hasId(item);
@@ -49,64 +49,51 @@ export abstract class SelectorListComponent<T>
   }
 
   abstract onClick(index: number, item: T | undefined): void;
+  abstract defineInitialValue(): void;
 
   onSelected(index: number, item: T, itemRef: HTMLDivElement): void {
-    const isSelected = itemRef.classList.contains('selected');
-    this.addClassToSelectedItem(itemRef);
+    const id = this.itemId(item, index);
+    const isSelected =
+      itemRef.classList.contains('selected') || this.selected[id];
+    this.addClassToSelectedItem(itemRef, id);
 
     if (isSelected) {
       this.onClick(index, undefined);
+      this.clicked.next(null);
     } else {
       this.onClick(index, item);
+      this.clicked.next(item);
     }
   }
 
-  defineInitialValue(): void {
-    if (this.listContainer && this.initialValue) {
-      const listItems =
-        this.listContainer.nativeElement.querySelectorAll('.item');
-      const itemsWithIds: { item: Element; id: string | number | null }[] = [];
-
-      const hasId = this.hasId(this.initialValue);
-      listItems.forEach((listItem) => {
-        const listItemId = listItem.getAttribute('id');
-        if (listItemId) {
-          const itemToPush = {
-            item: listItem,
-            id: hasId
-              ? listItemId.split('-').at(-2) ?? null
-              : listItemId.split('-').at(-1) ?? null,
-          };
-          itemsWithIds.push(itemToPush);
-        }
-      });
-
-      const selectedItem = itemsWithIds.find((item) =>
-        hasId
-          ? item.id === (this.initialValue as any)['id']
-          : isEqual(item, this.initialValue)
+  protected selectSpecificItem(item: T) {
+    this.itemList.pipe(take(1)).subscribe((list) => {
+      const index = list.findIndex((i) => isEqual(i, item));
+      const id = this.itemId(item, index);
+      const selectedItem = this.listContainer?.nativeElement.querySelector(
+        `div[id="${id}"]`
       );
-
-      if (selectedItem) {
-        selectedItem.item.classList.add('selected');
-      }
-    }
+      this.addClassToSelectedItem(selectedItem as HTMLDivElement, id);
+    });
   }
 
-  private addClassToSelectedItem(el: HTMLDivElement): void {
+  private addClassToSelectedItem(el: HTMLDivElement, id: string): void {
     if (el.classList.contains('selected')) {
       el.classList.remove('selected');
+      this.selected[id] = undefined;
     } else {
       this.removeSelected();
       el.classList.add('selected');
+      this.selected[id] = true;
     }
   }
 
-  private removeSelected(): void {
+  protected removeSelected(): void {
     if (this.listContainer) {
       const selectedItems =
         this.listContainer.nativeElement.querySelectorAll('.item.selected');
       selectedItems.forEach((item) => item.classList.remove('selected'));
+      this.selected = {};
     }
   }
 

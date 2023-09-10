@@ -5,4 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './accesses-selector.component.html',
   styleUrls: ['./accesses-selector.component.scss'],
 })
-export class AccessesSelectorComponent {}
+export class AccessesSelectorComponent {
+  onClick(item: any): void {}
+}

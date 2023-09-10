@@ -26,7 +26,6 @@ export class ShellComponent implements OnInit, AfterViewInit, OnDestroy {
         this.mobile = false;
         this.content?.nativeElement.classList.remove('mobile');
         this.container?.nativeElement.classList.remove('mobile');
-
         this._cdr.detectChanges();
       } else if (!this.mobile && width < 700) {
         this.mobile = true;
