@@ -5,8 +5,6 @@ import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.security.core.userdetails.UserDetails
-import pl.dashclever.accountresources.account.readmodel.AccountDto
-import pl.dashclever.accountresources.account.readmodel.AccountReader
 import pl.dashclever.accountresources.account.readmodel.CredentialsDto
 import pl.dashclever.accountresources.account.readmodel.CredentialsReader
 import pl.dashclever.spring.security.EntryUserDetailsService

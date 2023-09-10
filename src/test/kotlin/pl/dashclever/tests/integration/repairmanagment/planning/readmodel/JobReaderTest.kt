@@ -17,63 +17,63 @@ import java.util.UUID
 @SpringBootTest
 @ContextConfiguration(initializers = [TestcontainersInitializer::class])
 internal class JobReaderTest(
-	@Autowired private val planRepository: PlanRepository,
-	@Autowired private val jobReader: JobReader,
+    @Autowired private val planRepository: PlanRepository,
+    @Autowired private val jobReader: JobReader,
 ) {
 
-	@AfterEach
-	fun tearDown() {
-		planRepository.deleteAll()
-	}
+    @AfterEach
+    fun tearDown() {
+        planRepository.deleteAll()
+    }
 
-	@Test
-	fun `should return not assigned jobs of a plan`() {
-		// given
-		val plan = PlanFactory.create(
-			estimateId = UUID.randomUUID().toString(),
-			jobs = mapOf(
-				1L to 60,
-				2L to 60,
-			)
-		)
-		planRepository.save(plan)
+    @Test
+    fun `should return not assigned jobs of a plan`() {
+        // given
+        val plan = PlanFactory.create(
+            estimateId = UUID.randomUUID().toString(),
+            jobs = mapOf(
+                1L to 60,
+                2L to 60,
+            )
+        )
+        planRepository.save(plan)
 
-		// when
-		val result: Set<JobDto> = jobReader.findByPlanId(plan.id)
+        // when
+        val result: Set<JobDto> = jobReader.findByPlanId(plan.id)
 
-		// then
-		assertThat(result).hasSize(2)
-		assertThat(result).anySatisfy {
-			assertThat(it.catalogueJobId).isEqualTo(1L)
-			assertThat(it.manMinutes).isEqualTo(60L)
-		}
-		assertThat(result).anySatisfy {
-			assertThat(it.catalogueJobId).isEqualTo(2L)
-			assertThat(it.manMinutes).isEqualTo(60L)
-		}
-	}
+        // then
+        assertThat(result).hasSize(2)
+        assertThat(result).anySatisfy {
+            assertThat(it.catalogueJobId).isEqualTo(1L)
+            assertThat(it.manMinutes).isEqualTo(60L)
+        }
+        assertThat(result).anySatisfy {
+            assertThat(it.catalogueJobId).isEqualTo(2L)
+            assertThat(it.manMinutes).isEqualTo(60L)
+        }
+    }
 
-	@Test
-	fun `should return assigned job of a plan`() {
-		// given
-		val plan = PlanFactory.create(
-			estimateId = UUID.randomUUID().toString(),
-			jobs = mapOf(
-				1L to 60,
-			)
-		)
-		plan.assign(1L, "employeeId", LocalDate.of(2020, 2, 2))
-		planRepository.save(plan)
+    @Test
+    fun `should return assigned job of a plan`() {
+        // given
+        val plan = PlanFactory.create(
+            estimateId = UUID.randomUUID().toString(),
+            jobs = mapOf(
+                1L to 60,
+            )
+        )
+        plan.assign(1L, "employeeId", LocalDate.of(2020, 2, 2))
+        planRepository.save(plan)
 
-		// when
-		val result: Set<JobDto> = jobReader.findByPlanId(plan.id)
+        // when
+        val result: Set<JobDto> = jobReader.findByPlanId(plan.id)
 
-		// then
-		assertThat(result).singleElement().satisfies({
-			 assertThat(it.catalogueJobId).isEqualTo(1L)
-			assertThat(it.manMinutes).isEqualTo(60L)
-			assertThat(it.assignedTo).isEqualTo("employeeId")
-			assertThat(it.assignedAt).isEqualTo(LocalDate.of(2020, 2, 2))
-		})
-	}
+        // then
+        assertThat(result).singleElement().satisfies({
+            assertThat(it.catalogueJobId).isEqualTo(1L)
+            assertThat(it.manMinutes).isEqualTo(60L)
+            assertThat(it.assignedTo).isEqualTo("employeeId")
+            assertThat(it.assignedAt).isEqualTo(LocalDate.of(2020, 2, 2))
+        })
+    }
 }

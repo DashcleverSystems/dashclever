@@ -9,14 +9,14 @@ import java.util.UUID
 @Component
 interface JobReader : Repository<Plan, UUID> {
 
-	@Query(
-		value = """
+    @Query(
+        value = """
 			SELECT j.catalogue_job_id as catalogueJobId, j.man_minutes as manMinutes, 
 			j.assigned_to as assignedTo, j.assigned_at as assignedAT 
 			FROM RM_PLANNING_JOB j
 			WHERE j.plan_id = :planId
 		""",
-		nativeQuery = true
-	)
-	fun findByPlanId(planId: UUID): Set<JobDto>
+        nativeQuery = true
+    )
+    fun findByPlanId(planId: UUID): Set<JobDto>
 }

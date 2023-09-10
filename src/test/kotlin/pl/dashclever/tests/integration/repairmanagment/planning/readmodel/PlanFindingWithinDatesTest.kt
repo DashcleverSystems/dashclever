@@ -25,91 +25,91 @@ internal class PlanFindingWithinDatesTest @Autowired constructor(
     private val planReader: PlanReader,
 ) {
 
-	private companion object {
+    private companion object {
 
-		@JvmStatic
-		fun `test dates set`(): Stream<Arguments> =
-			Stream.of(
-				Arguments.of(
-					LocalDate.of(2023, 1, 5),
-					LocalDate.of(2023, 1, 6)
-				),
-				Arguments.of(
-					LocalDate.of(2023, 1, 6),
-					LocalDate.of(2023, 1, 6)
-				),
-				Arguments.of(
-					LocalDate.of(2023, 1, 6),
-					LocalDate.of(2023, 1, 7)
-				),
-				Arguments.of(
-					LocalDate.of(2023, 1, 4),
-					LocalDate.of(2023, 1, 7)
-				),
-				Arguments.of(
-					LocalDate.of(2023, 1, 4),
-					LocalDate.of(2023, 1, 7)
-				),
-				Arguments.of(
-					LocalDate.of(1999, 1, 1),
-					LocalDate.of(2024, 1, 1)
-				)
-			)
-	}
+        @JvmStatic
+        fun `test dates set`(): Stream<Arguments> =
+            Stream.of(
+                Arguments.of(
+                    LocalDate.of(2023, 1, 5),
+                    LocalDate.of(2023, 1, 6)
+                ),
+                Arguments.of(
+                    LocalDate.of(2023, 1, 6),
+                    LocalDate.of(2023, 1, 6)
+                ),
+                Arguments.of(
+                    LocalDate.of(2023, 1, 6),
+                    LocalDate.of(2023, 1, 7)
+                ),
+                Arguments.of(
+                    LocalDate.of(2023, 1, 4),
+                    LocalDate.of(2023, 1, 7)
+                ),
+                Arguments.of(
+                    LocalDate.of(2023, 1, 4),
+                    LocalDate.of(2023, 1, 7)
+                ),
+                Arguments.of(
+                    LocalDate.of(1999, 1, 1),
+                    LocalDate.of(2024, 1, 1)
+                )
+            )
+    }
 
-	@AfterEach
-	fun cleanPlanRepository() = planRepository.deleteAll()
+    @AfterEach
+    fun cleanPlanRepository() = planRepository.deleteAll()
 
-	@Test
-	fun `should not find any`() {
-		// given
-		val plan = PlanFactory.create(
-			estimateId = UUID.randomUUID().toString(),
-			jobs = mapOf(
-				1L to 120,
-				2L to 240
-			)
-		)
-		plan.assign(1L, "employeeId", LocalDate.of(2023, 1, 6))
-		planRepository.save(plan)
+    @Test
+    fun `should not find any`() {
+        // given
+        val plan = PlanFactory.create(
+            estimateId = UUID.randomUUID().toString(),
+            jobs = mapOf(
+                1L to 120,
+                2L to 240
+            )
+        )
+        plan.assign(1L, "employeeId", LocalDate.of(2023, 1, 6))
+        planRepository.save(plan)
 
-		// when
-		val result: Set<PlanDto> = planReader.findByDateRange(
-			from = LocalDate.of(2023, 1, 7),
-			to = LocalDate.of(2023, 1, 8)
-		)
+        // when
+        val result: Set<PlanDto> = planReader.findByDateRange(
+            from = LocalDate.of(2023, 1, 7),
+            to = LocalDate.of(2023, 1, 8)
+        )
 
-		// then
-		assertThat(result).isEmpty()
-	}
+        // then
+        assertThat(result).isEmpty()
+    }
 
-	@ParameterizedTest
-	@MethodSource("test dates set")
-	fun `should find two within given dates range`() {
-		// given
-		val plan1 = PlanFactory.create(
-			estimateId = UUID.randomUUID().toString(),
-			jobs = mapOf(
-				1L to 120,
-				2L to 240
-			)
-		)
-		plan1.assign(1L, "employeeId", LocalDate.of(2023, 1, 6))
-		planRepository.save(plan1)
-		val plan2 = PlanFactory.create(
-			estimateId = UUID.randomUUID().toString(),
-			jobs = mapOf(
-				1L to 120,
-				2L to 240
-			)
-		)
-		plan2.assign(1L, "employeeId", LocalDate.of(2023, 1, 8))
-		planRepository.save(plan2)
+    @ParameterizedTest
+    @MethodSource("test dates set")
+    fun `should find two within given dates range`() {
+        // given
+        val plan1 = PlanFactory.create(
+            estimateId = UUID.randomUUID().toString(),
+            jobs = mapOf(
+                1L to 120,
+                2L to 240
+            )
+        )
+        plan1.assign(1L, "employeeId", LocalDate.of(2023, 1, 6))
+        planRepository.save(plan1)
+        val plan2 = PlanFactory.create(
+            estimateId = UUID.randomUUID().toString(),
+            jobs = mapOf(
+                1L to 120,
+                2L to 240
+            )
+        )
+        plan2.assign(1L, "employeeId", LocalDate.of(2023, 1, 8))
+        planRepository.save(plan2)
 
-		// when
-		val result: Set<PlanDto> = planReader.findByDateRange(LocalDate.of(2023, 1, 6), LocalDate.of(2023, 1, 8))
+        // when
+        val result: Set<PlanDto> = planReader.findByDateRange(LocalDate.of(2023, 1, 6), LocalDate.of(2023, 1, 8))
 
-		// then
-		assertThat(result).hasSize(2)
-	}
+        // then
+        assertThat(result).hasSize(2)
+    }
 }

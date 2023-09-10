@@ -13,10 +13,10 @@ private const val PATH = "/api/planning/{planId}/job"
 @RestController
 @RequestMapping(PATH)
 internal class JobReaderController(
-	private val jobReader: JobReader
-){
+    private val jobReader: JobReader
+) {
 
-	@GetMapping
-	fun findPlanJobs(@PathVariable planId: UUID): Set<JobDto> =
-		jobReader.findByPlanId(planId)
+    @GetMapping
+    fun findPlanJobs(@PathVariable planId: UUID): Set<JobDto> =
+        jobReader.findByPlanId(planId)
 }

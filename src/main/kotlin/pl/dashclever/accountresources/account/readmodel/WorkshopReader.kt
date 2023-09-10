@@ -20,4 +20,3 @@ interface WorkshopDto {
     val id: UUID
     val displayName: String
 }
-

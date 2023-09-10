@@ -12,7 +12,6 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import pl.dashclever.accountresources.account.readmodel.CredentialsReader
 
-
 @Configuration
 internal class SecurityConfig(
     private val credentialsReader: CredentialsReader,

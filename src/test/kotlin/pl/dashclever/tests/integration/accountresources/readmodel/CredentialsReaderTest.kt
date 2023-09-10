@@ -9,33 +9,32 @@ import pl.dashclever.accountresources.account.model.Account
 import pl.dashclever.accountresources.account.model.AccountRepository
 import pl.dashclever.accountresources.account.readmodel.CredentialsReader
 import pl.dashclever.tests.integration.TestcontainersInitializer
-import pl.dashclever.tests.integration.accountresources.AccountCleaner
 
 @SpringBootTest
 @ContextConfiguration(initializers = [TestcontainersInitializer::class])
 internal class CredentialsReaderTest(
-	@Autowired private val accountRepository: AccountRepository,
-	@Autowired private val credentialsReader: CredentialsReader,
+    @Autowired private val accountRepository: AccountRepository,
+    @Autowired private val credentialsReader: CredentialsReader,
 ) {
 
-	@Test
-	fun `should return accounts credentials`() {
-		// given
-		val account = Account(
-			username = "username",
-			passwordHash = "passwordHash",
-			email = "email@email.com"
-		)
-		accountRepository.save(account)
+    @Test
+    fun `should return accounts credentials`() {
+        // given
+        val account = Account(
+            username = "username",
+            passwordHash = "passwordHash",
+            email = "email@email.com"
+        )
+        accountRepository.save(account)
 
-		// when
-		val result = credentialsReader.findByUsername("username")
+        // when
+        val result = credentialsReader.findByUsername("username")
 
-		// then
-		assertThat(result).hasValueSatisfying {
-			assertThat(it.accId).isEqualTo(account.id)
-			assertThat(it.username).isEqualTo("username")
-			assertThat(it.password).isEqualTo("passwordHash")
-		}
-	}
+        // then
+        assertThat(result).hasValueSatisfying {
+            assertThat(it.accId).isEqualTo(account.id)
+            assertThat(it.username).isEqualTo("username")
+            assertThat(it.password).isEqualTo("passwordHash")
+        }
+    }
 }

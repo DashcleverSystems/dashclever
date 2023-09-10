@@ -16,34 +16,34 @@ import pl.dashclever.tests.integration.accountresources.AccountCleaner
 @SpringBootTest
 @ContextConfiguration(initializers = [TestcontainersInitializer::class])
 internal class AccountReaderTest(
-	@Autowired private val accountRepository: AccountRepository,
-	@Autowired private val accountReader: AccountReader,
-	@Autowired private val accountCleaner: AccountCleaner
+    @Autowired private val accountRepository: AccountRepository,
+    @Autowired private val accountReader: AccountReader,
+    @Autowired private val accountCleaner: AccountCleaner
 ) {
 
-	@AfterEach
-	fun deleteAccounts(){
-		accountCleaner.deleteAll()
-	}
+    @AfterEach
+    fun deleteAccounts() {
+        accountCleaner.deleteAll()
+    }
 
-	@Test
-	fun `should return proper projection dto`() {
-		// given
-		val account = Account(
-			"username",
-			"passwordHash",
-			"email@email.com"
-		)
-		accountRepository.save(account)
+    @Test
+    fun `should return proper projection dto`() {
+        // given
+        val account = Account(
+            "username",
+            "passwordHash",
+            "email@email.com"
+        )
+        accountRepository.save(account)
 
-		// when
-		val result = accountReader.findByUsername("username")
+        // when
+        val result = accountReader.findByUsername("username")
 
-		// then
-		assertThat(result).hasValueSatisfying {
-			assertThat(it).isInstanceOf(AccountDto::class.java)
-			assertThat(it.username).isEqualTo("username")
-			assertThat(it.email).isEqualTo("email@email.com")
-		}
-	}
+        // then
+        assertThat(result).hasValueSatisfying {
+            assertThat(it).isInstanceOf(AccountDto::class.java)
+            assertThat(it.username).isEqualTo("username")
+            assertThat(it.email).isEqualTo("email@email.com")
+        }
+    }
 }

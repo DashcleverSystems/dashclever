@@ -25,67 +25,67 @@ internal class PlanFindingByIdTests @Autowired constructor(
     private val planReader: PlanReader,
 ) {
 
-	@AfterEach
-	fun tearDown() =
-		planRepository.deleteAll()
+    @AfterEach
+    fun tearDown() =
+        planRepository.deleteAll()
 
-	private companion object {
+    private companion object {
 
-		@JvmStatic
-		fun provideTestData(): Stream<Arguments> {
-			return Stream.of(
-				`provide fresh plan test data`(),
-				`provide modified plan test data`()
-			)
-		}
+        @JvmStatic
+        fun provideTestData(): Stream<Arguments> {
+            return Stream.of(
+                `provide fresh plan test data`(),
+                `provide modified plan test data`()
+            )
+        }
 
-		private fun `provide fresh plan test data`(): Arguments {
-			val plan = PlanFactory.create(
-				estimateId = UUID.randomUUID().toString(),
-				jobs = mapOf(
-					1L to 120,
-					2L to 120,
-					3L to 60
-				)
-			)
+        private fun `provide fresh plan test data`(): Arguments {
+            val plan = PlanFactory.create(
+                estimateId = UUID.randomUUID().toString(),
+                jobs = mapOf(
+                    1L to 120,
+                    2L to 120,
+                    3L to 60
+                )
+            )
 
-			val assertions = { planDto: PlanDto ->
-				assertThat(planDto.id).isEqualTo(plan.id)
-				assertThat(planDto.estimateId).isEqualTo(plan.estimateId)
-				assertThat(planDto.technicalRepairTimeInMinutes).isEqualTo(300)
-			}
-			return Arguments.of(plan, assertions)
-		}
+            val assertions = { planDto: PlanDto ->
+                assertThat(planDto.id).isEqualTo(plan.id)
+                assertThat(planDto.estimateId).isEqualTo(plan.estimateId)
+                assertThat(planDto.technicalRepairTimeInMinutes).isEqualTo(300)
+            }
+            return Arguments.of(plan, assertions)
+        }
 
-		private fun `provide modified plan test data`(): Arguments {
-			val plan = PlanFactory.create(
-				estimateId = UUID.randomUUID().toString(),
-				jobs = mapOf(
-					1L to 500,
-					2L to 240
-				)
-			)
-			plan.assign(1, "employeeId", LocalDate.of(2023, 6, 1))
+        private fun `provide modified plan test data`(): Arguments {
+            val plan = PlanFactory.create(
+                estimateId = UUID.randomUUID().toString(),
+                jobs = mapOf(
+                    1L to 500,
+                    2L to 240
+                )
+            )
+            plan.assign(1, "employeeId", LocalDate.of(2023, 6, 1))
 
-			val assertions = { planDto: PlanDto ->
-				assertThat(planDto.id).isEqualTo(plan.id)
-				assertThat(planDto.estimateId).isEqualTo(plan.estimateId)
-				assertThat(planDto.technicalRepairTimeInMinutes).isEqualTo(740)
-			}
-			return Arguments.of(plan, assertions)
-		}
-	}
+            val assertions = { planDto: PlanDto ->
+                assertThat(planDto.id).isEqualTo(plan.id)
+                assertThat(planDto.estimateId).isEqualTo(plan.estimateId)
+                assertThat(planDto.technicalRepairTimeInMinutes).isEqualTo(740)
+            }
+            return Arguments.of(plan, assertions)
+        }
+    }
 
-	@ParameterizedTest
-	@MethodSource("provideTestData")
-	fun `should find plan by id`(plan: Plan, assertions: (planDto: PlanDto) -> Unit) {
-		// given
-		planRepository.save(plan)
+    @ParameterizedTest
+    @MethodSource("provideTestData")
+    fun `should find plan by id`(plan: Plan, assertions: (planDto: PlanDto) -> Unit) {
+        // given
+        planRepository.save(plan)
 
-		// when
-		val planDto: PlanDto = planReader.findById(plan.id).get()
+        // when
+        val planDto: PlanDto = planReader.findById(plan.id).get()
 
-		// then
-		assertThat(planDto).satisfies(assertions)
-	}
+        // then
+        assertThat(planDto).satisfies(assertions)
+    }
 }
