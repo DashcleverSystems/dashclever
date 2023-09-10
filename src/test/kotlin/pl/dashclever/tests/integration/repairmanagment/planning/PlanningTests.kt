@@ -22,59 +22,59 @@ import pl.dashclever.tests.integration.repairmanagment.`new estimate`
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ContextConfiguration(initializers = [TestcontainersInitializer::class])
 internal class PlanningTests(
-    @LocalServerPort private val port: Int,
-    @Autowired private val estimateRepository: pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository,
-    @Autowired private val planCreating: PlanCreating,
+	@LocalServerPort private val port: Int,
+	@Autowired private val estimateRepository: pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository,
+	@Autowired private val planCreating: PlanCreating,
 ) {
 
-    @BeforeEach
-    fun set() {
-        RestAssured.port = port
-        estimateRepository.deleteAll()
-    }
+	@BeforeEach
+	fun set() {
+		RestAssured.port = port
+		estimateRepository.deleteAll()
+	}
 
-    @Test
-    fun `should create planing`() {
-        // given
-        val estimate = `new estimate`("testEstimateUniqueUserId")
-        estimateRepository.save(estimate)
+	@Test
+	fun `should create planing`() {
+		// given
+		val estimate = `new estimate`("testEstimateUniqueUserId")
+		estimateRepository.save(estimate)
 
-        // when
-        Given {
-            queryParam("estimateId", estimate.id!!)
-            log().ifValidationFails(ALL)
-        } When {
-            post("api/planning")
-        } Then {
-            log().ifValidationFails(ALL)
-            statusCode(201)
-        }
-    }
+		// when
+		Given {
+			queryParam("estimateId", estimate.id!!)
+			log().ifValidationFails(ALL)
+		} When {
+			post("api/planning")
+		} Then {
+			log().ifValidationFails(ALL)
+			statusCode(201)
+		}
+	}
 
-    @Test
-    fun `should assign job`() {
-        // given
-        val estimate = `new estimate`("testEstimateUniqueUserId")
-        estimateRepository.save(estimate)
-        val planId = planCreating.create(estimate.id!!.toString())
+	@Test
+	fun `should assign job`() {
+		// given
+		val estimate = `new estimate`("testEstimateUniqueUserId")
+		estimateRepository.save(estimate)
+		val planId = planCreating.create(estimate.id!!.toString())
 
-        // when
-        Given {
-            contentType(JSON)
-            body(
-                """
+		// when
+		Given {
+			contentType(JSON)
+			body(
+				"""
                     {
                       "to": "labourEmployeeId",
                       "at": "2023-01-22"
                     }
                 """.trimIndent()
-            )
-            log().ifValidationFails(ALL)
-        } When {
-            patch("api/planning/$planId/job/${estimate.jobs.first().id!!}")
-        } Then {
-            log().ifValidationFails(ALL)
-            statusCode(204)
-        }
-    }
+			)
+			log().ifValidationFails(ALL)
+		} When {
+			patch("api/planning/$planId/job/${estimate.jobs.first().id!!}")
+		} Then {
+			log().ifValidationFails(ALL)
+			statusCode(204)
+		}
+	}
 }

@@ -21,7 +21,7 @@ internal class PlanReadController(
 ) {
     @GetMapping("/{planId}")
     fun findById(@PathVariable planId: UUID): PlanDto =
-        planReader.findById(planId)
+        planReader.findById(planId).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
 
     @GetMapping
     fun filter(
