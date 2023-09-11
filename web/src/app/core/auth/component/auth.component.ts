@@ -106,7 +106,7 @@ export class AuthComponent implements OnInit {
 
     this.authService.register(credentials).subscribe(() => {
       this.form.reset();
-      this.isRegisterForm = false;
+      this.onLogin();
     });
   }
 }
