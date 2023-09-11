@@ -8,17 +8,17 @@ import java.util.Optional
 import java.util.UUID
 
 @Component
-interface AccountReader : Repository<Account, UUID> {
+interface CredentialsReader : Repository<Account, UUID> {
 
     @Query(
-        value = "SELECT id, username, email FROM ACCOUNT acc WHERE acc.username = :username",
+        value = "SELECT id as accId, username as username, password_hash as password FROM ACCOUNT acc WHERE acc.username = :username",
         nativeQuery = true
     )
-    fun findByUsername(username: String): Optional<AccountDto>
+    fun findByUsername(username: String): Optional<CredentialsDto>
 }
 
-interface AccountDto {
-    val id: UUID
+interface CredentialsDto {
+    val accId: UUID
     val username: String
-    val email: String
+    val password: String
 }

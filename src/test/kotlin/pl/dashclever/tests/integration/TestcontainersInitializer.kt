@@ -10,8 +10,10 @@ import java.lang.Thread.sleep
 internal class TestcontainersInitializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
 
     private companion object {
+
         @JvmStatic
         val POSTGRES = PostgreSQLContainer("postgres:15")
+
         init {
             deepStart(POSTGRES).join()
         }

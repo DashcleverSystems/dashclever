@@ -29,7 +29,7 @@ internal class PlanReadModelTests(
     @LocalServerPort private val port: Int,
     @Autowired private val estimateRepository: EstimateRepository,
     @Autowired private val planCreating: PlanCreating,
-    @Autowired private val planRepository: PlanRepository
+    @Autowired private val planRepository: PlanRepository,
 ) {
 
     @BeforeEach
