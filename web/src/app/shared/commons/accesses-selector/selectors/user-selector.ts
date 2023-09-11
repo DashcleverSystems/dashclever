@@ -9,21 +9,25 @@ import {
   map,
   of,
   skipWhile,
+  switchMap,
   take,
   takeUntil,
 } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
   getSelectedAccess,
+  getSelectedWorkshop,
   getUsers,
 } from '@app/core/store/core-store.selectors';
 import { coreStoreActions } from '@app/core/store/core-store.actions';
 import { isEqual } from 'lodash';
+import { UserSelectorService } from './user-selector.service';
 
 @Component({
   selector: 'app-user-selector',
   templateUrl: './template/selector.template.html',
   styleUrls: ['./template/selector.template.scss'],
+  providers: [UserSelectorService],
 })
 export class UserSelectorComponent
   extends SelectorListComponent<IAccess>
@@ -35,7 +39,7 @@ export class UserSelectorComponent
   override title: string = 'components.accessesSelector.users.title';
   override itemName: string = 'User';
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private service: UserSelectorService) {
     super();
   }
 
@@ -66,7 +70,20 @@ export class UserSelectorComponent
   }
 
   override onClick(index: number, access: IAccess | undefined): void {
-    this.store.dispatch(coreStoreActions.selectAccess({ access }));
+    this.store
+      .select(getSelectedWorkshop)
+      .pipe(
+        take(1),
+        switchMap((selectedWorkshop) =>
+          this.service.selectUser({
+            workshopId: selectedWorkshop?.workshopId ?? null,
+            employeeId: access?.employeeId ?? null,
+          })
+        )
+      )
+      .subscribe(() =>
+        this.store.dispatch(coreStoreActions.selectAccess({ access }))
+      );
   }
 
   override defineInitialValue(): void {
