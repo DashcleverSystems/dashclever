@@ -1,16 +1,16 @@
 package pl.dashclever.tests.integration.repairmanagment.planning.readmodel
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
-import pl.dashclever.repairmanagment.plannig.model.Plan
 import pl.dashclever.repairmanagment.plannig.model.PlanFactory
 import pl.dashclever.repairmanagment.plannig.model.PlanRepository
+import pl.dashclever.repairmanagment.plannig.readmodel.JobDto
 import pl.dashclever.repairmanagment.plannig.readmodel.PlanDto
 import pl.dashclever.repairmanagment.plannig.readmodel.PlanReader
 import pl.dashclever.tests.integration.TestcontainersInitializer
@@ -20,13 +20,13 @@ import java.util.stream.Stream
 
 @SpringBootTest
 @ContextConfiguration(initializers = [TestcontainersInitializer::class])
-internal class PlanFindingByIdTests @Autowired constructor(
+internal class FindingByIdTests @Autowired constructor(
     private val planRepository: PlanRepository,
-    private val planReader: PlanReader,
+    private val planReader: PlanReader
 ) {
 
-    @AfterEach
-    fun tearDown() =
+    @BeforeEach
+    fun setUp() =
         planRepository.deleteAll()
 
     private companion object {
@@ -49,12 +49,17 @@ internal class PlanFindingByIdTests @Autowired constructor(
                 )
             )
 
-            val assertions = { planDto: PlanDto ->
-                assertThat(planDto.id).isEqualTo(plan.id)
-                assertThat(planDto.estimateId).isEqualTo(plan.estimateId)
-                assertThat(planDto.technicalRepairTimeInMinutes).isEqualTo(300)
-            }
-            return Arguments.of(plan, assertions)
+            val expectedDto = PlanDto(
+                id = plan.id.toString(),
+                estimateId = plan.estimateId,
+                jobs = setOf(
+                    JobDto(1L, 120),
+                    JobDto(2L, 120),
+                    JobDto(3L, 60)
+                ),
+                technicalRepairTime = 1
+            )
+            return Arguments.of(plan, expectedDto)
         }
 
         private fun `provide modified plan test data`(): Arguments {
@@ -67,25 +72,29 @@ internal class PlanFindingByIdTests @Autowired constructor(
             )
             plan.assign(1, "employeeId", LocalDate.of(2023, 6, 1))
 
-            val assertions = { planDto: PlanDto ->
-                assertThat(planDto.id).isEqualTo(plan.id)
-                assertThat(planDto.estimateId).isEqualTo(plan.estimateId)
-                assertThat(planDto.technicalRepairTimeInMinutes).isEqualTo(740)
-            }
-            return Arguments.of(plan, assertions)
+            val expectedDto = PlanDto(
+                id = plan.id.toString(),
+                estimateId = plan.estimateId,
+                jobs = setOf(
+                    JobDto(1L, 500, "employeeId", LocalDate.of(2023, 6, 1)),
+                    JobDto(2L, 240)
+                ),
+                technicalRepairTime = 3,
+            )
+            return Arguments.of(plan, expectedDto)
         }
     }
 
     @ParameterizedTest
     @MethodSource("provideTestData")
-    fun `should find plan by id`(plan: Plan, assertions: (planDto: PlanDto) -> Unit) {
+    fun `should find plan by id`(plan: pl.dashclever.repairmanagment.plannig.model.Plan, expected: PlanDto) {
         // given
         planRepository.save(plan)
 
         // when
-        val planDto: PlanDto = planReader.findById(plan.id).get()
+        val planDto = planReader.findById(plan.id)
 
         // then
-        assertThat(planDto).satisfies(assertions)
+        assertThat(planDto).isEqualTo(expected)
     }
 }

@@ -76,7 +76,7 @@ internal class AccountController(
             ?: throw IllegalArgumentException("Could not find authenticated user")
         val accDto = accountReader.findByUsername(loggedUserDetails.username)
             .orElseThrow { IllegalArgumentException("Could not find authenticated user") }
-        return accessesReader.accountWorkshopAccesses(accDto.id)
+        return accessesReader.findAccountWorkshopAccesses(accDto.id)
     }
 
     @GetMapping
@@ -84,13 +84,13 @@ internal class AccountController(
         if (authentication == null)
             throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
         fun WorkshopUserDetails.toAccessDto(): AccessDto {
-            val accesses: Set<WorkshopAccessesDto> = accessesReader.accountWorkshopAccesses(this.id)
+            val accesses = accessesReader.findAccountWorkshopAccesses(this.id)
             val access = accesses.firstOrNull { it.workshopId == this.workshopId }
                 ?: throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
             return access.accesses.firstOrNull { it.employeeId == this.employeeId }
                 ?: throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
         }
-        return when (authentication.principal) {
+        return when(authentication.principal) {
             is EntryUserDetails -> null
             is WorkshopUserDetails -> (authentication.principal as WorkshopUserDetails).toAccessDto()
             else -> throw ResponseStatusException(HttpStatus.UNAUTHORIZED)

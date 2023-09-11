@@ -20,9 +20,9 @@ import java.util.stream.Stream
 
 @SpringBootTest
 @ContextConfiguration(initializers = [TestcontainersInitializer::class])
-internal class PlanFindingWithinDatesTest @Autowired constructor(
+internal class FindingWithinDatesTest @Autowired constructor(
     private val planRepository: PlanRepository,
-    private val planReader: PlanReader,
+    private val planReader: PlanReader
 ) {
 
     private companion object {

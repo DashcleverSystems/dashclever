@@ -1,6 +1,6 @@
 package pl.dashclever.repairmanagment.plannig.readmodel
 
-interface EmployeeOccupationDto {
-    val employeeId: String
+data class EmployeeOccupationDto(
+    val employeeId: String,
     val manMinutes: Int
-}
+)
