@@ -6,7 +6,7 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, catchError, of, switchMap, tap } from 'rxjs';
+import { Observable, catchError, of, switchMap, take, tap } from 'rxjs';
 import {
   availablePermissions,
   isAuthorized,

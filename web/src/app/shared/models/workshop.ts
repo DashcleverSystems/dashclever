@@ -1,7 +1,7 @@
 import { IAccess } from './accesses';
 
 export interface IWorkshop {
-  workshopId?: string;
+  workshopId: string;
   workshopName: string;
   accesses: IAccess[];
 }

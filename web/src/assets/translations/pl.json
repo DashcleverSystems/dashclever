@@ -21,6 +21,16 @@
     "logout": "Wyloguj",
     "login": "Zaloguj"
   },
+  "components": {
+    "accessesSelector": {
+      "users": {
+        "title": "Wybierz pracownika"
+      },
+      "workshops": {
+        "title": "Wybierz warsztat"
+      }
+    }
+  },
   "enum": {
     "Panel": {
       "MANAGE_STAFF": "Zarządzanie zespołem",
@@ -43,5 +53,8 @@
         "title": "Brak uprawnień"
       }
     }
+  },
+  "accessesSelector": {
+    "owner": "Właściciel"
   }
 }

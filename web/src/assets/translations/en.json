@@ -21,6 +21,16 @@
     "logout": "Logout",
     "login": "Login"
   },
+  "components": {
+    "accessesSelector": {
+      "users": {
+        "title": "Choose worker"
+      },
+      "workshops": {
+        "title": "Choose workshop"
+      }
+    }
+  },
   "enum": {
     "Panel": {
       "MANAGE_STAFF": "Manage staff",
@@ -43,5 +53,8 @@
         "title": "No permission"
       }
     }
+  },
+  "accessesSelector": {
+    "owner": "Owner"
   }
 }
