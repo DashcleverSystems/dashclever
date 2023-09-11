@@ -67,5 +67,8 @@ export const coreStoreReducer = createReducer(
     ..._state,
     selectedAccess: access,
     permissions: access?.authorities ?? [],
+  })),
+  on(coreStoreActions.clearCoreState, (_state) => ({
+    ...initialState,
   }))
 );

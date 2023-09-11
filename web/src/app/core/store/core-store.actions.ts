@@ -17,7 +17,8 @@ export const coreStoreActions = createActionGroup({
     Unauthorized: emptyProps(),
     'Get workshops': emptyProps(),
     'Change Workshops': props<{ workshops: IWorkshop[] }>(),
-    'Select Workshop': props<{workshop: IWorkshop | undefined}>(),
-    'Select Access': props<{access: IAccess | undefined}>()
+    'Select Workshop': props<{ workshop: IWorkshop | undefined }>(),
+    'Select Access': props<{ access: IAccess | undefined }>(),
+    'Clear Core State': emptyProps(),
   },
 });
