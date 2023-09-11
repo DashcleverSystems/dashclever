@@ -56,7 +56,10 @@ export class AuthEffects {
             () => coreStoreActions.logoutSuccessfully(),
             catchError(() => of(coreStoreActions.logoutSuccessfully))
           ),
-          finalize(() => this.router.navigate(['login']))
+          finalize(() => {
+            this.store.dispatch(coreStoreActions.clearCoreState());
+            this.router.navigate(['login']);
+          })
         )
       )
     )
