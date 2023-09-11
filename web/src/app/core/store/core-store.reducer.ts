@@ -43,6 +43,9 @@ export const coreStoreReducer = createReducer(
     ..._state,
     logged: false,
     permissions: [],
+    workshops: [],
+    selectedWorkshop: undefined,
+    selectedAccess: undefined,
   })),
   on(coreStoreActions.changeWorkshops, (_state, { workshops }) => ({
     ..._state,
