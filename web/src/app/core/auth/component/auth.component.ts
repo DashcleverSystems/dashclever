@@ -1,21 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService, ILoginForm } from './auth.service';
 import { FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { coreStoreActions } from '@app/core/store/core-store.actions';
+import { isAuthorized } from '@app/core/store/core-store.selectors';
+import { EMPTY, catchError, switchMap, take, tap } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit {
   isRegisterForm: boolean = false;
 
   form: FormGroup<ILoginForm> = this.authService.createForm();
-
-  constructor(private authService: AuthService, private store: Store) {
-    this.onLogin();
-  }
 
   get emailControl() {
     const control = this.form.controls['email'];
@@ -23,6 +22,41 @@ export class AuthComponent {
       return control && this.isRegisterForm;
     }
     return false;
+  }
+
+  constructor(
+    private authService: AuthService,
+    private store: Store,
+    private router: Router
+  ) {
+    this.onLogin();
+  }
+
+  ngOnInit(): void {
+    this.store
+      .select(isAuthorized)
+      .pipe(
+        take(1),
+        switchMap((isAuth) => {
+          if (!isAuth)
+            return this.authService.isLogged().pipe(
+              catchError((err) => EMPTY),
+              switchMap((isLogged) => this.authService.getPermissions()),
+              tap((workshops) => {
+                this.store.dispatch(
+                  coreStoreActions.loginSuccessfully({ logged: true })
+                );
+                this.store.dispatch(
+                  coreStoreActions.changeWorkshops({ workshops })
+                );
+
+                this.router.navigate(['home']);
+              })
+            );
+          else return EMPTY;
+        })
+      )
+      .subscribe();
   }
 
   onRegister(): void {

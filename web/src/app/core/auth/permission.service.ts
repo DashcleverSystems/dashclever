@@ -6,7 +6,7 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, catchError, of, switchMap, tap } from 'rxjs';
+import { Observable, catchError, of, switchMap, take, tap } from 'rxjs';
 import {
   availablePermissions,
   isAuthorized,
@@ -42,14 +42,6 @@ export class PermissionService {
     }
 
     return this.notPermitted();
-  }
-
-  authorizedIsNeeded(): Observable<boolean> {
-    return this.isAuthorized().pipe(
-      switchMap((authorized) =>
-        authorized ? this.router.navigate(['home']) : of(true)
-      )
-    );
   }
 
   isAuthorized(): Observable<boolean> {
@@ -149,9 +141,3 @@ export const AuthorizedGuard: CanActivateFn = (
   next: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ): boolean | Observable<boolean> => inject(PermissionService).isAuthorized();
-
-export const AuthorizationIsNeeded: CanActivateFn = (
-  next: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
-): boolean | Observable<boolean> =>
-  inject(PermissionService).authorizedIsNeeded();

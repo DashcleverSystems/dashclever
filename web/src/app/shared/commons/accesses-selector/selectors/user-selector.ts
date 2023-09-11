@@ -32,7 +32,7 @@ export class UserSelectorComponent
   override itemList: Observable<IAccess[]> = of([]);
   override value: string = 'employeeFirstName';
   override alternativeValue: string = 'accessesSelector.owner';
-  override title: string = 'Choose User';
+  override title: string = 'components.accessesSelector.users.title';
   override itemName: string = 'User';
 
   constructor(private store: Store) {

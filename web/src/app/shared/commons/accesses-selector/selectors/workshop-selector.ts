@@ -30,7 +30,7 @@ export class WorkshopSelectorComponent
 {
   override itemList: Observable<Omit<IWorkshop, 'accesses'>[]> = of([]);
   override value: string = 'workshopName';
-  override title: string = 'Choose WorkShop';
+  override title: string = 'components.accessesSelector.workshops.title';
   override itemName: string = 'Workshop';
 
   constructor(private store: Store) {

@@ -1,5 +1,5 @@
 <div class="items-container" [class.visible]="visible">
-  <div class="info">{{ title }}</div>
+  <div class="info">{{ title | translate }}</div>
   <ul class="items-list" #listContainer>
     <li *ngFor="let item of itemList | async; index as index">
       <ng-container

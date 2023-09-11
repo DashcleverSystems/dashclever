@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ICredentials } from '@app/shared/models/user';
+import { IWorkshop } from '@app/shared/models/workshop';
 
 export interface ILoginForm {
   username: FormControl<string | null>;
@@ -49,5 +50,13 @@ export class AuthService {
 
   logout() {
     return this.http.post<void>('/api/logout', {});
+  }
+
+  isLogged() {
+    return this.http.get('/api/account');
+  }
+
+  getPermissions() {
+    return this.http.get<IWorkshop[]>('/api/account/access');
   }
 }
