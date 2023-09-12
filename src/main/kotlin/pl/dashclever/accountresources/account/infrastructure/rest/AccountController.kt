@@ -90,7 +90,7 @@ internal class AccountController(
             return access.accesses.firstOrNull { it.employeeId == this.employeeId }
                 ?: throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
         }
-        return when(authentication.principal) {
+        return when (authentication.principal) {
             is EntryUserDetails -> null
             is WorkshopUserDetails -> (authentication.principal as WorkshopUserDetails).toAccessDto()
             else -> throw ResponseStatusException(HttpStatus.UNAUTHORIZED)

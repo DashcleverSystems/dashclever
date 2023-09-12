@@ -13,7 +13,8 @@ class CorsFilter : OncePerRequestFilter() {
     @Throws(ServletException::class, IOException::class)
     override fun doFilterInternal(
         request: HttpServletRequest,
-        response: HttpServletResponse, filterChain: FilterChain
+        response: HttpServletResponse,
+        filterChain: FilterChain
     ) {
         response.addHeader("Access-Control-Allow-Origin", "*")
         filterChain.doFilter(request, response)

@@ -5,8 +5,8 @@ import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.security.core.userdetails.UserDetails
-import pl.dashclever.accountresources.account.readmodel.AccountDto
-import pl.dashclever.accountresources.account.readmodel.AccountReader
+import pl.dashclever.accountresources.account.readmodel.CredentialsDto
+import pl.dashclever.accountresources.account.readmodel.CredentialsReader
 import pl.dashclever.spring.security.EntryUserDetailsService
 import pl.dashclever.spring.security.IdUserDetails
 import java.util.Optional
@@ -18,15 +18,14 @@ internal class EntryLoginTests {
     @Test
     fun `after logging in in there should be EntryUserDetails without any authorities - no access anywhere - User will decide later which workshop wants to use later on`() {
         // given
-        val accountReader: AccountReader = mockk()
-        val account = AccountDto(
-            id = UUID.randomUUID(),
-            username = "username",
-            passwordHash = "BCryptPassHash",
-            email = "email@email.com"
-        )
-        every { accountReader.findByUsername("username") }.returns(Optional.of(account))
-        val testee = EntryUserDetailsService(accountReader)
+        val credentialsReader: CredentialsReader = mockk()
+        val credentials = object : CredentialsDto {
+            override val accId = UUID.randomUUID()
+            override val username = "username"
+            override val password = "BCryptPassHash"
+        }
+        every { credentialsReader.findByUsername("username") }.returns(Optional.of(credentials))
+        val testee = EntryUserDetailsService(credentialsReader)
 
         // when
         val result: UserDetails = testee.loadUserByUsername("username")
@@ -39,15 +38,14 @@ internal class EntryLoginTests {
     @Test
     fun `after logging in UserDetails are identifiable by id`() {
         // given
-        val accountReader: AccountReader = mockk()
-        val account = AccountDto(
-            id = UUID.randomUUID(),
-            username = "username",
-            passwordHash = "BCryptPassHash",
-            email = "email@email.com"
-        )
-        every { accountReader.findByUsername("username") }.returns(Optional.of(account))
-        val testee = EntryUserDetailsService(accountReader)
+        val credentialsReader: CredentialsReader = mockk()
+        val credentials = object : CredentialsDto {
+            override val accId = UUID.randomUUID()
+            override val username = "username"
+            override val password = "BCryptPassHash"
+        }
+        every { credentialsReader.findByUsername("username") }.returns(Optional.of(credentials))
+        val testee = EntryUserDetailsService(credentialsReader)
 
         // when
         val result: UserDetails = testee.loadUserByUsername("username")
