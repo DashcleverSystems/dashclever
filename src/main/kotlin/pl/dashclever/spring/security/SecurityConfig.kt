@@ -10,18 +10,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import pl.dashclever.accountresources.account.readmodel.AccountReader
-
+import pl.dashclever.accountresources.account.readmodel.CredentialsReader
 
 @Configuration
 internal class SecurityConfig(
-    private val accountReader: AccountReader,
+    private val credentialsReader: CredentialsReader,
     private val corsFilter: CorsFilter
 ) {
 
     @Bean
     fun userDetailsService(): UserDetailsService =
-        EntryUserDetailsService(accountReader)
+        EntryUserDetailsService(credentialsReader)
 
     @Bean
     fun passwordEncoder(): PasswordEncoder =
