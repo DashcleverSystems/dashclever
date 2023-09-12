@@ -6,7 +6,7 @@
 // import org.junit.jupiter.api.Test
 // import org.springframework.security.core.Authentication
 // import pl.dashclever.accountresources.account.readmodel.AccessDto
-// import pl.dashclever.accountresources.account.readmodel.AccessesReader
+// import pl.dashclever.accountresources.account.readmodel.pl.dashclever.accountresources.account.readmodel.AccessesReader
 // import pl.dashclever.accountresources.account.readmodel.Authority.MANAGE_STAFF
 // import pl.dashclever.spring.security.IdUserDetails
 // import pl.dashclever.spring.security.WorkshopUserDetailsService
@@ -17,7 +17,7 @@
 //    @Test
 //    fun `When users are logged in they decided which workshop they want to be authorise to`() {
 //        // given
-//        val accessesReader: AccessesReader = mockk()
+//        val accessesReader: pl.dashclever.accountresources.account.readmodel.AccessesReader = mockk()
 //        val workshopUserDetailsService = WorkshopUserDetailsService(accessesReader)
 //        val currentAuthentication: Authentication = mockk()
 //        val currentAccountId = UUID.randomUUID()
