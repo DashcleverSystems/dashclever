@@ -1,6 +1,5 @@
 package pl.dashclever.accountresources.account.infrastructure.rest
 
-import pl.dashclever.accountresources.account.readmodel.AccessesReader
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -21,6 +20,7 @@ import pl.dashclever.accountresources.account.infrastructure.rest.requests.Regis
 import pl.dashclever.accountresources.account.model.AccountHandler
 import pl.dashclever.accountresources.account.model.CreateWorkshop
 import pl.dashclever.accountresources.account.readmodel.AccessDto
+import pl.dashclever.accountresources.account.readmodel.AccessesReader
 import pl.dashclever.accountresources.account.readmodel.AccountDto
 import pl.dashclever.accountresources.account.readmodel.AccountReader
 import pl.dashclever.accountresources.account.readmodel.WorkshopAccessesDto
@@ -90,7 +90,7 @@ internal class AccountController(
             return access.accesses.firstOrNull { it.employeeId == this.employeeId }
                 ?: throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
         }
-        return when(authentication.principal) {
+        return when (authentication.principal) {
             is EntryUserDetails -> null
             is WorkshopUserDetails -> (authentication.principal as WorkshopUserDetails).toAccessDto()
             else -> throw ResponseStatusException(HttpStatus.UNAUTHORIZED)

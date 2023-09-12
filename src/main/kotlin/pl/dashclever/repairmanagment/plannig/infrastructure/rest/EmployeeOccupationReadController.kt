@@ -27,5 +27,4 @@ internal class EmployeeOccupationReadController(
     ): EmployeeOccupationDto =
         employeeOccupationReader.findByEmployeeIdAt(employeeId.toString(), at)
             .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
-
 }
