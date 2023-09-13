@@ -1,12 +1,11 @@
 const HttpsProxyAgent = require('https-proxy-agent');
 
-const url = process.env['api_url'];
-
 const proxyConfig = [
   {
-    context: '/api',
-    target: url ?? 'https://dashclever-backend-dev-d0e0ee1c5dfd.herokuapp.com/',
+    context: '/api/**',
+    target: 'https://dashclever-backend-dev-d0e0ee1c5dfd.herokuapp.com/',
     changeOrigin: true,
+    ws: true,
     secure: false,
   },
 ];
