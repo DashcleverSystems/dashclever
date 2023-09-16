@@ -7,15 +7,33 @@ import { AccessesModule } from './accesses-selector/accesses-selector.module';
 import { AccessesSelectorComponent } from './accesses-selector/accesses-selector.component';
 import { ManageStaffComponent } from './manage-staff/manage-staff.component';
 import { AppCardComponent } from './card/card.component';
+import { EstimateCatalogueComponent } from './estimate-catalogue/estimate-catalogue.component';
+import { EstimateFormComponent } from './estimate-catalogue/estimate-form/estimate-form.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [LanguageSelector, ManageStaffComponent, AppCardComponent],
-  imports: [CommonModule, PrimeModule, TranslateModule, AccessesModule],
+  declarations: [
+    LanguageSelector,
+    ManageStaffComponent,
+    AppCardComponent,
+    EstimateCatalogueComponent,
+    EstimateFormComponent,
+  ],
+  imports: [
+    CommonModule,
+    PrimeModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    AccessesModule,
+  ],
   exports: [
     LanguageSelector,
     AccessesSelectorComponent,
     ManageStaffComponent,
     AppCardComponent,
+    EstimateCatalogueComponent,
+    EstimateFormComponent,
   ],
   providers: [],
 })

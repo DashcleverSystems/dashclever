@@ -41,3 +41,8 @@ export const getSelectedWorkshop = createSelector(
   coreStoreSelectors,
   (_state) => _state.selectedWorkshop
 );
+
+export const isMobile = createSelector(
+  coreStoreSelectors,
+  (_state) => _state.mobile
+);

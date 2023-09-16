@@ -8,6 +8,7 @@ export const coreStoreActions = createActionGroup({
   source: 'Core',
   events: {
     'Change Language': props<{ lang: Language }>(),
+    'Change App View': props<{ mobile: boolean }>(),
     'Change permissions': props<{ permissions: string[] }>(),
     Login: props<{ credentials: ICredentials }>(),
     'Login successfully': props<{ logged: boolean }>(),

@@ -34,6 +34,36 @@
       "table": {
         "title": "Workers"
       }
+    },
+    "estimateCatalogue": {
+      "title": "Estimate",
+      "form": {
+        "title": "Form",
+        "estimateId": "Estimate id",
+        "vehicleInfo": "Vehicle info",
+        "registration": "Registration",
+        "brand": "Brand",
+        "model": "Model",
+        "paintInfo": "Color info",
+        "baseColorWithCode": "Base color",
+        "varnishingPaintInfo": "Additional color information",
+        "jobs": "Jobs",
+        "name": "Name",
+        "manMinutes": "Estimated time [min]",
+        "worth": "Worth",
+        "currency": "Currency",
+        "jobType": "Job type",
+        "actions": {
+          "save": "Save",
+          "close": "Close",
+          "add": "Add job",
+          "remove": "Remove job"
+        }
+      },
+      "actions": {
+        "generatePDF": "Generuj z pliku",
+        "create": "Stwórz własny"
+      }
     }
   },
   "enum": {
@@ -45,6 +75,14 @@
     "Language": {
       "pl": "Polish",
       "en": "English"
+    },
+    "JobType": {
+      "LABOUR": "Labour",
+      "PAINTER": "Painter"
+    },
+    "Currency": {
+      "PLN": "Polish zloty",
+      "EUR": "Euro"
     }
   },
   "toast": {
@@ -61,5 +99,10 @@
   },
   "accessesSelector": {
     "owner": "Owner"
+  },
+  "error": {
+    "form": {
+      "validationError": "Form is invalid"
+    }
   }
 }

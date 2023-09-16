@@ -6,6 +6,12 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ToastModule } from 'primeng/toast';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { DialogModule } from 'primeng/dialog';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { DividerModule } from 'primeng/divider';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   imports: [
@@ -15,6 +21,12 @@ import { TableModule } from 'primeng/table';
     ToastModule,
     InputTextModule,
     TableModule,
+    DynamicDialogModule,
+    DialogModule,
+    OverlayPanelModule,
+    DividerModule,
+    InputNumberModule,
+    DropdownModule,
   ],
   exports: [
     ButtonModule,
@@ -23,6 +35,12 @@ import { TableModule } from 'primeng/table';
     ToastModule,
     InputTextModule,
     TableModule,
+    DynamicDialogModule,
+    DialogModule,
+    OverlayPanelModule,
+    DividerModule,
+    InputNumberModule,
+    DropdownModule,
   ],
 })
 export class PrimeModule {}

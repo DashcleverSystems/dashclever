@@ -14,6 +14,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '@env/environments';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { DialogService } from 'primeng/dynamicdialog';
 
 @NgModule({
   declarations: [AppComponent],
@@ -38,6 +39,7 @@ import { ToastModule } from 'primeng/toast';
       multi: true,
     },
     MessageService,
+    DialogService,
   ],
   bootstrap: [AppComponent],
 })

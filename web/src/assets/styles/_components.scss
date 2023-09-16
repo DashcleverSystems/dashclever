@@ -30,4 +30,15 @@
       box-shadow: 0 0 0 0.2rem $primary-light;
     }
   }
+
+  .p-dialog {
+    .p-dialog-content {
+      padding: 0 !important;
+      border-radius: 6px;
+    }
+  }
+
+  p-dropdown {
+    width: 100%;
+  }
 }
