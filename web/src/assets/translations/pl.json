@@ -29,6 +29,11 @@
       "workshops": {
         "title": "Wybierz warsztat"
       }
+    },
+    "manageStaff": {
+      "table": {
+        "title": "Pracownicy"
+      }
     }
   },
   "enum": {

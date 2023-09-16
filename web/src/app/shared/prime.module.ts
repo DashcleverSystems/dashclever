@@ -5,6 +5,7 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { TooltipModule } from 'primeng/tooltip';
 import { ToastModule } from 'primeng/toast';
 import { InputTextModule } from 'primeng/inputtext';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { InputTextModule } from 'primeng/inputtext';
     TooltipModule,
     ToastModule,
     InputTextModule,
+    TableModule,
   ],
   exports: [
     ButtonModule,
@@ -20,6 +22,7 @@ import { InputTextModule } from 'primeng/inputtext';
     TooltipModule,
     ToastModule,
     InputTextModule,
+    TableModule,
   ],
 })
 export class PrimeModule {}
