@@ -1,0 +1,9 @@
+<div class="container">
+  <app-card title="components.manageStaff.table.title">
+    <div class="table-container">
+      <p-table *ngIf="workers | async as workers" [value]="workers">
+        <ng-template pTemplate="body" let-worker> </ng-template>
+      </p-table>
+    </div>
+  </app-card>
+</div>

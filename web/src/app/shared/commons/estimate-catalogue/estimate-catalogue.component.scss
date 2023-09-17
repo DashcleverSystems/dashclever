@@ -1,0 +1,36 @@
+@import "src/assets/styles/variables";
+@import "src/assets/styles/_animations.scss";
+
+.container {
+  width: 100svw;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 2rem;
+  animation: fadeInRight 600ms both;
+
+  .actions {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  @media only screen and (max-width: 700px) {
+    flex-direction: column;
+    align-items: center !important;
+    margin-top: 0;
+    animation: 700ms fadeInUp both;
+  }
+}
+
+:host::ng-deep {
+  .card-container {
+    margin-right: 5rem;
+
+    @media only screen and (max-width: 700px) {
+      margin-right: 0;
+    }
+  }
+}

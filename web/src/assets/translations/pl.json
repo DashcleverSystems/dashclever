@@ -29,6 +29,45 @@
       "workshops": {
         "title": "Wybierz warsztat"
       }
+    },
+    "manageStaff": {
+      "table": {
+        "title": "Pracownicy"
+      }
+    },
+    "estimateCatalogue": {
+      "title": "Kosztorys",
+      "form": {
+        "title": "Dodawanie Kosztorysu",
+        "estimateId": "Id kosztorysu",
+        "vehicleInfo": "Informacje o samochodzie",
+        "registration": "Rejestracja",
+        "brand": "Marka",
+        "model": "Model",
+        "paintInfo": "Informacje o kolorze",
+        "baseColorWithCode": "Kolor podstawowy",
+        "varnishingPaintInfo": "Dodatkowe informacje",
+        "jobs": "Prace",
+        "name": "Nazwa",
+        "manMinutes": "Zaplanowane minuty",
+        "worth": "Wartość",
+        "currency": "Waluta",
+        "jobType": "Typ pracy",
+        "actions": {
+          "save": "Zapisz",
+          "close": "Zamknij",
+          "add": "Dodaj prace",
+          "remove": "Usuń prace"
+        },
+        "toast": {
+          "titleSave": "Zapisywanie kosztorysu",
+          "successSave": "Kosztorys zapisano prawidłowo"
+        }
+      },
+      "actions": {
+        "generatePDF": "Generuj z pliku",
+        "create": "Stwórz własny"
+      }
     }
   },
   "enum": {
@@ -40,6 +79,14 @@
     "Language": {
       "pl": "Polski",
       "en": "Angielski"
+    },
+    "JobType": {
+      "LABOUR": "Fizyczna",
+      "VARNISHING": "Malarska"
+    },
+    "Currency": {
+      "PLN": "Polski złoty",
+      "EUR": "Euro"
     }
   },
   "toast": {
@@ -56,5 +103,11 @@
   },
   "accessesSelector": {
     "owner": "Właściciel"
+  },
+  "error": {
+    "form": {
+      "validationError": "Formularz został niepoprawnie wypełniony"
+    },
+    "errorOccurred": "Wystąpił błąd"
   }
 }

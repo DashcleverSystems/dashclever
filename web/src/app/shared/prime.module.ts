@@ -5,7 +5,15 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { TooltipModule } from 'primeng/tooltip';
 import { ToastModule } from 'primeng/toast';
 import { InputTextModule } from 'primeng/inputtext';
-
+import { TableModule } from 'primeng/table';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { DialogModule } from 'primeng/dialog';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { DividerModule } from 'primeng/divider';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { DropdownModule } from 'primeng/dropdown';
+import { FileUploadModule } from 'primeng/fileupload';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 @NgModule({
   imports: [
     ButtonModule,
@@ -13,6 +21,15 @@ import { InputTextModule } from 'primeng/inputtext';
     TooltipModule,
     ToastModule,
     InputTextModule,
+    TableModule,
+    DynamicDialogModule,
+    DialogModule,
+    OverlayPanelModule,
+    DividerModule,
+    InputNumberModule,
+    DropdownModule,
+    FileUploadModule,
+    ProgressSpinnerModule,
   ],
   exports: [
     ButtonModule,
@@ -20,6 +37,15 @@ import { InputTextModule } from 'primeng/inputtext';
     TooltipModule,
     ToastModule,
     InputTextModule,
+    TableModule,
+    DynamicDialogModule,
+    DialogModule,
+    OverlayPanelModule,
+    DividerModule,
+    InputNumberModule,
+    DropdownModule,
+    FileUploadModule,
+    ProgressSpinnerModule,
   ],
 })
 export class PrimeModule {}

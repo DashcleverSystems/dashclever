@@ -42,6 +42,13 @@
     mask-size: cover;
   }
 
+  &--car {
+    mask-image: url("~assets/images/icons/car_icon.svg");
+    -webkit-mask-image: url("~assets/images/icons/car_icon.svg");
+    background-color: $icon-bg;
+    mask-size: cover;
+  }
+
   &--repair_process {
     mask-image: url("~assets/images/icons/repair_process_icon.svg");
     -webkit-mask-image: url("~assets/images/icons/repair_process_icon.svg");

@@ -1,0 +1,11 @@
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .table-container {
+    width: 80svw;
+    min-height: 10svh;
+  }
+}

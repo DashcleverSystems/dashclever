@@ -5,6 +5,7 @@ import { coreStoreActions } from './core-store.actions';
 
 export const initialState: ICoreStore = {
   lang: Language.PL,
+  mobile: false,
   permissions: [],
   logged: false,
   workshops: [],
@@ -20,6 +21,10 @@ export const coreStoreReducer = createReducer(
       lang,
     };
   }),
+  on(coreStoreActions.changeAppView, (_state, { mobile }) => ({
+    ..._state,
+    mobile,
+  })),
   on(coreStoreActions.changePermissions, (_state, { permissions }) => {
     return {
       ..._state,

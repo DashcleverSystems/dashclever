@@ -5,11 +5,38 @@ import { CommonModule } from '@angular/common';
 import { PrimeModule } from '../prime.module';
 import { AccessesModule } from './accesses-selector/accesses-selector.module';
 import { AccessesSelectorComponent } from './accesses-selector/accesses-selector.component';
+import { ManageStaffComponent } from './manage-staff/manage-staff.component';
+import { AppCardComponent } from './card/card.component';
+import { EstimateCatalogueComponent } from './estimate-catalogue/estimate-catalogue.component';
+import { EstimateFormComponent } from './estimate-catalogue/estimate-form/estimate-form.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AppSpinner } from './spinner/spinner.component';
 
 @NgModule({
-  declarations: [LanguageSelector],
-  imports: [CommonModule, PrimeModule, TranslateModule, AccessesModule],
-  exports: [LanguageSelector, AccessesSelectorComponent],
+  declarations: [
+    LanguageSelector,
+    ManageStaffComponent,
+    AppCardComponent,
+    EstimateCatalogueComponent,
+    EstimateFormComponent,
+    AppSpinner,
+  ],
+  imports: [
+    CommonModule,
+    PrimeModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    AccessesModule,
+  ],
+  exports: [
+    LanguageSelector,
+    AccessesSelectorComponent,
+    ManageStaffComponent,
+    AppCardComponent,
+    EstimateCatalogueComponent,
+    EstimateFormComponent,
+  ],
   providers: [],
 })
 export class CommonsModule {}
