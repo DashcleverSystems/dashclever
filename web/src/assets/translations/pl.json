@@ -38,7 +38,7 @@
     "estimateCatalogue": {
       "title": "Kosztorys",
       "form": {
-        "title": "Formularz",
+        "title": "Dodawanie Kosztorysu",
         "estimateId": "Id kosztorysu",
         "vehicleInfo": "Informacje o samochodzie",
         "registration": "Rejestracja",
@@ -58,6 +58,10 @@
           "close": "Zamknij",
           "add": "Dodaj prace",
           "remove": "Usuń prace"
+        },
+        "toast": {
+          "titleSave": "Zapisywanie kosztorysu",
+          "successSave": "Kosztorys zapisano prawidłowo"
         }
       },
       "actions": {
@@ -78,7 +82,7 @@
     },
     "JobType": {
       "LABOUR": "Fizyczna",
-      "PAINTER": "Malarska"
+      "VARNISHING": "Malarska"
     },
     "Currency": {
       "PLN": "Polski złoty",

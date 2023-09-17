@@ -38,7 +38,7 @@
     "estimateCatalogue": {
       "title": "Estimate",
       "form": {
-        "title": "Form",
+        "title": "Adding Estimate",
         "estimateId": "Estimate id",
         "vehicleInfo": "Vehicle info",
         "registration": "Registration",
@@ -58,6 +58,10 @@
           "close": "Close",
           "add": "Add job",
           "remove": "Remove job"
+        },
+        "toast": {
+          "titleSave": "Estimate save",
+          "successSave": "Estimate saved successfully"
         }
       },
       "actions": {
@@ -78,7 +82,7 @@
     },
     "JobType": {
       "LABOUR": "Labour",
-      "PAINTER": "Painter"
+      "VARNISHING": "Painter"
     },
     "Currency": {
       "PLN": "Polish zloty",

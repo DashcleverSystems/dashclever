@@ -9,6 +9,17 @@ export interface IEstimatedDTO {
   jobs: IEstimatedJob[];
 }
 
+export interface IEstimatedPdfDTO {
+  uniqueId: string;
+  vehicleInfo: IEstimatedVehicleInfo;
+  paint: {
+    baseColorWithCode: string;
+    varnishingPaintInfo: string[];
+  };
+  labourJobs: Omit<IEstimatedJob, 'jobType'>[];
+  varnishingJobs: Omit<IEstimatedJob, 'jobType'>[];
+}
+
 export interface IEstimatedForm {
   estimateId: FormControl<string | null>;
   vehicleInfo: FormGroup<IEstimatedVehicleInfoForm>;

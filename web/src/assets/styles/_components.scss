@@ -2,6 +2,8 @@
 
 :root {
   .p-inputtext {
+    width: 100%;
+
     &:enabled:hover {
       border-color: $primary-dark;
     }
@@ -38,7 +40,33 @@
     }
   }
 
+  .p-fileupload-choose {
+    background-color: $primary-middle !important;
+    border-color: $primary-middle !important;
+
+    &:hover {
+      background: $primary-dark !important;
+      border-color: $primary-dark !important;
+    }
+
+    &:active {
+      background: $primary-dark !important;
+      border-color: $primary-dark !important;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 0.2rem $primary-light !important;
+    }
+  }
+
   p-dropdown {
     width: 100%;
+  }
+
+  p-inputnumber {
+    width: 100%;
+    & > span {
+      width: 100%;
+    }
   }
 }

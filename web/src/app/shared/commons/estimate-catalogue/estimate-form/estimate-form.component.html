@@ -103,7 +103,15 @@
     <div class="section">
       <div class="title">
         {{ 'components.estimateCatalogue.form.jobs' | translate }}
-        <button pButton (click)="addJob()"><i class="pi pi-plus"></i></button>
+        <button
+          pButton
+          [pTooltip]="
+            'components.estimateCatalogue.form.actions.add' | translate
+          "
+          (click)="addJob()"
+        >
+          <i class="pi pi-plus"></i>
+        </button>
       </div>
       <ng-container *ngFor="let job of form.controls.jobs.controls; index as i">
         <div class="section">
@@ -112,6 +120,9 @@
               pButton
               *ngIf="form.controls.jobs.length > 1"
               (click)="removeJob(i)"
+              [pTooltip]="
+                'components.estimateCatalogue.form.actions.remove' | translate
+              "
             >
               <i class="pi pi-times"></i>
             </button>
@@ -134,13 +145,11 @@
                 <label htmlFor="manMinutes">{{
                   'components.estimateCatalogue.form.manMinutes' | translate
                 }}</label>
-                <input
-                  pInputText
+                <p-inputNumber
                   id="field-manMinutes"
-                  type="text"
                   aria-describedby="manMinutes-help"
                   formControlName="manMinutes"
-                />
+                ></p-inputNumber>
               </div>
             </div>
             <ng-container formGroupName="worth">
@@ -217,19 +226,21 @@
   </div>
   <div class="footer">
     <div class="actions">
-      <button
-        pButton
-        type="submit"
-        (click)="submitForm()"
-        [style]="{ width: '100px' }"
-        translate="components.estimateCatalogue.form.actions.save"
-      ></button>
-      <button
-        [style]="{ width: '100px' }"
-        pButton
-        (click)="ref.close()"
-        translate="components.estimateCatalogue.form.actions.close"
-      ></button>
+      <app-spinner [enable]="loadingSpinner">
+        <button
+          pButton
+          type="submit"
+          (click)="submitForm()"
+          [style]="{ width: '100px' }"
+          translate="components.estimateCatalogue.form.actions.save"
+        ></button>
+        <button
+          [style]="{ width: '100px' }"
+          pButton
+          (click)="ref.close()"
+          translate="components.estimateCatalogue.form.actions.close"
+        ></button>
+      </app-spinner>
     </div>
   </div>
 </div>

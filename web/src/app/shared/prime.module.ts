@@ -12,7 +12,8 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { DividerModule } from 'primeng/divider';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DropdownModule } from 'primeng/dropdown';
-
+import { FileUploadModule } from 'primeng/fileupload';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 @NgModule({
   imports: [
     ButtonModule,
@@ -27,6 +28,8 @@ import { DropdownModule } from 'primeng/dropdown';
     DividerModule,
     InputNumberModule,
     DropdownModule,
+    FileUploadModule,
+    ProgressSpinnerModule,
   ],
   exports: [
     ButtonModule,
@@ -41,6 +44,8 @@ import { DropdownModule } from 'primeng/dropdown';
     DividerModule,
     InputNumberModule,
     DropdownModule,
+    FileUploadModule,
+    ProgressSpinnerModule,
   ],
 })
 export class PrimeModule {}

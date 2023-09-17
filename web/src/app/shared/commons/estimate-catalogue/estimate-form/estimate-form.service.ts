@@ -7,6 +7,7 @@ import {
   IEstimatedJobForm,
   IEstimatedPaintInfo,
   IEstimatedPaintInfoForm,
+  IEstimatedPdfDTO,
   IEstimatedVehicleInfo,
   IEstimatedVehicleInfoForm,
   IEstimatedWorth,
@@ -14,10 +15,12 @@ import {
 } from './estimate-form';
 import { Currency } from '@app/shared/enums/currency';
 import { JobType } from '@app/shared/enums/job-type';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class EstimateFormService {
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private http: HttpClient) {}
 
   createForm(
     data?: Partial<IEstimatedDTO> | undefined
@@ -35,6 +38,62 @@ export class EstimateFormService {
           : [this.getJobGroup()]
       ),
     });
+  }
+
+  save(data: IEstimatedDTO): Observable<any> {
+    return this.http.post('/api/estimatecatalogue', data);
+  }
+
+  formatDataFromPdf(data: IEstimatedPdfDTO): IEstimatedDTO {
+    return {
+      estimateId: data.uniqueId,
+      vehicleInfo: data.vehicleInfo,
+      paintInfo: {
+        ...data.paint,
+        varnishingPaintInfo: data.paint.varnishingPaintInfo.join(', '),
+      },
+      jobs: [
+        ...Array.from(data.labourJobs, (job) => ({
+          ...job,
+          worth: {
+            ...job.worth,
+            denomination: job.worth.denomination / 100,
+          },
+          jobType: JobType.LABOUR,
+        })),
+        ...Array.from(data.varnishingJobs, (job) => ({
+          ...job,
+          worth: {
+            ...job.worth,
+            denomination: job.worth.denomination / 100,
+          },
+          jobType: JobType.VARNISHING,
+        })),
+      ],
+    };
+  }
+
+  patchValues(form: FormGroup<IEstimatedForm>, data: IEstimatedDTO) {
+    form.controls.estimateId.patchValue(data.estimateId);
+    form.controls.paintInfo.patchValue(data.paintInfo);
+    form.controls.vehicleInfo.patchValue(data.vehicleInfo);
+    form.controls.jobs.clear();
+    data.jobs.forEach((job) =>
+      form.controls.jobs.controls.push(this.getJobGroup(job))
+    );
+  }
+
+  mapValuesBeforeSave(data: IEstimatedDTO) {
+    return {
+      ...data,
+      jobs: data.jobs.map((job) => ({
+        ...job,
+        worth: {
+          ...job.worth,
+          denomination: job.worth.denomination * 100,
+        },
+      })),
+    };
   }
 
   getVehicleInfoGroup(

@@ -10,6 +10,7 @@ import { AppCardComponent } from './card/card.component';
 import { EstimateCatalogueComponent } from './estimate-catalogue/estimate-catalogue.component';
 import { EstimateFormComponent } from './estimate-catalogue/estimate-form/estimate-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AppSpinner } from './spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AppCardComponent,
     EstimateCatalogueComponent,
     EstimateFormComponent,
+    AppSpinner,
   ],
   imports: [
     CommonModule,

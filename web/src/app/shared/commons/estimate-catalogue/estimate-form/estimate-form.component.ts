@@ -1,12 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { EstimateFormService } from './estimate-form.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { IEstimatedDTO, IEstimatedForm } from './estimate-form';
+import {
+  IEstimatedDTO,
+  IEstimatedForm,
+  IEstimatedPdfDTO,
+} from './estimate-form';
 import { FormGroup } from '@angular/forms';
 import { ToastService } from '@app/shared/services/toast.service';
 import { DictionaryDTO, enumToDictionary } from '@app/shared/utils/dictionary';
 import { JobType } from '@app/shared/enums/job-type';
 import { Currency } from '@app/shared/enums/currency';
+import { EMPTY, catchError, finalize } from 'rxjs';
 
 interface Dictionaries {
   jobTypes: DictionaryDTO<JobType, string>[];
@@ -21,9 +26,9 @@ interface Dictionaries {
 export class EstimateFormComponent implements OnInit {
   type: 'CREATE' | 'GENERATE' = this.conf.data.type;
 
-  form: FormGroup<IEstimatedForm> = this.service.createForm(
-    this.conf.data.data as Partial<IEstimatedDTO>
-  );
+  form: FormGroup<IEstimatedForm> = this.service.createForm();
+
+  loadingSpinner = false;
 
   get deleteJobButtonEnable(): boolean {
     return this.form.controls.jobs.controls.length > 1;
@@ -36,7 +41,10 @@ export class EstimateFormComponent implements OnInit {
     private toast: ToastService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const data: IEstimatedPdfDTO = this.conf.data.data;
+    this.service.patchValues(this.form, this.service.formatDataFromPdf(data));
+  }
 
   addJob(): void {
     this.form.controls.jobs.controls.push(this.service.getJobGroup());
@@ -47,16 +55,39 @@ export class EstimateFormComponent implements OnInit {
   }
 
   submitForm(): void {
+    this.loadingSpinner = true;
     if (this.form.invalid) {
       this.toast.error({
         title: 'error.errorOccurred',
         message: 'error.form.validationError',
         translate: true,
       });
+      this.loadingSpinner = false;
       return;
     }
 
-    console.log(this.form.getRawValue());
+    this.service
+      .save(this.form.getRawValue() as IEstimatedDTO)
+      .pipe(
+        catchError((err) => {
+          this.toast.error({
+            title: 'components.estimateCatalogue.form.toast.titleSave',
+            message: err.error.message,
+            translate: true,
+          });
+
+          return EMPTY;
+        }),
+        finalize(() => (this.loadingSpinner = false))
+      )
+      .subscribe(() => {
+        this.toast.success({
+          title: 'components.estimateCatalogue.form.toast.titleSave',
+          message: 'components.estimateCatalogue.form.toast.successSave',
+          translate: true,
+        });
+        this.ref.close();
+      });
   }
 
   dictionaries: Dictionaries = {
