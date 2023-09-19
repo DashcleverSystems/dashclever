@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
-import { IAccess } from '@app/shared/models/accesses';
 import { ComponentStore } from '@ngrx/component-store';
+import {IEmployee} from "@shared/models/employee";
 
 interface ManageStaffStoreState {
-  workers: IAccess[];
+  employees: IEmployee[];
 }
 
 @Injectable()
 export class ManageStaffStore extends ComponentStore<ManageStaffStoreState> {
   constructor() {
-    super({ workers: [] });
+    super({ employees: [] });
   }
 
-  loadWorkers = this.updater((state, workers: IAccess[]) => ({
+  loadEmployees = this.updater((state, workers: IEmployee[]) => ({
     ...state,
-    workers: workers,
+    employees: workers,
   }));
 
-  workers$ = this.select((state) => (state.workers ? state.workers : []));
+  employees$ = this.select((state) => (state.employees ? state.employees : []));
 }

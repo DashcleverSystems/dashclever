@@ -68,6 +68,27 @@
         "generatePDF": "Generuj z pliku",
         "create": "Stwórz własny"
       }
+    },
+    "manageStaff": {
+      "table": {
+        "title": "Employee list"
+      },
+      "create": "Add new employee",
+      "edit": "Edit"
+    },
+    "employee": {
+      "form": {
+        "title":{
+          "create": "Add new employee",
+          "edit": "Edit employee"
+        },
+        "actions": {
+          "submit": "Submit"
+        }
+      },
+      "firstName": "First name",
+      "lastName": "Last name",
+      "workplace": "Workplace"
     }
   },
   "enum": {
@@ -87,6 +108,10 @@
     "Currency": {
       "PLN": "Polish zloty",
       "EUR": "Euro"
+    },
+    "Workplace": {
+      "SUPERVISOR": "Supervisor",
+      "LABOUR": "Labour"
     }
   },
   "toast": {

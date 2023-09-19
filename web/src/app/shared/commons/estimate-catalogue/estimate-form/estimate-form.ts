@@ -2,14 +2,14 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Currency } from '@app/shared/enums/currency';
 import { JobType } from '@app/shared/enums/job-type';
 
-export interface IEstimatedDTO {
+export interface IEstimateDTO {
   estimateId: string;
   vehicleInfo: IEstimatedVehicleInfo;
   paintInfo: IEstimatedPaintInfo;
   jobs: IEstimatedJob[];
 }
 
-export interface IEstimatedPdfDTO {
+export interface IEstimatePdfDTO {
   uniqueId: string;
   vehicleInfo: IEstimatedVehicleInfo;
   paint: {
@@ -20,7 +20,7 @@ export interface IEstimatedPdfDTO {
   varnishingJobs: Omit<IEstimatedJob, 'jobType'>[];
 }
 
-export interface IEstimatedForm {
+export interface IEstimateForm {
   estimateId: FormControl<string | null>;
   vehicleInfo: FormGroup<IEstimatedVehicleInfoForm>;
   paintInfo: FormGroup<IEstimatedPaintInfoForm>;
