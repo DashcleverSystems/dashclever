@@ -13,10 +13,9 @@ import {EmployeeFormComponent} from "@shared/commons/manage-staff/employee-form/
   selector: 'app-manage-staff',
   templateUrl: './manage-staff.component.html',
   styleUrls: ['./manage-staff.component.scss'],
-  providers: [ManageStaffStore],
 })
 export class ManageStaffComponent implements OnInit, OnDestroy {
-  employees: Observable<IEmployee[]> = this.manageStore.employees$;
+  employees: IEmployee[] = [];
 
   private isMobile = false
   private destroy$ = new Subject<void>();
@@ -29,6 +28,9 @@ export class ManageStaffComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.manageStore.employees$.pipe(
+        takeUntil(this.destroy$),
+    ).subscribe(employees => this.employees = employees)
     this.store
       .pipe(
         takeUntil(this.destroy$),

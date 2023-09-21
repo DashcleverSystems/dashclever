@@ -11,13 +11,11 @@ import { EstimateCatalogueComponent } from './estimate-catalogue/estimate-catalo
 import { EstimateFormComponent } from './estimate-catalogue/estimate-form/estimate-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppSpinner } from './spinner/spinner.component';
-import {EmployeeFormComponent} from "@shared/commons/manage-staff/employee-form/employee-form.component";
+import {ManageStaffModule} from "@shared/commons/manage-staff/manage-staff.module";
 
 @NgModule({
   declarations: [
     LanguageSelector,
-    ManageStaffComponent,
-    EmployeeFormComponent,
     AppCardComponent,
     EstimateCatalogueComponent,
     EstimateFormComponent,
@@ -30,6 +28,7 @@ import {EmployeeFormComponent} from "@shared/commons/manage-staff/employee-form/
     ReactiveFormsModule,
     TranslateModule,
     AccessesModule,
+    ManageStaffModule,
   ],
   exports: [
     LanguageSelector,

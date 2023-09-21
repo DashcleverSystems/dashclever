@@ -1,7 +1,7 @@
 <div class="container">
-    <app-card title="components.manageStaff.table.title">
+<!--    <app-card title="components.manageStaff.table.title">-->
         <div class="table-container">
-            <p-table *ngIf="employees | async as employees" [value]="employees">
+            <p-table [value]="employees">
                 <ng-template pTemplate="header">
                     <tr>
                         <th> {{ 'components.employee.firstName' | translate }} </th>
@@ -29,5 +29,5 @@
                 {{ 'components.manageStaff.create' | translate }}
             </button>
         </div>
-    </app-card>
+<!--    </app-card>-->
 </div>

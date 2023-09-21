@@ -8,6 +8,7 @@ import {HttpClient} from "@angular/common/http";
 import {select, Store} from "@ngrx/store";
 import {getSelectedWorkshop} from "@core/store/core-store.selectors";
 import {EMPTY, Subject, switchMap, take} from "rxjs";
+import {ManageStaffStore} from "@shared/commons/manage-staff/manage-staff.store";
 
 @Component({
   templateUrl: './employee-form.component.html',
@@ -21,6 +22,7 @@ export class EmployeeFormComponent implements OnInit {
     private fb: FormBuilder,
     private http: HttpClient,
     private store: Store,
+    private manageStaffStore: ManageStaffStore,
   ) {}
 
   form: FormGroup<IEmployeeForm> = this.createEmployeeForm();
@@ -69,9 +71,12 @@ export class EmployeeFormComponent implements OnInit {
             firstName: this.form.controls.firstName.value ?? "",
             workplace: this.form.controls.workplace.value ?? Workplace.LABOUR
            }
-          return this.http.post(`/api/employee`, employee)
+          return this.http.post<IEmployee>(`/api/employee`, employee)
         }),
-    ).subscribe(res => this.ref.close())
+    ).subscribe(employee  => {
+      this.manageStaffStore.addEmployee(employee);
+      this.ref.close();
+    })
   }
 
   onDestroy(): void {
