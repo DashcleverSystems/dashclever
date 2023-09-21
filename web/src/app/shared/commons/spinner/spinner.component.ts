@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -5,9 +6,12 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
+import { PrimeModule } from '@app/shared/prime.module';
 
 @Component({
   selector: 'app-spinner',
+  standalone: true,
+  imports: [PrimeModule, CommonModule],
   template: `
     <p-progressSpinner
       #progressSpinner

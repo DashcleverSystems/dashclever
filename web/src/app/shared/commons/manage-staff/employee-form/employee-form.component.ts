@@ -1,62 +1,53 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {IEmployee, Workplace} from "@shared/models/employee";
-import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
-import {DictionaryDTO, enumToDictionary} from "@shared/utils/dictionary";
-import {HttpClient} from "@angular/common/http";
-import {select, Store} from "@ngrx/store";
-import {getSelectedWorkshop} from "@core/store/core-store.selectors";
-import {EMPTY, Subject, switchMap, take} from "rxjs";
-import {ManageStaffStore} from "@shared/commons/manage-staff/manage-staff.store";
+import { FormControl, FormGroup } from '@angular/forms';
+import { IEmployee, Workplace } from '@shared/models/employee';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DictionaryDTO, enumToDictionary } from '@shared/utils/dictionary';
+import { select, Store } from '@ngrx/store';
+import { getSelectedWorkshop } from '@core/store/core-store.selectors';
+import { EMPTY, Subject, switchMap, take } from 'rxjs';
+import { ManageStaffStore } from '@shared/commons/manage-staff/manage-staff.store';
+import { EmployeeFormService } from './employee-form.service';
 
 @Component({
   templateUrl: './employee-form.component.html',
   styleUrls: ['./employee-form.component.scss'],
+  providers: [EmployeeFormService],
 })
 export class EmployeeFormComponent implements OnInit {
-
   constructor(
     public ref: DynamicDialogRef,
     private conf: DynamicDialogConfig,
-    private fb: FormBuilder,
-    private http: HttpClient,
     private store: Store,
     private manageStaffStore: ManageStaffStore,
+    private service: EmployeeFormService
   ) {}
 
-  form: FormGroup<IEmployeeForm> = this.createEmployeeForm();
-  isCreatingNewEmployee = this.conf.data.employee === undefined || this.conf.data.employee === null
+  form: FormGroup<IEmployeeForm> = this.service.createEmployeeForm(
+    this.conf.data.employee
+  );
+
+  isCreatingNewEmployee =
+    this.conf.data.employee === undefined || this.conf.data.employee === null;
+
   loadingSpinner = false;
+
   dictionaries: Dictionaries = {
-    workplaces: enumToDictionary(Workplace, 'enum.Workplace')
+    workplaces: enumToDictionary(Workplace, 'enum.Workplace'),
   };
+
   private destroy$ = new Subject<void>();
 
   ngOnInit(): void {}
-
-  createEmployeeForm(): FormGroup<IEmployeeForm> {
-    const employee: IEmployee | null = this.conf.data.employee
-    return this.fb.group({
-      firstName: this.fb.control<string>(
-          employee?.firstName ?? "",
-          Validators.required
-      ),
-      lastName: this.fb.control<string | null>(
-          employee?.lastName ?? null
-      ),
-      workplace: this.fb.control<Workplace>(
-          employee?.workplace ?? Workplace.LABOUR,
-          Validators.required
-      ),
-    });
-  }
 
   submit() {
     if (this.form.invalid) {
       return;
     }
-    this.store.pipe(
+
+    this.store
+      .pipe(
         select(getSelectedWorkshop),
         take(1),
         switchMap((workshop) => {
@@ -64,24 +55,26 @@ export class EmployeeFormComponent implements OnInit {
           if (!workshop) {
             return EMPTY;
           }
+
           const employee: IEmployee = {
             ...this.form.getRawValue(),
             id: undefined,
             workshopId: workshop.workshopId,
-            firstName: this.form.controls.firstName.value ?? "",
-            workplace: this.form.controls.workplace.value ?? Workplace.LABOUR
-           }
-          return this.http.post<IEmployee>(`/api/employee`, employee)
-        }),
-    ).subscribe(employee  => {
-      this.manageStaffStore.addEmployee(employee);
-      this.ref.close();
-    })
+            firstName: this.form.controls.firstName.value ?? '',
+            workplace: this.form.controls.workplace.value ?? Workplace.LABOUR,
+          };
+
+          return this.service.createEmployee(employee);
+        })
+      )
+      .subscribe((employee) => {
+        this.ref.close(employee);
+      });
   }
 
   onDestroy(): void {
-    this.destroy$.next()
-    this.destroy$.complete()
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
 
