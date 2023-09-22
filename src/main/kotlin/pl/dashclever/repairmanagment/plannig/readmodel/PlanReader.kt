@@ -33,7 +33,7 @@ interface PlanReader : Repository<Plan, UUID> {
         """,
         nativeQuery = true
     )
-    fun findByEstimateId(estimateId: String): Set<PlanDto>
+    fun findByEstimateId(estimateId: UUID): Set<PlanDto>
 
     @Query(
         value =
