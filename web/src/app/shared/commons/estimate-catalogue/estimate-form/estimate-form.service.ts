@@ -57,7 +57,7 @@ export class EstimateFormService {
           ...job,
           worth: {
             ...job.worth,
-            denomination: job.worth.denomination / 100,
+            denomination: job.worth.denomination,
           },
           jobType: JobType.LABOUR,
         })),
@@ -65,7 +65,7 @@ export class EstimateFormService {
           ...job,
           worth: {
             ...job.worth,
-            denomination: job.worth.denomination / 100,
+            denomination: job.worth.denomination,
           },
           jobType: JobType.VARNISHING,
         })),
