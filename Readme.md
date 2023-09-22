@@ -4,6 +4,7 @@ To run application you have to have java, docker and docker compose set up on a 
 ___
 - To set application environment you can simply run: `./gradlew setDev`.
 - Application can be run in dev mode with command:`./gradlew bootDev`. It will try to set up database and application. It assumes that java, docker, docker compose is pre installed.
+- If you want to skip contaning an UI into spring jar you can `./gradlew bootDev -x copyWebBuildToResources`
 - If you want to run it as jar you have to specify program arguments:
   - `--jdbc.db.url="jdbc:postgresql://localhost:5432/dashclever"`
   - `--jdbc.db.username="postgres"`
