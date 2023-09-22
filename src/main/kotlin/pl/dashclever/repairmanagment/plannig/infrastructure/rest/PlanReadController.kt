@@ -25,7 +25,7 @@ internal class PlanReadController(
 
     @GetMapping
     fun filter(
-        @RequestParam(name = "estimateId", required = false) estimateId: String?,
+        @RequestParam(name = "estimateId", required = false) estimateId: UUID?,
         @RequestParam(name = "from", required = false) from: LocalDate?,
         @RequestParam(name = "to", required = false) to: LocalDate?,
     ): Set<PlanDto> {
