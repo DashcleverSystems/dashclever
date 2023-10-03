@@ -3,6 +3,6 @@ variable "app_name" {
 }
 
 variable "security_logging_level" {
-    default = "TRACE"
+    default = "INFO"
     type = string
 }

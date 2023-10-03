@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      TF_VAR_app_name: dashclever-backend
+      TF_VAR_app_name: dashclever
       PG_BACKEND_CONN_STR: ${{ secrets.TERRAFORM_BACKEND_CONN_STR }}
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
@@ -35,7 +35,7 @@ jobs:
           -czvf app.tar.gz ../
 
       - name: terraform init
-        run: terraform -chdir=terraform init -backend-config="conn_str=$PG_BACKEND_CONN_STR" -backend-config="schema_name=dashclever-spring-tf-state"
+        run: terraform -chdir=terraform init -backend-config="conn_str=$PG_BACKEND_CONN_STR" -backend-config="schema_name=dashclever"
 
       - name: terraform plan
         run: terraform -chdir=terraform plan
