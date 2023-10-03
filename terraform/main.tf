@@ -10,7 +10,7 @@ terraform {
 }
 
 resource "heroku_app" "app_dev" {
-    name   = "${var.app_name}-dev"
+    name   = "${var.app_name}"
     region = "eu"
 }
 
