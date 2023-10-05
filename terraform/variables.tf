@@ -4,5 +4,10 @@ variable "app_name" {
 
 variable "security_logging_level" {
     default = "INFO"
-    type = string
+    type    = string
+}
+
+variable "openapi_enabled" {
+    default = true
+    type    = bool
 }

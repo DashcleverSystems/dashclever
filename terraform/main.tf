@@ -41,6 +41,7 @@ resource "heroku_build" "dashclever_backend_build" {
 resource "heroku_config" "conf" {
     vars = {
         SECURITY_LOGGING_LEVEL = var.security_logging_level
+        OPENAPI_ENABLED        = var.openapi_enabled
         GRADLE_TASK            = "stage --stacktrace"
     }
 }
