@@ -1,16 +1,17 @@
 package pl.dashclever.accountresources.employee
 
 import jakarta.validation.constraints.NotBlank
+import pl.dashclever.publishedlanguage.NOT_BLANK
 import java.util.UUID
 
 data class EmployeeDto(
     val id: UUID?,
-    @NotBlank
+    @NotBlank(message = NOT_BLANK)
     val firstName: String,
-    @NotBlank
+    @NotBlank(message = NOT_BLANK)
     val lastName: String?,
     val workshopId: UUID,
-    val workplace: Workplace
+    val workplace: Workplace,
 ) {
 
     companion object Mapper {
