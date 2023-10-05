@@ -9,19 +9,21 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.SequenceGenerator
 import jakarta.persistence.Table
-import org.hibernate.validator.constraints.Length
+import jakarta.validation.constraints.Size
 import pl.dashclever.publishedlanguage.Money
+import pl.dashclever.publishedlanguage.SIZE_MAX
 
 @Entity(name = "RM_ESTIMATECATALOGUE_JOB")
 @Table(name = "RM_ESTIMATECATALOGUE_JOB")
 data class Job(
-    @Length(max = 512) val name: String,
+    @field:Size(max = 512, message = "$SIZE_MAX;512") val name: String,
     val manMinutes: Int,
     @Embedded val worth: Money,
-    @Enumerated(STRING) val jobType: pl.dashclever.repairmanagment.estimatecatalogue.JobType
+    @Enumerated(STRING) val jobType: JobType,
 ) {
 
     private companion object {
+
         const val ID_GENERATOR_NAME = "rm_estimatecatalogue_job_id_generator"
     }
 
