@@ -5,6 +5,11 @@ ___
 Application can be run in dev mode with command:`./gradlew bootDev`. It will try to set up database and application. It assumes that java, docker, docker compose is pre installed.
 ___
 To clean your system from app env run `./gradlew cleanDev`
+___
+
+### Open API
+
+You can generate Open API specification with `./gradlew generateOpenApiDocs`. Keep in mind that this will spin up the whole application for one second so you need to have dev env set up.
 ### Reference Documentation
 
 For further reference, please consider the following sections:
