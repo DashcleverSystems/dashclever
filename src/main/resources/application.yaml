@@ -4,6 +4,7 @@ springdoc:
     api-docs:
         path: /open-api
         enabled: ${openapi.enabled}
+    show-login-endpoint: true
 spring:
   liquibase:
     driver-class-name: org.postgresql.Driver
