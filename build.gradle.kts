@@ -9,7 +9,6 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
     id("io.gitlab.arturbosch.detekt") version "1.22.0"
     id("org.springdoc.openapi-gradle-plugin") version "1.6.0"
-    id("com.github.node-gradle.node") version "7.0.0"
 }
 
 group = "pl.dashclever"
