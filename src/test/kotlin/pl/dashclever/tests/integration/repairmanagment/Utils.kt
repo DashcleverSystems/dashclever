@@ -27,7 +27,7 @@ internal fun `new estimate`(estimateId: String): Estimate {
                 name = "bumper fix",
                 manMinutes = 60,
                 worth = Money(
-                    denomination = BigDecimal.valueOf(2400),
+                    denomination = 2400,
                     currency = PLN
                 ),
                 jobType = LABOUR
@@ -36,7 +36,7 @@ internal fun `new estimate`(estimateId: String): Estimate {
                 name = "paint bumper",
                 manMinutes = 120,
                 worth = Money(
-                    denomination = BigDecimal.valueOf(4800),
+                    denomination = 4800,
                     currency = PLN
                 ),
                 jobType = VARNISHING

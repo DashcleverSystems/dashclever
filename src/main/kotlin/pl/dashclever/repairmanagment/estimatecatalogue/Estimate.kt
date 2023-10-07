@@ -12,19 +12,20 @@ import jakarta.persistence.Version
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Size
 import org.hibernate.annotations.UuidGenerator
+import pl.dashclever.publishedlanguage.SIZE_BETWEEN
 import java.util.UUID
 
 @Entity
 @Table(name = "RM_ESTIMATECATALOGUE_ESTIMATE")
 class Estimate(
-    @field:Size(max = 24, min = 1)
+    @field:Size(min = 1, max = 24, message = "$SIZE_BETWEEN;1;24")
     val estimateId: String,
     @field:Valid @Embedded
     val vehicleInfo: VehicleInfo,
     @field:Valid @Embedded
     val paintInfo: PaintInfo,
     @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true) @JoinColumn(name = "estimate_id")
-    val jobs: Set<Job> = emptySet()
+    val jobs: Set<Job> = emptySet(),
 ) {
     @Id @GeneratedValue @UuidGenerator
     val id: UUID? = null
