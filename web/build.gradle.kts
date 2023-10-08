@@ -4,6 +4,10 @@ plugins {
   id("com.github.node-gradle.node") version "7.0.0"
 }
 
+node {
+  download.set(true)
+}
+
 val buildWeb = tasks.register<NpmTask>("buildWeb") {
   dependsOn(tasks.npmInstall)
   args.set(listOf("run", "build"))
