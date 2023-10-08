@@ -1,5 +1,5 @@
 <div class="container">
-<!--    <app-card title="components.manageStaff.table.title">-->
+  <app-card title="components.manageStaff.table.title">
         <div class="table-container">
             <p-table [value]="employees">
                 <ng-template pTemplate="header">
@@ -15,7 +15,7 @@
                         <td> {{employee.firstName}} </td>
                         <td> {{employee.lastName}} </td>
                         <td> {{"enum.Workplace." + employee.workplace | translate}} </td>
-                        <td>
+                      <td class="action-button">
                             <button (click)="editEmployee(employee)" pButton type="submit">
                                 {{ 'components.manageStaff.edit' | translate }}
                             </button>
@@ -29,5 +29,5 @@
                 {{ 'components.manageStaff.create' | translate }}
             </button>
         </div>
-<!--    </app-card>-->
+  </app-card>
 </div>

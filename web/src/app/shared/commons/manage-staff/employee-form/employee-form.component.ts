@@ -28,8 +28,10 @@ export class EmployeeFormComponent implements OnInit {
     this.conf.data.employee
   );
 
+  private employee: IEmployee | undefined | null = this.conf.data.employee
+
   isCreatingNewEmployee =
-    this.conf.data.employee === undefined || this.conf.data.employee === null;
+    this.employee === undefined || this.employee === null;
 
   loadingSpinner = false;
 
@@ -58,13 +60,16 @@ export class EmployeeFormComponent implements OnInit {
 
           const employee: IEmployee = {
             ...this.form.getRawValue(),
-            id: undefined,
+            id: this.employee?.id,
             workshopId: workshop.workshopId,
             firstName: this.form.controls.firstName.value ?? '',
             workplace: this.form.controls.workplace.value ?? Workplace.LABOUR,
           };
-
-          return this.service.createEmployee(employee);
+          if (this.isCreatingNewEmployee) {
+            return this.service.createEmployee(employee);
+          } else {
+            return this.service.updateEmployee(employee);
+          }
         })
       )
       .subscribe((employee) => {

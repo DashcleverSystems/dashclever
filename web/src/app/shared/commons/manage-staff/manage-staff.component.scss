@@ -6,6 +6,11 @@
 
   .table-container {
     width: 80svw;
+
+    .action-button {
+      display: flex;
+      justify-content: flex-end;
+    }
   }
 
   .actions {

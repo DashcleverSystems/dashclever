@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IEmployee, Workplace } from '@app/shared/models/employee';
 import { IEmployeeForm } from './employee-form.component';
 import { HttpClient } from '@angular/common/http';
+import {Observable} from "rxjs";
 
 @Injectable()
 export class EmployeeFormService {
@@ -22,7 +23,11 @@ export class EmployeeFormService {
     });
   }
 
-  createEmployee(employee: IEmployee) {
+  createEmployee(employee: IEmployee): Observable<IEmployee> {
     return this.http.post<IEmployee>(`/api/employee`, employee);
+  }
+
+  updateEmployee(employee: IEmployee): Observable<IEmployee> {
+    return this.http.put<IEmployee>(`/api/employee/${employee.id}`, employee);
   }
 }
