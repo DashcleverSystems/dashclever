@@ -38,7 +38,7 @@ dependencies {
     implementation("org.apache.commons:commons-lang3:3.12.0")
     implementation("com.itextpdf:itextpdf:5.5.13.3")
     implementation("org.liquibase:liquibase-core:4.21.1")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
     implementation("io.github.oshai:kotlin-logging-jvm:5.0.1")
 
     compileOnly("org.projectlombok:lombok:1.18.26")
@@ -83,14 +83,21 @@ val stage = tasks.register("stage") {
 val dockerComposeFile = "./docker/docker-compose.yaml"
 val dockerComposeAppVolumeName = "dashclever-volume"
 
+val devSystemProperties = mapOf(
+    "jdbc.db.url" to "jdbc:postgresql://localhost:5432/dashclever",
+    "jdbc.db.username" to "postgres",
+    "jdbc.db.password" to "postgres",
+    "spring.security.logging" to "TRACE",
+    "openapi.enabled" to "true"
+)
+
 val setDev = tasks.register<Exec>("setDev") {
     commandLine("docker", "compose", "-p", project.name, "-f", dockerComposeFile, "up", "-d", "--build", "--remove-orphans")
     doLast {
         tasks.bootRun.configure {
-            systemProperty("jdbc.db.url", "jdbc:postgresql://localhost:5432/dashclever")
-            systemProperty("jdbc.db.username", "postgres")
-            systemProperty("jdbc.db.password", "postgres")
-            systemProperty("spring.security.logging", "TRACE")
+            devSystemProperties.forEach { (property, value) ->
+                systemProperty(property, value)
+            }
         }
     }
 }
@@ -129,4 +136,13 @@ tasks.clean.configure {
 
 val cleanWebBuild = tasks.register<Delete>("cleanDist") {
     delete = setOf("web/dist", "src/main/resources/public")
+}
+
+openApi {
+    apiDocsUrl.set("http://localhost:9999/open-api")
+    customBootRun {
+        devSystemProperties.forEach { (property, value) ->
+            this.systemProperties.put(property, value)
+        }
+    }
 }

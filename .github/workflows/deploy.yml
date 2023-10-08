@@ -11,6 +11,7 @@ jobs:
 
     env:
       TF_VAR_app_name: dashclever
+      TF_VAR_openapi_enabled: false
       PG_BACKEND_CONN_STR: ${{ secrets.TERRAFORM_BACKEND_CONN_STR }}
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
