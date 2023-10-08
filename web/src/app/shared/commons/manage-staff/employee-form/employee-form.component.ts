@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 
 import { FormControl, FormGroup } from '@angular/forms';
 import { IEmployee, Workplace } from '@shared/models/employee';
@@ -7,7 +7,6 @@ import { DictionaryDTO, enumToDictionary } from '@shared/utils/dictionary';
 import { select, Store } from '@ngrx/store';
 import { getSelectedWorkshop } from '@core/store/core-store.selectors';
 import { EMPTY, Subject, switchMap, take } from 'rxjs';
-import { ManageStaffStore } from '@shared/commons/manage-staff/manage-staff.store';
 import { EmployeeFormService } from './employee-form.service';
 
 @Component({
@@ -15,12 +14,11 @@ import { EmployeeFormService } from './employee-form.service';
   styleUrls: ['./employee-form.component.scss'],
   providers: [EmployeeFormService],
 })
-export class EmployeeFormComponent implements OnInit {
+export class EmployeeFormComponent implements OnDestroy {
   constructor(
     public ref: DynamicDialogRef,
     private conf: DynamicDialogConfig,
     private store: Store,
-    private manageStaffStore: ManageStaffStore,
     private service: EmployeeFormService
   ) {}
 
@@ -40,8 +38,6 @@ export class EmployeeFormComponent implements OnInit {
   };
 
   private destroy$ = new Subject<void>();
-
-  ngOnInit(): void {}
 
   submit() {
     if (this.form.invalid) {
@@ -77,7 +73,7 @@ export class EmployeeFormComponent implements OnInit {
       });
   }
 
-  onDestroy(): void {
+  ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }

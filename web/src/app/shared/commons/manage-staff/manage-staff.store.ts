@@ -4,7 +4,7 @@ import { IEmployee } from '@shared/models/employee';
 import { EMPTY, switchMap, tap } from 'rxjs';
 import { ManageStaffService } from './manage-staff.service';
 import { Store } from '@ngrx/store';
-import { getSelectedWorkshop } from '../../../core/store/core-store.selectors';
+import { getSelectedWorkshop } from '@core/store/core-store.selectors';
 
 interface ManageStaffStoreState {
   employees: IEmployee[];
