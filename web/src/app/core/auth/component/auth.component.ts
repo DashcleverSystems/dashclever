@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { AuthService, ILoginForm } from './auth.service';
 import { FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -12,6 +12,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent implements OnInit {
+  @HostListener('keydown', ['$event']) onKeyDown = (e: any) => {
+    if (e.keyCode === 13 && e.key === 'Enter') {
+      this.onSubmit();
+    }
+  };
+
   isRegisterForm: boolean = false;
 
   form: FormGroup<ILoginForm> = this.authService.createForm();
