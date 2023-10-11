@@ -2,9 +2,9 @@ databaseChangeLog:
   - include:
       file: db/default-sequence.yaml
   - include:
-      file: db/estimatecatalogue/estimate1.0.0.yaml
+        file: db/repairmanagment/estimatecatalogue/estimate1.0.0.yaml
   - include:
-      file: db/planning/plan1.0.0.yaml
+        file: db/repairmanagment/planning/plan1.0.0.yaml
   - include:
         file: db/accountresources/account1.0.0.yaml
   - include:
