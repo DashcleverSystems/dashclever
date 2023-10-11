@@ -10,6 +10,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.SequenceGenerator
 import jakarta.persistence.Table
 import jakarta.validation.constraints.Size
+import pl.dashclever.commons.hibernate.EntityBase
 import pl.dashclever.publishedlanguage.Money
 import pl.dashclever.publishedlanguage.SIZE_MAX
 
@@ -20,7 +21,7 @@ data class Job(
     val manMinutes: Int,
     @Embedded val worth: Money,
     @Enumerated(STRING) val jobType: JobType,
-) {
+) : EntityBase<Long>() {
 
     private companion object {
 
@@ -30,5 +31,5 @@ data class Job(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_GENERATOR_NAME)
     @SequenceGenerator(name = ID_GENERATOR_NAME, sequenceName = "${ID_GENERATOR_NAME}_sequence", allocationSize = 50)
-    val id: Long? = null
+    override val id: Long? = null
 }

@@ -7,7 +7,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
-import jakarta.persistence.Version
+import pl.dashclever.commons.hibernate.EntityBase
 import pl.dashclever.publishedlanguage.DomainException
 import pl.dashclever.repairmanagment.plannig.model.PlanEvent.TaskAssigned
 import java.time.LocalDate
@@ -20,11 +20,11 @@ import kotlin.math.roundToLong
 @Suppress("MagicNumber")
 class Plan internal constructor(
     @Id
-    val id: UUID = UUID.randomUUID(),
+    override val id: UUID = UUID.randomUUID(),
     val estimateId: String,
     @OneToMany(cascade = [ALL], orphanRemoval = true, fetch = EAGER) @JoinColumn(name = "plan_id")
-    private val jobs: Set<Job>
-) {
+    private val jobs: Set<Job>,
+) : EntityBase<UUID>() {
 
     fun assign(jobId: Long, employeeId: String, at: LocalDate): TaskAssigned {
         val job = tryFindJob(jobId)
@@ -75,7 +75,4 @@ class Plan internal constructor(
 
     private fun technicalRepairTime(): Long =
         ceil(jobs.sumOf { it.manMinutes } / 60F / 8F / 0.7F).roundToLong()
-
-    @Version @Suppress("UnusedPrivateMember")
-    private val version: Long = 0
 }

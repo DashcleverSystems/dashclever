@@ -6,8 +6,8 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
-import jakarta.persistence.Version
 import pl.dashclever.accountresources.employee.Employee
+import pl.dashclever.commons.hibernate.EntityBase
 import pl.dashclever.publishedlanguage.DomainException
 import java.util.UUID
 import kotlin.jvm.Throws
@@ -17,16 +17,19 @@ import kotlin.jvm.Throws
 data class Account(
     val username: String,
     val passwordHash: String,
-    val email: String
-) {
+    val email: String,
+) : EntityBase<UUID>() {
+
     @Id
-    val id: UUID = UUID.randomUUID()
-    @OneToMany(cascade = [ALL], orphanRemoval = true) @JoinColumn(name = "owner_account_id")
+    override val id: UUID = UUID.randomUUID()
+
+    @OneToMany(cascade = [ALL], orphanRemoval = true)
+    @JoinColumn(name = "owner_account_id")
     private val ownerships: MutableSet<Workshop> = mutableSetOf()
-    @OneToMany(cascade = [ALL], orphanRemoval = true) @JoinColumn(name = "account_id")
+
+    @OneToMany(cascade = [ALL], orphanRemoval = true)
+    @JoinColumn(name = "account_id")
     private val employeeships: MutableSet<Employeeship> = mutableSetOf()
-    @Version @Suppress("UnusedPrivateMember")
-    private var version: Int = 0
 
     @Throws(DomainException::class)
     fun createWorkshop(displayName: String): AccountCreatedWorkshop {
@@ -49,6 +52,7 @@ data class Account(
     }
 
     companion object {
+
         const val MAXIMUM_ACCOUNT_EMPLOYEESHIPS = 5
         const val MAXIMUM_ACCOUNTS_WORKSHOPS = 2
     }
