@@ -13,7 +13,7 @@ private const val PATH = "/api/planning/{planningId}/job"
 @RestController
 @RequestMapping(PATH)
 internal class PlanJobsController(
-    private val jobsReader: JobReader
+    private val jobsReader: JobReader,
 ) {
 
     @GetMapping

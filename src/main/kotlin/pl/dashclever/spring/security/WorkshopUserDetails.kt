@@ -9,7 +9,7 @@ data class WorkshopUserDetails(
     private val username: String,
     val workshopId: UUID,
     val employeeId: UUID?,
-    private val authorities: Set<Authority>
+    private val authorities: Set<Authority>,
 ) : IdUserDetails {
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> =

@@ -11,6 +11,7 @@ import java.util.UUID
 internal data class Workshop(
     val displayName: String,
 ) : EntityBase<UUID>() {
+
     @Id
     override val id: UUID = UUID.randomUUID()
 }

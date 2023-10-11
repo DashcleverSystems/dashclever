@@ -15,7 +15,7 @@ class VarnishingJobsSectionFinder implements SectionFinder {
     @Override
     public List<String> findSectionLines() {
         var wholeEstimate = new StringBuilder();
-        for(final var page : this.estimatePages) {
+        for (final var page : this.estimatePages) {
             wholeEstimate.append(page);
         }
         var lines = wholeEstimate.toString().split("\\n");

@@ -11,6 +11,7 @@ import static pl.dashclever.readers.domain.audatex.SectionEndLineChecker.isLineS
 class LabourJobsSectionFinder implements SectionFinder {
 
     private final List<String> estimatePages;
+
     @Override
     public List<String> findSectionLines() {
         var lines = wholeEstimateString().split("\n");
@@ -35,7 +36,7 @@ class LabourJobsSectionFinder implements SectionFinder {
 
     private String wholeEstimateString() {
         var wholeEstimate = new StringBuilder();
-        for(var page : this.estimatePages) {
+        for (var page : this.estimatePages) {
             wholeEstimate.append(page);
         }
         return wholeEstimate.toString();

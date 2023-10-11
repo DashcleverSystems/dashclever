@@ -21,7 +21,7 @@ private const val PATH = "/api/estimatecatalogue"
 @RestController
 @RequestMapping(PATH)
 internal class EstimateController(
-    private val estimateRepository: EstimateRepository
+    private val estimateRepository: EstimateRepository,
 ) {
 
     @PostMapping

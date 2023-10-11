@@ -39,7 +39,7 @@ internal class AccountController(
     private val accountHandler: AccountHandler,
     private val accessesReader: AccessesReader,
     private val accountReader: AccountReader,
-    private val workshopUserDetailsService: WorkshopUserDetailsService
+    private val workshopUserDetailsService: WorkshopUserDetailsService,
 ) {
 
     @PostMapping
@@ -55,7 +55,7 @@ internal class AccountController(
     @PostMapping("/workshop")
     fun createWorkshop(
         @Valid @RequestBody req: CreateWorkshopReq,
-        authentication: Authentication
+        authentication: Authentication,
     ): ResponseEntity<AccessDto> {
         val accountId = (authentication.principal as? IdUserDetails?)?.id
             ?: throw IllegalAccessException("Could not determine account id")
@@ -100,7 +100,7 @@ internal class AccountController(
     @PostMapping("/access")
     fun choseSessionAccess(
         @RequestBody accessReq: AccessReq,
-        currentAuthentication: Authentication
+        currentAuthentication: Authentication,
     ) {
         val workshopUserDetails = accessReq.employeeId?.let {
             workshopUserDetailsService.employeeSpecificUserOfAuthentication(it, currentAuthentication)

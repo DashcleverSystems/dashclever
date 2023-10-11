@@ -35,6 +35,7 @@ interface AccessesReader : Repository<Account, UUID> {
         }
         return employeeAccesses.plus(ownerAccesses).toSet()
     }
+
     fun findAccountWorkshopAccesses(accountId: UUID): Set<WorkshopAccessesDto> {
         val accountAccesses: MutableSet<AccessDto> = this.findAccountAccesses(accountId).toMutableSet()
         val workshopAccessesSet: MutableSet<WorkshopAccessesDto> = mutableSetOf()
@@ -57,11 +58,11 @@ interface AccessesReader : Repository<Account, UUID> {
     @Query(
         value = """
             SELECT
-                emp.id as employeeId,
-                emp.first_name as employeeFirstName,
-                emp.workplace as employeeWorkplace,
-                wrkp.id as workshopId,
-                wrkp.display_name as workshopName
+                emp.id AS employeeId,
+                emp.first_name AS employeeFirstName,
+                emp.workplace AS employeeWorkplace,
+                wrkp.id AS workshopId,
+                wrkp.display_name AS workshopName
             FROM
                 ACCOUNT acc
             INNER JOIN EMPLOYEESHIP empship ON acc.id = empship.account_id
@@ -74,6 +75,7 @@ interface AccessesReader : Repository<Account, UUID> {
     fun findEmployeeAccesses(accountId: UUID): Set<EmployeeAccessDto>
 
     interface EmployeeAccessDto {
+
         val workshopId: UUID
         val workshopName: String
         val employeeId: UUID
@@ -82,13 +84,14 @@ interface AccessesReader : Repository<Account, UUID> {
     }
 
     @Query(
-        value = "SELECT ws.id as workshopId, ws.display_name as workshopName FROM WORKSHOP ws WHERE ws.owner_account_id = :accountId",
+        value = "SELECT ws.id AS workshopId, ws.display_name AS workshopName FROM WORKSHOP ws WHERE ws.owner_account_id = :accountId",
         nativeQuery = true
     )
     fun findWorkshopOwnerAccesses(accountId: UUID): Set<OwnerAccessDto>
 }
 
 interface OwnerAccessDto {
+
     val workshopId: UUID
     val workshopName: String
 }

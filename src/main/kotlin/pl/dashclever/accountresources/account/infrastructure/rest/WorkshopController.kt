@@ -15,7 +15,7 @@ private const val PATH = "/api/workshop"
 @RestController
 @RequestMapping(PATH)
 internal class WorkshopController(
-    private val workshopReader: WorkshopReader
+    private val workshopReader: WorkshopReader,
 ) {
 
     @GetMapping("/{workshopId}")

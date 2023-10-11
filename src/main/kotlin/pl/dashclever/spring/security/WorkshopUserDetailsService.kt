@@ -10,7 +10,7 @@ import java.util.UUID
 
 @Service
 class WorkshopUserDetailsService(
-    private val accessesReader: AccessesReader
+    private val accessesReader: AccessesReader,
 ) {
 
     fun workshopSpecificUserOfAuthentication(workshopId: UUID, authentication: Authentication): WorkshopUserDetails {

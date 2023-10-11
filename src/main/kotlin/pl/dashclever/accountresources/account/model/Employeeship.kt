@@ -32,9 +32,11 @@ internal data class EmployeeshipId(
     @Column(name = "account_id")
     val accountId: UUID,
     @Column(name = "employee_id")
-    val employeeId: UUID
+    val employeeId: UUID,
 ) : Serializable {
+
     companion object {
+
         const val serialVersionUID = 42L
     }
 }

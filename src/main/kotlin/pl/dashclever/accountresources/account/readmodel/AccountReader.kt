@@ -18,6 +18,7 @@ interface AccountReader : Repository<Account, UUID> {
 }
 
 interface AccountDto {
+
     val id: UUID
     val username: String
     val email: String

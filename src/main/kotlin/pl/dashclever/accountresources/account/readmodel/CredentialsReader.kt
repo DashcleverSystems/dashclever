@@ -11,13 +11,14 @@ import java.util.UUID
 interface CredentialsReader : Repository<Account, UUID> {
 
     @Query(
-        value = "SELECT id as accId, username as username, password_hash as password FROM ACCOUNT acc WHERE acc.username = :username",
+        value = "SELECT id AS accId, username AS username, password_hash AS password FROM ACCOUNT acc WHERE acc.username = :username",
         nativeQuery = true
     )
     fun findByUsername(username: String): Optional<CredentialsDto>
 }
 
 interface CredentialsDto {
+
     val accId: UUID
     val username: String
     val password: String
