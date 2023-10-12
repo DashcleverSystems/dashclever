@@ -6,11 +6,11 @@ databaseChangeLog:
   - include:
         file: db/repairmanagment/planning/plan1.0.0.yaml
   - include:
-        file: db/accountresources/account1.0.0.yaml
+        file: db/accountresources/account/account1.0.0.yaml
   - include:
-        file: db/accountresources/workshop1.0.0.yaml
+        file: db/accountresources/account/workshop1.0.0.yaml
   - include:
-        file: db/accountresources/employee1.0.0.yaml
+        file: db/accountresources/employee/employee1.0.0.yaml
   -   include:
           file: db/accountresources/timestamps.yaml
   -   include:
