@@ -8,7 +8,6 @@ import pl.dashclever.repairmanagment.estimatecatalogue.JobType.LABOUR
 import pl.dashclever.repairmanagment.estimatecatalogue.JobType.VARNISHING
 import pl.dashclever.repairmanagment.estimatecatalogue.PaintInfo
 import pl.dashclever.repairmanagment.estimatecatalogue.VehicleInfo
-import java.math.BigDecimal
 
 internal fun `new estimate`(estimateId: String): Estimate {
     return Estimate(

@@ -41,7 +41,7 @@ internal class PlanningTests(
 
         // when
         Given {
-            queryParam("estimateId", estimate.id!!)
+            queryParam("estimateId", estimate.id)
             log().ifValidationFails(ALL)
         } When {
             post("api/planning")
@@ -56,7 +56,7 @@ internal class PlanningTests(
         // given
         val estimate = `new estimate`("testEstimateUniqueUserId")
         estimateRepository.save(estimate)
-        val planId = planCreating.create(estimate.id!!.toString())
+        val planId = planCreating.create(estimate.id.toString())
 
         // when
         Given {

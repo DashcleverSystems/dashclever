@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.SequenceGenerator
 import jakarta.persistence.Table
-import pl.dashclever.commons.hibernate.EntityBase
+import pl.dashclever.commons.hibernate.BaseEntity
 import java.time.LocalDate
 
 @Entity(name = "RM_PLANNING_JOB")
@@ -14,7 +14,7 @@ import java.time.LocalDate
 internal class Job(
     val catalogueJobId: Long,
     val manMinutes: Int,
-) : EntityBase<Long>() {
+) : BaseEntity<Long>() {
 
     private var assignedTo: String? = null
     var assignedAt: LocalDate? = null; private set
@@ -41,5 +41,6 @@ internal class Job(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_GENERATOR_NAME)
     @SequenceGenerator(name = ID_GENERATOR_NAME, sequenceName = "${ID_GENERATOR_NAME}_sequence", allocationSize = 50)
-    override val id: Long? = null
+    val id: Long? = null
+    override fun getIdentifier(): Long? = this.id
 }

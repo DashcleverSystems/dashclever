@@ -5,12 +5,7 @@ import jakarta.persistence.Embeddable
 import jakarta.persistence.EmbeddedId
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
-import org.hibernate.annotations.CreationTimestamp
-import org.hibernate.annotations.UpdateTimestamp
-import pl.dashclever.commons.hibernate.WithCreationTimestamp
-import pl.dashclever.commons.hibernate.WithLastModificationTimestamp
 import java.io.Serializable
-import java.time.LocalDateTime
 import java.util.UUID
 
 @Entity
@@ -18,14 +13,7 @@ import java.util.UUID
 internal data class Employeeship(
     @EmbeddedId
     val employeeship: EmployeeshipId,
-) : WithLastModificationTimestamp, WithCreationTimestamp {
-
-    @CreationTimestamp
-    override val createdOn: LocalDateTime? = null
-
-    @UpdateTimestamp
-    override val lastModifiedOn: LocalDateTime? = null
-}
+)
 
 @Embeddable
 internal data class EmployeeshipId(

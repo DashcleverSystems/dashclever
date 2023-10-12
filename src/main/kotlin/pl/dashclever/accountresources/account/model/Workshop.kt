@@ -3,15 +3,16 @@ package pl.dashclever.accountresources.account.model
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import pl.dashclever.commons.hibernate.EntityBase
+import pl.dashclever.commons.hibernate.BaseEntity
 import java.util.UUID
 
 @Entity
 @Table(name = "WORKSHOP")
-internal data class Workshop(
+internal class Workshop(
     val displayName: String,
-) : EntityBase<UUID>() {
+) : BaseEntity<UUID>() {
 
     @Id
-    override val id: UUID = UUID.randomUUID()
+    val id: UUID = UUID.randomUUID()
+    override fun getIdentifier(): UUID = this.id
 }

@@ -11,3 +11,9 @@ databaseChangeLog:
         file: db/accountresources/workshop1.0.0.yaml
   - include:
         file: db/accountresources/employee1.0.0.yaml
+  -   include:
+          file: db/accountresources/timestamps.yaml
+  -   include:
+          file: db/repairmanagment/estimatecatalogue/timestamps.yaml
+  -   include:
+          file: db/repairmanagment/planning/timestamps.yaml

@@ -5,7 +5,7 @@ import jakarta.persistence.EnumType.ORDINAL
 import jakarta.persistence.Enumerated
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import pl.dashclever.commons.hibernate.EntityBase
+import pl.dashclever.commons.hibernate.BaseEntity
 import java.util.UUID
 
 @Entity
@@ -16,8 +16,9 @@ data class Employee(
     val workshopId: UUID,
     @Enumerated(ORDINAL)
     var workplace: Workplace,
-) : EntityBase<UUID>() {
+) : BaseEntity<UUID>() {
 
     @Id
-    override val id: UUID = UUID.randomUUID()
+    val id: UUID = UUID.randomUUID()
+    override fun getIdentifier(): UUID = this.id
 }

@@ -7,21 +7,24 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import pl.dashclever.accountresources.employee.Employee
-import pl.dashclever.commons.hibernate.EntityBase
+import pl.dashclever.commons.hibernate.BaseEntity
 import pl.dashclever.publishedlanguage.DomainException
 import java.util.UUID
 import kotlin.jvm.Throws
 
+const val MAXIMUM_ACCOUNT_EMPLOYEESHIPS = 5
+const val MAXIMUM_ACCOUNTS_WORKSHOPS = 2
+
 @Entity
 @Table(name = "ACCOUNT")
-data class Account(
+class Account(
     val username: String,
     val passwordHash: String,
     val email: String,
-) : EntityBase<UUID>() {
+) : BaseEntity<UUID>() {
 
     @Id
-    override val id: UUID = UUID.randomUUID()
+    val id: UUID = UUID.randomUUID()
 
     @OneToMany(cascade = [ALL], orphanRemoval = true)
     @JoinColumn(name = "owner_account_id")
@@ -51,9 +54,5 @@ data class Account(
         return AddedEmployeeship(this.id, employee.id)
     }
 
-    companion object {
-
-        const val MAXIMUM_ACCOUNT_EMPLOYEESHIPS = 5
-        const val MAXIMUM_ACCOUNTS_WORKSHOPS = 2
-    }
+    override fun getIdentifier(): UUID = this.id
 }

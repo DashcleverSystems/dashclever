@@ -1,0 +1,26 @@
+databaseChangeLog:
+    -   changeSet:
+            id: add-timestamps-planning
+            author: damian
+            changes:
+                -   addColumn:
+                        tableName: RM_PLANNING_PLAN
+                        columns:
+                            -   column:
+                                    name: created_on
+                                    type: timestamp
+                            -   column:
+                                    name: last_modified_on
+                                    type: timestamp
+                -   addColumn:
+                        tableName: RM_PLANNING_JOB
+                        columns:
+                            -   column:
+                                    name: created_on
+                                    type: timestamp
+                            -   column:
+                                    name: last_modified_on
+                                    type: timestamp
+                            -   column:
+                                    name: version
+                                    type: int
