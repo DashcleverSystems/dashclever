@@ -1,0 +1,41 @@
+databaseChangeLog:
+    -   changeSet:
+            id: add-timestamps
+            author: damian
+            changes:
+                -   addColumn:
+                        tableName: ACCOUNT
+                        columns:
+                            -   column:
+                                    name: created_on
+                                    type: timestamp
+                            -   column:
+                                    name: last_modified_on
+                                    type: timestamp
+                -   addColumn:
+                        tableName: EMPLOYEESHIP
+                        columns:
+                            -   column:
+                                    name: created_on
+                                    type: timestamp
+                            -   column:
+                                    name: last_modified_on
+                                    type: timestamp
+                -   addColumn:
+                        tableName: WORKSHOP
+                        columns:
+                            -   column:
+                                    name: created_on
+                                    type: timestamp
+                            -   column:
+                                    name: last_modified_on
+                                    type: timestamp
+                -   addColumn:
+                        tableName: EMPLOYEE
+                        columns:
+                            -   column:
+                                    name: created_on
+                                    type: timestamp
+                            -   column:
+                                    name: last_modified_on
+                                    type: timestamp

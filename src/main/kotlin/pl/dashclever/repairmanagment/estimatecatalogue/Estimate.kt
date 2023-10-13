@@ -3,16 +3,15 @@ package pl.dashclever.repairmanagment.estimatecatalogue
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Embedded
 import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
-import jakarta.persistence.Version
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Size
-import org.hibernate.annotations.UuidGenerator
+import pl.dashclever.commons.hibernate.OptimisticLockEntity
 import pl.dashclever.publishedlanguage.SIZE_BETWEEN
+import java.time.LocalDateTime
 import java.util.UUID
 
 @Entity
@@ -26,10 +25,11 @@ class Estimate(
     val paintInfo: PaintInfo,
     @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true) @JoinColumn(name = "estimate_id")
     val jobs: Set<Job> = emptySet(),
-) {
-    @Id @GeneratedValue @UuidGenerator
-    val id: UUID? = null
+) : OptimisticLockEntity<UUID>() {
 
-    @Version @Suppress("UnusedPrivateMember")
-    private val version: Long = 0
+    fun getCreationTimestamp(): LocalDateTime = super.getCreatedOn()
+
+    @Id
+    val id: UUID = UUID.randomUUID()
+    override fun getIdentifierValue(): UUID = this.id
 }

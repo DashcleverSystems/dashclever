@@ -6,7 +6,7 @@ import java.util.UUID
 data class EntryUserDetails(
     override val id: UUID,
     private val username: String,
-    private val passwordHash: String
+    private val passwordHash: String,
 ) : IdUserDetails {
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> =
@@ -14,13 +14,16 @@ data class EntryUserDetails(
 
     override fun getPassword(): String =
         passwordHash
+
     override fun getUsername(): String =
         username
 
     override fun isAccountNonExpired(): Boolean =
         true
+
     override fun isAccountNonLocked(): Boolean =
         true
+
     override fun isCredentialsNonExpired(): Boolean =
         true
 

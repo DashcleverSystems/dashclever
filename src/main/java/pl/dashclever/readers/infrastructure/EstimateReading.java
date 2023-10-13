@@ -2,6 +2,7 @@ package pl.dashclever.readers.infrastructure;
 
 
 import org.springframework.stereotype.Service;
+
 import pl.dashclever.readers.domain.EstimateReader;
 import pl.dashclever.readers.domain.EstimateReaderFactory;
 import pl.dashclever.readers.domain.ReaderException;

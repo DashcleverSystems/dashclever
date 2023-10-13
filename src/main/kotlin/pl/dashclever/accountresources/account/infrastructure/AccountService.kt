@@ -8,7 +8,7 @@ import pl.dashclever.accountresources.account.model.AccountRepository
 @Service
 class AccountService(
     private val accountRepository: AccountRepository,
-    private val passwordEncoder: PasswordEncoder
+    private val passwordEncoder: PasswordEncoder,
 ) {
 
     fun registerAccount(username: String, password: String, email: String): Account {

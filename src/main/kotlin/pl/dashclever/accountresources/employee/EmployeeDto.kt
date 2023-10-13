@@ -15,6 +15,7 @@ data class EmployeeDto(
 ) {
 
     companion object Mapper {
+
         fun from(employee: Employee) =
             EmployeeDto(
                 id = employee.id,

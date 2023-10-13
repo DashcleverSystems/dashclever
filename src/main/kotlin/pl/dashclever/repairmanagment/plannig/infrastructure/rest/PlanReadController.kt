@@ -17,8 +17,9 @@ private const val PATH = "/api/planning"
 @RestController
 @RequestMapping(PATH)
 internal class PlanReadController(
-    private val planReader: PlanReader
+    private val planReader: PlanReader,
 ) {
+
     @GetMapping("/{planId}")
     fun findById(@PathVariable planId: UUID): PlanDto =
         planReader.findById(planId).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }

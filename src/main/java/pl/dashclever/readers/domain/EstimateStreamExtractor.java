@@ -20,7 +20,7 @@ public interface EstimateStreamExtractor {
 class EstimatePdfStreamExtractor implements EstimateStreamExtractor {
 
     @Override
-    public List<String> extractPages(final InputStream pdfFileStream){
+    public List<String> extractPages(final InputStream pdfFileStream) {
         try {
             final PdfReader reader = new PdfReader(pdfFileStream);
             final List<String> pages = new ArrayList<>();
@@ -29,7 +29,7 @@ class EstimatePdfStreamExtractor implements EstimateStreamExtractor {
                 pages.add(textFromPage);
             }
             return pages;
-        }catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(new ReaderException(e, "Couldn't extract PdfInputStream to pages"));
         }
     }

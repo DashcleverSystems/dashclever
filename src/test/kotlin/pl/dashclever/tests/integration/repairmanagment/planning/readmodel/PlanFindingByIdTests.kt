@@ -53,6 +53,7 @@ internal class PlanFindingByIdTests @Autowired constructor(
                 assertThat(planDto.id).isEqualTo(plan.id)
                 assertThat(planDto.estimateId).isEqualTo(plan.estimateId)
                 assertThat(planDto.technicalRepairTimeInMinutes).isEqualTo(300)
+                assertThat(planDto.createdOn).isNotNull()
             }
             return Arguments.of(plan, assertions)
         }
@@ -71,6 +72,7 @@ internal class PlanFindingByIdTests @Autowired constructor(
                 assertThat(planDto.id).isEqualTo(plan.id)
                 assertThat(planDto.estimateId).isEqualTo(plan.estimateId)
                 assertThat(planDto.technicalRepairTimeInMinutes).isEqualTo(740)
+                assertThat(planDto.createdOn).isNotNull()
             }
             return Arguments.of(plan, assertions)
         }

@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import pl.dashclever.accountresources.account.readmodel.CredentialsReader
 
 class EntryUserDetailsService(
-    private val credentialsReader: CredentialsReader
+    private val credentialsReader: CredentialsReader,
 ) : UserDetailsService {
 
     @Throws(UsernameNotFoundException::class)

@@ -11,12 +11,14 @@ import java.util.UUID
 interface WorkshopReader : Repository<Account, UUID> {
 
     @Query(
-        value = "SELECT id, display_name as displayName FROM WORKSHOP w WHERE w.id = :id",
+        value = "SELECT id, display_name AS displayName FROM WORKSHOP w WHERE w.id = :id",
         nativeQuery = true
     )
     fun findById(id: UUID): Optional<WorkshopDto>
 }
+
 interface WorkshopDto {
+
     val id: UUID
     val displayName: String
 }

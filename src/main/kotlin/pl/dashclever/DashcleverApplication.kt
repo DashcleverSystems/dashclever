@@ -27,6 +27,7 @@ fun main(args: Array<String>) {
 internal class HealthCheck {
 
     private companion object {
+
         const val HEALTH_RESP = "UP AND RUNNING"
     }
 

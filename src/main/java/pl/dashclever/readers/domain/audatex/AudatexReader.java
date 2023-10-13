@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public final class AudatexReader extends EstimateReader {
 
-    public AudatexReader(List<String> pages){
+    public AudatexReader(List<String> pages) {
         super(pages);
     }
 
@@ -17,16 +17,16 @@ public final class AudatexReader extends EstimateReader {
     public VehicleInfo FindVehicleInfo() {
         var lines = new OwnerVehicleSectionFinder(super.EstimatePages).findSectionLines();
         var brandLine = lines.stream()
-                .filter(line -> line.toLowerCase().contains("marka"))
-                .findFirst().orElse("");
+            .filter(line -> line.toLowerCase().contains("marka"))
+            .findFirst().orElse("");
         String brand = findBrandName(brandLine);
         var modelLine = lines.stream()
-                .filter(line -> line.toLowerCase().contains("model"))
-                .findFirst().orElse("");
+            .filter(line -> line.toLowerCase().contains("model"))
+            .findFirst().orElse("");
         var model = findModel(modelLine);
         var platesLine = lines.stream()
-                .filter(line -> line.toLowerCase().contains("rejestracyjny"))
-                .findFirst().orElse("");
+            .filter(line -> line.toLowerCase().contains("rejestracyjny"))
+            .findFirst().orElse("");
         var plates = findPlates(platesLine).replaceAll("\\s+", "");
 
         return new VehicleInfo(plates, brand, model);
@@ -77,16 +77,16 @@ public final class AudatexReader extends EstimateReader {
     @Override
     public String findUniqueNr() throws ReaderException {
         return this.EstimatePages.get(0).lines()
-                .filter(line -> line.toLowerCase().contains("nr"))
-                .findFirst()
-                .flatMap(this::extractUniqueNumber)
-                .orElseThrow(() -> new ReaderException("Colud not find uniqie id of esitmate. Unique ID example: 22/503kt"));
+            .filter(line -> line.toLowerCase().contains("nr"))
+            .findFirst()
+            .flatMap(this::extractUniqueNumber)
+            .orElseThrow(() -> new ReaderException("Colud not find uniqie id of esitmate. Unique ID example: 22/503kt"));
     }
 
     private Optional<String> extractUniqueNumber(String line) {
         Pattern pattern = Pattern.compile("nr\\s+(\\w+/\\w+)");
         Matcher matcher = pattern.matcher(line);
-        if(matcher.find())
+        if (matcher.find())
             return Optional.of(matcher.group(1));
         else
             return Optional.empty();
@@ -103,8 +103,8 @@ public final class AudatexReader extends EstimateReader {
         var firstPage = super.EstimatePages.get(0);
         var lines = firstPage.split("\n");
         var paintLine = Arrays.stream(lines)
-                .filter(line -> line.toLowerCase().contains("lakier"))
-                .findFirst().orElse("");
+            .filter(line -> line.toLowerCase().contains("lakier"))
+            .findFirst().orElse("");
         var paint = findPaintBaseColorWithCodeInfo(paintLine);
         var varnishingPaintInfoFinder = new VarnishingInfoFinder(super.EstimatePages);
         var additionalPaintInfoLines = varnishingPaintInfoFinder.findVarnishingPaintInfo();

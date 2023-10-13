@@ -19,11 +19,11 @@ class VarnishingInfoFinder {
     List<EstimateReader.Job> find() {
         var paintingTasksLines = findPaintingTasksLines();
         var manySpacesSeparatedTaskLineGroupingPattern =
-                Pattern.compile("(\\s+(?<taskName>(([a-zA-Z.0-9ąćęłńóśźżŚĄĆĘŁŃÓŹŻ\\\\/]+\\s)+)\\s+(([a-zA-Z.0-9ąćęłńóśźżŚĄĆĘŁŃÓŹŻ\\/-]+\\s)+)))\\s+(?<taskTimeUnits>\\d+)\\*?$");
+            Pattern.compile("(\\s+(?<taskName>(([a-zA-Z.0-9ąćęłńóśźżŚĄĆĘŁŃÓŹŻ\\\\/]+\\s)+)\\s+(([a-zA-Z.0-9ąćęłńóśźżŚĄĆĘŁŃÓŹŻ\\/-]+\\s)+)))\\s+(?<taskTimeUnits>\\d+)\\*?$");
         var noSpacesSeparatedTaskLineGroupingPattern =
-                Pattern.compile("\\s+(?<taskName>(([a-zA-Z.0-9ąćęłńóśźżŚĄĆĘŁŃÓŹŻ\\\\/-]+\\s)+))\\s+(?<taskTimeUnits>\\d+)\\*?$");
+            Pattern.compile("\\s+(?<taskName>(([a-zA-Z.0-9ąćęłńóśźżŚĄĆĘŁŃÓŹŻ\\\\/-]+\\s)+))\\s+(?<taskTimeUnits>\\d+)\\*?$");
         var tasks = new LinkedList<EstimateReader.Job>();
-        for(var line : paintingTasksLines) {
+        for (var line : paintingTasksLines) {
             var multiSpacesSeparatedLineMatch = manySpacesSeparatedTaskLineGroupingPattern.matcher(line);
             var noSpacesSeparatedMatch = noSpacesSeparatedTaskLineGroupingPattern.matcher(line);
             if (multiSpacesSeparatedLineMatch.matches())
@@ -49,9 +49,9 @@ class VarnishingInfoFinder {
     private EstimateReader.Money findManHourWorth() {
         var paintingsSectionLines = new VarnishingJobsSectionFinder(this.estimatePages).findSectionLines();
         var manHourWorthDefinition = paintingsSectionLines.stream()
-                .filter(line -> line.toLowerCase().contains("/rbg") && line.toLowerCase().contains("współczynnik"))
-                .findFirst()
-                .orElse("");
+            .filter(line -> line.toLowerCase().contains("/rbg") && line.toLowerCase().contains("współczynnik"))
+            .findFirst()
+            .orElse("");
         Pattern pattern = Pattern.compile("(\\d+.\\d+)\\s+([A-Za-z]+)[\\\\/][Rr][Bb][Gg]");
         var worthMatch = pattern.matcher(manHourWorthDefinition);
         if (!worthMatch.find())
@@ -70,16 +70,14 @@ class VarnishingInfoFinder {
     private List<String> findPaintingTasksLines() {
         var paintingTasksSection = new VarnishingJobsSectionFinder(this.estimatePages).findSectionLines();
         Pattern manySpacesSeparatedTaskPattern =
-                Pattern.compile("(?<grp>(\\s+([a-zA-Z.0-9ąćęłńóśźżŚĄĆĘŁŃÓŹŻ\\\\/-]+\\s)+)\\s+(([a-zA-Z.0-9ąćęłńóśźżŚĄĆĘŁŃÓŹŻ\\\\/-]+\\s)+)\\s+\\d+\\*?$)");
+            Pattern.compile("(?<grp>(\\s+([a-zA-Z.0-9ąćęłńóśźżŚĄĆĘŁŃÓŹŻ\\\\/-]+\\s)+)\\s+(([a-zA-Z.0-9ąćęłńóśźżŚĄĆĘŁŃÓŹŻ\\\\/-]+\\s)+)\\s+\\d+\\*?$)");
         Pattern noSpacesSeparatedTaskLine =
-                Pattern.compile("(?<grp>\\s+(([a-zA-Z.0-9ąćęłńóśźżŚĄĆĘŁŃÓŹŻ\\\\/-]+\\s)+)\\s+\\d+\\*?$)");
+            Pattern.compile("(?<grp>\\s+(([a-zA-Z.0-9ąćęłńóśźżŚĄĆĘŁŃÓŹŻ\\\\/-]+\\s)+)\\s+\\d+\\*?$)");
         var tasksLines = new LinkedList<String>();
-        for (var line : paintingTasksSection)
-        {
+        for (var line : paintingTasksSection) {
             var manySpacesMatcher = manySpacesSeparatedTaskPattern.matcher(line);
             var noSpacesMatcher = noSpacesSeparatedTaskLine.matcher(line);
-            if (!(line.toLowerCase().contains("czas") && line.toLowerCase().contains("lakierowania")))
-            {
+            if (!(line.toLowerCase().contains("czas") && line.toLowerCase().contains("lakierowania"))) {
                 if (manySpacesMatcher.find())
                     tasksLines.add(manySpacesMatcher.group("grp"));
                 else if (noSpacesMatcher.find())
@@ -93,18 +91,18 @@ class VarnishingInfoFinder {
     List<String> findVarnishingPaintInfo() {
         final List<String> paintingsSectionLines = new VarnishingJobsSectionFinder(this.estimatePages).findSectionLines();
         Pattern manySpacesSeparatedTaskPattern =
-                Pattern.compile("(?<grp>(\\s+([a-zA-Z.0-9ąćęłńóśźżŚĄĆĘŁŃÓŹŻ\\\\/]+\\s)+)\\s+(([a-zA-Z.0-9ąćęłńóśźżŚĄĆĘŁŃÓŹŻ\\\\/]+\\s)+)\\s+\\d+\\*?$)");
+            Pattern.compile("(?<grp>(\\s+([a-zA-Z.0-9ąćęłńóśźżŚĄĆĘŁŃÓŹŻ\\\\/]+\\s)+)\\s+(([a-zA-Z.0-9ąćęłńóśźżŚĄĆĘŁŃÓŹŻ\\\\/]+\\s)+)\\s+\\d+\\*?$)");
         Pattern noSpacesSeparatedTaskLine =
-                Pattern.compile("(?<grp>\\s+(([a-zA-Z.0-9ąćęłńóśźżŚĄĆĘŁŃÓŹŻ\\\\/]+\\s)+)\\s+\\d+\\*?$)");
+            Pattern.compile("(?<grp>\\s+(([a-zA-Z.0-9ąćęłńóśźżŚĄĆĘŁŃÓŹŻ\\\\/]+\\s)+)\\s+\\d+\\*?$)");
         List<String> additionalInfoSection = new LinkedList<>();
         for (String sectionLine : paintingsSectionLines) {
-            if(manySpacesSeparatedTaskPattern.matcher(sectionLine).find() ||
-            noSpacesSeparatedTaskLine.matcher(sectionLine).find())
+            if (manySpacesSeparatedTaskPattern.matcher(sectionLine).find() ||
+                noSpacesSeparatedTaskLine.matcher(sectionLine).find())
                 break;
             additionalInfoSection.add(sectionLine.replace("jc", ""));
         }
         var additionalInfoLines = new ArrayList<String>();
-        for(final var sectionLine : additionalInfoSection) {
+        for (final var sectionLine : additionalInfoSection) {
             Pattern pattern = Pattern.compile("\\s+-\\s+([-\\w\\\\/\\s]+)");
             Matcher matcher = pattern.matcher(sectionLine);
             if (matcher.find())

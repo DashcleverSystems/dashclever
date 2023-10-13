@@ -5,7 +5,7 @@ import jakarta.persistence.EnumType.ORDINAL
 import jakarta.persistence.Enumerated
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import jakarta.persistence.Version
+import pl.dashclever.commons.hibernate.OptimisticLockEntity
 import java.util.UUID
 
 @Entity
@@ -15,10 +15,10 @@ data class Employee(
     var lastName: String?,
     val workshopId: UUID,
     @Enumerated(ORDINAL)
-    var workplace: Workplace
-) {
+    var workplace: Workplace,
+) : OptimisticLockEntity<UUID>() {
+
     @Id
     val id: UUID = UUID.randomUUID()
-    @Version @Suppress("UnusedPrivateMember")
-    private var version: Int = 0
+    override fun getIdentifierValue(): UUID = this.id
 }

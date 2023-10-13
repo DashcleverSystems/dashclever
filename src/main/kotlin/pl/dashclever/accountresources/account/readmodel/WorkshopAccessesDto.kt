@@ -5,5 +5,5 @@ import java.util.UUID
 data class WorkshopAccessesDto(
     val workshopId: UUID,
     val workshopName: String,
-    val accesses: Set<AccessDto>
+    val accesses: Set<AccessDto>,
 )

@@ -131,7 +131,7 @@ internal class EstimateCatalogueTests(
 
         // when
         Given {
-            queryParam("estimateId", estimate.id!!)
+            queryParam("estimateId", estimate.id)
             log().ifValidationFails(ALL)
         } When {
             delete("api/estimatecatalogue")
@@ -147,7 +147,7 @@ internal class EstimateCatalogueTests(
         val estimateId = "26/2022wk"
         val estimate = `new estimate`(estimateId)
         estimateRepository.save(estimate)
-        val estimateUid = estimate.id!!
+        val estimateUid = estimate.id
         estimateRepository.delete(estimate)
 
         // when

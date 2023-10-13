@@ -12,7 +12,7 @@ data class AccessDto(
     val isOwnerAccess: Boolean,
     val employeeId: UUID?,
     val employeeFirstName: String?,
-    val authorities: Set<Authority>
+    val authorities: Set<Authority>,
 )
 
 enum class Role(val authorities: Set<Authority>) {
@@ -22,6 +22,7 @@ enum class Role(val authorities: Set<Authority>) {
     EMPLOYEE(setOf(REPAIR_PROCESS));
 
     companion object {
+
         fun from(workplace: Workplace): Role {
             return when (workplace) {
                 Workplace.LABOUR -> EMPLOYEE

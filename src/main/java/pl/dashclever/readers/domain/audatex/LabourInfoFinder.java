@@ -1,7 +1,9 @@
 package pl.dashclever.readers.domain.audatex;
 
 import com.google.common.collect.Sets;
+
 import org.apache.commons.lang3.StringUtils;
+
 import pl.dashclever.readers.domain.EstimateReader;
 import pl.dashclever.readers.domain.ReaderException;
 
@@ -25,7 +27,7 @@ class LabourInfoFinder {
         EstimateReader.Currency tasksCurrency = findTasksCurrency();
         String[] tasksLines = findTasksDescriptionLines().toArray(new String[0]);
         var taskInfoGroupingRegex =
-                Pattern.compile("(?<name>[A-Za-z0-9(ąćęłńóśźż]([A-Za-z/.ąćęłńóśźż()-\\\\\"]+ ){2,})\\s+\\d*\\*?\\s+(?<timeUnits>\\d+)\\*?\\s+(?<worth>\\d+.\\d+)\\*?$");
+            Pattern.compile("(?<name>[A-Za-z0-9(ąćęłńóśźż]([A-Za-z/.ąćęłńóśźż()-\\\\\"]+ ){2,})\\s+\\d*\\*?\\s+(?<timeUnits>\\d+)\\*?\\s+(?<worth>\\d+.\\d+)\\*?$");
 
         var tasks = new LinkedList<EstimateReader.Job>();
         for (var i = 0; i < tasksLines.length; i++) {
@@ -43,11 +45,11 @@ class LabourInfoFinder {
                     else taskName += tasksLines[j].trim().replaceAll("\\s{2,}", "");
                     j++;
                 }
-                var task = new EstimateReader.Job(taskName.trim(), (int)taskTimeInMinutes, new EstimateReader.Money((long)(taskWorth*100), tasksCurrency));
+                var task = new EstimateReader.Job(taskName.trim(), (int) taskTimeInMinutes, new EstimateReader.Money((long) (taskWorth * 100), tasksCurrency));
                 tasks.add(task);
             }
 
-       }
+        }
         return tasks;
     }
 
@@ -63,8 +65,7 @@ class LabourInfoFinder {
             }
             if (taskDescriptionMatch.find()) {
                 taskLines.add(taskDescriptionMatch.group(1));
-            }
-            else if (isTaskDescriptionLine(tasksSectionLines.get(i))) {
+            } else if (isTaskDescriptionLine(tasksSectionLines.get(i))) {
                 taskLines.add(tasksSectionLines.get(i));
             }
         }
@@ -104,12 +105,12 @@ class LabourInfoFinder {
 
     private boolean isContactInfoContentLine(String line) {
         final Set<Pattern> contactInfoLineRegexes = Sets.newHashSet(
-                Pattern.compile("\\d\\d-\\d\\d\\d"),
-                Pattern.compile("^ul[.]\\w+"),
-                Pattern.compile("^tel[.]"),
-                Pattern.compile("^mobile"),
-                Pattern.compile("^e-mail:\\w+"),
-                Pattern.compile("^www\\.\\w+\\.")
+            Pattern.compile("\\d\\d-\\d\\d\\d"),
+            Pattern.compile("^ul[.]\\w+"),
+            Pattern.compile("^tel[.]"),
+            Pattern.compile("^mobile"),
+            Pattern.compile("^e-mail:\\w+"),
+            Pattern.compile("^www\\.\\w+\\.")
         );
         for (var pattern : contactInfoLineRegexes) {
             var lineLowerNoSpaces = line.replaceAll(" ", "").toLowerCase();
@@ -119,9 +120,9 @@ class LabourInfoFinder {
         return false;
     }
 
-    private Matcher  matchTaskDescriptionLine(String line) {
+    private Matcher matchTaskDescriptionLine(String line) {
         Pattern regex = Pattern
-                .compile("([A-Za-z0-9(ąćęłńóśźż]([A-Za-z/ą.ćęłńóśźż()-\\\\\"]+ ){2,}\\s+\\d*\\*?\\s+\\d+\\*?\\s+\\d+.\\d+\\*?$)");
+            .compile("([A-Za-z0-9(ąćęłńóśźż]([A-Za-z/ą.ćęłńóśźż()-\\\\\"]+ ){2,}\\s+\\d*\\*?\\s+\\d+\\*?\\s+\\d+.\\d+\\*?$)");
         return regex.matcher(line);
     }
 
@@ -147,8 +148,8 @@ class LabourInfoFinder {
         String[] lines = wholeEstimate.split("\n");
         //jc = so-called time units in estimate; rgb = so-called man-hour in estimate
         var lineWithJcToRbg = Arrays.stream(lines).filter(line -> line.contains("jc="))
-                .findFirst()
-                .orElseThrow(()->new ReaderException("Could not locate any line containing definition of how many time units (JC) is in one man hour (RBG)"));
+            .findFirst()
+            .orElseThrow(() -> new ReaderException("Could not locate any line containing definition of how many time units (JC) is in one man hour (RBG)"));
         Pattern jcInRbgPattern = Pattern.compile("(?<jcAmount>\\d+)\\s+jc=(?<rgbAmount>\\d+)\\srbg");
         var timeUnitsInManHour = jcInRbgPattern.matcher(lineWithJcToRbg);
         if (!timeUnitsInManHour.find())
@@ -160,7 +161,7 @@ class LabourInfoFinder {
 
     private String wholeEstimateString() {
         var wholeEstimate = new StringBuilder();
-        for(var page : this.estimatePages) {
+        for (var page : this.estimatePages) {
             wholeEstimate.append(page);
         }
         return wholeEstimate.toString();
