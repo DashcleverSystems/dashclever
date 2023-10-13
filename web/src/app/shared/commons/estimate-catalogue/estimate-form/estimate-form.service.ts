@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
-  IEstimatedDTO,
-  IEstimatedForm,
+  IEstimateDTO,
+  IEstimateForm,
   IEstimatedJob,
   IEstimatedJobForm,
   IEstimatedPaintInfo,
   IEstimatedPaintInfoForm,
-  IEstimatedPdfDTO,
+  IEstimatePdfDTO,
   IEstimatedVehicleInfo,
   IEstimatedVehicleInfoForm,
   IEstimatedWorth,
@@ -23,8 +23,8 @@ export class EstimateFormService {
   constructor(private fb: FormBuilder, private http: HttpClient) {}
 
   createForm(
-    data?: Partial<IEstimatedDTO> | undefined
-  ): FormGroup<IEstimatedForm> {
+    data?: Partial<IEstimateDTO> | undefined
+  ): FormGroup<IEstimateForm> {
     return this.fb.group({
       estimateId: this.fb.control<string | null>(
         data?.estimateId ?? null,
@@ -40,11 +40,11 @@ export class EstimateFormService {
     });
   }
 
-  save(data: IEstimatedDTO): Observable<any> {
+  save(data: IEstimateDTO): Observable<any> {
     return this.http.post('/api/estimatecatalogue', data);
   }
 
-  formatDataFromPdf(data: IEstimatedPdfDTO): IEstimatedDTO {
+  formatDataFromPdf(data: IEstimatePdfDTO): IEstimateDTO {
     return {
       estimateId: data.uniqueId,
       vehicleInfo: data.vehicleInfo,
@@ -73,7 +73,7 @@ export class EstimateFormService {
     };
   }
 
-  patchValues(form: FormGroup<IEstimatedForm>, data: IEstimatedDTO) {
+  patchValues(form: FormGroup<IEstimateForm>, data: IEstimateDTO) {
     form.controls.estimateId.patchValue(data.estimateId);
     form.controls.paintInfo.patchValue(data.paintInfo);
     form.controls.vehicleInfo.patchValue(data.vehicleInfo);
@@ -83,7 +83,7 @@ export class EstimateFormService {
     );
   }
 
-  mapValuesBeforeSave(data: IEstimatedDTO) {
+  mapValuesBeforeSave(data: IEstimateDTO) {
     return {
       ...data,
       jobs: data.jobs.map((job) => ({

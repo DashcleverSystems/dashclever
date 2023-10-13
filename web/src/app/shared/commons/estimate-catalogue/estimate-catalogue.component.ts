@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { EstimateFormComponent } from './estimate-form/estimate-form.component';
 import { Store } from '@ngrx/store';
-import { isMobile } from '../../../core/store/core-store.selectors';
+import { isMobile } from '@core/store/core-store.selectors';
 import { Subject, distinctUntilChanged, finalize, takeUntil } from 'rxjs';
 import { FileUpload } from 'primeng/fileupload';
 import { EstimateCatalogueService } from './estimate-catalogue.service';
-import { IEstimatedPdfDTO } from './estimate-form/estimate-form';
+import { IEstimatePdfDTO } from './estimate-form/estimate-form';
 
 @Component({
   selector: 'app-estimate-catalogue',
@@ -60,7 +60,7 @@ export class EstimateCatalogueComponent implements OnInit, OnDestroy {
     }
   }
 
-  openModalForm(type: 'CREATE' | 'GENERATE', data?: IEstimatedPdfDTO): void {
+  openModalForm(type: 'CREATE' | 'GENERATE', data?: IEstimatePdfDTO): void {
     this.dialogService.open(EstimateFormComponent, {
       data: {
         type,
@@ -68,7 +68,8 @@ export class EstimateCatalogueComponent implements OnInit, OnDestroy {
       },
       showHeader: false,
       closable: false,
-      width: this.isMobile ? '100svw' : '40svw',
+      width: this.isMobile ? '100svw' : undefined,
+      style: {"min-width": !this.isMobile ? "40svw" : undefined },
       modal: true,
     });
   }

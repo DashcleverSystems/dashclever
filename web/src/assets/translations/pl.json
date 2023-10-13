@@ -68,6 +68,27 @@
         "generatePDF": "Generuj z pliku",
         "create": "Stwórz własny"
       }
+    },
+    "manageStaff": {
+      "table": {
+        "title": "Lista pracowników"
+      },
+      "create": "Dodaj pracownika",
+      "edit": "Edytuj"
+    },
+    "employee": {
+      "form": {
+        "title":{
+          "create": "Dodaj nowego pracownika",
+          "edit": "Edytuj informację o pracowniku"
+        },
+        "actions": {
+          "submit": "Akceptuj"
+        }
+      },
+      "firstName": "Imię",
+      "lastName": "Nazwisko",
+      "workplace": "Stanowisko pracy"
     }
   },
   "enum": {
@@ -87,6 +108,10 @@
     "Currency": {
       "PLN": "Polski złoty",
       "EUR": "Euro"
+    },
+    "Workplace": {
+      "SUPERVISOR": "Pracownik biura",
+      "LABOUR": "Pracownik hali"
     }
   },
   "toast": {

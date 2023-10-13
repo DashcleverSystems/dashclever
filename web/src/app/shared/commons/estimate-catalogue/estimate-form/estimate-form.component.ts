@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { EstimateFormService } from './estimate-form.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import {
-  IEstimatedDTO,
-  IEstimatedForm,
-  IEstimatedPdfDTO,
+  IEstimateDTO,
+  IEstimateForm,
+  IEstimatePdfDTO,
 } from './estimate-form';
 import { FormGroup } from '@angular/forms';
 import { ToastService } from '@app/shared/services/toast.service';
@@ -26,7 +26,7 @@ interface Dictionaries {
 export class EstimateFormComponent implements OnInit {
   type: 'CREATE' | 'GENERATE' = this.conf.data.type;
 
-  form: FormGroup<IEstimatedForm> = this.service.createForm();
+  form: FormGroup<IEstimateForm> = this.service.createForm();
 
   loadingSpinner = false;
 
@@ -42,12 +42,12 @@ export class EstimateFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const data: IEstimatedPdfDTO = this.conf.data.data;
+    const data: IEstimatePdfDTO = this.conf.data.data;
     this.service.patchValues(this.form, this.service.formatDataFromPdf(data));
   }
 
   addJob(): void {
-    this.form.controls.jobs.controls.push(this.service.getJobGroup());
+    this.form.controls.jobs.controls.unshift(this.service.getJobGroup());
   }
 
   removeJob(index: number): void {
@@ -67,7 +67,7 @@ export class EstimateFormComponent implements OnInit {
     }
 
     this.service
-      .save(this.form.getRawValue() as IEstimatedDTO)
+      .save(this.form.getRawValue() as IEstimateDTO)
       .pipe(
         catchError((err) => {
           this.toast.error({
@@ -92,6 +92,6 @@ export class EstimateFormComponent implements OnInit {
 
   dictionaries: Dictionaries = {
     jobTypes: enumToDictionary(JobType, 'enum.JobType'),
-    currencies: enumToDictionary(Currency, 'enum.Currency'),
+    currencies: enumToDictionary(Currency, 'enum.Currency')
   };
 }
