@@ -1,6 +1,6 @@
 databaseChangeLog:
     -  changeSet:
-           id:  #54_remove_version_from_workshop
+           id: 54_remove_version_from_workshop
            author:  damiankaplonspa
            changes:
                -  dropColumn:

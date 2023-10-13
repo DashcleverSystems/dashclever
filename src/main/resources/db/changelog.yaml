@@ -17,3 +17,5 @@ databaseChangeLog:
           file: db/repairmanagment/estimatecatalogue/timestamps.yaml
   -   include:
           file: db/repairmanagment/planning/timestamps.yaml
+  - include:
+        file: db/accountresources/account/workshop1.0.1.yaml
