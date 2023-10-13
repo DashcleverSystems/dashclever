@@ -7,7 +7,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
-import pl.dashclever.commons.hibernate.BaseEntity
+import pl.dashclever.commons.hibernate.OptimisticLockEntity
 import pl.dashclever.publishedlanguage.DomainException
 import pl.dashclever.repairmanagment.plannig.model.PlanEvent.TaskAssigned
 import java.time.LocalDate
@@ -24,7 +24,7 @@ class Plan internal constructor(
     val estimateId: String,
     @OneToMany(cascade = [ALL], orphanRemoval = true, fetch = EAGER) @JoinColumn(name = "plan_id")
     private val jobs: Set<Job>,
-) : BaseEntity<UUID>() {
+) : OptimisticLockEntity<UUID>() {
 
     fun assign(jobId: Long, employeeId: String, at: LocalDate): TaskAssigned {
         val job = tryFindJob(jobId)
@@ -76,5 +76,5 @@ class Plan internal constructor(
     private fun technicalRepairTime(): Long =
         ceil(jobs.sumOf { it.manMinutes } / 60F / 8F / 0.7F).roundToLong()
 
-    override fun getIdentifier(): UUID = this.id
+    override fun getIdentifierValue(): UUID = this.id
 }

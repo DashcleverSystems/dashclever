@@ -1,12 +1,12 @@
-package pl.dashclever.tests.integration.commons.hibernate
+package pl.dashclever.tests.unit.commons.hibernate
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import pl.dashclever.commons.hibernate.BaseEntity
+import pl.dashclever.commons.hibernate.ConstHashCodeEntity
 import java.util.UUID
 
-internal class BaseEntityTest {
+internal class ConstantHashCodeEntity {
 
     @Nested
     inner class Equals {
@@ -136,15 +136,15 @@ internal class BaseEntityTest {
 
     private class TestEntity(
         val id: UUID? = UUID.randomUUID(),
-    ) : BaseEntity<UUID>() {
+    ) : ConstHashCodeEntity<UUID>() {
 
-        override fun getIdentifier(): UUID? = this.id
+        override fun getIdentifierValue(): UUID? = this.id
     }
 
     private class TestEntity2(
         val id: UUID? = UUID.randomUUID(),
-    ) : BaseEntity<UUID>() {
+    ) : ConstHashCodeEntity<UUID>() {
 
-        override fun getIdentifier(): UUID? = this.id
+        override fun getIdentifierValue(): UUID? = this.id
     }
 }

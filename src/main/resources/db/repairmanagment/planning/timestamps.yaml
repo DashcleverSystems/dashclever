@@ -21,6 +21,3 @@ databaseChangeLog:
                             -   column:
                                     name: last_modified_on
                                     type: timestamp
-                            -   column:
-                                    name: version
-                                    type: int

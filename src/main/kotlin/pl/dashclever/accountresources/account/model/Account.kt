@@ -7,7 +7,7 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import pl.dashclever.accountresources.employee.Employee
-import pl.dashclever.commons.hibernate.BaseEntity
+import pl.dashclever.commons.hibernate.OptimisticLockEntity
 import pl.dashclever.publishedlanguage.DomainException
 import java.util.UUID
 import kotlin.jvm.Throws
@@ -21,7 +21,7 @@ class Account(
     val username: String,
     val passwordHash: String,
     val email: String,
-) : BaseEntity<UUID>() {
+) : OptimisticLockEntity<UUID>() {
 
     @Id
     val id: UUID = UUID.randomUUID()
@@ -54,5 +54,5 @@ class Account(
         return AddedEmployeeship(this.id, employee.id)
     }
 
-    override fun getIdentifier(): UUID = this.id
+    override fun getIdentifierValue(): UUID = this.id
 }
