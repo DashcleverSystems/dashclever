@@ -10,8 +10,14 @@ import org.springframework.web.bind.annotation.RestController
 
 @OpenAPIDefinition(
     servers = [
-        Server(url = "https://dashclever-c2650ed3f0d3.herokuapp.com", description = "Development Server"),
-        Server(url = "http://localhost:9999", description = "Local server")
+        Server(
+            url = "https://dashclever-c2650ed3f0d3.herokuapp.com",
+            description = "Development Server"
+        ),
+        Server(
+            url = "http://localhost:9999",
+            description = "Local server"
+        )
     ]
 )
 @SpringBootApplication
