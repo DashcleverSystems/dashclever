@@ -1,4 +1,4 @@
-package pl.dashclever.tests.integration.accountresources
+package pl.dashclever.tests.integration.accountresources.account
 
 import io.restassured.RestAssured
 import io.restassured.filter.log.LogDetail.ALL
@@ -25,7 +25,7 @@ import pl.dashclever.tests.integration.TestcontainersInitializer
 internal class WorkshopTests(
     @Autowired private val accountService: AccountService,
     @Autowired private val accountCleaner: AccountCleaner,
-    @LocalServerPort private val port: Int
+    @LocalServerPort private val port: Int,
 ) {
 
     @BeforeEach

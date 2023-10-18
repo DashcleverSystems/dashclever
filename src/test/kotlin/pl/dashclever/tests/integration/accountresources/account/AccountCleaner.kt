@@ -1,4 +1,4 @@
-package pl.dashclever.tests.integration.accountresources
+package pl.dashclever.tests.integration.accountresources.account
 
 import org.springframework.data.repository.Repository
 import org.springframework.stereotype.Component
