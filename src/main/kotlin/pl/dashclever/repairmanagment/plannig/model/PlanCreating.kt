@@ -20,7 +20,7 @@ class PlanCreating(
             .orElseThrow { ResponseStatusException(NOT_FOUND) }
         val plan = PlanFactory.create(
             estimateId = estimate.id.toString(),
-            jobs = estimate.jobs.associate { it.id!! to it.manMinutes }
+            jobs = estimate.jobs.associate { it.id!! to it.manMinutes },
         )
         return planRepository.save(plan).id
     }

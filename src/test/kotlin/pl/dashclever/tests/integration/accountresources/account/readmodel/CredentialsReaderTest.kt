@@ -23,7 +23,7 @@ internal class CredentialsReaderTest(
         val account = Account(
             username = "username",
             passwordHash = "passwordHash",
-            email = "email@email.com"
+            email = "email@email.com",
         )
         accountRepository.save(account)
 

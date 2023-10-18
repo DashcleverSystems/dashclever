@@ -22,7 +22,7 @@ data class EmployeeDto(
                 firstName = employee.firstName,
                 lastName = employee.lastName,
                 workshopId = employee.workshopId,
-                workplace = employee.workplace
+                workplace = employee.workplace,
             )
     }
 

@@ -31,7 +31,7 @@ internal class AccessesReaderTest(
         val account = Account(
             username = "username",
             passwordHash = "passwordHash",
-            email = "email@email.com"
+            email = "email@email.com",
         )
         account.createWorkshop("workshopName")
         accountRepository.save(account)
@@ -40,8 +40,10 @@ internal class AccessesReaderTest(
         val result = accessesReader.findWorkshopOwnerAccesses(account.id)
 
         // then
-        assertThat(result).singleElement().satisfies({
-            assertThat(it.workshopName).isEqualTo("workshopName")
-        })
+        assertThat(result).singleElement().satisfies(
+            {
+                assertThat(it.workshopName).isEqualTo("workshopName")
+            },
+        )
     }
 }

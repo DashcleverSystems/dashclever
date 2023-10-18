@@ -12,7 +12,7 @@ interface WorkshopReader : Repository<Account, UUID> {
 
     @Query(
         value = "SELECT id, display_name AS displayName FROM WORKSHOP w WHERE w.id = :id",
-        nativeQuery = true
+        nativeQuery = true,
     )
     fun findById(id: UUID): Optional<WorkshopDto>
 }

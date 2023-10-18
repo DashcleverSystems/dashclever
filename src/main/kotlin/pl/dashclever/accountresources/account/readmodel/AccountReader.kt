@@ -12,7 +12,7 @@ interface AccountReader : Repository<Account, UUID> {
 
     @Query(
         value = "SELECT id, username, email FROM ACCOUNT acc WHERE acc.username = :username",
-        nativeQuery = true
+        nativeQuery = true,
     )
     fun findByUsername(username: String): Optional<AccountDto>
 }

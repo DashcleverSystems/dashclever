@@ -19,7 +19,6 @@ internal class JobAssigningTests {
 
         @JvmStatic
         fun providePassingPlans(): Stream<Arguments> {
-
             fun jobs(number: Long): Map<Long, Int> {
                 val jobs = mutableMapOf<Long, Int>()
                 for (i in 1L..number) {
@@ -42,26 +41,26 @@ internal class JobAssigningTests {
                     preparePlan(
                         2L,
                         listOf(
-                            LocalDate.of(2023, 1, 6)
-                        )
-                    )
+                            LocalDate.of(2023, 1, 6),
+                        ),
+                    ),
                 ),
                 Arguments.of(
                     preparePlan(
                         8L,
                         listOf(
                             LocalDate.of(2023, 1, 5),
-                            LocalDate.of(2023, 1, 4)
-                        )
-                    )
-                )
+                            LocalDate.of(2023, 1, 4),
+                        ),
+                    ),
+                ),
             )
         }
     }
 
     @ParameterizedTest
     @MethodSource("providePassingPlans")
-    fun `GIVEN plan with jobs SHOULD assign job`(passingPlan: pl.dashclever.repairmanagment.plannig.model.Plan) {
+    fun `GIVEN plan with jobs SHOULD assign job`(passingPlan: Plan) {
         // given
         val expected = TaskAssigned(passingPlan.id.toString(), "1", "employeeId")
 
@@ -80,8 +79,8 @@ internal class JobAssigningTests {
             jobs = mapOf(
                 1L to 120,
                 2L to 120,
-                3L to 120
-            )
+                3L to 120,
+            ),
         )
         plan.assign(1, "employeeId", LocalDate.of(2023, 1, 6))
 
@@ -99,8 +98,8 @@ internal class JobAssigningTests {
             jobs = mapOf(
                 1L to 120,
                 2L to 120,
-                3L to 120
-            )
+                3L to 120,
+            ),
         )
         plan.assign(1, "employeeId", LocalDate.of(2023, 1, 6))
 
@@ -112,8 +111,8 @@ internal class JobAssigningTests {
             TaskAssigned(
                 planId = plan.id.toString(),
                 jobId = "2",
-                employeeId = "employeeId"
-            )
+                employeeId = "employeeId",
+            ),
         )
     }
 
@@ -125,8 +124,8 @@ internal class JobAssigningTests {
             jobs = mapOf(
                 1L to 120,
                 2L to 120,
-                3L to 120
-            )
+                3L to 120,
+            ),
         )
         plan.assign(1, "employeeId", LocalDate.of(2023, 1, 6))
 

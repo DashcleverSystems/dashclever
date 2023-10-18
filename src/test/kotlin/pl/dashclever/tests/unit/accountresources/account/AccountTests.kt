@@ -17,7 +17,7 @@ internal class AccountTests {
         val account = Account(
             username = "username",
             passwordHash = "passHash",
-            email = "email@email.com"
+            email = "email@email.com",
         )
         account.createWorkshop("workshop1")
         account.createWorkshop("workshop2")
@@ -33,7 +33,7 @@ internal class AccountTests {
         val account = Account(
             username = "username",
             passwordHash = "passHash",
-            email = "email@email.com"
+            email = "email@email.com",
         )
         account.associateWith(Employee("firstName1", "lastName1", UUID.randomUUID(), LABOUR))
         account.associateWith(Employee("firstName2", "lastName2", UUID.randomUUID(), LABOUR))

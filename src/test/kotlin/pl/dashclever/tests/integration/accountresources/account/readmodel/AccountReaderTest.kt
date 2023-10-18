@@ -32,7 +32,7 @@ internal class AccountReaderTest(
         val account = Account(
             "username",
             "passwordHash",
-            "email@email.com"
+            "email@email.com",
         )
         accountRepository.save(account)
 

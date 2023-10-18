@@ -35,7 +35,7 @@ internal class PlanFindingByIdTests @Autowired constructor(
         fun provideTestData(): Stream<Arguments> {
             return Stream.of(
                 `provide fresh plan test data`(),
-                `provide modified plan test data`()
+                `provide modified plan test data`(),
             )
         }
 
@@ -45,8 +45,8 @@ internal class PlanFindingByIdTests @Autowired constructor(
                 jobs = mapOf(
                     1L to 120,
                     2L to 120,
-                    3L to 60
-                )
+                    3L to 60,
+                ),
             )
 
             val assertions = { planDto: PlanDto ->
@@ -63,8 +63,8 @@ internal class PlanFindingByIdTests @Autowired constructor(
                 estimateId = UUID.randomUUID().toString(),
                 jobs = mapOf(
                     1L to 500,
-                    2L to 240
-                )
+                    2L to 240,
+                ),
             )
             plan.assign(1, "employeeId", LocalDate.of(2023, 6, 1))
 

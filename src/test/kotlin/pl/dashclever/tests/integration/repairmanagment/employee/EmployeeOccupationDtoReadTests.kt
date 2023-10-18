@@ -30,7 +30,7 @@ internal class EmployeeOccupationDtoReadTests(
     @LocalServerPort private val port: Int,
     @Autowired private val estimateRepository: pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository,
     @Autowired private val planCreating: PlanCreating,
-    @Autowired private val planRepository: PlanRepository
+    @Autowired private val planRepository: PlanRepository,
 ) {
 
     @BeforeEach

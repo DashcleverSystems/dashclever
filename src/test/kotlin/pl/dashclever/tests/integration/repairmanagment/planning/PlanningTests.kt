@@ -67,7 +67,7 @@ internal class PlanningTests(
                       "to": "labourEmployeeId",
                       "at": "2023-01-22"
                     }
-                """.trimIndent()
+                """.trimIndent(),
             )
             log().ifValidationFails(ALL)
         } When {

@@ -36,11 +36,15 @@ internal class PlanningController(
     fun assignJob(
         @PathVariable planId: UUID,
         @PathVariable jobId: Long,
-        @Valid @RequestBody assignReq: AssignReq,
+        @Valid @RequestBody
+        assignReq: AssignReq,
     ) {
         val plan = planRepository.findById(planId).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
-        if (assignReq.hour == null) plan.assign(jobId, assignReq.to, assignReq.at)
-        else plan.assignWithTime(jobId, assignReq.to, assignReq.at, assignReq.hour)
+        if (assignReq.hour == null) {
+            plan.assign(jobId, assignReq.to, assignReq.at)
+        } else {
+            plan.assignWithTime(jobId, assignReq.to, assignReq.at, assignReq.hour)
+        }
         planRepository.save(plan)
     }
 

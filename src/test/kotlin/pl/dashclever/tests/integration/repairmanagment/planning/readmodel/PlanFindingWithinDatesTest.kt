@@ -32,28 +32,28 @@ internal class PlanFindingWithinDatesTest @Autowired constructor(
             Stream.of(
                 Arguments.of(
                     LocalDate.of(2023, 1, 5),
-                    LocalDate.of(2023, 1, 6)
+                    LocalDate.of(2023, 1, 6),
                 ),
                 Arguments.of(
                     LocalDate.of(2023, 1, 6),
-                    LocalDate.of(2023, 1, 6)
+                    LocalDate.of(2023, 1, 6),
                 ),
                 Arguments.of(
                     LocalDate.of(2023, 1, 6),
-                    LocalDate.of(2023, 1, 7)
+                    LocalDate.of(2023, 1, 7),
                 ),
                 Arguments.of(
                     LocalDate.of(2023, 1, 4),
-                    LocalDate.of(2023, 1, 7)
+                    LocalDate.of(2023, 1, 7),
                 ),
                 Arguments.of(
                     LocalDate.of(2023, 1, 4),
-                    LocalDate.of(2023, 1, 7)
+                    LocalDate.of(2023, 1, 7),
                 ),
                 Arguments.of(
                     LocalDate.of(1999, 1, 1),
-                    LocalDate.of(2024, 1, 1)
-                )
+                    LocalDate.of(2024, 1, 1),
+                ),
             )
     }
 
@@ -67,8 +67,8 @@ internal class PlanFindingWithinDatesTest @Autowired constructor(
             estimateId = UUID.randomUUID().toString(),
             jobs = mapOf(
                 1L to 120,
-                2L to 240
-            )
+                2L to 240,
+            ),
         )
         plan.assign(1L, "employeeId", LocalDate.of(2023, 1, 6))
         planRepository.save(plan)
@@ -76,7 +76,7 @@ internal class PlanFindingWithinDatesTest @Autowired constructor(
         // when
         val result: Set<PlanDto> = planReader.findByDateRange(
             from = LocalDate.of(2023, 1, 7),
-            to = LocalDate.of(2023, 1, 8)
+            to = LocalDate.of(2023, 1, 8),
         )
 
         // then
@@ -91,8 +91,8 @@ internal class PlanFindingWithinDatesTest @Autowired constructor(
             estimateId = UUID.randomUUID().toString(),
             jobs = mapOf(
                 1L to 120,
-                2L to 240
-            )
+                2L to 240,
+            ),
         )
         plan1.assign(1L, "employeeId", LocalDate.of(2023, 1, 6))
         planRepository.save(plan1)
@@ -100,8 +100,8 @@ internal class PlanFindingWithinDatesTest @Autowired constructor(
             estimateId = UUID.randomUUID().toString(),
             jobs = mapOf(
                 1L to 120,
-                2L to 240
-            )
+                2L to 240,
+            ),
         )
         plan2.assign(1L, "employeeId", LocalDate.of(2023, 1, 8))
         planRepository.save(plan2)

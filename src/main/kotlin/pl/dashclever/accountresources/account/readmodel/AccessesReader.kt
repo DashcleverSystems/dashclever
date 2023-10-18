@@ -20,7 +20,7 @@ interface AccessesReader : Repository<Account, UUID> {
                 isOwnerAccess = false,
                 employeeId = it.employeeId,
                 employeeFirstName = it.employeeFirstName,
-                authorities = EMPLOYEE.authorities
+                authorities = EMPLOYEE.authorities,
             )
         }
         val ownerAccesses = this.findWorkshopOwnerAccesses(accountId).map {
@@ -30,7 +30,7 @@ interface AccessesReader : Repository<Account, UUID> {
                 isOwnerAccess = true,
                 employeeId = null,
                 employeeFirstName = null,
-                authorities = OWNER.authorities
+                authorities = OWNER.authorities,
             )
         }
         return employeeAccesses.plus(ownerAccesses).toSet()
@@ -43,7 +43,7 @@ interface AccessesReader : Repository<Account, UUID> {
             val workshopAccesses = workshopAccessesSet.firstOrNull { it.workshopId == access.workshopId }
             if (workshopAccesses == null) {
                 workshopAccessesSet.add(
-                    WorkshopAccessesDto(access.workshopId, access.workshopName, setOf(access))
+                    WorkshopAccessesDto(access.workshopId, access.workshopName, setOf(access)),
                 )
             } else {
                 val newAccesses = workshopAccesses.accesses.plus(access)
@@ -70,7 +70,7 @@ interface AccessesReader : Repository<Account, UUID> {
             INNER JOIN WORKSHOP wrkp ON emp.workshop_id = wrkp.id
             WHERE acc.id = :accountId
         """,
-        nativeQuery = true
+        nativeQuery = true,
     )
     fun findEmployeeAccesses(accountId: UUID): Set<EmployeeAccessDto>
 
@@ -85,7 +85,7 @@ interface AccessesReader : Repository<Account, UUID> {
 
     @Query(
         value = "SELECT ws.id AS workshopId, ws.display_name AS workshopName FROM WORKSHOP ws WHERE ws.owner_account_id = :accountId",
-        nativeQuery = true
+        nativeQuery = true,
     )
     fun findWorkshopOwnerAccesses(accountId: UUID): Set<OwnerAccessDto>
 }

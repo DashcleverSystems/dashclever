@@ -43,7 +43,7 @@ internal class WorkshopTests(
         val acc: Account = accountService.registerAccount(
             username = "testUsername",
             password = "testPassword",
-            email = "test@email.com"
+            email = "test@email.com",
         )
         Given {
             contentType(JSON)
@@ -53,7 +53,7 @@ internal class WorkshopTests(
                         "accountId": "${acc.id}",
                         "displayName": "testWorkshop"
                     }
-                """.trimIndent()
+                """.trimIndent(),
             )
             log().ifValidationFails()
         } When {

@@ -19,7 +19,8 @@ enum class Role(val authorities: Set<Authority>) {
 
     OWNER(setOf(MANAGE_STAFF, INSIGHT_REPAIR, REPAIR_PROCESS)),
     SUPERVISOR(setOf(INSIGHT_REPAIR, REPAIR_PROCESS)),
-    EMPLOYEE(setOf(REPAIR_PROCESS));
+    EMPLOYEE(setOf(REPAIR_PROCESS)),
+    ;
 
     companion object {
 

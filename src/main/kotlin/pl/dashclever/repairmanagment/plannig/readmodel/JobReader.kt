@@ -17,7 +17,7 @@ interface JobReader : Repository<Plan, UUID> {
 			FROM RM_PLANNING_JOB j
 			WHERE j.plan_id = :planId
 		""",
-        nativeQuery = true
+        nativeQuery = true,
     )
     fun findByPlanId(planId: UUID): Set<JobDto>
 }

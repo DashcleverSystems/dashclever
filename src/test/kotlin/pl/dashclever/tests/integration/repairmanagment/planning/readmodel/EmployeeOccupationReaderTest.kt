@@ -16,7 +16,7 @@ import java.util.UUID
 @ContextConfiguration(initializers = [TestcontainersInitializer::class])
 internal class EmployeeOccupationReaderTest(
     @Autowired private val planRepository: PlanRepository,
-    @Autowired private val employeeOccupationReader: EmployeeOccupationReader
+    @Autowired private val employeeOccupationReader: EmployeeOccupationReader,
 ) {
 
     @Test
@@ -26,8 +26,8 @@ internal class EmployeeOccupationReaderTest(
             estimateId = UUID.randomUUID().toString(),
             jobs = mapOf(
                 1L to 60,
-                2L to 40
-            )
+                2L to 40,
+            ),
         )
         plan.assign(1L, "employeeId", LocalDate.of(2020, 2, 2))
         plan.assign(2L, "employeeId", LocalDate.of(2020, 2, 2))

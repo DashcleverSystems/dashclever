@@ -27,7 +27,7 @@ class AccountHandler(
         val account = accountRepository.findById(createWorkshop.accountId)
             .orElseThrow {
                 IllegalArgumentException(
-                    "Could not find account ${createWorkshop.accountId} while creating workshop"
+                    "Could not find account ${createWorkshop.accountId} while creating workshop",
                 )
             }
         return account.createWorkshop(createWorkshop.displayName).workshopId

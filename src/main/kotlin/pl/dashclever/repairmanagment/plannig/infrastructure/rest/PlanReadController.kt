@@ -30,16 +30,18 @@ internal class PlanReadController(
         @RequestParam(name = "from", required = false) from: LocalDate?,
         @RequestParam(name = "to", required = false) to: LocalDate?,
     ): Set<PlanDto> {
-        if (from != null || to != null)
+        if (from != null || to != null) {
             return findByDateRange(from, to)
+        }
         return planReader.findByEstimateId(
-            estimateId ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "estimate id has to specified")
+            estimateId ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "estimate id has to specified"),
         )
     }
 
     private fun findByDateRange(from: LocalDate?, to: LocalDate?): Set<PlanDto> {
-        if (from == null || to == null)
+        if (from == null || to == null) {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "from and to date has to specified")
+        }
         return planReader.findByDateRange(from, to)
     }
 }
