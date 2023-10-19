@@ -1,4 +1,4 @@
-package pl.dashclever.tests.integration.accountresources.readmodel
+package pl.dashclever.tests.integration.accountresources.account.readmodel
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
@@ -8,15 +8,16 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import pl.dashclever.accountresources.account.model.Account
 import pl.dashclever.accountresources.account.model.AccountRepository
-import pl.dashclever.accountresources.account.readmodel.AccessesReader
+import pl.dashclever.accountresources.account.readmodel.AccountDto
+import pl.dashclever.accountresources.account.readmodel.AccountReader
 import pl.dashclever.tests.integration.TestcontainersInitializer
-import pl.dashclever.tests.integration.accountresources.AccountCleaner
+import pl.dashclever.tests.integration.accountresources.account.AccountCleaner
 
 @SpringBootTest
 @ContextConfiguration(initializers = [TestcontainersInitializer::class])
-internal class AccessesReaderTest(
+internal class AccountReaderTest(
     @Autowired private val accountRepository: AccountRepository,
-    @Autowired private val accessesReader: AccessesReader,
+    @Autowired private val accountReader: AccountReader,
     @Autowired private val accountCleaner: AccountCleaner,
 ) {
 
@@ -26,22 +27,23 @@ internal class AccessesReaderTest(
     }
 
     @Test
-    fun `should return owner accesses`() {
+    fun `should return proper projection dto`() {
         // given
         val account = Account(
-            username = "username",
-            passwordHash = "passwordHash",
-            email = "email@email.com"
+            "username",
+            "passwordHash",
+            "email@email.com"
         )
-        account.createWorkshop("workshopName")
         accountRepository.save(account)
 
         // when
-        val result = accessesReader.findWorkshopOwnerAccesses(account.id)
+        val result = accountReader.findByUsername("username")
 
         // then
-        assertThat(result).singleElement().satisfies({
-            assertThat(it.workshopName).isEqualTo("workshopName")
-        })
+        assertThat(result).hasValueSatisfying {
+            assertThat(it).isInstanceOf(AccountDto::class.java)
+            assertThat(it.username).isEqualTo("username")
+            assertThat(it.email).isEqualTo("email@email.com")
+        }
     }
 }

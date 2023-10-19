@@ -1,4 +1,4 @@
-package pl.dashclever.tests.integration.accountresources
+package pl.dashclever.tests.integration.accountresources.account
 
 import io.restassured.RestAssured
 import io.restassured.filter.log.LogDetail.ALL
@@ -6,7 +6,6 @@ import io.restassured.http.ContentType.JSON
 import io.restassured.module.kotlin.extensions.Given
 import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Disabled
@@ -23,7 +22,7 @@ import pl.dashclever.tests.integration.TestcontainersInitializer
 @ContextConfiguration(initializers = [TestcontainersInitializer::class])
 internal class AccountTests(
     @Autowired private val accountCleaner: AccountCleaner,
-    @LocalServerPort private val port: Int
+    @LocalServerPort private val port: Int,
 ) {
 
     @BeforeEach
