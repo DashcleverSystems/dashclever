@@ -62,7 +62,7 @@ internal class EstimateController(
             DESC -> Sort.by("createdOn").descending()
         }
         val pageReq = PageRequest.of(pageNo, pageSize, sort)
-        return this.estimateRepository.findAll(specification, pageReq)
+        return specification?.let { this.estimateRepository.findAll(it, pageReq) } ?: this.estimateRepository.findAll(pageReq)
     }
 
     @DeleteMapping
