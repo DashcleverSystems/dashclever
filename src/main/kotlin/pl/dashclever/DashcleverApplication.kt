@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController
     servers = [
         Server(
             url = "https://dashclever-c2650ed3f0d3.herokuapp.com",
-            description = "Development Server"
+            description = "Development Server",
         ),
         Server(
             url = "http://localhost:9999",
-            description = "Local server"
-        )
-    ]
+            description = "Local server",
+        ),
+    ],
 )
 @SpringBootApplication
 class DashcleverApplication
