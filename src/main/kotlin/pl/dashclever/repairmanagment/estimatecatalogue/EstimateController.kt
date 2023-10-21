@@ -72,7 +72,7 @@ internal class EstimateController(
 
     @DeleteMapping
     @ResponseStatus(NO_CONTENT)
-    fun delete(@RequestParam estimateId: String) {
-        return this.estimateRepository.deleteById(UUID.fromString(estimateId))
+    fun delete(@RequestParam estimateId: UUID) {
+        return this.estimateRepository.deleteById(estimateId)
     }
 }

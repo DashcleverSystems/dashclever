@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails
 import pl.dashclever.accountresources.account.readmodel.CredentialsDto
 import pl.dashclever.accountresources.account.readmodel.CredentialsReader
 import pl.dashclever.spring.security.EntryUserDetailsService
-import pl.dashclever.spring.security.IdUserDetails
 import java.util.Optional
 import java.util.UUID
 

@@ -4,8 +4,6 @@ import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
-import org.springframework.security.core.GrantedAuthority
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -23,11 +21,17 @@ import pl.dashclever.accountresources.account.readmodel.AccessDto
 import pl.dashclever.accountresources.account.readmodel.AccessesReader
 import pl.dashclever.accountresources.account.readmodel.AccountDto
 import pl.dashclever.accountresources.account.readmodel.AccountReader
+import pl.dashclever.accountresources.account.readmodel.AuthorityDto
 import pl.dashclever.accountresources.account.readmodel.WorkshopAccessesDto
-import pl.dashclever.spring.security.EntryUserDetails
-import pl.dashclever.spring.security.IdUserDetails
-import pl.dashclever.spring.security.WorkshopUserDetails
-import pl.dashclever.spring.security.WorkshopUserDetailsService
+import pl.dashclever.commons.security.Access
+import pl.dashclever.commons.security.Access.WithAuthorities.Authority
+import pl.dashclever.commons.security.Access.WithAuthorities.Authority.INSIGHT_REPAIR
+import pl.dashclever.commons.security.Access.WithAuthorities.Authority.MANAGE_STAFF
+import pl.dashclever.commons.security.Access.WithAuthorities.Authority.REPAIR_PROCESS
+import pl.dashclever.commons.security.Access.WorkshopEmployeeAccess
+import pl.dashclever.commons.security.Access.WorkshopOwnerAccess
+import pl.dashclever.commons.security.CurrentAccessProvider
+import pl.dashclever.spring.security.SpringApplicationAccessesSetter
 import java.net.URI
 
 private const val PATH = "/api/account"
@@ -39,7 +43,8 @@ internal class AccountController(
     private val accountHandler: AccountHandler,
     private val accessesReader: AccessesReader,
     private val accountReader: AccountReader,
-    private val workshopUserDetailsService: WorkshopUserDetailsService,
+    private val springApplicationAccessesSetter: SpringApplicationAccessesSetter,
+    private val currentAccessProvider: CurrentAccessProvider,
 ) {
 
     @PostMapping
@@ -61,7 +66,7 @@ internal class AccountController(
         req: CreateWorkshopReq,
         authentication: Authentication,
     ): ResponseEntity<AccessDto> {
-        val accountId = (authentication.principal as? IdUserDetails?)?.id
+        val accountId = (authentication.principal as? Access?)?.accountId
             ?: throw IllegalAccessException("Could not determine account id")
         val workshopId = accountHandler.createWorkshop(
             CreateWorkshop(
@@ -89,18 +94,47 @@ internal class AccountController(
         if (authentication == null) {
             throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
         }
-        fun WorkshopUserDetails.toAccessDto(): AccessDto {
-            val accesses = accessesReader.findAccountWorkshopAccesses(this.id)
-            val access = accesses.firstOrNull { it.workshopId == this.workshopId }
-                ?: throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
-            return access.accesses.firstOrNull { it.employeeId == this.employeeId }
-                ?: throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
+
+        val currentAccess = currentAccessProvider.currentAccess()
+
+        fun WorkshopOwnerAccess.toAccessDto(): AccessDto = accessesReader.findWorkshopOwnerAccesses(accountId)
+            .firstOrNull { it.workshopId == workshopId }
+            ?.let { ownerAccessDto ->
+                AccessDto(
+                    workshopId = ownerAccessDto.workshopId,
+                    workshopName = ownerAccessDto.workshopName,
+                    isOwnerAccess = true,
+                    employeeId = null,
+                    employeeFirstName = null,
+                    authorities = this.authorities.map { it.toAuthorityDto() }.toSet()
+                )
+            }
+            ?: throw IllegalArgumentException("Could not find corresponding owner access for: $this")
+
+        fun WorkshopEmployeeAccess.toAccessDto(): AccessDto = accessesReader.findEmployeeAccesses(this.accountId)
+            .firstOrNull { it.workshopId == this.workshopId && it.employeeId == this.employeeId }
+            ?.let { employeeAccessDto ->
+                AccessDto(
+                    workshopId = employeeAccessDto.workshopId,
+                    workshopName = employeeAccessDto.workshopName,
+                    isOwnerAccess = false,
+                    employeeId = employeeAccessDto.employeeId,
+                    employeeFirstName = employeeAccessDto.employeeFirstName,
+                    authorities = this.authorities.map { it.toAuthorityDto() }.toSet()
+                )
+            } ?: throw IllegalArgumentException("Could not find corresponding employee access for: $this")
+
+        return when (currentAccess) {
+            is WorkshopOwnerAccess -> currentAccess.toAccessDto()
+            is WorkshopEmployeeAccess -> currentAccess.toAccessDto()
+            else -> null
         }
-        return when (authentication.principal) {
-            is EntryUserDetails -> null
-            is WorkshopUserDetails -> (authentication.principal as WorkshopUserDetails).toAccessDto()
-            else -> throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
-        }
+    }
+
+    private fun Authority.toAuthorityDto(): AuthorityDto = when (this) {
+        MANAGE_STAFF -> AuthorityDto.MANAGE_STAFF
+        INSIGHT_REPAIR -> AuthorityDto.INSIGHT_REPAIR
+        REPAIR_PROCESS -> AuthorityDto.REPAIR_PROCESS
     }
 
     @PostMapping("/access")
@@ -108,32 +142,6 @@ internal class AccountController(
         @RequestBody accessReq: AccessReq,
         currentAuthentication: Authentication,
     ) {
-        val workshopUserDetails = accessReq.employeeId?.let {
-            workshopUserDetailsService.employeeSpecificUserOfAuthentication(it, currentAuthentication)
-        } ?: workshopUserDetailsService.workshopSpecificUserOfAuthentication(accessReq.workshopId, currentAuthentication)
-        SecurityContextHolder.getContext().authentication = object : Authentication {
-            private var isAuth = true
-
-            override fun getName(): String = currentAuthentication.name
-
-            override fun getAuthorities(): MutableCollection<out GrantedAuthority> =
-                workshopUserDetails.authorities
-
-            override fun getCredentials(): Any =
-                throw IllegalAccessException()
-
-            override fun getDetails(): Any =
-                currentAuthentication.details
-
-            override fun getPrincipal(): Any =
-                workshopUserDetails
-
-            override fun isAuthenticated(): Boolean =
-                this.isAuth
-
-            override fun setAuthenticated(isAuthenticated: Boolean) {
-                this.isAuth = isAuthenticated
-            }
-        }
+        accessReq.employeeId?.let { springApplicationAccessesSetter.setEmployeeAccess(it) } ?: springApplicationAccessesSetter.setOwnerAccess(accessReq.workshopId)
     }
 }
