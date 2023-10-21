@@ -32,8 +32,8 @@ internal class EmployeeController(
                 firstName = dto.firstName,
                 lastName = dto.lastName,
                 workshopId = dto.workshopId,
-                workplace = dto.workplace,
-            ),
+                workplace = dto.workplace
+            )
         )
         return ResponseEntity.created(URI.create("$PATH/${employee.id}"))
             .body(EmployeeDto.from(employee))

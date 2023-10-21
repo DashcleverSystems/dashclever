@@ -33,8 +33,8 @@ internal class JobReaderTest(
             estimateId = UUID.randomUUID().toString(),
             jobs = mapOf(
                 1L to 60,
-                2L to 60,
-            ),
+                2L to 60
+            )
         )
         planRepository.save(plan)
 
@@ -59,8 +59,8 @@ internal class JobReaderTest(
         val plan = PlanFactory.create(
             estimateId = UUID.randomUUID().toString(),
             jobs = mapOf(
-                1L to 60,
-            ),
+                1L to 60
+            )
         )
         plan.assign(1L, "employeeId", LocalDate.of(2020, 2, 2))
         planRepository.save(plan)
@@ -75,7 +75,7 @@ internal class JobReaderTest(
                 assertThat(it.manMinutes).isEqualTo(60L)
                 assertThat(it.assignedTo).isEqualTo("employeeId")
                 assertThat(it.assignedAt).isEqualTo(LocalDate.of(2020, 2, 2))
-            },
+            }
         )
     }
 }

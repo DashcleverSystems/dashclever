@@ -14,12 +14,12 @@ internal fun `new estimate`(estimateId: String): Estimate {
         estimateId = estimateId,
         paintInfo = PaintInfo(
             baseColorWithCode = "red 222",
-            varnishingPaintInfo = "2 layers/ pearl",
+            varnishingPaintInfo = "2 layers/ pearl"
         ),
         vehicleInfo = VehicleInfo(
             registration = "zko8gg2",
             brand = "Peugeot",
-            model = "307",
+            model = "307"
         ),
         jobs = setOf(
             Job(
@@ -27,19 +27,19 @@ internal fun `new estimate`(estimateId: String): Estimate {
                 manMinutes = 60,
                 worth = Money(
                     denomination = 2400,
-                    currency = PLN,
+                    currency = PLN
                 ),
-                jobType = LABOUR,
+                jobType = LABOUR
             ),
             Job(
                 name = "paint bumper",
                 manMinutes = 120,
                 worth = Money(
                     denomination = 4800,
-                    currency = PLN,
+                    currency = PLN
                 ),
-                jobType = VARNISHING,
-            ),
-        ),
+                jobType = VARNISHING
+            )
+        )
     )
 }

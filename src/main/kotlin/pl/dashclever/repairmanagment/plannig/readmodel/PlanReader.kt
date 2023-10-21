@@ -20,7 +20,7 @@ interface PlanReader : Repository<Plan, UUID> {
         WHERE p.id = :id
         GROUP BY p.id
         """,
-        nativeQuery = true,
+        nativeQuery = true
     )
     fun findById(id: UUID): Optional<PlanDto>
 
@@ -32,7 +32,7 @@ interface PlanReader : Repository<Plan, UUID> {
         WHERE p.id = :estimateId
         GROUP BY p.id
         """,
-        nativeQuery = true,
+        nativeQuery = true
     )
     fun findByEstimateId(estimateId: UUID): Set<PlanDto>
 
@@ -46,7 +46,7 @@ interface PlanReader : Repository<Plan, UUID> {
         AND (SELECT MIN(yj.assigned_at) FROM RM_PLANNING_JOB yj WHERE yj.plan_id = p.id) <= :to
         GROUP BY p.id
         """,
-        nativeQuery = true,
+        nativeQuery = true
     )
     fun findByDateRange(from: LocalDate, to: LocalDate): Set<PlanDto>
 }

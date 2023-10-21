@@ -10,8 +10,6 @@ insert_final_newline = true
 max_line_length = 250
 
 [{*.kt, *.kts}]
-ij_kotlin_allow_trailing_comma = true
-ij_kotlin_allow_trailing_comma_on_call_site = true
 ij_kotlin_name_count_to_use_star_import = 50
 ij_kotlin_name_count_to_use_star_import_for_members = 50
 ij_java_use_single_class_imports = true

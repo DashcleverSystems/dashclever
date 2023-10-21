@@ -25,7 +25,7 @@ internal class TestcontainersInitializer : ApplicationContextInitializer<Configu
             "spring.liquibase.password=${POSTGRES.password}",
             "spring.datasource.url=${POSTGRES.jdbcUrl}",
             "spring.datasource.username=${POSTGRES.username}",
-            "spring.datasource.password=${POSTGRES.password}",
+            "spring.datasource.password=${POSTGRES.password}"
         ).applyTo(applicationContext.environment)
     }
 }

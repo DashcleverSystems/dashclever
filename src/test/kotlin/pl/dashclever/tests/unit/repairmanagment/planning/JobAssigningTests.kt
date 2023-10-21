@@ -41,19 +41,19 @@ internal class JobAssigningTests {
                     preparePlan(
                         2L,
                         listOf(
-                            LocalDate.of(2023, 1, 6),
-                        ),
-                    ),
+                            LocalDate.of(2023, 1, 6)
+                        )
+                    )
                 ),
                 Arguments.of(
                     preparePlan(
                         8L,
                         listOf(
                             LocalDate.of(2023, 1, 5),
-                            LocalDate.of(2023, 1, 4),
-                        ),
-                    ),
-                ),
+                            LocalDate.of(2023, 1, 4)
+                        )
+                    )
+                )
             )
         }
     }
@@ -79,8 +79,8 @@ internal class JobAssigningTests {
             jobs = mapOf(
                 1L to 120,
                 2L to 120,
-                3L to 120,
-            ),
+                3L to 120
+            )
         )
         plan.assign(1, "employeeId", LocalDate.of(2023, 1, 6))
 
@@ -98,8 +98,8 @@ internal class JobAssigningTests {
             jobs = mapOf(
                 1L to 120,
                 2L to 120,
-                3L to 120,
-            ),
+                3L to 120
+            )
         )
         plan.assign(1, "employeeId", LocalDate.of(2023, 1, 6))
 
@@ -111,8 +111,8 @@ internal class JobAssigningTests {
             TaskAssigned(
                 planId = plan.id.toString(),
                 jobId = "2",
-                employeeId = "employeeId",
-            ),
+                employeeId = "employeeId"
+            )
         )
     }
 
@@ -124,8 +124,8 @@ internal class JobAssigningTests {
             jobs = mapOf(
                 1L to 120,
                 2L to 120,
-                3L to 120,
-            ),
+                3L to 120
+            )
         )
         plan.assign(1, "employeeId", LocalDate.of(2023, 1, 6))
 

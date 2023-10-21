@@ -34,8 +34,7 @@ internal class EstimateController(
 
     @PostMapping
     fun create(
-        @Valid
-        @RequestBody
+        @Valid @RequestBody
         estimate: Estimate,
     ): ResponseEntity<Estimate> {
         if (this.estimateRepository.existsByEstimateId(estimate.estimateId)) {

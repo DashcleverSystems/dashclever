@@ -12,7 +12,7 @@ interface CredentialsReader : Repository<Account, UUID> {
 
     @Query(
         value = "SELECT id AS accId, username AS username, password_hash AS password FROM ACCOUNT acc WHERE acc.username = :username",
-        nativeQuery = true,
+        nativeQuery = true
     )
     fun findByUsername(username: String): Optional<CredentialsDto>
 }

@@ -62,7 +62,7 @@ internal class EstimateCatalogueTests(
                   }
                 ]
             }
-                """.trimIndent(),
+                """.trimIndent()
             )
             log().ifValidationFails()
         } When {

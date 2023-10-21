@@ -12,5 +12,5 @@ data class Money(
 
 enum class Currency {
     PLN,
-    EUR,
+    EUR
 }

@@ -17,7 +17,7 @@ interface EmployeeOccupationReader : Repository<Plan, UUID> {
             FROM RM_PLANNING_JOB j
             WHERE j.assigned_at = :at AND j.assigned_to = :employeeId GROUP BY j.assigned_to
             """,
-        nativeQuery = true,
+        nativeQuery = true
     )
     fun findByEmployeeIdAt(employeeId: String, at: LocalDate): Optional<EmployeeOccupationDto>
 }

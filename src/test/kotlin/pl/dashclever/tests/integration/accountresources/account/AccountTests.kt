@@ -46,7 +46,7 @@ internal class AccountTests(
                         "password": "testPassword",
                         "email": "test@email.com"
                     }
-                """.trimIndent(),
+                """.trimIndent()
             )
             log().ifValidationFails()
         } When {

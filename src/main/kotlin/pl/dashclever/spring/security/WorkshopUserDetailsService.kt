@@ -24,7 +24,7 @@ class WorkshopUserDetailsService(
             username = currentUser.username,
             workshopId = access.workshopId,
             employeeId = access.employeeId,
-            authorities = access.authorities,
+            authorities = access.authorities
         )
     }
 
@@ -39,7 +39,7 @@ class WorkshopUserDetailsService(
             username = currentUser.username,
             workshopId = access.workshopId,
             employeeId = access.employeeId,
-            authorities = access.authorities,
+            authorities = access.authorities
         )
     }
 }

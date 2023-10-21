@@ -50,7 +50,7 @@ internal class AccountController(
         accountService.registerAccount(
             username = req.username,
             password = req.password,
-            email = req.email,
+            email = req.email
         )
         return ResponseEntity.accepted().build()
     }
@@ -66,8 +66,8 @@ internal class AccountController(
         val workshopId = accountHandler.createWorkshop(
             CreateWorkshop(
                 accountId = accountId,
-                displayName = req.displayName,
-            ),
+                displayName = req.displayName
+            )
         )
         return ResponseEntity.created(URI.create("$PATH/workshop/$workshopId")).build()
     }

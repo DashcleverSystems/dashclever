@@ -34,7 +34,7 @@ internal class PlanReadController(
             return findByDateRange(from, to)
         }
         return planReader.findByEstimateId(
-            estimateId ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "estimate id has to specified"),
+            estimateId ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "estimate id has to specified")
         )
     }
 
