@@ -19,7 +19,6 @@ internal class JobAssigningTests {
 
         @JvmStatic
         fun providePassingPlans(): Stream<Arguments> {
-
             fun jobs(number: Long): Map<Long, Int> {
                 val jobs = mutableMapOf<Long, Int>()
                 for (i in 1L..number) {
@@ -61,7 +60,7 @@ internal class JobAssigningTests {
 
     @ParameterizedTest
     @MethodSource("providePassingPlans")
-    fun `GIVEN plan with jobs SHOULD assign job`(passingPlan: pl.dashclever.repairmanagment.plannig.model.Plan) {
+    fun `GIVEN plan with jobs SHOULD assign job`(passingPlan: Plan) {
         // given
         val expected = TaskAssigned(passingPlan.id.toString(), "1", "employeeId")
 

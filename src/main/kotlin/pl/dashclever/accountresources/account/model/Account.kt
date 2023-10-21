@@ -36,8 +36,9 @@ class Account(
 
     @Throws(DomainException::class)
     fun createWorkshop(displayName: String): AccountCreatedWorkshop {
-        if (this.ownerships.size >= MAXIMUM_ACCOUNTS_WORKSHOPS)
+        if (this.ownerships.size >= MAXIMUM_ACCOUNTS_WORKSHOPS) {
             throw DomainException("Your account can be owner of only two workshops")
+        }
         val newWorkshop = Workshop(displayName)
         this.ownerships += newWorkshop
         return AccountCreatedWorkshop(this.id, newWorkshop.id)
@@ -45,10 +46,12 @@ class Account(
 
     @Throws(DomainException::class)
     fun associateWith(employee: Employee): AddedEmployeeship {
-        if (this.employeeships.size >= MAXIMUM_ACCOUNT_EMPLOYEESHIPS)
+        if (this.employeeships.size >= MAXIMUM_ACCOUNT_EMPLOYEESHIPS) {
             throw DomainException("Reached limit of maximum associations")
-        if (this.employeeships.any { it.employeeship.employeeId == employee.id })
+        }
+        if (this.employeeships.any { it.employeeship.employeeId == employee.id }) {
             throw DomainException("Employee already associated with this account")
+        }
         val newEmployeeship = Employeeship(EmployeeshipId(this.id, employee.id))
         this.employeeships += newEmployeeship
         return AddedEmployeeship(this.id, employee.id)

@@ -22,27 +22,33 @@ class Plan internal constructor(
     @Id
     val id: UUID = UUID.randomUUID(),
     val estimateId: String,
-    @OneToMany(cascade = [ALL], orphanRemoval = true, fetch = EAGER) @JoinColumn(name = "plan_id")
+    @OneToMany(cascade = [ALL], orphanRemoval = true, fetch = EAGER)
+    @JoinColumn(name = "plan_id")
     private val jobs: Set<Job>,
 ) : OptimisticLockEntity<UUID>() {
 
     fun assign(jobId: Long, employeeId: String, at: LocalDate): TaskAssigned {
         val job = tryFindJob(jobId)
-        if (isNoneJobAssigned())
+        if (isNoneJobAssigned()) {
             return assign(job, employeeId, at)
-        if (isAfterLastRepairDay(at))
+        }
+        if (isAfterLastRepairDay(at)) {
             throw DomainException("Can not assign task to be done after estimated technical repair time")
+        }
         return assign(job, employeeId, at)
     }
 
     fun assignWithTime(jobId: Long, employeeId: String, at: LocalDate, hour: Int): TaskAssigned {
-        if (!isWithinWorkingHours(hour))
+        if (!isWithinWorkingHours(hour)) {
             throw DomainException("It is not possible to assign job not within working hours")
+        }
         val job = tryFindJob(jobId)
-        if (isNoneJobAssigned())
+        if (isNoneJobAssigned()) {
             return assign(job, employeeId, at, hour)
-        if (isAfterLastRepairDay(at))
+        }
+        if (isAfterLastRepairDay(at)) {
             throw DomainException("Can not assign task to be done after estimated technical repair time")
+        }
         return assign(job, employeeId, at, hour)
     }
 

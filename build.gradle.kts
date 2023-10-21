@@ -1,14 +1,14 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "3.0.6"
-    id("io.spring.dependency-management") version "1.1.0"
-    kotlin("jvm") version "1.7.22"
-    kotlin("plugin.spring") version "1.7.22"
-    kotlin("plugin.jpa") version "1.7.22"
-    id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
-    id("io.gitlab.arturbosch.detekt") version "1.22.0"
-    id("org.springdoc.openapi-gradle-plugin") version "1.6.0"
+    id("org.springframework.boot") version "3.1.4"
+    id("io.spring.dependency-management") version "1.1.3"
+    kotlin("jvm") version "1.8.22"
+    kotlin("plugin.spring") version "1.8.22"
+    kotlin("plugin.jpa") version "1.8.22"
+    id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
+    id("org.jlleitschuh.gradle.ktlint-idea") version "11.6.1"
+    id("org.springdoc.openapi-gradle-plugin") version "1.8.0"
 }
 
 group = "pl.dashclever"
@@ -31,20 +31,19 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("com.auth0:java-jwt:4.4.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("com.google.guava:guava:31.1-jre")
-    implementation("org.apache.commons:commons-lang3:3.12.0")
+    implementation("com.google.guava:guava:32.1.3-jre")
+    implementation("org.apache.commons:commons-lang3:3.13.0")
     implementation("com.itextpdf:itextpdf:5.5.13.3")
-    implementation("org.liquibase:liquibase-core:4.21.1")
+    implementation("org.liquibase:liquibase-core")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
-    implementation("io.github.oshai:kotlin-logging-jvm:5.0.1")
+    implementation("io.github.oshai:kotlin-logging-jvm:5.1.0")
 
-    compileOnly("org.projectlombok:lombok:1.18.26")
+    compileOnly("org.projectlombok:lombok")
 
     runtimeOnly("org.postgresql:postgresql")
 
-    annotationProcessor("org.projectlombok:lombok:1.18.26")
+    annotationProcessor("org.projectlombok:lombok")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
@@ -52,14 +51,14 @@ dependencies {
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
-    testImplementation("io.rest-assured:rest-assured:5.3.0")
-    testImplementation("io.rest-assured:kotlin-extensions:5.3.0")
+    testImplementation("io.rest-assured:rest-assured:5.3.2")
+    testImplementation("io.rest-assured:kotlin-extensions:5.3.2")
     testImplementation("org.assertj:assertj-core:3.24.2")
-    testImplementation("io.mockk:mockk:1.13.5")
+    testImplementation("io.mockk:mockk:1.13.8")
 
-    testCompileOnly("org.projectlombok:lombok:1.18.26")
+    testCompileOnly("org.projectlombok:lombok")
 
-    testAnnotationProcessor("org.projectlombok:lombok:1.18.26")
+    testAnnotationProcessor("org.projectlombok:lombok")
 }
 
 dependencyManagement {
@@ -117,10 +116,6 @@ val cleanDev = tasks.register<Exec>("cleanDev") {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-}
-
-detekt {
-    config.setFrom("detekt-config.yml")
 }
 
 val copyWebBuildToResources = tasks.register<Copy>("copyWebBuildToResources") {

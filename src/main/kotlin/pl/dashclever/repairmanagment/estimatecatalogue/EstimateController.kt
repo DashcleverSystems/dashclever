@@ -33,7 +33,10 @@ internal class EstimateController(
 ) {
 
     @PostMapping
-    fun create(@Valid @RequestBody estimate: Estimate): ResponseEntity<Estimate> {
+    fun create(
+        @Valid @RequestBody
+        estimate: Estimate,
+    ): ResponseEntity<Estimate> {
         if (this.estimateRepository.existsByEstimateId(estimate.estimateId)) {
             throw DomainException(ALREADY_EXISTS)
         }
@@ -49,20 +52,22 @@ internal class EstimateController(
         @RequestParam(required = false) createdAfter: LocalDateTime?,
         @RequestParam(required = false, defaultValue = "0") pageNo: Int,
         @RequestParam(required = false, defaultValue = "20") pageSize: Int,
-        @RequestParam(required = false, defaultValue = "DESC") sortDirection: SortDirection
+        @RequestParam(required = false, defaultValue = "DESC") sortDirection: SortDirection,
     ): Page<Estimate> {
         var specification: Specification<Estimate>? = null
-        if (createdAfter != null)
+        if (createdAfter != null) {
             specification = EstimateSpecifications.createdOnAfter(createdAfter)
-        if (estimateId != null)
+        }
+        if (estimateId != null) {
             specification = specification?.and(EstimateSpecifications.estimateId(estimateId)) ?: EstimateSpecifications.estimateId(estimateId)
+        }
 
         val sort = when (sortDirection) {
             ASC -> Sort.by("createdOn").ascending()
             DESC -> Sort.by("createdOn").descending()
         }
         val pageReq = PageRequest.of(pageNo, pageSize, sort)
-        return this.estimateRepository.findAll(specification, pageReq)
+        return specification?.let { this.estimateRepository.findAll(it, pageReq) } ?: this.estimateRepository.findAll(pageReq)
     }
 
     @DeleteMapping

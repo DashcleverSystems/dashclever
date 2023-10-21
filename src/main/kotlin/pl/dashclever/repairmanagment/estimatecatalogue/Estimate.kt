@@ -23,7 +23,8 @@ class Estimate(
     val vehicleInfo: VehicleInfo,
     @field:Valid @Embedded
     val paintInfo: PaintInfo,
-    @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true) @JoinColumn(name = "estimate_id")
+    @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
+    @JoinColumn(name = "estimate_id")
     val jobs: Set<Job> = emptySet(),
 ) : OptimisticLockEntity<UUID>() {
 

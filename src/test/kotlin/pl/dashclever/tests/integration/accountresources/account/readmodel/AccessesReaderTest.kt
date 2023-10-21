@@ -40,8 +40,10 @@ internal class AccessesReaderTest(
         val result = accessesReader.findWorkshopOwnerAccesses(account.id)
 
         // then
-        assertThat(result).singleElement().satisfies({
-            assertThat(it.workshopName).isEqualTo("workshopName")
-        })
+        assertThat(result).singleElement().satisfies(
+            {
+                assertThat(it.workshopName).isEqualTo("workshopName")
+            }
+        )
     }
 }

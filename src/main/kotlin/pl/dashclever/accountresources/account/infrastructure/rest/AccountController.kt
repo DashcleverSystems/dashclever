@@ -43,7 +43,10 @@ internal class AccountController(
 ) {
 
     @PostMapping
-    fun register(@Valid @RequestBody req: RegisterReq): ResponseEntity<AccountDto> {
+    fun register(
+        @Valid @RequestBody
+        req: RegisterReq,
+    ): ResponseEntity<AccountDto> {
         accountService.registerAccount(
             username = req.username,
             password = req.password,
@@ -54,7 +57,8 @@ internal class AccountController(
 
     @PostMapping("/workshop")
     fun createWorkshop(
-        @Valid @RequestBody req: CreateWorkshopReq,
+        @Valid @RequestBody
+        req: CreateWorkshopReq,
         authentication: Authentication,
     ): ResponseEntity<AccessDto> {
         val accountId = (authentication.principal as? IdUserDetails?)?.id
@@ -70,8 +74,9 @@ internal class AccountController(
 
     @GetMapping("/access")
     fun login(authentication: Authentication?): Set<WorkshopAccessesDto> {
-        if (authentication == null)
+        if (authentication == null) {
             throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
+        }
         val loggedUserDetails = authentication.principal as UserDetails?
             ?: throw IllegalArgumentException("Could not find authenticated user")
         val accDto = accountReader.findByUsername(loggedUserDetails.username)
@@ -81,8 +86,9 @@ internal class AccountController(
 
     @GetMapping
     fun currentUser(authentication: Authentication?): AccessDto? {
-        if (authentication == null)
+        if (authentication == null) {
             throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
+        }
         fun WorkshopUserDetails.toAccessDto(): AccessDto {
             val accesses = accessesReader.findAccountWorkshopAccesses(this.id)
             val access = accesses.firstOrNull { it.workshopId == this.workshopId }
