@@ -3,6 +3,7 @@ package pl.dashclever.spring.security
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
 import pl.dashclever.accountresources.account.readmodel.AccessesReader
@@ -16,8 +17,7 @@ import pl.dashclever.commons.security.Access.WithAuthorities.Authority.REPAIR_PR
 import pl.dashclever.commons.security.Access.WorkshopEmployeeAccess
 import pl.dashclever.commons.security.Access.WorkshopOwnerAccess
 import pl.dashclever.commons.security.CurrentAccessProvider
-import pl.dashclever.commons.security.UserSetter
-import java.lang.IllegalStateException
+import pl.dashclever.commons.security.AccessSetter
 import java.util.UUID
 
 @Service
@@ -26,7 +26,7 @@ class SpringApplicationAccessesSetter(
     private val currentAccessProvider: CurrentAccessProvider,
     private val springSecurityContextProvider: SpringSecurityContextProvider,
     private val springCurrentAuthenticationProvider: SpringCurrentAuthenticationProvider,
-) : UserSetter {
+) : AccessSetter {
 
     override fun setOwnerAccess(workshopId: UUID): WorkshopOwnerAccess {
         val currentAccess: Access = currentAccess()
@@ -38,12 +38,15 @@ class SpringApplicationAccessesSetter(
             workshopId = access.workshopId
         )
         val currentAuth = springCurrentAuthenticationProvider.getAuthentication()
-        springSecurityContextProvider.getSecurityContext().authentication = WorkshopAccessAuthentication(newOwnerAccess, currentAuth)
+        springSecurityContextProvider.getSecurityContext().authentication = AccessAuthentication(
+            accessUserDetails = AccessUserDetails(newOwnerAccess, currentAuth),
+            auth = currentAuth
+        )
         return newOwnerAccess
     }
 
     private fun currentAccess(): Access = currentAccessProvider.currentAccess()
-        ?: throw IllegalStateException("Could provide currently authenticated user")
+        ?: error("Could not provide currently authenticated user")
 
     override fun setEmployeeAccess(employeeId: UUID): WorkshopEmployeeAccess {
         val currentAccess = currentAccess()
@@ -57,7 +60,10 @@ class SpringApplicationAccessesSetter(
             authorities = access.employeeWorkplace.toAuthorities()
         )
         val currentAuth = springCurrentAuthenticationProvider.getAuthentication()
-        springSecurityContextProvider.getSecurityContext().authentication = WorkshopAccessAuthentication(newEmployeeAccess, currentAuth)
+        springSecurityContextProvider.getSecurityContext().authentication = AccessAuthentication(
+            accessUserDetails = AccessUserDetails(newEmployeeAccess, currentAuth),
+            auth = currentAuth
+        )
         return newEmployeeAccess
     }
 
@@ -68,8 +74,29 @@ class SpringApplicationAccessesSetter(
         }
     }
 
-    private data class WorkshopAccessAuthentication(
-        private val access: Access.WithAuthorities,
+    private data class AccessUserDetails(
+        override val access: Access.WithAuthorities,
+        private val auth: Authentication,
+    ) : UserDetails, WithAccess {
+
+        override fun getAuthorities(): MutableCollection<out GrantedAuthority> =
+            access.authorities.map { GrantedAuthority { it.name } }.toMutableSet()
+
+        override fun getPassword(): String = throw IllegalAccessException("It is not possible to access credentials of already authenticated user")
+
+        override fun getUsername(): String = (auth.principal as UserDetails).username
+
+        override fun isAccountNonExpired(): Boolean = true
+
+        override fun isAccountNonLocked(): Boolean = true
+
+        override fun isCredentialsNonExpired(): Boolean = true
+
+        override fun isEnabled(): Boolean = true
+    }
+
+    private data class AccessAuthentication(
+        private val accessUserDetails: AccessUserDetails,
         private val auth: Authentication,
     ) : Authentication {
 
@@ -78,14 +105,13 @@ class SpringApplicationAccessesSetter(
         override fun getName(): String = auth.name
 
         override fun getAuthorities(): MutableCollection<out GrantedAuthority> =
-            access.authorities.map { GrantedAuthority { it.name } }.toMutableSet()
+            accessUserDetails.authorities
 
-        override fun getCredentials(): Any =
-            throw IllegalAccessException()
+        override fun getCredentials(): Any = throw IllegalAccessException("It is not possible to access credentials of already authenticated user")
 
         override fun getDetails(): Any = auth.details
 
-        override fun getPrincipal(): Any = access
+        override fun getPrincipal(): Any = accessUserDetails
 
         override fun isAuthenticated(): Boolean =
             this.isAuth

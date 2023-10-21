@@ -10,6 +10,11 @@ class SpringCurrentAccessProvider : CurrentAccessProvider {
 
     override fun currentAccess(): Access? {
         val authentication = SecurityContextHolder.getContext().authentication
-        return authentication.principal as? Access
+        val currentPrincipal = authentication.principal
+        return when (currentPrincipal) {
+            is Access -> authentication.principal as Access
+            is WithAccess -> (authentication.principal as WithAccess).access
+            else -> error("Could not provide current access. Current authentication principal is of unknown type.")
+        }
     }
 }

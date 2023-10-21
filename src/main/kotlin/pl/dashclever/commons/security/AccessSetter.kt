@@ -4,7 +4,7 @@ import pl.dashclever.commons.security.Access.WorkshopEmployeeAccess
 import pl.dashclever.commons.security.Access.WorkshopOwnerAccess
 import java.util.UUID
 
-interface UserSetter {
+interface AccessSetter {
 
     fun setOwnerAccess(workshopId: UUID): WorkshopOwnerAccess
 

@@ -17,10 +17,10 @@ class EntryUserDetailsService(
         if (username == null) throw UsernameNotFoundException("Not specified username!")
         val credentialsDto = credentialsReader.findByUsername(username)
             .orElseThrow { UsernameNotFoundException("No user with $username found") }
-        return EntryAccessDetails(credentialsDto.accId, credentialsDto.username, credentialsDto.password)
+        return EntryAccessUserDetails(credentialsDto.accId, credentialsDto.username, credentialsDto.password)
     }
 
-    private data class EntryAccessDetails(
+    private data class EntryAccessUserDetails(
         override val accountId: UUID,
         private val username: String,
         private val passwordHash: String,
