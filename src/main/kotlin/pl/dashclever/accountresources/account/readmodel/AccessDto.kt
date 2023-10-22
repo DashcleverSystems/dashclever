@@ -13,7 +13,7 @@ data class AccessDto(
     val isOwnerAccess: Boolean,
     val employeeId: UUID?,
     val employeeFirstName: String?,
-    val authorities: Set<AuthorityDto>,
+    val authorities: Set<AuthorityDto>
 )
 
 enum class Role(val authorities: Set<AuthorityDto>) {

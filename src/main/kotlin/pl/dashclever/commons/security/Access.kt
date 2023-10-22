@@ -20,7 +20,7 @@ interface Access {
 
     data class WorkshopOwnerAccess(
         override val accountId: UUID,
-        val workshopId: UUID,
+        val workshopId: UUID
     ) : Access, WithAuthorities {
 
         override val authorities: Set<Authority> = Authority.values().toSet()
@@ -30,6 +30,6 @@ interface Access {
         override val accountId: UUID,
         val workshopId: UUID,
         val employeeId: UUID,
-        override val authorities: Set<Authority>,
+        override val authorities: Set<Authority>
     ) : Access, WithAuthorities
 }

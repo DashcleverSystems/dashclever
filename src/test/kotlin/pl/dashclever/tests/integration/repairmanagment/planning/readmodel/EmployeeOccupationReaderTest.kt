@@ -16,7 +16,7 @@ import java.util.UUID
 @ContextConfiguration(initializers = [TestcontainersInitializer::class])
 internal class EmployeeOccupationReaderTest(
     @Autowired private val planRepository: PlanRepository,
-    @Autowired private val employeeOccupationReader: EmployeeOccupationReader,
+    @Autowired private val employeeOccupationReader: EmployeeOccupationReader
 ) {
 
     @Test

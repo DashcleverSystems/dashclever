@@ -4,5 +4,5 @@ import java.util.UUID
 
 internal data class AccessReq(
     val workshopId: UUID,
-    val employeeId: UUID?,
+    val employeeId: UUID?
 )

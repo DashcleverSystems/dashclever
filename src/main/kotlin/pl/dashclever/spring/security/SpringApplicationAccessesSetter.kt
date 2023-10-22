@@ -26,7 +26,7 @@ class SpringApplicationAccessesSetter(
     private val accessesReader: AccessesReader,
     private val currentAccessProvider: CurrentAccessProvider,
     private val springSecurityContextProvider: SpringSecurityContextProvider,
-    private val springCurrentAuthenticationProvider: SpringCurrentAuthenticationProvider,
+    private val springCurrentAuthenticationProvider: SpringCurrentAuthenticationProvider
 ) : AccessSetter {
 
     override fun setOwnerAccess(workshopId: UUID): WorkshopOwnerAccess {
@@ -77,7 +77,7 @@ class SpringApplicationAccessesSetter(
 
     private data class AccessUserDetails(
         override val access: Access.WithAuthorities,
-        private val auth: Authentication,
+        private val auth: Authentication
     ) : UserDetails, WithAccess {
 
         override fun getAuthorities(): MutableCollection<out GrantedAuthority> =
@@ -98,7 +98,7 @@ class SpringApplicationAccessesSetter(
 
     private data class AccessAuthentication(
         private val accessUserDetails: AccessUserDetails,
-        private val auth: Authentication,
+        private val auth: Authentication
     ) : Authentication {
 
         private var isAuth = true

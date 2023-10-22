@@ -11,7 +11,7 @@ data class EmployeeDto(
     @NotBlank(message = NOT_BLANK)
     val lastName: String?,
     val workshopId: UUID,
-    val workplace: Workplace,
+    val workplace: Workplace
 ) {
 
     companion object Mapper {

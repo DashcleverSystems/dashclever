@@ -12,5 +12,5 @@ internal data class AssignReq(
     val at: LocalDate,
     @field:Min(value = 8, message = "$NUMBER_MIN;8")
     @field:Max(value = 24, message = "$NUMBER_MAX;24")
-    val hour: Int?,
+    val hour: Int?
 )

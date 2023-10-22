@@ -24,7 +24,7 @@ class Plan internal constructor(
     val estimateId: String,
     @OneToMany(cascade = [ALL], orphanRemoval = true, fetch = EAGER)
     @JoinColumn(name = "plan_id")
-    private val jobs: Set<Job>,
+    private val jobs: Set<Job>
 ) : OptimisticLockEntity<UUID>() {
 
     fun assign(jobId: Long, employeeId: String, at: LocalDate): TaskAssigned {

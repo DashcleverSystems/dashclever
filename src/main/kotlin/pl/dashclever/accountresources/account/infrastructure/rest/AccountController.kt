@@ -44,13 +44,13 @@ internal class AccountController(
     private val accessesReader: AccessesReader,
     private val accountReader: AccountReader,
     private val springApplicationAccessesSetter: SpringApplicationAccessesSetter,
-    private val currentAccessProvider: CurrentAccessProvider,
+    private val currentAccessProvider: CurrentAccessProvider
 ) {
 
     @PostMapping
     fun register(
         @Valid @RequestBody
-        req: RegisterReq,
+        req: RegisterReq
     ): ResponseEntity<AccountDto> {
         accountService.registerAccount(
             username = req.username,
@@ -64,7 +64,7 @@ internal class AccountController(
     fun createWorkshop(
         @Valid @RequestBody
         req: CreateWorkshopReq,
-        authentication: Authentication,
+        authentication: Authentication
     ): ResponseEntity<AccessDto> {
         val accountId = (authentication.principal as? Access?)?.accountId
             ?: throw IllegalAccessException("Could not determine account id")
@@ -140,7 +140,7 @@ internal class AccountController(
     @PostMapping("/access")
     fun choseSessionAccess(
         @RequestBody accessReq: AccessReq,
-        currentAuthentication: Authentication,
+        currentAuthentication: Authentication
     ) {
         accessReq.employeeId?.let { springApplicationAccessesSetter.setEmployeeAccess(it) } ?: springApplicationAccessesSetter.setOwnerAccess(accessReq.workshopId)
     }

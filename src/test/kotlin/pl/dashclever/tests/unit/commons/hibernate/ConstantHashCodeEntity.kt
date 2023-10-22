@@ -135,14 +135,14 @@ internal class ConstantHashCodeEntity {
     }
 
     private class TestEntity(
-        val id: UUID? = UUID.randomUUID(),
+        val id: UUID? = UUID.randomUUID()
     ) : ConstHashCodeEntity<UUID>() {
 
         override fun getIdentifierValue(): UUID? = this.id
     }
 
     private class TestEntity2(
-        val id: UUID? = UUID.randomUUID(),
+        val id: UUID? = UUID.randomUUID()
     ) : ConstHashCodeEntity<UUID>() {
 
         override fun getIdentifierValue(): UUID? = this.id

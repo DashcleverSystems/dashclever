@@ -15,7 +15,7 @@ data class Employee(
     var lastName: String?,
     val workshopId: UUID,
     @Enumerated(ORDINAL)
-    var workplace: Workplace,
+    var workplace: Workplace
 ) : OptimisticLockEntity<UUID>() {
 
     @Id

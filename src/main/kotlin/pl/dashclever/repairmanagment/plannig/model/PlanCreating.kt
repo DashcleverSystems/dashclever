@@ -10,7 +10,7 @@ import java.util.UUID
 @Service
 class PlanCreating(
     private val estimateRepository: EstimateRepository,
-    private val planRepository: PlanRepository,
+    private val planRepository: PlanRepository
 ) {
 
     @Transactional

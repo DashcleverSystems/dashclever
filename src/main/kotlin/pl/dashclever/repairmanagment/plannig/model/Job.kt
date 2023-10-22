@@ -13,7 +13,7 @@ import java.time.LocalDate
 @Table(name = "RM_PLANNING_JOB")
 internal class Job(
     val catalogueJobId: Long,
-    val manMinutes: Int,
+    val manMinutes: Int
 ) : UpdateTimestampEntity<Long>() {
 
     private var assignedTo: String? = null

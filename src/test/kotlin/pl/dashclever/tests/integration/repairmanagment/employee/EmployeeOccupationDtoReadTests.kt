@@ -32,7 +32,7 @@ internal class EmployeeOccupationDtoReadTests(
     @Autowired private val estimateRepository: pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository,
     @Autowired private val estimateTestsRepository: EstimateTestsRepository,
     @Autowired private val planCreating: PlanCreating,
-    @Autowired private val planRepository: PlanRepository,
+    @Autowired private val planRepository: PlanRepository
 ) {
 
     @BeforeEach

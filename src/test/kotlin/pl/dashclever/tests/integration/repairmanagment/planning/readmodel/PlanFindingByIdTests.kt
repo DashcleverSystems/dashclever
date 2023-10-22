@@ -22,7 +22,7 @@ import java.util.stream.Stream
 @ContextConfiguration(initializers = [TestcontainersInitializer::class])
 internal class PlanFindingByIdTests @Autowired constructor(
     private val planRepository: PlanRepository,
-    private val planReader: PlanReader,
+    private val planReader: PlanReader
 ) {
 
     @AfterEach

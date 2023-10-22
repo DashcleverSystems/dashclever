@@ -14,7 +14,7 @@ import pl.dashclever.tests.integration.TestcontainersInitializer
 @ContextConfiguration(initializers = [TestcontainersInitializer::class])
 internal class CredentialsReaderTest(
     @Autowired private val accountRepository: AccountRepository,
-    @Autowired private val credentialsReader: CredentialsReader,
+    @Autowired private val credentialsReader: CredentialsReader
 ) {
 
     @Test

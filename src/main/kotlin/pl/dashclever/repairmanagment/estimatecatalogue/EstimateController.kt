@@ -29,13 +29,13 @@ private const val PATH = "/api/estimatecatalogue"
 @RestController
 @RequestMapping(PATH)
 internal class EstimateController(
-    private val estimateRepository: EstimateRepository,
+    private val estimateRepository: EstimateRepository
 ) {
 
     @PostMapping
     fun create(
         @Valid @RequestBody
-        estimate: Estimate,
+        estimate: Estimate
     ): ResponseEntity<Estimate> {
         if (this.estimateRepository.existsByEstimateId(estimate.estimateId)) {
             throw DomainException(ALREADY_EXISTS)
@@ -52,7 +52,7 @@ internal class EstimateController(
         @RequestParam(required = false) createdAfter: LocalDateTime?,
         @RequestParam(required = false, defaultValue = "0") pageNo: Int,
         @RequestParam(required = false, defaultValue = "20") pageSize: Int,
-        @RequestParam(required = false, defaultValue = "DESC") sortDirection: SortDirection,
+        @RequestParam(required = false, defaultValue = "DESC") sortDirection: SortDirection
     ): Page<Estimate> {
         var specification: Specification<Estimate>? = null
         if (createdAfter != null) {

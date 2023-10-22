@@ -9,7 +9,7 @@ import pl.dashclever.commons.security.Access
 import java.util.UUID
 
 class EntryUserDetailsService(
-    private val credentialsReader: CredentialsReader,
+    private val credentialsReader: CredentialsReader
 ) : UserDetailsService {
 
     @Throws(UsernameNotFoundException::class)
@@ -23,7 +23,7 @@ class EntryUserDetailsService(
     private data class EntryAccessUserDetails(
         override val accountId: UUID,
         private val username: String,
-        private val passwordHash: String,
+        private val passwordHash: String
     ) : Access, UserDetails {
 
         override fun getAuthorities(): MutableCollection<out GrantedAuthority> =

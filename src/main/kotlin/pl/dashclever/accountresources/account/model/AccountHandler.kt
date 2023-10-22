@@ -10,7 +10,7 @@ import java.util.UUID
 @Service
 class AccountHandler(
     private val accountRepository: AccountRepository,
-    private val employeeRepository: EmployeeRepository,
+    private val employeeRepository: EmployeeRepository
 ) {
 
     @Transactional

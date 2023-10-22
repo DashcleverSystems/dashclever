@@ -11,5 +11,5 @@ internal data class RegisterReq(
     @field:Size(min = 8, max = 128, message = "$SIZE_BETWEEN;8;128")
     val password: String,
     @field:Email(message = EMAIL)
-    val email: String,
+    val email: String
 )
