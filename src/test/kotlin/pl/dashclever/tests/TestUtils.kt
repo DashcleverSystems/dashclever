@@ -1,9 +1,9 @@
 package pl.dashclever.tests
 
-fun <T : Any> T.withField(variableName: String, data: Any): T {
-    javaClass.getDeclaredField(variableName).let { field ->
+fun <T : Any> T.withField(fieldName: String, value: Any): T {
+    javaClass.getDeclaredField(fieldName).let { field ->
         field.isAccessible = true
-        field.set(this, data)
+        field.set(this, value)
     }
     return this
 }

@@ -16,10 +16,11 @@ import pl.dashclever.commons.security.Access.WithAuthorities.Authority.INSIGHT_R
 import pl.dashclever.commons.security.Access.WithAuthorities.Authority.REPAIR_PROCESS
 import pl.dashclever.commons.security.Access.WorkshopEmployeeAccess
 import pl.dashclever.commons.security.Access.WorkshopOwnerAccess
-import pl.dashclever.commons.security.CurrentAccessProvider
 import pl.dashclever.commons.security.AccessSetter
+import pl.dashclever.commons.security.CurrentAccessProvider
 import java.util.UUID
 
+// TODO(This class is hard to test. Given. The SpringApplicationAccessesSetter does to much. Probably querying for access and preparing the proper Access should be externalized)
 @Service
 class SpringApplicationAccessesSetter(
     private val accessesReader: AccessesReader,

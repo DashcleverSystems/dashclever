@@ -25,12 +25,13 @@ import pl.dashclever.tests.integration.repairmanagment.`new estimate`
 internal class EstimateCatalogueTests(
     @LocalServerPort private val port: Int,
     @Autowired private val estimateRepository: pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository,
+    @Autowired private val estimateTestsRepository: EstimateTestsRepository,
 ) {
 
     @BeforeEach
     fun set() {
         RestAssured.port = port
-        estimateRepository.deleteAll()
+        estimateTestsRepository.deleteAll()
     }
 
     @Test
@@ -79,7 +80,7 @@ internal class EstimateCatalogueTests(
         // given
         val estimateId = "24/2022wk"
         val estimates = arrayOf(`new estimate`(estimateId))
-        estimateRepository.saveAll(estimates.toList())
+        estimateTestsRepository.saveAll(estimates.toSet())
 
         // when
         val response =
@@ -103,7 +104,7 @@ internal class EstimateCatalogueTests(
     fun `should return all estimates`() {
         // given
         val estimates = arrayOf(`new estimate`("1/2022wk"), `new estimate`("2/2022kw"))
-        estimateRepository.saveAll(estimates.toList())
+        estimateTestsRepository.saveAll(estimates.toSet())
 
         // when
         val response =
@@ -148,7 +149,7 @@ internal class EstimateCatalogueTests(
         val estimate = `new estimate`(estimateId)
         estimateRepository.save(estimate)
         val estimateUid = estimate.id
-        estimateRepository.delete(estimate)
+        estimateRepository.deleteById(estimate.id)
 
         // when
         Given {
