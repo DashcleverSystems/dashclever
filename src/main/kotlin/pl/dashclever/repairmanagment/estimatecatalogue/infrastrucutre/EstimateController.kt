@@ -1,4 +1,4 @@
-package pl.dashclever.repairmanagment.estimatecatalogue
+package pl.dashclever.repairmanagment.estimatecatalogue.infrastrucutre
 
 import jakarta.validation.Valid
 import org.springframework.data.domain.Page
@@ -20,6 +20,9 @@ import pl.dashclever.publishedlanguage.DomainException
 import pl.dashclever.publishedlanguage.SortDirection
 import pl.dashclever.publishedlanguage.SortDirection.ASC
 import pl.dashclever.publishedlanguage.SortDirection.DESC
+import pl.dashclever.repairmanagment.estimatecatalogue.Estimate
+import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository
+import pl.dashclever.repairmanagment.estimatecatalogue.EstimateSpecifications
 import java.net.URI
 import java.time.LocalDateTime
 import java.util.UUID
