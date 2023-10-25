@@ -2,11 +2,10 @@ package pl.dashclever.commons.security
 
 import pl.dashclever.commons.security.Access.WorkshopEmployeeAccess
 import pl.dashclever.commons.security.Access.WorkshopOwnerAccess
-import java.util.UUID
 
-interface AccessSetter {
+interface ApplicationAccessSetter {
 
-    fun setOwnerAccess(workshopId: UUID): WorkshopOwnerAccess
+    fun set(access: WorkshopOwnerAccess): WorkshopOwnerAccess
 
-    fun setEmployeeAccess(employeeId: UUID): WorkshopEmployeeAccess
+    fun set(access: WorkshopEmployeeAccess): WorkshopEmployeeAccess
 }

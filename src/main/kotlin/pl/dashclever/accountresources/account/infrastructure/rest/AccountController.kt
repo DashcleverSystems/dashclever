@@ -31,7 +31,7 @@ import pl.dashclever.commons.security.Access.WithAuthorities.Authority.REPAIR_PR
 import pl.dashclever.commons.security.Access.WorkshopEmployeeAccess
 import pl.dashclever.commons.security.Access.WorkshopOwnerAccess
 import pl.dashclever.commons.security.CurrentAccessProvider
-import pl.dashclever.spring.security.SpringApplicationAccessesSetter
+import pl.dashclever.spring.security.SpringSecurityApplicationFacade
 import java.net.URI
 
 private const val PATH = "/api/account"
@@ -43,7 +43,7 @@ internal class AccountController(
     private val accountHandler: AccountHandler,
     private val accessesReader: AccessesReader,
     private val accountReader: AccountReader,
-    private val springApplicationAccessesSetter: SpringApplicationAccessesSetter,
+    private val springSecurityApplicationFacade: SpringSecurityApplicationFacade,
     private val currentAccessProvider: CurrentAccessProvider
 ) {
 
@@ -106,7 +106,7 @@ internal class AccountController(
                     isOwnerAccess = true,
                     employeeId = null,
                     employeeFirstName = null,
-                    authorities = this.authorities.map { it.toAuthorityDto() }.toSet()
+                    authorities = this.authorities.map { it.toDto() }.toSet()
                 )
             }
             ?: throw IllegalArgumentException("Could not find corresponding owner access for: $this")
@@ -120,7 +120,7 @@ internal class AccountController(
                     isOwnerAccess = false,
                     employeeId = employeeAccessDto.employeeId,
                     employeeFirstName = employeeAccessDto.employeeFirstName,
-                    authorities = this.authorities.map { it.toAuthorityDto() }.toSet()
+                    authorities = this.authorities.map { it.toDto() }.toSet()
                 )
             } ?: throw IllegalArgumentException("Could not find corresponding employee access for: $this")
 
@@ -131,7 +131,7 @@ internal class AccountController(
         }
     }
 
-    private fun Authority.toAuthorityDto(): AuthorityDto = when (this) {
+    private fun Authority.toDto(): AuthorityDto = when (this) {
         MANAGE_STAFF -> AuthorityDto.MANAGE_STAFF
         INSIGHT_REPAIR -> AuthorityDto.INSIGHT_REPAIR
         REPAIR_PROCESS -> AuthorityDto.REPAIR_PROCESS
@@ -142,6 +142,7 @@ internal class AccountController(
         @RequestBody accessReq: AccessReq,
         currentAuthentication: Authentication
     ) {
-        accessReq.employeeId?.let { springApplicationAccessesSetter.setEmployeeAccess(it) } ?: springApplicationAccessesSetter.setOwnerAccess(accessReq.workshopId)
+        accessReq.employeeId?.let { springSecurityApplicationFacade.setEmployeeAccess(it) }
+            ?: springSecurityApplicationFacade.setOwnerAccess(accessReq.workshopId)
     }
 }

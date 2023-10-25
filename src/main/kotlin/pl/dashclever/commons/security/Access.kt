@@ -14,7 +14,7 @@ interface Access {
         enum class Authority {
             MANAGE_STAFF,
             INSIGHT_REPAIR,
-            REPAIR_PROCESS
+            REPAIR_PROCESS;
         }
     }
 

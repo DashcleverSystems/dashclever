@@ -8,7 +8,7 @@ import pl.dashclever.commons.security.CurrentAccessProvider
 @Component
 class SpringCurrentAccessProvider : CurrentAccessProvider {
 
-    override fun currentAccess(): Access? {
+    override fun currentAccess(): Access {
         val authentication = SecurityContextHolder.getContext().authentication
         val currentPrincipal = authentication.principal
         return when (currentPrincipal) {
