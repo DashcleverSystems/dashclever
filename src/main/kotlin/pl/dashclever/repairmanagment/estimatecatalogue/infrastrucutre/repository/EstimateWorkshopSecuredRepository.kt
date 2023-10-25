@@ -22,7 +22,6 @@ class EstimateWorkshopSecuredRepository(
     private val estimateWorkshopSecuredJpaReadRepository: EstimateWorkshopSecuredJpaRepository
 ) : EstimateRepository {
 
-
     @Transactional
     override fun save(estimate: Estimate): Estimate {
         this.entityManager.persist(estimate)
@@ -84,7 +83,7 @@ class EstimateWorkshopSecuredRepository(
         }
 
         fun withWorkshopId(workshopId: UUID): Specification<Estimate> {
-            return Specification { root, query, criteriaBuilder ->
+            return Specification { _, query, criteriaBuilder ->
                 val securityRecordRoot: Root<WorkshopEstimate> = query.from(WorkshopEstimate::class.java)
                 criteriaBuilder.equal(
                     securityRecordRoot.get<WorkshopEstimate.ComposePk>("id").get<UUID>("workshopId"),
@@ -93,5 +92,4 @@ class EstimateWorkshopSecuredRepository(
             }
         }
     }
-
 }

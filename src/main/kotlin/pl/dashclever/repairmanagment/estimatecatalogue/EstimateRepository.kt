@@ -6,7 +6,6 @@ import org.springframework.data.jpa.domain.Specification
 import java.time.LocalDateTime
 import java.util.*
 
-
 interface EstimateRepository {
 
     fun save(estimate: Estimate): Estimate

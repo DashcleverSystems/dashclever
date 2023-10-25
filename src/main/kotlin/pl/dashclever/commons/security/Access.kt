@@ -22,8 +22,6 @@ interface Access {
         val workshopId: UUID
     }
 
-
-
     data class WorkshopOwnerAccess(
         override val accountId: UUID,
         override val workshopId: UUID

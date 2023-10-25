@@ -6,13 +6,11 @@ import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToMany
-import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Size
 import pl.dashclever.commons.hibernate.OptimisticLockEntity
 import pl.dashclever.publishedlanguage.SIZE_BETWEEN
-import pl.dashclever.repairmanagment.estimatecatalogue.infrastrucutre.repository.WorkshopEstimate
 import java.time.LocalDateTime
 import java.util.UUID
 

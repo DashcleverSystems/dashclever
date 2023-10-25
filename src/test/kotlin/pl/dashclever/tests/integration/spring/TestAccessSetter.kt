@@ -17,7 +17,6 @@ internal class TestAccessSetter {
     }
 }
 
-
 internal data class TestAccess(
     override val accountId: UUID,
     override val authorities: Set<Authority>,
@@ -38,7 +37,6 @@ internal data class TestAccess(
 
     override fun isEnabled(): Boolean = true
 }
-
 
 private data class TestAuthentication(
     private val access: TestAccess
@@ -62,5 +60,4 @@ private data class TestAuthentication(
     override fun setAuthenticated(isAuthenticated: Boolean) {
         isAuth = isAuthenticated
     }
-
 }
