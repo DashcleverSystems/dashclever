@@ -7,7 +7,7 @@ import jakarta.persistence.Enumerated
 @Embeddable
 data class Money(
     val denomination: Long,
-    @Enumerated(STRING) val currency: Currency,
+    @Enumerated(STRING) val currency: Currency
 )
 
 enum class Currency {

@@ -22,7 +22,7 @@ import pl.dashclever.tests.integration.TestcontainersInitializer
 @ContextConfiguration(initializers = [TestcontainersInitializer::class])
 internal class AccountTests(
     @Autowired private val accountCleaner: AccountCleaner,
-    @LocalServerPort private val port: Int,
+    @LocalServerPort private val port: Int
 ) {
 
     @BeforeEach

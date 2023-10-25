@@ -9,7 +9,7 @@ import java.util.UUID
 @Entity
 @Table(name = "WORKSHOP")
 internal class Workshop(
-    val displayName: String,
+    val displayName: String
 ) : UpdateTimestampEntity<UUID>() {
 
     @Id

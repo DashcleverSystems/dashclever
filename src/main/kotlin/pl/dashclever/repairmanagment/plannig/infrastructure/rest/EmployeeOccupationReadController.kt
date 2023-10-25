@@ -17,13 +17,13 @@ private const val PATH = "/api/employee"
 @RestController
 @RequestMapping(PATH)
 internal class EmployeeOccupationReadController(
-    private val employeeOccupationReader: EmployeeOccupationReader,
+    private val employeeOccupationReader: EmployeeOccupationReader
 ) {
 
     @GetMapping("/{employeeId}/occupation")
     fun getOccupation(
         @PathVariable employeeId: UUID,
-        @RequestParam("at") at: LocalDate,
+        @RequestParam("at") at: LocalDate
     ): EmployeeOccupationDto =
         employeeOccupationReader.findByEmployeeIdAt(employeeId.toString(), at)
             .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }

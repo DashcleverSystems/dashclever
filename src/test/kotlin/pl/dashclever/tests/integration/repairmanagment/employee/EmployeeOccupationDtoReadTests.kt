@@ -19,6 +19,7 @@ import pl.dashclever.repairmanagment.plannig.model.PlanCreating
 import pl.dashclever.repairmanagment.plannig.model.PlanRepository
 import pl.dashclever.repairmanagment.plannig.readmodel.EmployeeOccupationDto
 import pl.dashclever.tests.integration.TestcontainersInitializer
+import pl.dashclever.tests.integration.repairmanagment.estimatecatalogue.EstimateTestsRepository
 import pl.dashclever.tests.integration.repairmanagment.`new estimate`
 import java.time.LocalDate
 import java.util.UUID
@@ -29,8 +30,9 @@ import java.util.UUID
 internal class EmployeeOccupationDtoReadTests(
     @LocalServerPort private val port: Int,
     @Autowired private val estimateRepository: pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository,
+    @Autowired private val estimateTestsRepository: EstimateTestsRepository,
     @Autowired private val planCreating: PlanCreating,
-    @Autowired private val planRepository: PlanRepository,
+    @Autowired private val planRepository: PlanRepository
 ) {
 
     @BeforeEach
@@ -40,7 +42,7 @@ internal class EmployeeOccupationDtoReadTests(
 
     @AfterEach
     fun clean() =
-        estimateRepository.deleteAll()
+        estimateTestsRepository.deleteAll()
 
     @Test
     fun `employee occupation read test`() {

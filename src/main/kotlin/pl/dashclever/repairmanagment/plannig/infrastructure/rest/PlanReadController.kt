@@ -17,7 +17,7 @@ private const val PATH = "/api/planning"
 @RestController
 @RequestMapping(PATH)
 internal class PlanReadController(
-    private val planReader: PlanReader,
+    private val planReader: PlanReader
 ) {
 
     @GetMapping("/{planId}")
@@ -28,7 +28,7 @@ internal class PlanReadController(
     fun filter(
         @RequestParam(name = "estimateId", required = false) estimateId: UUID?,
         @RequestParam(name = "from", required = false) from: LocalDate?,
-        @RequestParam(name = "to", required = false) to: LocalDate?,
+        @RequestParam(name = "to", required = false) to: LocalDate?
     ): Set<PlanDto> {
         if (from != null || to != null) {
             return findByDateRange(from, to)

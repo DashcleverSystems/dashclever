@@ -11,5 +11,5 @@ data class VehicleInfo(
     @field:Size(max = 24, message = "$SIZE_MAX;24")
     val brand: String,
     @field:Size(max = 24, message = "$SIZE_MAX;24")
-    val model: String,
+    val model: String
 )

@@ -9,10 +9,10 @@ sealed interface AccountCommand {
 
 data class CreateWorkshop(
     override val accountId: UUID,
-    val displayName: String,
+    val displayName: String
 ) : AccountCommand
 
 data class BoundEmployee(
     override val accountId: UUID,
-    val employeeId: UUID,
+    val employeeId: UUID
 ) : AccountCommand

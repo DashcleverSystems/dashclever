@@ -20,7 +20,7 @@ class Job(
     @field:Size(max = 512, message = "$SIZE_MAX;512") val name: String,
     val manMinutes: Int,
     @Embedded val worth: Money,
-    @Enumerated(STRING) val jobType: JobType,
+    @Enumerated(STRING) val jobType: JobType
 ) : OptimisticLockEntity<Long>() {
 
     private companion object {

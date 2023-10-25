@@ -13,7 +13,7 @@ import pl.dashclever.accountresources.account.readmodel.CredentialsReader
 
 @Configuration
 internal class SecurityConfig(
-    private val credentialsReader: CredentialsReader,
+    private val credentialsReader: CredentialsReader
 ) {
 
     @Bean

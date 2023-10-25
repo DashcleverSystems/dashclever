@@ -19,6 +19,7 @@ import pl.dashclever.repairmanagment.plannig.model.PlanCreating
 import pl.dashclever.repairmanagment.plannig.model.PlanRepository
 import pl.dashclever.repairmanagment.plannig.readmodel.PlanDto
 import pl.dashclever.tests.integration.TestcontainersInitializer
+import pl.dashclever.tests.integration.repairmanagment.estimatecatalogue.EstimateTestsRepository
 import pl.dashclever.tests.integration.repairmanagment.`new estimate`
 import java.time.LocalDate
 
@@ -28,14 +29,15 @@ import java.time.LocalDate
 internal class PlanReadModelTests(
     @LocalServerPort private val port: Int,
     @Autowired private val estimateRepository: EstimateRepository,
+    @Autowired private val estimateTestsRepository: EstimateTestsRepository,
     @Autowired private val planCreating: PlanCreating,
-    @Autowired private val planRepository: PlanRepository,
+    @Autowired private val planRepository: PlanRepository
 ) {
 
     @BeforeEach
     fun set() {
         RestAssured.port = port
-        estimateRepository.deleteAll()
+        estimateTestsRepository.deleteAll()
     }
 
     @Test

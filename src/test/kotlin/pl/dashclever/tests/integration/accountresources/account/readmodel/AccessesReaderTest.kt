@@ -17,7 +17,7 @@ import pl.dashclever.tests.integration.accountresources.account.AccountCleaner
 internal class AccessesReaderTest(
     @Autowired private val accountRepository: AccountRepository,
     @Autowired private val accessesReader: AccessesReader,
-    @Autowired private val accountCleaner: AccountCleaner,
+    @Autowired private val accountCleaner: AccountCleaner
 ) {
 
     @AfterEach

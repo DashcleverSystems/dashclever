@@ -27,7 +27,7 @@ private const val PATH = "/api/planning"
 @RequestMapping(PATH)
 internal class PlanningController(
     private val planRepository: PlanRepository,
-    private val planCreating: PlanCreating,
+    private val planCreating: PlanCreating
 ) {
 
     @PatchMapping("/{planId}/job/{jobId}")
@@ -37,7 +37,7 @@ internal class PlanningController(
         @PathVariable planId: UUID,
         @PathVariable jobId: Long,
         @Valid @RequestBody
-        assignReq: AssignReq,
+        assignReq: AssignReq
     ) {
         val plan = planRepository.findById(planId).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
         if (assignReq.hour == null) {
@@ -50,6 +50,6 @@ internal class PlanningController(
 
     @PostMapping
     fun createFromEstimateId(
-        @RequestParam(name = "estimateId", required = true) estimateId: String,
+        @RequestParam(name = "estimateId", required = true) estimateId: String
     ) = ResponseEntity.created(URI.create("$PATH/${planCreating.create(estimateId)}")).build<Plan>()
 }

@@ -18,7 +18,7 @@ import java.util.UUID
 @ContextConfiguration(initializers = [TestcontainersInitializer::class])
 internal class JobReaderTest(
     @Autowired private val planRepository: PlanRepository,
-    @Autowired private val jobReader: JobReader,
+    @Autowired private val jobReader: JobReader
 ) {
 
     @AfterEach

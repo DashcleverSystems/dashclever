@@ -19,13 +19,13 @@ private const val PATH = "api"
 @RestController
 @RequestMapping(PATH)
 internal class EmployeeController(
-    private val employeeRepository: EmployeeRepository,
+    private val employeeRepository: EmployeeRepository
 ) {
 
     @PostMapping("/employee")
     @Transactional
     fun addEmployee(
-        @RequestBody dto: EmployeeDto,
+        @RequestBody dto: EmployeeDto
     ): ResponseEntity<EmployeeDto> {
         val employee = employeeRepository.save(
             Employee(
@@ -43,7 +43,7 @@ internal class EmployeeController(
     @Transactional
     fun changeEmployee(
         @PathVariable employeeId: UUID,
-        @RequestBody dto: EmployeeDto,
+        @RequestBody dto: EmployeeDto
     ): ResponseEntity<EmployeeDto> {
         val employee = employeeRepository.findById(employeeId)
             .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Not found") }

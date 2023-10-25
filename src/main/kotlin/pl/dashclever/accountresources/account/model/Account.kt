@@ -20,7 +20,7 @@ const val MAXIMUM_ACCOUNTS_WORKSHOPS = 2
 class Account(
     val username: String,
     val passwordHash: String,
-    val email: String,
+    val email: String
 ) : OptimisticLockEntity<UUID>() {
 
     @Id

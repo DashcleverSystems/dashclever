@@ -25,7 +25,7 @@ class Estimate(
     val paintInfo: PaintInfo,
     @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "estimate_id")
-    val jobs: Set<Job> = emptySet(),
+    val jobs: Set<Job> = emptySet()
 ) : OptimisticLockEntity<UUID>() {
 
     fun getCreationTimestamp(): LocalDateTime = super.getCreatedOn()
