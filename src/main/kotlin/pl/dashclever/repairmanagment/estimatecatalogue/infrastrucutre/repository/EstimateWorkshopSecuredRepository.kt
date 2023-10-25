@@ -39,7 +39,7 @@ class EstimateWorkshopSecuredRepository(
     private fun getCurrentAccessWorkshopId(): WithWorkshopId {
         val currentAccess = this.springCurrentAccessProvider.currentAccess()
         return (currentAccess as? WithWorkshopId)
-            ?: error("Could not determine workshopId of currently accessing user with access: $currentAccess")
+            ?: error("Could not determine workshop of currently accessing user with access: $currentAccess")
     }
 
     override fun findById(id: UUID): Estimate? {
