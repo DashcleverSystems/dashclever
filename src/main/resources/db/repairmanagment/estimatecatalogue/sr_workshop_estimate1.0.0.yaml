@@ -1,0 +1,22 @@
+databaseChangeLog:
+    -   changeSet:
+            id: sr_workshop_estimate1.0.0
+            author: damian
+            changes:
+                -   createTable:
+                        tableName: SR_WORKSHOP_ESTIMATE
+                        columns:
+                            -   column:
+                                    name: workshop_id
+                                    type: uuid
+                                    constraints:
+                                        -   primaryKey: true
+                                        -   nullable: false
+                            -   column:
+                                    name: estimate_id
+                                    type: uuid
+                                    constraints:
+                                        -   primaryKey: true
+                                        -   nullable: false
+                                        -   foreignKeyName: SR_WORKSHOP_ESTIMATE_RM_ESTIMATECATALOGUE_ESTIMATE_FK
+                                        -   references: RM_ESTIMATECATALOGUE_ESTIMATE(id)
