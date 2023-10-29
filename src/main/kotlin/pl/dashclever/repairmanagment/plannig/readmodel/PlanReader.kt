@@ -31,7 +31,7 @@ interface PlanReader : Repository<Plan, UUID> {
         SELECT p.id AS id, p.estimate_id AS estimateId, SUM(j.man_minutes) AS technicalRepairTimeInMinutes, p.created_on AS createdOn
         FROM RM_PLANNING_PLAN p INNER JOIN RM_PLANNING_JOB j ON j.plan_id = p.id
         INNER JOIN RM_SR_WORKSHOP_PLAN sr ON sr.plan_id = p.id
-        WHERE p.id = :estimateId AND sr.workshop_id = :workshopId
+        WHERE p.estimate_id = :estimateId AND sr.workshop_id = :workshopId
         GROUP BY p.id
         """,
         nativeQuery = true

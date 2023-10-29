@@ -20,8 +20,8 @@ import kotlin.math.roundToLong
 @Suppress("MagicNumber")
 class Plan internal constructor(
     @Id
-    val id: UUID = UUID.randomUUID(),
-    val estimateId: String,
+    val id: UUID,
+    val estimateId: UUID,
     @OneToMany(cascade = [ALL], orphanRemoval = true, fetch = EAGER)
     @JoinColumn(name = "plan_id")
     private val jobs: Set<Job>

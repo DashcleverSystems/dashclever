@@ -50,6 +50,6 @@ internal class PlanningController(
 
     @PostMapping
     fun createFromEstimateId(
-        @RequestParam(name = "estimateId", required = true) estimateId: String
+        @RequestParam(name = "estimateId", required = true) estimateId: UUID
     ) = ResponseEntity.created(URI.create("$PATH/${planCreating.create(estimateId)}")).build<Plan>()
 }

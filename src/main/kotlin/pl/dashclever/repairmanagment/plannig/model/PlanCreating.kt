@@ -14,12 +14,11 @@ class PlanCreating(
 ) {
 
     @Transactional
-    fun create(estimateId: String): UUID {
-        val uuid = UUID.fromString(estimateId)
-        val estimate = estimateRepository.findById(uuid)
+    fun create(estimateId: UUID): UUID {
+        val estimate = estimateRepository.findById(estimateId)
             ?: throw ResponseStatusException(NOT_FOUND)
         val plan = PlanFactory.create(
-            estimateId = estimate.id.toString(),
+            estimateId = estimate.id,
             jobs = estimate.jobs.associate { it.id!! to it.manMinutes }
         )
         return planRepository.save(plan).id
