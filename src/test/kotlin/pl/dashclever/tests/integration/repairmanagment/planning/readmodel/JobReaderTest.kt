@@ -47,7 +47,7 @@ internal class JobReaderTest(
     fun `should return not assigned jobs of a plan`() {
         // given
         val plan = PlanFactory.create(
-            estimateId = UUID.randomUUID().toString(),
+            estimateId = UUID.randomUUID(),
             jobs = mapOf(
                 1L to 60,
                 2L to 60
@@ -74,7 +74,7 @@ internal class JobReaderTest(
     fun `should return assigned job of a plan`() {
         // given
         val plan = PlanFactory.create(
-            estimateId = UUID.randomUUID().toString(),
+            estimateId = UUID.randomUUID(),
             jobs = mapOf(
                 1L to 60
             )

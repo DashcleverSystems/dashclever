@@ -44,7 +44,7 @@ internal class EmployeeOccupationReaderTest(
     fun `should return information about employee occupation at given day`() {
         // given
         val plan = PlanFactory.create(
-            estimateId = UUID.randomUUID().toString(),
+            estimateId = UUID.randomUUID(),
             jobs = mapOf(
                 1L to 60,
                 2L to 40

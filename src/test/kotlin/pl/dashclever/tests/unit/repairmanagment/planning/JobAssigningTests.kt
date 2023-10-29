@@ -11,6 +11,7 @@ import pl.dashclever.repairmanagment.plannig.model.Plan
 import pl.dashclever.repairmanagment.plannig.model.PlanEvent.TaskAssigned
 import pl.dashclever.repairmanagment.plannig.model.PlanFactory
 import java.time.LocalDate
+import java.util.*
 import java.util.stream.Stream
 
 internal class JobAssigningTests {
@@ -28,7 +29,7 @@ internal class JobAssigningTests {
             }
 
             fun preparePlan(numberOfJobs: Long, assignAt: List<LocalDate>): Plan {
-                val plan = PlanFactory.create("testEstimateId", jobs(numberOfJobs))
+                val plan = PlanFactory.create(UUID.randomUUID(), jobs(numberOfJobs))
                 assignAt.forEachIndexed { i, day ->
                     plan.assign(i + 1L, "employeeId", day)
                 }
@@ -36,7 +37,7 @@ internal class JobAssigningTests {
             }
 
             return Stream.of(
-                Arguments.of(PlanFactory.create("simplePlanEstimateId", mapOf(1L to 120))),
+                Arguments.of(PlanFactory.create(UUID.randomUUID(), mapOf(1L to 120))),
                 Arguments.of(
                     preparePlan(
                         2L,
@@ -75,7 +76,7 @@ internal class JobAssigningTests {
     fun `GIVEN plan with jobs SHOULD not allow to assign job after maximum repair technical time`() {
         // given
         val plan = PlanFactory.create(
-            estimateId = "estimateId",
+            estimateId = UUID.randomUUID(),
             jobs = mapOf(
                 1L to 120,
                 2L to 120,
@@ -94,7 +95,7 @@ internal class JobAssigningTests {
     fun `GIVEN plan with jobs SHOULD allow to assign job with time`() {
         // given
         val plan = PlanFactory.create(
-            estimateId = "estimateId",
+            estimateId = UUID.randomUUID(),
             jobs = mapOf(
                 1L to 120,
                 2L to 120,
@@ -120,7 +121,7 @@ internal class JobAssigningTests {
     fun `GIVEN plan with jobs SHOULD not allow to assign job with time within not working hours`() {
         // given
         val plan = PlanFactory.create(
-            estimateId = "estimateId",
+            estimateId = UUID.randomUUID(),
             jobs = mapOf(
                 1L to 120,
                 2L to 120,

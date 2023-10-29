@@ -83,7 +83,7 @@ internal class PlanFindingWithinDatesTest @Autowired constructor(
     fun `should not find any`() {
         // given
         val plan = PlanFactory.create(
-            estimateId = UUID.randomUUID().toString(),
+            estimateId = UUID.randomUUID(),
             jobs = mapOf(
                 1L to 120,
                 2L to 240
@@ -108,7 +108,7 @@ internal class PlanFindingWithinDatesTest @Autowired constructor(
     fun `should find two within given dates range`() {
         // given
         val plan1 = PlanFactory.create(
-            estimateId = UUID.randomUUID().toString(),
+            estimateId = UUID.randomUUID(),
             jobs = mapOf(
                 1L to 120,
                 2L to 240
@@ -117,7 +117,7 @@ internal class PlanFindingWithinDatesTest @Autowired constructor(
         plan1.assign(1L, "employeeId", LocalDate.of(2023, 1, 6))
         planRepository.save(plan1)
         val plan2 = PlanFactory.create(
-            estimateId = UUID.randomUUID().toString(),
+            estimateId = UUID.randomUUID(),
             jobs = mapOf(
                 1L to 120,
                 2L to 240

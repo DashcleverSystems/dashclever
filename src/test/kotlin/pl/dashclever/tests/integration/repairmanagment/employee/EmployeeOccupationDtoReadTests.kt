@@ -49,7 +49,7 @@ internal class EmployeeOccupationDtoReadTests(
         // given
         val estimate = `new estimate`("testEstimateUniqueUserId")
         estimateRepository.save(estimate)
-        val planId = planCreating.create(estimate.id.toString())
+        val planId = planCreating.create(estimate.id)
         val plan = planRepository.findById(planId)!!
         val job = estimate.jobs.first()
         val employeeId = UUID.randomUUID().toString()

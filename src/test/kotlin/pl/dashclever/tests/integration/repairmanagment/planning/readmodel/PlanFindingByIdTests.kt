@@ -59,7 +59,7 @@ internal class PlanFindingByIdTests @Autowired constructor(
 
         private fun `provide fresh plan test data`(): Arguments {
             val plan = PlanFactory.create(
-                estimateId = UUID.randomUUID().toString(),
+                estimateId = UUID.randomUUID(),
                 jobs = mapOf(
                     1L to 120,
                     2L to 120,
@@ -69,7 +69,7 @@ internal class PlanFindingByIdTests @Autowired constructor(
 
             val assertions = { planDto: PlanDto ->
                 assertThat(planDto.id).isEqualTo(plan.id)
-                assertThat(planDto.estimateId).isEqualTo(plan.estimateId)
+                assertThat(planDto.estimateId).isEqualTo(plan.estimateId.toString())
                 assertThat(planDto.technicalRepairTimeInMinutes).isEqualTo(300)
                 assertThat(planDto.createdOn).isNotNull()
             }
@@ -78,7 +78,7 @@ internal class PlanFindingByIdTests @Autowired constructor(
 
         private fun `provide modified plan test data`(): Arguments {
             val plan = PlanFactory.create(
-                estimateId = UUID.randomUUID().toString(),
+                estimateId = UUID.randomUUID(),
                 jobs = mapOf(
                     1L to 500,
                     2L to 240
@@ -88,7 +88,7 @@ internal class PlanFindingByIdTests @Autowired constructor(
 
             val assertions = { planDto: PlanDto ->
                 assertThat(planDto.id).isEqualTo(plan.id)
-                assertThat(planDto.estimateId).isEqualTo(plan.estimateId)
+                assertThat(planDto.estimateId).isEqualTo(plan.estimateId.toString())
                 assertThat(planDto.technicalRepairTimeInMinutes).isEqualTo(740)
                 assertThat(planDto.createdOn).isNotNull()
             }

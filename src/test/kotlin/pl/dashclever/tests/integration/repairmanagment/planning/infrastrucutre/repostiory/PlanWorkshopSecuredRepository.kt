@@ -36,7 +36,7 @@ internal class PlanWorkshopSecuredRepository(
         )
         testAccessSetter.setAccess(access)
         val plan = PlanFactory.create(
-            estimateId = UUID.randomUUID().toString(),
+            estimateId = UUID.randomUUID(),
             jobs = mapOf(2L to 60)
         )
 
@@ -62,7 +62,7 @@ internal class PlanWorkshopSecuredRepository(
         )
         testAccessSetter.setAccess(access)
         val plan = PlanFactory.create(
-            estimateId = UUID.randomUUID().toString(),
+            estimateId = UUID.randomUUID(),
             jobs = mapOf(2L to 60)
         )
         planWorkshopSecuredRepository.save(plan)
