@@ -22,23 +22,17 @@ class PlanWorkshopSecuredRepository(
     override fun save(plan: Plan): Plan {
         this.entityManager.persist(plan)
         if (isAlreadySecured(plan).not()) {
-            val currentAccess = getCurrentAccessWorkshopId()
+            val currentAccess = this.currentAccessProvider.currentWorkshop()
             this.securityRecordRepository.create(WorkshopPlan(currentAccess.workshopId, plan.id))
         }
         return plan
     }
 
     override fun findById(id: UUID): Plan? {
-        val currentAccess = this.getCurrentAccessWorkshopId()
+        val currentAccess = this.currentAccessProvider.currentWorkshop()
         return this.planWorkshopSecuredJpaRepository.findById(currentAccess.workshopId, id)
     }
 
     private fun isAlreadySecured(plan: Plan): Boolean =
         this.securityRecordRepository.doesSecurityRecordExistFor(plan)
-
-    private fun getCurrentAccessWorkshopId(): WithWorkshopId {
-        val currentAccess = this.currentAccessProvider.currentAccess()
-        return (currentAccess as? WithWorkshopId)
-            ?: error("Could not determine workshop of currently accessing user with access: $currentAccess")
-    }
 }
