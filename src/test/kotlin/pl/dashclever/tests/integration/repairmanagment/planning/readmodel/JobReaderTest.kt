@@ -2,28 +2,45 @@ package pl.dashclever.tests.integration.repairmanagment.planning.readmodel
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.transaction.annotation.Transactional
 import pl.dashclever.repairmanagment.plannig.model.PlanFactory
 import pl.dashclever.repairmanagment.plannig.model.PlanRepository
 import pl.dashclever.repairmanagment.plannig.readmodel.JobDto
 import pl.dashclever.repairmanagment.plannig.readmodel.JobReader
 import pl.dashclever.tests.integration.TestcontainersInitializer
+import pl.dashclever.tests.integration.spring.TestAccess
+import pl.dashclever.tests.integration.spring.TestAccessSetter
 import java.time.LocalDate
 import java.util.UUID
 
 @SpringBootTest
+@Transactional
 @ContextConfiguration(initializers = [TestcontainersInitializer::class])
 internal class JobReaderTest(
     @Autowired private val planRepository: PlanRepository,
     @Autowired private val jobReader: JobReader
 ) {
 
+    private val testAccessSetter = TestAccessSetter()
+    private val testAccess = TestAccess(
+        accountId = UUID.randomUUID(),
+        authorities = emptySet(),
+        workshopId = UUID.randomUUID()
+    )
+
+    @BeforeEach
+    fun setUp() {
+        testAccessSetter.setAccess(testAccess)
+    }
+
     @AfterEach
     fun tearDown() {
-        planRepository.deleteAll()
+        testAccessSetter.setAccess(null)
     }
 
     @Test
@@ -39,7 +56,7 @@ internal class JobReaderTest(
         planRepository.save(plan)
 
         // when
-        val result: Set<JobDto> = jobReader.findByPlanId(plan.id)
+        val result: Set<JobDto> = jobReader.findByPlanId(testAccess.workshopId, plan.id)
 
         // then
         assertThat(result).hasSize(2)
@@ -66,7 +83,7 @@ internal class JobReaderTest(
         planRepository.save(plan)
 
         // when
-        val result: Set<JobDto> = jobReader.findByPlanId(plan.id)
+        val result: Set<JobDto> = jobReader.findByPlanId(testAccess.workshopId, plan.id)
 
         // then
         assertThat(result).singleElement().satisfies(

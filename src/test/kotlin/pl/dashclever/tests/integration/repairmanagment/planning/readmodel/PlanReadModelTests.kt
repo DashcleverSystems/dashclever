@@ -46,7 +46,7 @@ internal class PlanReadModelTests(
         val estimate = `new estimate`("24/2022wk")
         estimateRepository.save(estimate)
         val planningId = planCreating.create(estimate.id.toString())
-        val planning = planRepository.findById(planningId).get()
+        val planning = planRepository.findById(planningId)!!
         planning.assign(estimate.jobs.first().id!!, "employeeId", LocalDate.of(2022, 2, 2))
         planRepository.save(planning)
 
@@ -90,7 +90,7 @@ internal class PlanReadModelTests(
         val estimate = `new estimate`("24/2022wk")
         estimateRepository.save(estimate)
         val planningId = planCreating.create(estimate.id.toString())
-        val planning = planRepository.findById(planningId).get()
+        val planning = planRepository.findById(planningId)!!
         planning.assign(estimate.jobs.first().id!!, "employeeId", LocalDate.of(2022, 2, 2))
         planRepository.save(planning)
 

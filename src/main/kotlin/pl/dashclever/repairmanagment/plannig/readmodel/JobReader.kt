@@ -14,12 +14,13 @@ interface JobReader : Repository<Plan, UUID> {
         value = """
 			SELECT j.catalogue_job_id AS catalogueJobId, j.man_minutes AS manMinutes,
 			j.assigned_to AS assignedTo, j.assigned_at AS assignedAT
-			FROM RM_PLANNING_JOB j
-			WHERE j.plan_id = :planId
+			FROM RM_PLANNING_JOB j INNER JOIN RM_PLANNING_PLAN p ON p.id = j.plan_id
+            INNER JOIN RM_SR_WORKSHOP_PLAN sr ON sr.plan_id = p.id
+			WHERE j.plan_id = :planId AND sr.workshop_id = :workshopId
 		""",
         nativeQuery = true
     )
-    fun findByPlanId(planId: UUID): Set<JobDto>
+    fun findByPlanId(workshopId: UUID, planId: UUID): Set<JobDto>
 }
 
 interface JobDto {

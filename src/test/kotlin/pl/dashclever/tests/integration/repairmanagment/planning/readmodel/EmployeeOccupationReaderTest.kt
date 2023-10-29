@@ -1,6 +1,8 @@
 package pl.dashclever.tests.integration.repairmanagment.planning.readmodel
 
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -9,6 +11,8 @@ import pl.dashclever.repairmanagment.plannig.model.PlanFactory
 import pl.dashclever.repairmanagment.plannig.model.PlanRepository
 import pl.dashclever.repairmanagment.plannig.readmodel.EmployeeOccupationReader
 import pl.dashclever.tests.integration.TestcontainersInitializer
+import pl.dashclever.tests.integration.spring.TestAccess
+import pl.dashclever.tests.integration.spring.TestAccessSetter
 import java.time.LocalDate
 import java.util.UUID
 
@@ -18,6 +22,23 @@ internal class EmployeeOccupationReaderTest(
     @Autowired private val planRepository: PlanRepository,
     @Autowired private val employeeOccupationReader: EmployeeOccupationReader
 ) {
+
+    private val testAccessSetter = TestAccessSetter()
+    private val testAccess = TestAccess(
+        accountId = UUID.randomUUID(),
+        authorities = emptySet(),
+        workshopId = UUID.randomUUID()
+    )
+
+    @BeforeEach
+    fun setUp() {
+        testAccessSetter.setAccess(testAccess)
+    }
+
+    @AfterEach
+    fun tearDown() {
+        testAccessSetter.setAccess(null)
+    }
 
     @Test
     fun `should return information about employee occupation at given day`() {

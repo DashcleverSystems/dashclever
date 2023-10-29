@@ -21,3 +21,5 @@ databaseChangeLog:
             file: db/accountresources/account/workshop1.0.1.yaml
     -   include:
             file: db/repairmanagment/estimatecatalogue/sr_workshop_estimate1.0.0.yaml
+    -   include:
+            file: db/repairmanagment/planning/sr_workshop_plan1.0.0.yaml
