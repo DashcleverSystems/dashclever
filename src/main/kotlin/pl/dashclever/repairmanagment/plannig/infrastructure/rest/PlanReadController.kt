@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
+import pl.dashclever.commons.security.CurrentAccessProvider
 import pl.dashclever.repairmanagment.plannig.readmodel.PlanDto
 import pl.dashclever.repairmanagment.plannig.readmodel.PlanReader
 import java.time.LocalDate
@@ -17,12 +18,13 @@ private const val PATH = "/api/planning"
 @RestController
 @RequestMapping(PATH)
 internal class PlanReadController(
-    private val planReader: PlanReader
+    private val planReader: PlanReader,
+    private val currentAccessProvider: CurrentAccessProvider
 ) {
 
     @GetMapping("/{planId}")
     fun findById(@PathVariable planId: UUID): PlanDto =
-        planReader.findById(planId).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
+        planReader.findById(this.currentAccessProvider.currentWorkshop().workshopId, planId).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
 
     @GetMapping
     fun filter(
@@ -33,7 +35,9 @@ internal class PlanReadController(
         if (from != null || to != null) {
             return findByDateRange(from, to)
         }
+        val currentAccess = this.currentAccessProvider.currentWorkshop()
         return planReader.findByEstimateId(
+            currentAccess.workshopId,
             estimateId ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "estimate id has to specified")
         )
     }
@@ -42,6 +46,7 @@ internal class PlanReadController(
         if (from == null || to == null) {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "from and to date has to specified")
         }
-        return planReader.findByDateRange(from, to)
+        val currentAccess = this.currentAccessProvider.currentWorkshop()
+        return planReader.findByDateRange(currentAccess.workshopId, from, to)
     }
 }

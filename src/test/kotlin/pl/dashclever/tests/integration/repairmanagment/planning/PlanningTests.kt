@@ -58,7 +58,7 @@ internal class PlanningTests(
         // given
         val estimate = `new estimate`("testEstimateUniqueUserId")
         estimateRepository.save(estimate)
-        val planId = planCreating.create(estimate.id.toString())
+        val planId = planCreating.create(estimate.id)
 
         // when
         Given {

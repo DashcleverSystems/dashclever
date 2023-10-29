@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
-import pl.dashclever.commons.security.Access.WithWorkshopId
 import pl.dashclever.commons.security.EntitySecurityRecordRepository
 import pl.dashclever.repairmanagment.estimatecatalogue.Estimate
 import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository
@@ -28,7 +27,7 @@ class EstimateWorkshopSecuredRepository(
         if (isAlreadySecured(estimate)) {
             return estimate
         }
-        val currentAccess = getCurrentAccessWorkshopId()
+        val currentAccess = this.springCurrentAccessProvider.currentWorkshop()
         this.securityRecordRepository.create(WorkshopEstimate(currentAccess.workshopId, estimate.id))
         return estimate
     }
@@ -36,36 +35,30 @@ class EstimateWorkshopSecuredRepository(
     private fun isAlreadySecured(estimate: Estimate): Boolean =
         this.securityRecordRepository.doesSecurityRecordExistFor(estimate)
 
-    private fun getCurrentAccessWorkshopId(): WithWorkshopId {
-        val currentAccess = this.springCurrentAccessProvider.currentAccess()
-        return (currentAccess as? WithWorkshopId)
-            ?: error("Could not determine workshop of currently accessing user with access: $currentAccess")
-    }
-
     override fun findById(id: UUID): Estimate? {
-        val currentAccess = getCurrentAccessWorkshopId()
+        val currentAccess = this.springCurrentAccessProvider.currentWorkshop()
         return this.estimateWorkshopSecuredJpaReadRepository.findById(currentAccess.workshopId, id)
     }
 
     override fun findAll(specification: Specification<Estimate>, pageable: Pageable): Page<Estimate> {
-        val currentAccess = getCurrentAccessWorkshopId()
+        val currentAccess = this.springCurrentAccessProvider.currentWorkshop()
         val spec = specification.and(joinSecurityRecords()).and(withWorkshopId(currentAccess.workshopId))
         return this.estimateWorkshopSecuredJpaReadRepository.findAll(spec, pageable)
     }
 
     override fun findAll(pageable: Pageable): Page<Estimate> {
-        val currentAccess = getCurrentAccessWorkshopId()
+        val currentAccess = this.springCurrentAccessProvider.currentWorkshop()
         return this.estimateWorkshopSecuredJpaReadRepository.findAll(currentAccess.workshopId, pageable)
     }
 
     override fun existsByEstimateId(estimateId: String): Boolean {
-        val currentAccess = getCurrentAccessWorkshopId()
+        val currentAccess = this.springCurrentAccessProvider.currentWorkshop()
         return this.estimateWorkshopSecuredJpaReadRepository.existsByEstimateId(currentAccess.workshopId, estimateId)
     }
 
     @Transactional
     override fun deleteById(id: UUID) {
-        val currentAccess = getCurrentAccessWorkshopId()
+        val currentAccess = this.springCurrentAccessProvider.currentWorkshop()
         this.securityRecordRepository.deleteByEntityId(id)
         return this.estimateWorkshopSecuredJpaReadRepository.deleteById(currentAccess.workshopId, id)
     }

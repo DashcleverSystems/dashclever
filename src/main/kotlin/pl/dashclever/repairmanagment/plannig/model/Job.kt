@@ -42,5 +42,6 @@ internal class Job(
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_GENERATOR_NAME)
     @SequenceGenerator(name = ID_GENERATOR_NAME, sequenceName = "${ID_GENERATOR_NAME}_sequence", allocationSize = 50)
     val id: Long? = null
+
     override fun getIdentifierValue(): Long? = this.id
 }

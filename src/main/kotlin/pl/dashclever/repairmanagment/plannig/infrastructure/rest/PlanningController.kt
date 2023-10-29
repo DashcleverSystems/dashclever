@@ -39,7 +39,7 @@ internal class PlanningController(
         @Valid @RequestBody
         assignReq: AssignReq
     ) {
-        val plan = planRepository.findById(planId).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
+        val plan = planRepository.findById(planId) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
         if (assignReq.hour == null) {
             plan.assign(jobId, assignReq.to, assignReq.at)
         } else {
@@ -50,6 +50,6 @@ internal class PlanningController(
 
     @PostMapping
     fun createFromEstimateId(
-        @RequestParam(name = "estimateId", required = true) estimateId: String
+        @RequestParam(name = "estimateId", required = true) estimateId: UUID
     ) = ResponseEntity.created(URI.create("$PATH/${planCreating.create(estimateId)}")).build<Plan>()
 }

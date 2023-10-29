@@ -12,8 +12,12 @@ import java.util.*
 
 internal class TestAccessSetter {
 
-    fun setAccess(access: TestAccess) {
-        SecurityContextHolder.getContext().authentication = TestAuthentication(access)
+    fun setAccess(access: TestAccess?) {
+        if (access == null) {
+            SecurityContextHolder.getContext().authentication = null
+        } else {
+            SecurityContextHolder.getContext().authentication = TestAuthentication(access)
+        }
     }
 }
 
