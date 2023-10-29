@@ -3,7 +3,6 @@ package pl.dashclever.repairmanagment.plannig.infrastructure.repository
 import jakarta.persistence.EntityManager
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
-import pl.dashclever.commons.security.Access.WithWorkshopId
 import pl.dashclever.commons.security.CurrentAccessProvider
 import pl.dashclever.commons.security.EntitySecurityRecordRepository
 import pl.dashclever.repairmanagment.plannig.model.Plan
