@@ -4,9 +4,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { IEmployee, Workplace } from '@shared/models/employee';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { DictionaryDTO, enumToDictionary } from '@shared/utils/dictionary';
-import { select, Store } from '@ngrx/store';
-import { getSelectedWorkshop } from '@core/store/core-store.selectors';
-import { EMPTY, Subject, switchMap, take } from 'rxjs';
+import {Store} from '@ngrx/store';
+import {Observable, Subject} from 'rxjs';
 import { EmployeeFormService } from './employee-form.service';
 
 @Component({
@@ -44,34 +43,24 @@ export class EmployeeFormComponent implements OnDestroy {
       return;
     }
 
-    this.store
-      .pipe(
-        select(getSelectedWorkshop),
-        take(1),
-        switchMap((workshop) => {
-          console.log(workshop);
-          if (!workshop) {
-            return EMPTY;
-          }
-
-          const employee: IEmployee = {
-            ...this.form.getRawValue(),
-            id: this.employee?.id,
-            workshopId: workshop.workshopId,
-            firstName: this.form.controls.firstName.value ?? '',
-            workplace: this.form.controls.workplace.value ?? Workplace.LABOUR,
-          };
-          if (this.isCreatingNewEmployee) {
-            return this.service.createEmployee(employee);
-          } else {
-            return this.service.updateEmployee(employee);
-          }
-        })
-      )
-      .subscribe((employee) => {
-        this.ref.close(employee);
+      this.createOrUpdateEmployee().subscribe((employee) => {
+          this.ref.close(employee);
       });
   }
+
+    private createOrUpdateEmployee(): Observable<IEmployee> {
+        const employee: IEmployee = {
+            ...this.form.getRawValue(),
+            id: this.employee?.id,
+            firstName: this.form.controls.firstName.value ?? '',
+            workplace: this.form.controls.workplace.value ?? Workplace.LABOUR,
+        };
+        if (this.isCreatingNewEmployee) {
+            return this.service.createEmployee(employee);
+        } else {
+            return this.service.updateEmployee(employee);
+        }
+    }
 
   ngOnDestroy(): void {
     this.destroy$.next();

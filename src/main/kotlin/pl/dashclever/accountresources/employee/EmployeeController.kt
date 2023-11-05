@@ -31,7 +31,6 @@ internal class EmployeeController(
             Employee(
                 firstName = dto.firstName,
                 lastName = dto.lastName,
-                workshopId = dto.workshopId,
                 workplace = dto.workplace
             )
         )

@@ -20,8 +20,9 @@ class EmployeeWorkshopSecuredRepository(
     @Transactional
     override fun save(employee: Employee): Employee {
         entityManager.persist(employee)
-        if (securityRecordRepository.doesSecurityRecordExistFor(employee))
+        if (securityRecordRepository.doesSecurityRecordExistFor(employee)) {
             return employee
+        }
         val currentAccessWorkshop = currentAccessProvider.currentWorkshop()
         securityRecordRepository.create(WorkshopEmployee(currentAccessWorkshop.workshopId, employee.id))
         return employee

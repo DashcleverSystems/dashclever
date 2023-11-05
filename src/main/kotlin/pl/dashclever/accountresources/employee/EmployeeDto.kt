@@ -10,7 +10,6 @@ data class EmployeeDto(
     val firstName: String,
     @NotBlank(message = NOT_BLANK)
     val lastName: String?,
-    val workshopId: UUID,
     val workplace: Workplace
 ) {
 
@@ -21,7 +20,6 @@ data class EmployeeDto(
                 id = employee.id,
                 firstName = employee.firstName,
                 lastName = employee.lastName,
-                workshopId = employee.workshopId,
                 workplace = employee.workplace
             )
     }

@@ -10,8 +10,6 @@ import pl.dashclever.commons.security.Access.WithAuthorities.Authority
 import pl.dashclever.commons.security.Access.WithWorkshopId
 import java.util.*
 
-
-// TODO investigate if it is possible to remove TestAccessSetter by replacing it with actual ApplicationAccessSetter
 internal class TestAccessSetter {
 
     fun setAccess(access: TestAccess?) {

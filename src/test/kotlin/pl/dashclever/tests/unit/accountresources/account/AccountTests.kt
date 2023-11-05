@@ -7,7 +7,6 @@ import pl.dashclever.accountresources.account.model.Account
 import pl.dashclever.accountresources.employee.Employee
 import pl.dashclever.accountresources.employee.Workplace.LABOUR
 import pl.dashclever.publishedlanguage.DomainException
-import java.util.UUID
 
 internal class AccountTests {
 
@@ -35,13 +34,13 @@ internal class AccountTests {
             passwordHash = "passHash",
             email = "email@email.com"
         )
-        account.associateWith(Employee("firstName1", "lastName1", UUID.randomUUID(), LABOUR))
-        account.associateWith(Employee("firstName2", "lastName2", UUID.randomUUID(), LABOUR))
-        account.associateWith(Employee("firstName3", "lastName3", UUID.randomUUID(), LABOUR))
-        account.associateWith(Employee("firstName4", "lastName4", UUID.randomUUID(), LABOUR))
-        account.associateWith(Employee("firstName5", "lastName5", UUID.randomUUID(), LABOUR))
+        account.associateWith(Employee("firstName1", "lastName1", LABOUR))
+        account.associateWith(Employee("firstName2", "lastName2", LABOUR))
+        account.associateWith(Employee("firstName3", "lastName3", LABOUR))
+        account.associateWith(Employee("firstName4", "lastName4", LABOUR))
+        account.associateWith(Employee("firstName5", "lastName5", LABOUR))
 
         // when
-        assertThrows<DomainException> { account.associateWith(Employee("firstName6", "lastName6", UUID.randomUUID(), LABOUR)) }
+        assertThrows<DomainException> { account.associateWith(Employee("firstName6", "lastName6", LABOUR)) }
     }
 }
