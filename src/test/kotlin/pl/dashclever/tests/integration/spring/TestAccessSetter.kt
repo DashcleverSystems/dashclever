@@ -4,7 +4,6 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
-import pl.dashclever.commons.security.Access
 import pl.dashclever.commons.security.Access.WithAuthorities
 import pl.dashclever.commons.security.Access.WithAuthorities.Authority
 import pl.dashclever.commons.security.Access.WithWorkshopId
@@ -31,7 +30,7 @@ internal data class TestAccess(
     override val accountId: UUID,
     override val authorities: Set<Authority>,
     override val workshopId: UUID
-) : WithWorkshopId, WithAuthorities, Access, UserDetails {
+) : WithWorkshopId, WithAuthorities, UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> =
         this.authorities.map { GrantedAuthority { it.name } }.toMutableSet()
 
@@ -49,7 +48,7 @@ internal data class TestAccess(
 }
 
 private data class TestAuthentication(
-    private val access: TestAccess
+    private val access: WithAuthorities
 ) : Authentication {
 
     private var isAuth = true
