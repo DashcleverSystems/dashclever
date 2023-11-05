@@ -54,6 +54,6 @@ internal class EmployeeController(
 
     @GetMapping("/workshop/{workshopId}/employee")
     fun getAllByWorkshopId(@PathVariable workshopId: UUID): Set<EmployeeDto> {
-        return employeeRepository.findByWorkshopId(workshopId).map { EmployeeDto.from(it) }.toSet()
+        return employeeRepository.findAll().map { EmployeeDto.from(it) }.toSet()
     }
 }

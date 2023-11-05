@@ -32,8 +32,8 @@ class EmployeeWorkshopSecuredRepository(
         return employeeWorkshopSecuredJpaRepository.findById(currentWorkshopAccess.workshopId, id)
     }
 
-    override fun findByWorkshopId(workshopId: UUID): Set<Employee> {
+    override fun findAll(): Set<Employee> {
         val currentWorkshopAccess = currentAccessProvider.currentWorkshop()
-        return employeeWorkshopSecuredJpaRepository.findByWorkshopId(currentWorkshopAccess.workshopId)
+        return employeeWorkshopSecuredJpaRepository.findAllByWorkshopId(currentWorkshopAccess.workshopId)
     }
 }

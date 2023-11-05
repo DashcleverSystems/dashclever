@@ -14,5 +14,5 @@ interface EmployeeWorkshopSecuredJpaRepository : Repository<Employee, UUID> {
     fun findById(workshopId: UUID, employeeId: UUID): Optional<Employee>
 
     @Query("SELECT e FROM Employee e INNER JOIN WorkshopEmployee sr ON e.id = sr.id.employeeId WHERE sr.id.workshopId = :workshopId")
-    fun findByWorkshopId(workshopId: UUID): Set<Employee>
+    fun findAllByWorkshopId(workshopId: UUID): Set<Employee>
 }

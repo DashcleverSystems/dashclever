@@ -7,5 +7,5 @@ interface EmployeeRepository {
 
     fun save(employee: Employee): Employee
     fun findById(id: UUID): Optional<Employee>
-    fun findByWorkshopId(workshopId: UUID): Set<Employee>
+    fun findAll(): Set<Employee>
 }
