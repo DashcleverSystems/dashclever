@@ -5,11 +5,11 @@ import jakarta.persistence.Embeddable
 import jakarta.persistence.EmbeddedId
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
+import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.Repository
 import org.springframework.stereotype.Component
 import pl.dashclever.accountresources.employee.Employee
-import pl.dashclever.accountresources.employee.infrastrucutre.repository.EmployeeSecurityRecordRepository.WorkshopEmployee
 import pl.dashclever.commons.security.EntitySecurityRecordRepository
 import pl.dashclever.commons.security.WorkshopSecurityRecord
 import java.io.Serializable
@@ -47,33 +47,35 @@ interface EmployeeSecurityRecordRepository :
     override fun deleteByEntityId(entityId: UUID) =
         deleteByEmployeeId(entityId)
 
-    fun deleteByEmployeeId(entityId: UUID)
+    @Modifying
+    @Query("DELETE FROM WorkshopEmployee we WHERE we.id.employeeId = :employeeId")
+    fun deleteByEmployeeId(employeeId: UUID)
+}
 
-    @Entity
-    @Table(name = "AR_SR_WORKSHOP_EMPLOYEE")
-    class WorkshopEmployee(
-        workshopId: UUID,
-        employeeId: UUID
-    ) : WorkshopSecurityRecord {
+@Entity
+@Table(name = "AR_SR_WORKSHOP_EMPLOYEE")
+class WorkshopEmployee(
+    workshopId: UUID,
+    employeeId: UUID
+) : WorkshopSecurityRecord {
 
-        @EmbeddedId
-        private val id: ComposePk = ComposePk(workshopId, employeeId)
+    @EmbeddedId
+    private val id: ComposePk = ComposePk(workshopId, employeeId)
 
-        override val workshopId get() = id.workshopId
+    override val workshopId get() = id.workshopId
 
-        val employeeId get() = id.employeeId
+    val employeeId get() = id.employeeId
 
-        @Embeddable
-        data class ComposePk(
-            @Column(name = "workshop_id")
-            val workshopId: UUID,
-            @Column(name = "estimate_id")
-            val employeeId: UUID
-        ) : Serializable {
+    @Embeddable
+    data class ComposePk(
+        @Column(name = "workshop_id")
+        val workshopId: UUID,
+        @Column(name = "employee_id")
+        val employeeId: UUID
+    ) : Serializable {
 
-            companion object {
-                const val serialVersionUID = 99L
-            }
+        companion object {
+            const val serialVersionUID = 99L
         }
     }
 }
