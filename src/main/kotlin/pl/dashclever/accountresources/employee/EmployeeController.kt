@@ -52,8 +52,8 @@ internal class EmployeeController(
         return ResponseEntity.accepted().body(EmployeeDto.from(employee))
     }
 
-    @GetMapping("/workshop/{workshopId}/employee")
-    fun getAllByWorkshopId(@PathVariable workshopId: UUID): Set<EmployeeDto> {
+    @GetMapping("/employee")
+    fun getAll(): Set<EmployeeDto> {
         return employeeRepository.findAll().map { EmployeeDto.from(it) }.toSet()
     }
 }

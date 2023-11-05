@@ -8,6 +8,6 @@ export class ManageStaffService {
   constructor(private http: HttpClient) {}
 
   getEmployees(workshopId: string): Observable<IEmployee[]> {
-    return this.http.get<IEmployee[]>(`/api/workshop/${workshopId}/employee`);
+    return this.http.get<IEmployee[]>(`/api/employee`);
   }
 }
