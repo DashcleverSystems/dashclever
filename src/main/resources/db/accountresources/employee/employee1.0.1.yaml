@@ -1,0 +1,9 @@
+databaseChangeLog:
+    -   changeSet:
+            id: account_resources_employee_drop_workshop_fk
+            author: damian
+            changes:
+                -   dropForeignKeyConstraint:
+                        baseTableName: EMPLOYEE
+                        baseTableSchemaName: public
+                        constraintName: fk_employees_workshop
