@@ -2,6 +2,7 @@ package pl.dashclever.accountresources.employee.infrastrucutre.repository
 
 import jakarta.persistence.EntityManager
 import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Transactional
 import pl.dashclever.accountresources.employee.Employee
 import pl.dashclever.accountresources.employee.EmployeeRepository
 import pl.dashclever.commons.security.CurrentAccessProvider
@@ -16,6 +17,7 @@ class EmployeeWorkshopSecuredRepository(
     private val employeeWorkshopSecuredJpaRepository: EmployeeWorkshopSecuredJpaRepository
 ) : EmployeeRepository {
 
+    @Transactional
     override fun save(employee: Employee): Employee {
         entityManager.persist(employee)
         if (securityRecordRepository.doesSecurityRecordExistFor(employee))
