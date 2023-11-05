@@ -67,7 +67,8 @@ interface AccessesReader : Repository<Account, UUID> {
                 ACCOUNT acc
             INNER JOIN EMPLOYEESHIP empship ON acc.id = empship.account_id
             INNER JOIN EMPLOYEE emp ON empship.employee_id = emp.id
-            INNER JOIN WORKSHOP wrkp ON emp.workshop_id = wrkp.id
+            INNER JOIN AR_SR_WORKSHOP_EMPLOYEE sremp ON sremp.employee_id = emp.id
+            INNER JOIN WORKSHOP wrkp ON sremp.workshop_id = wrkp.id
             WHERE acc.id = :accountId
         """,
         nativeQuery = true
