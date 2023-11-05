@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { IEmployee } from '@shared/models/employee';
-import { EMPTY, switchMap, tap } from 'rxjs';
+import {switchMap, tap} from 'rxjs';
 import { ManageStaffService } from './manage-staff.service';
-import { Store } from '@ngrx/store';
-import { getSelectedWorkshop } from '@core/store/core-store.selectors';
 
 interface ManageStaffStoreState {
   employees: IEmployee[];
@@ -12,7 +10,7 @@ interface ManageStaffStoreState {
 
 @Injectable()
 export class ManageStaffStore extends ComponentStore<ManageStaffStoreState> {
-  constructor(private service: ManageStaffService, private store: Store) {
+  constructor(private service: ManageStaffService) {
     super({ employees: [] });
   }
 
