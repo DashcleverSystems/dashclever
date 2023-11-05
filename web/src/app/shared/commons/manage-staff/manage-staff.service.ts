@@ -7,7 +7,7 @@ import { IEmployee } from '@shared/models/employee';
 export class ManageStaffService {
   constructor(private http: HttpClient) {}
 
-  getEmployees(workshopId: string): Observable<IEmployee[]> {
+  getEmployees(): Observable<IEmployee[]> {
     return this.http.get<IEmployee[]>(`/api/employee`);
   }
 }

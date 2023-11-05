@@ -18,11 +18,7 @@ export class ManageStaffStore extends ComponentStore<ManageStaffStoreState> {
 
   readonly loadCollection = this.effect((effect$) =>
     effect$.pipe(
-      switchMap(() => this.store.select(getSelectedWorkshop)),
-      switchMap((selectedWorkshop) =>
-        selectedWorkshop
-          ? this.service.getEmployees(selectedWorkshop.workshopId)
-          : EMPTY
+        switchMap(() => this.service.getEmployees()
       ),
       tap((employees) => this.loadEmployees(employees))
     )
