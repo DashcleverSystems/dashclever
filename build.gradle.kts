@@ -22,7 +22,7 @@ repositories {
 extra["testcontainersVersion"] = "1.18.0"
 
 tasks.processResources.configure {
-    dependsOn(copyWebBuildToResources)
+    dependsOn(installWeb)
 }
 
 dependencies {
@@ -118,8 +118,8 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-val copyWebBuildToResources = tasks.register<Copy>("copyWebBuildToResources") {
-    dependsOn("web:buildWeb")
+val installWeb = tasks.register<Copy>("installWeb") {
+    dependsOn("web:build")
     from("web/dist")
     destinationDir = fileTree("src/main/resources/public").dir
 }
