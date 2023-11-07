@@ -13,7 +13,6 @@ import java.util.UUID
 data class Employee(
     var firstName: String,
     var lastName: String?,
-    val workshopId: UUID,
     @Enumerated(ORDINAL)
     var workplace: Workplace
 ) : OptimisticLockEntity<UUID>() {

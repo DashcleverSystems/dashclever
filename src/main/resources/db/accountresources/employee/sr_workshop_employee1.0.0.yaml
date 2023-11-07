@@ -1,0 +1,22 @@
+databaseChangeLog:
+    -   changeSet:
+            id: sr_workshop_employee1.0.0
+            author: damian
+            changes:
+                -   createTable:
+                        tableName: AR_SR_WORKSHOP_EMPLOYEE
+                        columns:
+                            -   column:
+                                    name: workshop_id
+                                    type: uuid
+                                    constraints:
+                                        -   primaryKey: true
+                                        -   nullable: false
+                            -   column:
+                                    name: employee_id
+                                    type: uuid
+                                    constraints:
+                                        -   primaryKey: true
+                                        -   nullable: false
+                                        -   foreignKeyName: AR_SR_WORKSHOP_EMPLOYEE_AR_EMPLOYEE_FK
+                                        -   references: EMPLOYEE(id)
