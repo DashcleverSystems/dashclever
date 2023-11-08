@@ -8,7 +8,12 @@ node {
   download.set(true)
 }
 
-val buildWeb = tasks.register<NpmTask>("buildWeb") {
+val build = tasks.register<NpmTask>("build") {
   dependsOn(tasks.npmInstall)
   args.set(listOf("run", "build"))
+}
+
+val start = tasks.register<NpmTask>("start") {
+  dependsOn(tasks.npmInstall)
+  args.set(listOf("run", "start"))
 }
