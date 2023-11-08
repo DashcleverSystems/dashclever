@@ -21,6 +21,8 @@ export class EmployeeFormComponent implements OnDestroy {
     private service: EmployeeFormService
   ) {}
 
+  blockChars: RegExp = /^[^{}\\|"';:?!.,><#*-+~`=@$%^&()_-]+$/;
+
   form: FormGroup<IEmployeeForm> = this.service.createEmployeeForm(
     this.conf.data.employee
   );
