@@ -16,7 +16,7 @@
         }}</label>
         <input
           pInputText
-          pKeyFilter="alpha"
+          [pKeyFilter]="blockChars"
           id="field-firstName"
           type="text"
           aria-describedby="firstName-help"
@@ -29,7 +29,7 @@
         }}</label>
         <input
           pInputText
-          pKeyFilter="alpha"
+          [pKeyFilter]="blockChars"
           id="field-lastName"
           type="text"
           aria-describedby="lastName-help"
