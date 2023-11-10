@@ -5,6 +5,8 @@ ___
 - To set application environment you can simply run: `./gradlew setDev`.
 - Application can be run in dev mode with command:`./gradlew bootDev`. It will try to set up database and application. It assumes that java, docker, docker compose is pre-installed.
 - To skip installing a UI into spring jar you can `./gradlew bootDev -x installWeb`
+- Frontend uses http clients generated with openapi generator. To generate them you can run `./gradlew generateHttpClients -x installWeb` or from within `web` module `npm run generate:api`. Keep in mind
+that in second case you will have to ensure that current openapi specification is present in `./build/openapi.json`, nevertheless you can generate it with `./gradlew generateOpenApiDocs -x installWeb`
 - To run frontend without having a node installed on your machine you can run `./gradlew web:start`
 - If you want to run it as jar you have to specify program arguments:
   - `--jdbc.db.url="jdbc:postgresql://localhost:5432/dashclever"`

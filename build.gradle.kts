@@ -124,6 +124,10 @@ val installWeb = tasks.register<Copy>("installWeb") {
     destinationDir = fileTree("src/main/resources/public").dir
 }
 
+tasks.bootRunMainClassName.configure {
+    dependsOn(setDev)
+}
+
 tasks.clean.configure {
     dependsOn(cleanWebBuild)
 }
@@ -132,12 +136,9 @@ val cleanWebBuild = tasks.register<Delete>("cleanDist") {
     delete = setOf("web/dist", "src/main/resources/public")
 }
 
-tasks.generateOpenApiDocs.configure {
-    dependsOn(setDev)
-}
-
 val generateHttpClients = tasks.register("generateHttpClients") {
-    dependsOn(setDev, tasks.generateOpenApiDocs, "web:generateHttpClients")
+    dependsOn("web:generateHttpClients", tasks.generateOpenApiDocs)
+    tasks.getByPath("web:generateHttpClients").mustRunAfter(tasks.getByName("generateOpenApiDocs"))
 }
 
 openApi {
