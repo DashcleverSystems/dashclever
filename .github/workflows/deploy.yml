@@ -1,14 +1,14 @@
 name: deploy_heroku
 on:
-    workflow_dispatch: # This event allows you to manually trigger the workflow
-    push:
-        branches:
-            - main
-            - open-api-http-client
+  workflow_dispatch: # This event allows you to manually trigger the workflow
+  push:
+    branches:
+      - main
+      - open-api-http-client
 
 jobs:
   deploy_heroku:
-    runs-on: ubuntu-latest
+    runs-on: [ ubuntu-latest, java ]
 
     env:
       TF_VAR_app_name: dashclever
@@ -20,6 +20,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: hashicorp/setup-terraform@v2
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
       - name: generate open api
         run: |+
