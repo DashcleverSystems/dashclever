@@ -1,9 +1,9 @@
 name: deploy_heroku
 on:
-    workflow_dispatch: # This event allows you to manually trigger the workflow
-    push:
-        branches:
-            - main
+  workflow_dispatch: # This event allows you to manually trigger the workflow
+  push:
+    branches:
+      - main
 
 jobs:
   deploy_heroku:
@@ -19,6 +19,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: hashicorp/setup-terraform@v2
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: generate open api
+        run: |+
+          ./gradlew generateOpenApiDocs -x installWeb
+
+      - name: generate angular http clients
+        run: |+
+          ./gradlew generateHttpClients -x installWeb
 
       - name: tarball code
         run: |+
@@ -31,6 +43,11 @@ jobs:
           --exclude='*.tar.gz' \
           --exclude='.gradle' \
           --exclude='build' \
+          --exclude='node_modules' \
+          --exclude='dist' \
+          --exclude='adr' \
+          --exclude='docker' \
+          --exclude='.angular' \
           --exclude='.github' \
           --exclude='tar' \
           -czvf app.tar.gz ../

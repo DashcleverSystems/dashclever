@@ -1,28 +1,28 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { IEmployee } from '@shared/models/employee';
 import {switchMap, tap} from 'rxjs';
-import { ManageStaffService } from './manage-staff.service';
+import {EmployeeDto, EmployeeApiService} from 'generated/openapi';
 
 interface ManageStaffStoreState {
-  employees: IEmployee[];
+  employees: EmployeeDto[];
 }
 
 @Injectable()
 export class ManageStaffStore extends ComponentStore<ManageStaffStoreState> {
-  constructor(private service: ManageStaffService) {
+  constructor(private restApiService: EmployeeApiService) {
     super({ employees: [] });
   }
 
   readonly loadCollection = this.effect((effect$) =>
     effect$.pipe(
-        switchMap(() => this.service.getEmployees()
-      ),
-      tap((employees) => this.loadEmployees(employees))
+        switchMap(() => this.restApiService.getAll()),
+        tap((employeeSet) => {
+          this.loadEmployees(Array.from(employeeSet))
+        })
     )
   );
 
-  readonly loadEmployees = this.updater((state, employees: IEmployee[]) => ({
+  readonly loadEmployees = this.updater((state, employees: EmployeeDto[]) => ({
     ...state,
     employees: employees,
   }));

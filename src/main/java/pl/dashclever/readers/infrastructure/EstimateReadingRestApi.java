@@ -1,5 +1,6 @@
 package pl.dashclever.readers.infrastructure;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.MediaType;
@@ -14,7 +15,8 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api/estimate")
 @RequiredArgsConstructor
-public class EstimateReadingController {
+@Tag(name = "estimate-api")
+public class EstimateReadingRestApi {
     private final EstimateReading estimateReading;
 
     @PostMapping(

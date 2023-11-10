@@ -1,5 +1,6 @@
 package pl.dashclever.repairmanagment.plannig.infrastructure.rest
 
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -13,14 +14,15 @@ private const val PATH = "/api/planning/{planningId}/job"
 
 @RestController
 @RequestMapping(PATH)
-internal class PlanJobsController(
+@Tag(name = "planning-api")
+internal class PlanJobsRestApi(
     private val jobsReader: JobReader,
     private val currentAccessProvider: CurrentAccessProvider
 ) {
 
     @GetMapping
-    fun getAllByPlanningId(@PathVariable planningId: UUID): Set<JobDto> {
+    fun getAllByPlanningId(@PathVariable planningId: UUID): List<JobDto> {
         val currentAccess = this.currentAccessProvider.currentWorkshop()
-        return jobsReader.findByPlanId(currentAccess.workshopId, planningId)
+        return jobsReader.findByPlanId(currentAccess.workshopId, planningId).toList()
     }
 }

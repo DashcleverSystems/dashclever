@@ -35,8 +35,7 @@ internal class SecurityConfig(
             .anyRequest().authenticated()
             .and()
             .httpBasic().disable()
-            .formLogin()
-            .loginProcessingUrl("/api/login")
+            .formLogin().loginProcessingUrl("/api/login")
             .successHandler { _, response, _ -> response.status = HttpStatus.OK.value() }
             .failureHandler { _, response, _ -> response.status = HttpStatus.UNAUTHORIZED.value() }
             .permitAll()

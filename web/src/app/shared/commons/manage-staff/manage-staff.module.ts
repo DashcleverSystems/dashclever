@@ -8,7 +8,6 @@ import { PrimeModule } from '@shared/prime.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AccessesModule } from '@shared/commons/accesses-selector/accesses-selector.module';
-import { ManageStaffService } from './manage-staff.service';
 import { AppSpinner } from '../spinner/spinner.component';
 import { AppCardComponent } from '../card/card.component';
 
@@ -25,6 +24,6 @@ import { AppCardComponent } from '../card/card.component';
     AppSpinner,
   ],
   exports: [ManageStaffComponent],
-  providers: [ManageStaffStore, ManageStaffService],
+  providers: [ManageStaffStore],
 })
 export class ManageStaffModule {}

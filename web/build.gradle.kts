@@ -17,3 +17,12 @@ val start = tasks.register<NpmTask>("start") {
   dependsOn(tasks.npmInstall)
   args.set(listOf("run", "start"))
 }
+
+val generateHttpClients = tasks.register<NpmTask>("generateHttpClients") {
+  dependsOn(tasks.npmInstall, cleanHttpClients)
+  args.set(listOf("run", "generate:api"))
+}
+
+val cleanHttpClients = tasks.register<Delete>("cleanHttpClients") {
+  delete = setOf("generated/openapi")
+}

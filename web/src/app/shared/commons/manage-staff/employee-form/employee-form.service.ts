@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IEmployee, Workplace } from '@app/shared/models/employee';
 import { IEmployeeForm } from './employee-form.component';
-import { HttpClient } from '@angular/common/http';
 import {Observable} from "rxjs";
+import {EmployeeApiService, EmployeeDto} from 'generated/openapi';
 
 @Injectable()
 export class EmployeeFormService {
-  constructor(private fb: FormBuilder, private http: HttpClient) {}
+  constructor(private fb: FormBuilder, private employeeApiService: EmployeeApiService) {
+  }
 
   createEmployeeForm(employee: IEmployee): FormGroup<IEmployeeForm> {
     return this.fb.group({
@@ -23,11 +24,11 @@ export class EmployeeFormService {
     });
   }
 
-  createEmployee(employee: IEmployee): Observable<IEmployee> {
-    return this.http.post<IEmployee>(`/api/employee`, employee);
+  createEmployee(employee: EmployeeDto): Observable<EmployeeDto> {
+    return this.employeeApiService.addEmployee(employee)
   }
 
-  updateEmployee(employee: IEmployee): Observable<IEmployee> {
-    return this.http.put<IEmployee>(`/api/employee/${employee.id}`, employee);
+  updateEmployee(employee: EmployeeDto): Observable<EmployeeDto> {
+    return this.employeeApiService.changeEmployee(employee.id!!, employee)
   }
 }

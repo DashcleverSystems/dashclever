@@ -1,5 +1,6 @@
 package pl.dashclever.repairmanagment.plannig.infrastructure.rest
 
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -16,7 +17,8 @@ private const val PATH = "/api/employee"
 
 @RestController
 @RequestMapping(PATH)
-internal class EmployeeOccupationReadController(
+@Tag(name = "employee-api")
+internal class EmployeeOccupationReadRestApi(
     private val employeeOccupationReader: EmployeeOccupationReader
 ) {
 

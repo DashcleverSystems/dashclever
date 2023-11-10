@@ -1,12 +1,12 @@
 import {Component, OnDestroy} from '@angular/core';
 
 import { FormControl, FormGroup } from '@angular/forms';
-import { IEmployee, Workplace } from '@shared/models/employee';
+import {Workplace} from '@shared/models/employee';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { DictionaryDTO, enumToDictionary } from '@shared/utils/dictionary';
-import {Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 import { EmployeeFormService } from './employee-form.service';
+import {EmployeeDto} from 'generated/openapi';
 
 @Component({
   templateUrl: './employee-form.component.html',
@@ -17,7 +17,6 @@ export class EmployeeFormComponent implements OnDestroy {
   constructor(
     public ref: DynamicDialogRef,
     private conf: DynamicDialogConfig,
-    private store: Store,
     private service: EmployeeFormService
   ) {}
 
@@ -27,7 +26,7 @@ export class EmployeeFormComponent implements OnDestroy {
     this.conf.data.employee
   );
 
-  private employee: IEmployee | undefined | null = this.conf.data.employee
+    private employee: EmployeeDto | undefined | null = this.conf.data.employee
 
   isCreatingNewEmployee =
     this.employee === undefined || this.employee === null;
@@ -50,17 +49,18 @@ export class EmployeeFormComponent implements OnDestroy {
       });
   }
 
-    private createOrUpdateEmployee(): Observable<IEmployee> {
-        const employee: IEmployee = {
+    private createOrUpdateEmployee(): Observable<EmployeeDto> {
+        const employeeDto: EmployeeDto = {
             ...this.form.getRawValue(),
             id: this.employee?.id,
             firstName: this.form.controls.firstName.value ?? '',
+            lastName: this.form.controls.lastName.value ?? '',
             workplace: this.form.controls.workplace.value ?? Workplace.LABOUR,
         };
         if (this.isCreatingNewEmployee) {
-            return this.service.createEmployee(employee);
+            return this.service.createEmployee(employeeDto);
         } else {
-            return this.service.updateEmployee(employee);
+            return this.service.updateEmployee(employeeDto);
         }
     }
 
