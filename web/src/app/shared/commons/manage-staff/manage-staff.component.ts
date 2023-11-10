@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { isMobile } from '@app/core/store/core-store.selectors';
 import { Subject, takeUntil, distinctUntilChanged } from 'rxjs';
-import { IEmployee } from '@shared/models/employee';
 import { DialogService } from 'primeng/dynamicdialog';
 import { EmployeeFormComponent } from '@shared/commons/manage-staff/employee-form/employee-form.component';
 import { isEqual } from 'lodash';
 import { ManageStaffStore } from './manage-staff.store';
+import {EmployeeDto} from 'build/openapi';
 
 @Component({
   selector: 'app-manage-staff',
@@ -14,7 +14,7 @@ import { ManageStaffStore } from './manage-staff.store';
   styleUrls: ['./manage-staff.component.scss'],
 })
 export class ManageStaffComponent implements OnInit, OnDestroy {
-  employees: IEmployee[] = [];
+  employees: EmployeeDto[] = [];
 
   private isMobile = false;
 
@@ -36,7 +36,7 @@ export class ManageStaffComponent implements OnInit, OnDestroy {
     this.manageStore.loadCollection();
   }
 
-  editEmployee(employee: IEmployee): void {
+  editEmployee(employee: EmployeeDto): void {
     this.openEmployeeForm(employee);
   }
 
@@ -48,11 +48,11 @@ export class ManageStaffComponent implements OnInit, OnDestroy {
     this.manageStore.employees$
       .pipe(takeUntil(this.destroy$), distinctUntilChanged(isEqual))
       .subscribe((employees) => {
-        this.employees = employees;
+        this.employees = [...employees];
       });
   }
 
-  private openEmployeeForm(employee: IEmployee | null): void {
+  private openEmployeeForm(employee: EmployeeDto | null): void {
     const ref = this.dialogService.open(EmployeeFormComponent, {
       data: {
         employee: employee,

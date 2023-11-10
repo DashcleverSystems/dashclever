@@ -38,7 +38,7 @@ private const val PATH = "/api/account"
 
 @RestController
 @RequestMapping(PATH)
-internal class AccountController(
+internal class AccountRestApi(
     private val accountService: AccountService,
     private val accountHandler: AccountHandler,
     private val accessesReader: AccessesReader,

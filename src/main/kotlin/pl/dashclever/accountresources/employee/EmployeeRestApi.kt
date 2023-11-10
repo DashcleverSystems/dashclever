@@ -1,6 +1,8 @@
 package pl.dashclever.accountresources.employee
 
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.GetMapping
@@ -18,7 +20,8 @@ private const val PATH = "api"
 
 @RestController
 @RequestMapping(PATH)
-internal class EmployeeController(
+@Tag(name = "employee-api")
+internal class EmployeeRestApi(
     private val employeeRepository: EmployeeRepository
 ) {
 
@@ -48,11 +51,11 @@ internal class EmployeeController(
             .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Not found") }
         dto.modify(employee)
         employeeRepository.save(employee)
-        return ResponseEntity.accepted().body(EmployeeDto.from(employee))
+        return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON).body(EmployeeDto.from(employee))
     }
 
-    @GetMapping("/employee")
-    fun getAll(): Set<EmployeeDto> {
-        return employeeRepository.findAll().map { EmployeeDto.from(it) }.toSet()
+    @GetMapping("/employee", produces = ["application/json"])
+    fun getAll(): List<EmployeeDto> {
+        return employeeRepository.findAll().map { EmployeeDto.from(it) }
     }
 }

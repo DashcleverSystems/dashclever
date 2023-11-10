@@ -4,11 +4,15 @@
   "scripts": {
     "ng": "ng",
     "start": "npm run write:env -s && ng serve --proxy-config proxy.conf.js",
+    "prestart": "npm run generate:api",
     "build": "npm run write:env -s && ng build",
+    "prebuild": "npm run generate:api",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "write:env": "ngx-scripts env npm_package_version",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "generate:api": "openapi-generator-cli generate -g typescript-angular -i ../build/openapi.json -o ./build/openapi --skip-validate-spec",
+    "pregenerate:api": "rm -rf build/openapi"
   },
   "private": true,
   "dependencies": {
@@ -29,6 +33,7 @@
     "@ngrx/store-devtools": "^16.2.0",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
+    "@openapitools/openapi-generator-cli": "^2.7.0",
     "https-proxy-agent": "^7.0.1",
     "lodash": "^4.17.21",
     "primeflex": "^3.3.1",

@@ -1,10 +1,10 @@
 server:
   port: 9999
 springdoc:
-    api-docs:
-        path: /open-api
-        enabled: ${openapi.enabled}
-    show-login-endpoint: true
+  api-docs:
+    path: /open-api
+    enabled: ${openapi.enabled}
+  show-login-endpoint: true
 spring:
   liquibase:
     driver-class-name: org.postgresql.Driver
@@ -19,8 +19,8 @@ spring:
     username: ${jdbc.db.username}
     password: ${jdbc.db.password}
   data:
-      rest:
-          detection-strategy: annotated
+    rest:
+      detection-strategy: annotated
   jpa:
     hibernate:
       ddl-auto: none

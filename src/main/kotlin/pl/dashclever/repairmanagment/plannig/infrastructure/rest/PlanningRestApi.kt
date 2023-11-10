@@ -1,5 +1,6 @@
 package pl.dashclever.repairmanagment.plannig.infrastructure.rest
 
+import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.NO_CONTENT
@@ -25,7 +26,8 @@ private const val PATH = "/api/planning"
 
 @RestController
 @RequestMapping(PATH)
-internal class PlanningController(
+@Tag(name = "planning-api")
+internal class PlanningRestApi(
     private val planRepository: PlanRepository,
     private val planCreating: PlanCreating
 ) {

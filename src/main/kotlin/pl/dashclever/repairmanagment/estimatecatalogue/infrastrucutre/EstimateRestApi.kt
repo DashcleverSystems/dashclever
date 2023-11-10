@@ -1,5 +1,6 @@
 package pl.dashclever.repairmanagment.estimatecatalogue.infrastrucutre
 
+import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
@@ -31,7 +32,8 @@ private const val PATH = "/api/estimatecatalogue"
 
 @RestController
 @RequestMapping(PATH)
-internal class EstimateController(
+@Tag(name = "estimate-api")
+internal class EstimateRestApi(
     private val estimateRepository: EstimateRepository
 ) {
 

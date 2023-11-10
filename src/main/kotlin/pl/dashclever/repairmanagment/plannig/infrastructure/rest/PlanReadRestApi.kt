@@ -1,5 +1,6 @@
 package pl.dashclever.repairmanagment.plannig.infrastructure.rest
 
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -17,7 +18,8 @@ private const val PATH = "/api/planning"
 
 @RestController
 @RequestMapping(PATH)
-internal class PlanReadController(
+@Tag(name = "planning-api")
+internal class PlanReadRestApi(
     private val planReader: PlanReader,
     private val currentAccessProvider: CurrentAccessProvider
 ) {
@@ -31,15 +33,15 @@ internal class PlanReadController(
         @RequestParam(name = "estimateId", required = false) estimateId: UUID?,
         @RequestParam(name = "from", required = false) from: LocalDate?,
         @RequestParam(name = "to", required = false) to: LocalDate?
-    ): Set<PlanDto> {
+    ): List<PlanDto> {
         if (from != null || to != null) {
-            return findByDateRange(from, to)
+            return findByDateRange(from, to).toList()
         }
         val currentAccess = this.currentAccessProvider.currentWorkshop()
         return planReader.findByEstimateId(
             currentAccess.workshopId,
             estimateId ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "estimate id has to specified")
-        )
+        ).toList()
     }
 
     private fun findByDateRange(from: LocalDate?, to: LocalDate?): Set<PlanDto> {
