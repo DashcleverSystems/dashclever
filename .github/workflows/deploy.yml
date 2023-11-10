@@ -4,11 +4,10 @@ on:
   push:
     branches:
       - main
-      - open-api-http-client
 
 jobs:
   deploy_heroku:
-    runs-on: [ ubuntu-latest ]
+    runs-on: ubuntu-latest
 
     env:
       TF_VAR_app_name: dashclever
