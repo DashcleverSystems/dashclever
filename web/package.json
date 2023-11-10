@@ -11,8 +11,8 @@
     "test": "ng test",
     "write:env": "ngx-scripts env npm_package_version",
     "lint": "ng lint",
-    "generate:api": "openapi-generator-cli generate -g typescript-angular -i ../build/openapi.json -o ./build/openapi --skip-validate-spec",
-    "pregenerate:api": "rm -rf build/openapi"
+    "generate:api": "openapi-generator-cli generate -g typescript-angular -i ../build/openapi.json -o ./generated/openapi --skip-validate-spec",
+    "pregenerate:api": "rm -rf generated/openapi"
   },
   "private": true,
   "dependencies": {

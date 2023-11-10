@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import {switchMap, tap} from 'rxjs';
-import {EmployeeDto, EmployeeApiService} from 'build/openapi';
+import {EmployeeDto, EmployeeApiService} from 'generated/openapi';
 
 interface ManageStaffStoreState {
   employees: EmployeeDto[];

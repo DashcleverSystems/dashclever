@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IEmployee, Workplace } from '@app/shared/models/employee';
 import { IEmployeeForm } from './employee-form.component';
 import {Observable} from "rxjs";
-import {EmployeeApiService, EmployeeDto} from 'build/openapi';
+import {EmployeeApiService, EmployeeDto} from 'generated/openapi';
 
 @Injectable()
 export class EmployeeFormService {

@@ -15,7 +15,7 @@ import { environment } from '@env/environments';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { DialogService } from 'primeng/dynamicdialog';
-import {ApiModule, Configuration, ConfigurationParameters} from 'build/openapi';
+import {ApiModule, Configuration, ConfigurationParameters} from 'generated/openapi';
 
 export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {

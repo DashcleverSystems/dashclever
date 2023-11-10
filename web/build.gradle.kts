@@ -17,3 +17,11 @@ val start = tasks.register<NpmTask>("start") {
   dependsOn(tasks.npmInstall)
   args.set(listOf("run", "start"))
 }
+
+val generateHttpClients = tasks.register<NpmTask>("generateHttpClients") {
+  args.set(listOf("run", "generate:api"))
+}
+
+val cleanHttpClients = tasks.register<NpmTask>("cleanHttpClients") {
+  args.set(listOf("run", "pregenerate:api"))
+}

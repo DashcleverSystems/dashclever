@@ -4,6 +4,7 @@ on:
     push:
         branches:
             - main
+            - open-api-http-client
 
 jobs:
   deploy_heroku:
@@ -20,6 +21,14 @@ jobs:
       - uses: actions/checkout@v3
       - uses: hashicorp/setup-terraform@v2
 
+      - name: generate open api
+        run: |+
+          ./gradlew generateOpenApiDocs -x installWeb
+
+      - name: generate angular http clients
+        run: |+
+          ./gradlew generateHttpClients -x installWeb
+
       - name: tarball code
         run: |+
           mkdir tar
@@ -31,6 +40,11 @@ jobs:
           --exclude='*.tar.gz' \
           --exclude='.gradle' \
           --exclude='build' \
+          --exclude='node_modules' \
+          --exclude='dist' \
+          --exclude='adr' \
+          --exclude='docker' \
+          --exclude='.angular' \
           --exclude='.github' \
           --exclude='tar' \
           -czvf app.tar.gz ../

@@ -6,7 +6,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { DictionaryDTO, enumToDictionary } from '@shared/utils/dictionary';
 import {Observable, Subject} from 'rxjs';
 import { EmployeeFormService } from './employee-form.service';
-import {EmployeeDto} from 'build/openapi';
+import {EmployeeDto} from 'generated/openapi';
 
 @Component({
   templateUrl: './employee-form.component.html',
