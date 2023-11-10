@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy_heroku:
-    runs-on: [ ubuntu-latest, java ]
+    runs-on: [ ubuntu-latest ]
 
     env:
       TF_VAR_app_name: dashclever
