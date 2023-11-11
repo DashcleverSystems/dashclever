@@ -3,12 +3,8 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { CoreSelectors } from '../store';
 
-// @ts-ignore
-// @ts-nocheck
-import pl from '../../../assets/translations/pl.json';
-// @ts-ignore
-// @ts-nocheck
-import en from '../../../assets/translations/en.json';
+import pl from 'src/assets/translations/pl.json';
+import en from 'src/assets/translations/en.json';
 
 import { Language } from '@app/shared/enums/languages';
 import { Subscription, last, skip } from 'rxjs';
@@ -64,12 +60,14 @@ export class CoreTranslateService {
       this.translateService.getBrowserCultureLang() ||
       '';
 
-    const isSupportedLanguage = this.supportedLanguages.includes(newLanguage);
+    const isSupportedLanguage = this.supportedLanguages.includes(
+      newLanguage as Language
+    );
     if (!newLanguage || !isSupportedLanguage) {
       newLanguage = this.defaultLanguage;
     }
 
-    language = newLanguage;
+    language = newLanguage as Language;
 
     this.translateService.use(language);
     this.store.dispatch(coreStoreActions.changeLanguage({ lang: language }));

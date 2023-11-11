@@ -1,13 +1,13 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
-  "compileOnSave": false,
+  "compileOnSave": true,
   "compilerOptions": {
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
+    "strict": false,
     "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
@@ -19,8 +19,8 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "typeRoots": ["node_modules/@types"],
     "lib": ["ES2022", "dom"],
+    "typeRoots": ["node_modules/@types"],
     "paths": {
       "@app/*": ["src/app/*"],
       "@shared": ["src/app/shared"],
@@ -29,7 +29,9 @@
       "@core": ["src/app/core"],
       "@content": ["src/app/content"],
       "@content/*": ["src/app/content/*"],
-      "@env/*": ["src/environments/*"]
+      "@env/*": ["src/environments/*"],
+      "@assets": ["src/assets"],
+      "@assets/*": ["src/assets*"]
     },
     "plugins": [{ "name": "@angular/language-service" }]
   },

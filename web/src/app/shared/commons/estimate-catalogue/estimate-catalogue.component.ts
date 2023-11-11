@@ -1,13 +1,12 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { EstimateFormComponent } from './estimate-form/estimate-form.component';
 import { Store } from '@ngrx/store';
 import { isMobile } from '@core/store/core-store.selectors';
-import {Subject, distinctUntilChanged, finalize, takeUntil, Observable, of} from 'rxjs';
+import { Subject, distinctUntilChanged, finalize, takeUntil } from 'rxjs';
 import { FileUpload } from 'primeng/fileupload';
 import { EstimateCatalogueService } from './estimate-catalogue.service';
 import { IEstimatePdfDTO } from './estimate-form/estimate-form';
-import {Estimate, EstimateApiService} from "generated/openapi";
 
 @Component({
   selector: 'app-estimate-catalogue',
@@ -16,28 +15,22 @@ import {Estimate, EstimateApiService} from "generated/openapi";
   providers: [EstimateCatalogueService],
 })
 export class EstimateCatalogueComponent implements OnInit, OnDestroy {
-
   @ViewChild('fileUploader') fileUploader: FileUpload | undefined;
-  private estimateCreated$: Subject<void> = new Subject<void>()
 
   get estimateCreatedListener() {
-    return this.estimateCreated$.asObservable()
+    return this.estimateCreated$.asObservable();
   }
 
   isMobile: boolean = false;
   loadingSpinner = false;
 
-  estimates: Observable<Estimate[]> = of()
-
-  page: Pageable | null = null
-
+  private estimateCreated$: Subject<void> = new Subject<void>();
   private destroy$ = new Subject<void>();
 
   constructor(
     private dialogService: DialogService,
     private store: Store,
-    private service: EstimateCatalogueService,
-    private apiService: EstimateApiService
+    private service: EstimateCatalogueService
   ) {}
 
   ngOnInit(): void {
@@ -45,7 +38,6 @@ export class EstimateCatalogueComponent implements OnInit, OnDestroy {
       .select(isMobile)
       .pipe(takeUntil(this.destroy$), distinctUntilChanged())
       .subscribe((mobile) => (this.isMobile = mobile));
-    this.apiService.get(undefined,)
   }
 
   ngOnDestroy(): void {
@@ -76,25 +68,20 @@ export class EstimateCatalogueComponent implements OnInit, OnDestroy {
   }
 
   openModalForm(type: 'CREATE' | 'GENERATE', data?: IEstimatePdfDTO): void {
-    this.dialogService.open(EstimateFormComponent, {
-      data: {
-        type,
-        data: data,
-      },
-      showHeader: false,
-      closable: false,
-      width: this.isMobile ? '100svw' : undefined,
-      style: {"min-width": !this.isMobile ? "40svw" : undefined },
-      modal: true,
-    }).onClose.subscribe(res =>
-        res?.result === "success" && this.estimateCreated$.next()
-    );
+    this.dialogService
+      .open(EstimateFormComponent, {
+        data: {
+          type,
+          data: data,
+        },
+        showHeader: false,
+        closable: false,
+        width: this.isMobile ? '100svw' : undefined,
+        style: { 'min-width': !this.isMobile ? '40svw' : undefined },
+        modal: true,
+      })
+      .onClose.subscribe(
+        (res) => res?.result === 'success' && this.estimateCreated$.next()
+      );
   }
-}
-
-interface Pageable {
-  pageElements: number,
-  pageNo: number,
-  totalPages: number,
-  totalElements: number
 }

@@ -1,13 +1,13 @@
 {
   "name": "web-app",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "npm run write:env -s && ng serve --proxy-config proxy.conf.js",
     "build": "npm run write:env -s && ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "write:env": "ngx-scripts env npm_package_version",
+    "write:env": "ngx-scripts env api_url --format json",
     "lint": "ng lint",
     "generate:api": "openapi-generator-cli generate -g typescript-angular -i ../build/openapi.json -o ./generated/openapi --skip-validate-spec",
     "clean:generate:api": "rm -rf generated/openapi"
@@ -34,12 +34,16 @@
     "@openapitools/openapi-generator-cli": "^2.7.0",
     "https-proxy-agent": "^7.0.2",
     "lodash": "^4.17.21",
+    "object-hash": "^3.0.0",
     "primeflex": "^3.3.1",
     "primeicons": "^6.0.1",
     "rxjs": "~7.8.0",
+    "angular2-uuid": "^1.1.1",
     "ts-node": "^10.9.1",
+    "stompjs": "^2.3.3",
     "tslib": "^2.6.2",
-    "zone.js": "~0.14.2"
+    "zone.js": "~0.14.2",
+    "fastdom": "^1.0.11"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.0.0",
@@ -54,7 +58,9 @@
     "@ngx-rocket/scripts": "^5.2.3",
     "@types/jasmine": "~5.1.2",
     "@types/lodash": "^4.14.201",
+    "@types/moment": "^2.13.0",
     "@types/node": "^20.9.0",
+    "@types/stompjs": "^2.3.5",
     "@typescript-eslint/eslint-plugin": "6.10.0",
     "@typescript-eslint/parser": "6.10.0",
     "eslint": "^8.53.0",
