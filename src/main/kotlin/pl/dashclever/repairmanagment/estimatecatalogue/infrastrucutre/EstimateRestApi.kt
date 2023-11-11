@@ -2,11 +2,11 @@ package pl.dashclever.repairmanagment.estimatecatalogue.infrastrucutre
 
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
-import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.http.HttpStatus.NO_CONTENT
+import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -58,7 +58,7 @@ internal class EstimateRestApi(
         @RequestParam(required = false, defaultValue = "0") pageNo: Int,
         @RequestParam(required = false, defaultValue = "20") pageSize: Int,
         @RequestParam(required = false, defaultValue = "DESC") sortDirection: SortDirection
-    ): Page<Estimate> {
+    ): ResponseEntity<List<Estimate>> {
         var specification: Specification<Estimate>? = null
         if (createdAfter != null) {
             specification = EstimateSpecifications.createdOnAfter(createdAfter)
@@ -72,7 +72,11 @@ internal class EstimateRestApi(
             DESC -> Sort.by("createdOn").descending()
         }
         val pageReq = PageRequest.of(pageNo, pageSize, sort)
-        return specification?.let { this.estimateRepository.findAll(it, pageReq) } ?: this.estimateRepository.findAll(pageReq)
+        val page = specification?.let { this.estimateRepository.findAll(it, pageReq) } ?: this.estimateRepository.findAll(pageReq)
+        return ResponseEntity.status(200)
+            .header("X-Total-Count", page.totalElements.toString())
+            .contentType(APPLICATION_JSON)
+            .body(page.content)
     }
 
     @DeleteMapping
