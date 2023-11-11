@@ -51,7 +51,7 @@ internal class EstimateRestApi(
             .build()
     }
 
-    @GetMapping
+    @GetMapping(produces = ["application/json"])
     fun get(
         @RequestParam(required = false) estimateId: String?,
         @RequestParam(required = false) createdAfter: LocalDateTime?,

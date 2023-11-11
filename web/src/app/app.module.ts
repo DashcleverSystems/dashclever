@@ -20,8 +20,6 @@ import {ApiModule, Configuration, ConfigurationParameters} from 'generated/opena
 export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
     basePath: "",
-
-
   }
   return new Configuration(params);
 }
