@@ -86,7 +86,7 @@ export class EstimateFormComponent implements OnInit {
           message: 'components.estimateCatalogue.form.toast.successSave',
           translate: true,
         });
-        this.ref.close();
+        this.ref.close({result: "success"});
       });
   }
 

@@ -30,10 +30,10 @@
         "title": "Wybierz warsztat"
       }
     },
-    "manageStaff": {
-      "table": {
-        "title": "Pracownicy"
-      }
+    "estimatePage": {
+      "title": "Kosztorysy",
+      "estimateId": "Identyfikator",
+      "creationTimestamp": "Data utworzenia"
     },
     "estimateCatalogue": {
       "title": "Kosztorys",

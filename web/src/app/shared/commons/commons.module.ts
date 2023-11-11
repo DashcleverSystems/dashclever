@@ -12,10 +12,12 @@ import { EstimateFormComponent } from './estimate-catalogue/estimate-form/estima
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppSpinner } from './spinner/spinner.component';
 import { ManageStaffModule } from '@shared/commons/manage-staff/manage-staff.module';
+import {EstimatePageComponent} from "@shared/commons/estimate-catalogue/estimate-page/estimate-page.component";
 
 @NgModule({
   declarations: [
     LanguageSelector,
+    EstimatePageComponent,
     EstimateCatalogueComponent,
     EstimateFormComponent,
   ],
