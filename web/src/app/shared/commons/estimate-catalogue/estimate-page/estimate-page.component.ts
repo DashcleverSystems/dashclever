@@ -1,5 +1,6 @@
 import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {DialogService} from 'primeng/dynamicdialog';
+import {PaginatorModule, PaginatorState} from 'primeng/paginator';
 import {Store} from '@ngrx/store';
 import {isMobile} from '@core/store/core-store.selectors';
 import {Subject, distinctUntilChanged, finalize, takeUntil, Observable, of, map} from 'rxjs';
@@ -8,7 +9,7 @@ import {Estimate, EstimateApiService, PageEstimate} from "generated/openapi";
 @Component({
     selector: 'app-estimate-page',
     templateUrl: './estimate-page.component.html',
-    styleUrls: ['./estimate-page.componenet.scss'],
+  styleUrls: ['./estimate-page.component.scss'],
 })
 export class EstimatePageComponent implements OnInit, OnDestroy {
 
@@ -16,11 +17,11 @@ export class EstimatePageComponent implements OnInit, OnDestroy {
 
     isMobile: boolean = false;
 
-    estimates: Estimate[] = []
+  estimates: Estimate[] = [];
 
-    page: Page = {size: 20, number: 0}
+  page: Page = {size: 20, number: 0};
 
-    pages: Pages | null = null
+  pages: Pages | null = null;
 
     private destroy$ = new Subject<void>();
 
@@ -35,8 +36,8 @@ export class EstimatePageComponent implements OnInit, OnDestroy {
             .select(isMobile)
             .pipe(takeUntil(this.destroy$), distinctUntilChanged())
             .subscribe((mobile) => (this.isMobile = mobile));
-        this.getPage()
-        this.subscribeRefreshListener()
+      this.fetchPage();
+      this.subscribeRefreshListener();
 
     }
 
@@ -44,11 +45,19 @@ export class EstimatePageComponent implements OnInit, OnDestroy {
         if (this.refreshListener$) {
             this.refreshListener$.pipe(
                 takeUntil(this.destroy$))
-                .subscribe(() => this.getPage())
+              .subscribe(() => this.fetchPage())
         }
     }
 
-    private getPage(): void {
+  paginate(event: PaginatorState): void {
+    this.page = {
+      number: event.page ?? 0,
+      size: event.rows ?? 20
+    };
+    this.fetchPage();
+    }
+
+  private fetchPage(): void {
         this.apiService.get(
             undefined,
             undefined,
@@ -58,12 +67,12 @@ export class EstimatePageComponent implements OnInit, OnDestroy {
             this.page = {
                 size: pageEstimate.size ?? this.page.size,
                 number: pageEstimate.number ?? this.page.number
-            }
+            };
             this.pages = {
                 totalPages: pageEstimate.totalPages,
                 totalElements: pageEstimate.totalElements
-            }
-            this.estimates = pageEstimate.content ?? []
+            };
+          this.estimates = pageEstimate.content ?? [];
         });
     }
 
