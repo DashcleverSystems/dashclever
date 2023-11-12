@@ -1,12 +1,15 @@
 package pl.dashclever.repairmanagment.estimatecatalogue.infrastrucutre
 
+import io.swagger.v3.oas.annotations.Parameter
+import io.swagger.v3.oas.annotations.enums.Explode.TRUE
+import io.swagger.v3.oas.annotations.enums.ParameterIn
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.http.HttpStatus.NO_CONTENT
-import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -51,32 +54,34 @@ internal class EstimateRestApi(
             .build()
     }
 
+
+    data class EstimateFilters(
+        val estimateId: String? = null,
+        val createdAfter: LocalDateTime? = null,
+        val pageNo: Int = 0,
+        val pageSize: Int = 20,
+        val sortDirection: SortDirection = DESC
+    )
+
     @GetMapping(produces = ["application/json"])
-    fun get(
-        @RequestParam(required = false) estimateId: String?,
-        @RequestParam(required = false) createdAfter: LocalDateTime?,
-        @RequestParam(required = false, defaultValue = "0") pageNo: Int,
-        @RequestParam(required = false, defaultValue = "20") pageSize: Int,
-        @RequestParam(required = false, defaultValue = "DESC") sortDirection: SortDirection
-    ): ResponseEntity<List<Estimate>> {
+    fun get(@Parameter(explode = TRUE, `in` = ParameterIn.QUERY) filters: EstimateFilters): Page<Estimate> {
         var specification: Specification<Estimate>? = null
-        if (createdAfter != null) {
-            specification = EstimateSpecifications.createdOnAfter(createdAfter)
+        if (filters.createdAfter != null) {
+            specification = EstimateSpecifications.createdOnAfter(filters.createdAfter)
         }
-        if (estimateId != null) {
-            specification = specification?.and(EstimateSpecifications.estimateId(estimateId)) ?: EstimateSpecifications.estimateId(estimateId)
+        if (filters.estimateId != null) {
+            specification = specification?.and(EstimateSpecifications.estimateId(filters.estimateId))
+                ?: EstimateSpecifications.estimateId(filters.estimateId)
         }
 
-        val sort = when (sortDirection) {
+        val sort = when (filters.sortDirection) {
             ASC -> Sort.by("createdOn").ascending()
             DESC -> Sort.by("createdOn").descending()
         }
-        val pageReq = PageRequest.of(pageNo, pageSize, sort)
-        val page = specification?.let { this.estimateRepository.findAll(it, pageReq) } ?: this.estimateRepository.findAll(pageReq)
-        return ResponseEntity.status(200)
-            .header("X-Total-Count", page.totalElements.toString())
-            .contentType(APPLICATION_JSON)
-            .body(page.content)
+        val pageReq = PageRequest.of(filters.pageNo, filters.pageSize, sort)
+        return specification?.let { this.estimateRepository.findAll(it, pageReq) } ?: this.estimateRepository.findAll(
+            pageReq
+        )
     }
 
     @DeleteMapping

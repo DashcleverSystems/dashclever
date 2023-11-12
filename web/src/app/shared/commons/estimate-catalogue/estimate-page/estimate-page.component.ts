@@ -3,9 +3,8 @@ import { PaginatorState } from 'primeng/paginator';
 import { Store } from '@ngrx/store';
 import { isMobile } from '@core/store/core-store.selectors';
 import { Subject, distinctUntilChanged, takeUntil, Observable } from 'rxjs';
-import { Estimate } from 'generated/openapi';
-import { EstimateCatalogueService } from '../estimate-catalogue.service';
-import { Table } from '../../../services/table.service';
+import {Estimate, EstimateApiService} from 'generated/openapi';
+import {Table} from '@shared/services/table.service';
 
 @Component({
   selector: 'app-estimate-page',
@@ -22,7 +21,7 @@ export class EstimatePageComponent
 
   private destroy$ = new Subject<void>();
 
-  constructor(private store: Store, private service: EstimateCatalogueService) {
+  constructor(private store: Store, private service: EstimateApiService) {
     super();
   }
 
@@ -46,8 +45,13 @@ export class EstimatePageComponent
   paginate(event: PaginatorState): void {}
 
   private fetchPage(): void {
-    this.service
-      .getEstimateCatalogueList()
+    this.service.get({
+      estimateId: undefined,
+      createdAfter: undefined,
+      pageNo: 2,
+      pageSize: 1,
+      sortDirection: "DESC"
+    })
       .subscribe((res) => console.log(res));
   }
 
