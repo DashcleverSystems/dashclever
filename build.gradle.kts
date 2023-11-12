@@ -137,7 +137,7 @@ val cleanWebBuild = tasks.register<Delete>("cleanDist") {
 }
 
 val generateHttpClients = tasks.register("generateHttpClients") {
-    dependsOn("web:generateHttpClients", tasks.generateOpenApiDocs)
+    dependsOn(tasks.clean, "web:generateHttpClients", tasks.generateOpenApiDocs)
     tasks.getByPath("web:generateHttpClients").mustRunAfter(tasks.getByName("generateOpenApiDocs"))
 }
 

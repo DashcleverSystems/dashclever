@@ -1,8 +1,5 @@
 package pl.dashclever.repairmanagment.estimatecatalogue.infrastrucutre
 
-import io.swagger.v3.oas.annotations.Parameter
-import io.swagger.v3.oas.annotations.enums.Explode.TRUE
-import io.swagger.v3.oas.annotations.enums.ParameterIn
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.data.domain.Page
@@ -54,7 +51,6 @@ internal class EstimateRestApi(
             .build()
     }
 
-
     data class EstimateFilters(
         val estimateId: String? = null,
         val createdAfter: LocalDateTime? = null,
@@ -64,7 +60,10 @@ internal class EstimateRestApi(
     )
 
     @GetMapping(produces = ["application/json"])
-    fun get(@Parameter(explode = TRUE, `in` = ParameterIn.QUERY) filters: EstimateFilters): Page<Estimate> {
+    fun get(@RequestParam filters: EstimateFilters?): Page<Estimate> =
+        filter(filters ?: EstimateFilters())
+
+    private fun filter(filters: EstimateFilters): Page<Estimate> {
         var specification: Specification<Estimate>? = null
         if (filters.createdAfter != null) {
             specification = EstimateSpecifications.createdOnAfter(filters.createdAfter)
