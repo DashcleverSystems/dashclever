@@ -20,7 +20,6 @@ import {
   Configuration,
   ConfigurationParameters,
 } from 'generated/openapi';
-import { HttpService } from './shared/services/http.service';
 import { CacheService } from './shared/services/cache.service';
 
 export function apiConfigFactory(): Configuration {
@@ -48,7 +47,6 @@ export function apiConfigFactory(): Configuration {
     }),
   ],
   providers: [
-    HttpService,
     CacheService,
     {
       provide: HTTP_INTERCEPTORS,

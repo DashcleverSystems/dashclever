@@ -1,18 +1,23 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { PaginatorState } from 'primeng/paginator';
 import { Store } from '@ngrx/store';
 import { isMobile } from '@core/store/core-store.selectors';
 import { Subject, distinctUntilChanged, takeUntil, Observable } from 'rxjs';
-import {Estimate, EstimateApiService} from 'generated/openapi';
-import {Table} from '@shared/services/table.service';
+import {
+  Estimate,
+  EstimateApiService,
+  EstimateFilters,
+} from 'generated/openapi';
+import { Table } from '@app/shared/services/table/table.service';
+import { EstimatePageTableStore } from './estimate-page.store';
 
 @Component({
   selector: 'app-estimate-page',
   templateUrl: './estimate-page.component.html',
   styleUrls: ['./estimate-page.component.scss'],
+  providers: [EstimatePageTableStore],
 })
 export class EstimatePageComponent
-  extends Table<Estimate>
+  extends Table<Estimate, EstimateFilters>
   implements OnInit, OnDestroy
 {
   @Input() refreshListener$: Observable<void> | undefined;
@@ -21,8 +26,8 @@ export class EstimatePageComponent
 
   private destroy$ = new Subject<void>();
 
-  constructor(private store: Store, private service: EstimateApiService) {
-    super();
+  constructor(private store: Store, tableStore: EstimatePageTableStore) {
+    super(tableStore);
   }
 
   ngOnInit(): void {
@@ -30,29 +35,16 @@ export class EstimatePageComponent
       .select(isMobile)
       .pipe(takeUntil(this.destroy$), distinctUntilChanged())
       .subscribe((mobile) => (this.isMobile = mobile));
-    this.fetchPage();
     this.subscribeRefreshListener();
+    this.getCollection();
   }
 
   private subscribeRefreshListener(): void {
     if (this.refreshListener$) {
       this.refreshListener$
         .pipe(takeUntil(this.destroy$))
-        .subscribe(() => this.fetchPage());
+        .subscribe(() => this.getCollection());
     }
-  }
-
-  paginate(event: PaginatorState): void {}
-
-  private fetchPage(): void {
-    this.service.get({
-      estimateId: undefined,
-      createdAfter: undefined,
-      pageNo: 2,
-      pageSize: 1,
-      sortDirection: "DESC"
-    })
-      .subscribe((res) => console.log(res));
   }
 
   ngOnDestroy(): void {

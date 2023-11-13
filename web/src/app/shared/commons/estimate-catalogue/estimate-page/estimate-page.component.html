@@ -1,7 +1,7 @@
 <div class="estimate-page-container">
   <app-card title="components.estimatePage.title">
     <div class="table-container">
-      <p-table [value]="estimates">
+      <p-table [value]="data$ | async">
         <ng-template pTemplate="header">
           <tr>
             <th>{{ 'components.estimatePage.estimateId' | translate }}</th>
@@ -17,12 +17,12 @@
           </tr>
         </ng-template>
       </p-table>
-      <!-- <p-paginator
-            (onPageChange)="paginate($event)"
-            [rows]="page.size"
-            [totalRecords]="pages?.totalElements ?? 0"
-            [rowsPerPageOptions]="[1, 5, 10, 20]"
-          ></p-paginator> -->
+      <p-paginator
+        (onPageChange)="primePageChange($event)"
+        [rows]="size"
+        [totalRecords]="totalElements"
+        [rowsPerPageOptions]="rowsPerPage"
+      ></p-paginator>
     </div>
   </app-card>
 </div>

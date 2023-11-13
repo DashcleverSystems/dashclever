@@ -31,7 +31,11 @@
       "@content/*": ["src/app/content/*"],
       "@env/*": ["src/environments/*"],
       "@assets": ["src/assets"],
-      "@assets/*": ["src/assets*"]
+      "@assets/*": ["src/assets/*"],
+      "@api/services/*": ["generated/openapi/api/*"],
+      "@api/services": ["generated/openapi/api"],
+      "@api/models/*": ["generated/openapi/model/*"],
+      "@api/models": ["generated/openapi/model"]
     },
     "plugins": [{ "name": "@angular/language-service" }]
   },

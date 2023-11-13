@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EstimateFormService } from './estimate-form.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import {
-  IEstimateDTO,
-  IEstimateForm,
-  IEstimatePdfDTO,
-} from './estimate-form';
+import { IEstimateDTO, IEstimateForm, IEstimatePdfDTO } from './estimate-form';
 import { FormGroup } from '@angular/forms';
 import { ToastService } from '@app/shared/services/toast.service';
 import { DictionaryDTO, enumToDictionary } from '@app/shared/utils/dictionary';
@@ -86,12 +82,12 @@ export class EstimateFormComponent implements OnInit {
           message: 'components.estimateCatalogue.form.toast.successSave',
           translate: true,
         });
-        this.ref.close({result: "success"});
+        this.ref.close({ result: 'success' });
       });
   }
 
   dictionaries: Dictionaries = {
     jobTypes: enumToDictionary(JobType, 'enum.JobType'),
-    currencies: enumToDictionary(Currency, 'enum.Currency')
+    currencies: enumToDictionary(Currency, 'enum.Currency'),
   };
 }
