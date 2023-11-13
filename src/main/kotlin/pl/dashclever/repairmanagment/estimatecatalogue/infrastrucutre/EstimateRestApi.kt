@@ -52,25 +52,25 @@ internal class EstimateRestApi(
     }
 
     data class EstimateFilters(
-        val estimateId: String? = null,
-        val createdAfter: LocalDateTime? = null,
-        val pageNo: Int = 0,
-        val pageSize: Int = 20,
-        val sortDirection: SortDirection = DESC
+        var estimateId: String? = null,
+        var createdAfter: LocalDateTime? = null,
+        var pageNo: Int = 0,
+        var pageSize: Int = 20,
+        var sortDirection: SortDirection = DESC
     )
 
     @GetMapping(produces = ["application/json"])
-    fun get(@RequestParam filters: EstimateFilters?): Page<Estimate> =
-        filter(filters ?: EstimateFilters())
+    fun get(filters: EstimateFilters?): Page<Estimate> =
+        filter(filters ?: EstimateFilters(null, null, 0, 20, DESC))
 
     private fun filter(filters: EstimateFilters): Page<Estimate> {
         var specification: Specification<Estimate>? = null
         if (filters.createdAfter != null) {
-            specification = EstimateSpecifications.createdOnAfter(filters.createdAfter)
+            specification = EstimateSpecifications.createdOnAfter(filters.createdAfter!!)
         }
         if (filters.estimateId != null) {
-            specification = specification?.and(EstimateSpecifications.estimateId(filters.estimateId))
-                ?: EstimateSpecifications.estimateId(filters.estimateId)
+            specification = specification?.and(EstimateSpecifications.estimateId(filters.estimateId!!))
+                ?: EstimateSpecifications.estimateId(filters.estimateId!!)
         }
 
         val sort = when (filters.sortDirection) {

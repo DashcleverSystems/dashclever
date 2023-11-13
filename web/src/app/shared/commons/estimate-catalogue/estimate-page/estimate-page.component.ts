@@ -4,7 +4,6 @@ import { isMobile } from '@core/store/core-store.selectors';
 import { Subject, distinctUntilChanged, takeUntil, Observable } from 'rxjs';
 import {
   Estimate,
-  EstimateApiService,
   EstimateFilters,
 } from 'generated/openapi';
 import { Table } from '@app/shared/services/table/table.service';
@@ -22,7 +21,6 @@ export class EstimatePageComponent
 {
   @Input() refreshListener$: Observable<void> | undefined;
   isMobile: boolean = false;
-  estimates: Estimate[] = [];
 
   private destroy$ = new Subject<void>();
 
