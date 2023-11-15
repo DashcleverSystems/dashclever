@@ -1,6 +1,5 @@
 import { EstimateFilters } from '@api/models/estimateFilters';
 import { TableStore } from './table.store';
-import { tap } from 'rxjs';
 import { PaginatorState } from 'primeng/paginator';
 
 /**
@@ -27,13 +26,6 @@ export abstract class Table<T, O = object> {
    * @memberof Table
    */
   page: number = 0;
-  /**
-   * TotalElements of table
-   *
-   * @type {number} - default 0
-   * @memberof Table
-   */
-  totalElements: number = 0;
   /**
    * Sort direction
    *
@@ -66,9 +58,11 @@ export abstract class Table<T, O = object> {
    * @memberof Table
    */
   get data$() {
-    return this.tableAbstractStore.data$.pipe(
-      tap((data) => (this.totalElements = data.length))
-    );
+    return this.tableAbstractStore.data$;
+  }
+
+  get totalElements$() {
+    return this.tableAbstractStore.totalElements$
   }
 
   constructor(private tableAbstractStore: TableStore<T>) {}

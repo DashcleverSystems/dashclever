@@ -4,6 +4,7 @@ import * as generateHash from 'object-hash';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+// TODO
 @Injectable()
 export class CacheService {
   readonly CACHE_DURATION_IN_MINUTES = 5;

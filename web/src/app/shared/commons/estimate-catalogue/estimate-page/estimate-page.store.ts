@@ -18,7 +18,10 @@ export class EstimatePageTableStore extends TableStore<Estimate> {
     this.effect((effect) =>
       effect.pipe(
         switchMap(() => this.service.get(filters)),
-        tap((data: PageEstimate) => this.setData(data.content))
+        tap((data: PageEstimate) => {
+          this.setData(data.content);
+          this.setTotalElements(data.totalElements);
+        })
       )
     );
 }

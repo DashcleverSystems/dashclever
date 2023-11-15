@@ -20,7 +20,7 @@
       <p-paginator
         (onPageChange)="primePageChange($event)"
         [rows]="size"
-        [totalRecords]="totalElements"
+        [totalRecords]="totalElements$ | async"
         [rowsPerPageOptions]="rowsPerPage"
       ></p-paginator>
     </div>
