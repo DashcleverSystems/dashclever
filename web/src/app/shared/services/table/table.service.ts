@@ -90,16 +90,8 @@ export abstract class Table<T, O = object> {
   }
 
   protected primePageChange(event: PaginatorState): void {
-    let fetchData = false;
-
-    if (event.page && this.page !== event.page) {
       this.page = event.page;
-      fetchData = true;
-    } else if (event.rows && this.size !== event.rows) {
       this.size = event.rows;
-      fetchData = true;
-    }
-
-    if (fetchData) this.getCollection();
+      this.getCollection();
   }
 }
