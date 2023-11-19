@@ -1,6 +1,6 @@
-import { EstimateFilters } from '@api/models/estimateFilters';
 import { TableStore } from './table.store';
 import { PaginatorState } from 'primeng/paginator';
+import {SortDirection} from '@shared/enums/sort-direction';
 
 /**
  * Abstract class for table component
@@ -29,11 +29,10 @@ export abstract class Table<T, O = object> {
   /**
    * Sort direction
    *
-   * @type {EstimateFilters.SortDirectionEnum} - default DSC
+   * @type {EstimateFilters.SortDirectionEnum} - default DESC
    * @memberof Table
    */
-  sortDirection: EstimateFilters.SortDirectionEnum =
-    EstimateFilters.SortDirectionEnum.Desc;
+  sortDirection: SortDirection = SortDirection.DESC;
   /**
    *  For pagination item array with rows per page
    *
