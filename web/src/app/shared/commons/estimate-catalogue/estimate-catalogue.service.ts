@@ -10,6 +10,7 @@ export class EstimateCatalogueService {
   getEstimateFromFile(file: File): Observable<IEstimatePdfDTO> {
     const data = new FormData();
     data.append('file', file);
-    return this.http.post<IEstimatePdfDTO>('/api/estimate/reader', data);
+
+    return this.http.post<IEstimatePdfDTO>('api/estimate/reader', data);
   }
 }

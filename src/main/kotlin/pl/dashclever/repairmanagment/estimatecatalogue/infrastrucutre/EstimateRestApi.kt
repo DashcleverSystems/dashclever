@@ -51,28 +51,36 @@ internal class EstimateRestApi(
             .build()
     }
 
-    @GetMapping
-    fun get(
-        @RequestParam(required = false) estimateId: String?,
-        @RequestParam(required = false) createdAfter: LocalDateTime?,
-        @RequestParam(required = false, defaultValue = "0") pageNo: Int,
-        @RequestParam(required = false, defaultValue = "20") pageSize: Int,
-        @RequestParam(required = false, defaultValue = "DESC") sortDirection: SortDirection
-    ): Page<Estimate> {
+    data class EstimateFilters(
+        var estimateId: String? = null,
+        var createdAfter: LocalDateTime? = null,
+        var pageNo: Int = 0,
+        var pageSize: Int = 20,
+        var sortDirection: SortDirection = DESC
+    )
+
+    @GetMapping(produces = ["application/json"])
+    fun get(filters: EstimateFilters?): Page<Estimate> =
+        filter(filters ?: EstimateFilters(null, null, 0, 20, DESC))
+
+    private fun filter(filters: EstimateFilters): Page<Estimate> {
         var specification: Specification<Estimate>? = null
-        if (createdAfter != null) {
-            specification = EstimateSpecifications.createdOnAfter(createdAfter)
+        if (filters.createdAfter != null) {
+            specification = EstimateSpecifications.createdOnAfter(filters.createdAfter!!)
         }
-        if (estimateId != null) {
-            specification = specification?.and(EstimateSpecifications.estimateId(estimateId)) ?: EstimateSpecifications.estimateId(estimateId)
+        if (filters.estimateId != null) {
+            specification = specification?.and(EstimateSpecifications.estimateId(filters.estimateId!!))
+                ?: EstimateSpecifications.estimateId(filters.estimateId!!)
         }
 
-        val sort = when (sortDirection) {
+        val sort = when (filters.sortDirection) {
             ASC -> Sort.by("createdOn").ascending()
             DESC -> Sort.by("createdOn").descending()
         }
-        val pageReq = PageRequest.of(pageNo, pageSize, sort)
-        return specification?.let { this.estimateRepository.findAll(it, pageReq) } ?: this.estimateRepository.findAll(pageReq)
+        val pageReq = PageRequest.of(filters.pageNo, filters.pageSize, sort)
+        return specification?.let { this.estimateRepository.findAll(it, pageReq) } ?: this.estimateRepository.findAll(
+            pageReq
+        )
     }
 
     @DeleteMapping

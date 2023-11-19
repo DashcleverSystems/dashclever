@@ -1,0 +1,28 @@
+<div class="estimate-page-container">
+  <app-card title="components.estimatePage.title">
+    <div class="table-container">
+      <p-table [value]="data$ | async">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>{{ 'components.estimatePage.estimateId' | translate }}</th>
+            <th>
+              {{ 'components.estimatePage.creationTimestamp' | translate }}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-estimate>
+          <tr>
+            <td>{{ estimate.estimateId }}</td>
+            <td>{{ estimate.creationTimestamp | date : 'YYYY-MM-d HH:m' }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-paginator
+        (onPageChange)="primePageChange($event)"
+        [rows]="size"
+        [totalRecords]="totalElements$ | async"
+        [rowsPerPageOptions]="rowsPerPage"
+      ></p-paginator>
+    </div>
+  </app-card>
+</div>

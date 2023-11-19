@@ -4,10 +4,19 @@
 .container {
   width: 100svw;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   margin-top: 2rem;
   animation: fadeInRight 600ms both;
+
+  .create-estimate {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
 
   .actions {
     width: 100%;

@@ -46,14 +46,14 @@ export class EstimateFormService {
 
   formatDataFromPdf(data: IEstimatePdfDTO): IEstimateDTO {
     return {
-      estimateId: data.uniqueId,
-      vehicleInfo: data.vehicleInfo,
+      estimateId: data?.uniqueId,
+      vehicleInfo: data?.vehicleInfo,
       paintInfo: {
-        ...data.paint,
-        varnishingPaintInfo: data.paint.varnishingPaintInfo.join(', '),
+        ...data?.paint,
+        varnishingPaintInfo: data?.paint.varnishingPaintInfo.join(', '),
       },
       jobs: [
-        ...Array.from(data.labourJobs, (job) => ({
+        ...Array.from(data?.labourJobs ?? [], (job) => ({
           ...job,
           worth: {
             ...job.worth,
@@ -61,7 +61,7 @@ export class EstimateFormService {
           },
           jobType: JobType.LABOUR,
         })),
-        ...Array.from(data.varnishingJobs, (job) => ({
+        ...Array.from(data?.varnishingJobs ?? [], (job) => ({
           ...job,
           worth: {
             ...job.worth,

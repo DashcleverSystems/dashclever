@@ -1,25 +1,30 @@
 <div class="container">
-  <app-card title="components.estimateCatalogue.title">
-    <app-spinner [enable]="loadingSpinner">
-      <div class="actions">
-        <p-fileUpload
-          #fileUploader
-          mode="basic"
-          [chooseLabel]="
-            'components.estimateCatalogue.actions.generatePDF' | translate
-          "
-          accept=".pdf"
-          [auto]="true"
-          [maxFileSize]="1000000"
-          (onSelect)="createCatalogue('GENERATE', $event)"
-        ></p-fileUpload>
-        <button
-          (click)="createCatalogue('CREATE')"
-          pButton
-          type="button"
-          translate="components.estimateCatalogue.actions.create"
-        ></button>
-      </div>
-    </app-spinner>
-  </app-card>
+  <div class="create-estimate">
+    <app-card title="components.estimateCatalogue.title">
+      <app-spinner [enable]="loadingSpinner">
+        <div class="actions">
+          <p-fileUpload
+            #fileUploader
+            mode="basic"
+            [chooseLabel]="
+              'components.estimateCatalogue.actions.generatePDF' | translate
+            "
+            accept=".pdf"
+            [auto]="true"
+            [maxFileSize]="1000000"
+            (onSelect)="createCatalogue('GENERATE', $event)"
+          ></p-fileUpload>
+          <button
+            (click)="createCatalogue('CREATE')"
+            pButton
+            type="button"
+            translate="components.estimateCatalogue.actions.create"
+          ></button>
+        </div>
+      </app-spinner>
+    </app-card>
+  </div>
+  <app-estimate-page
+    [refreshListener$]="estimateCreatedListener"
+  ></app-estimate-page>
 </div>

@@ -26,6 +26,7 @@ import { PrimeModule } from '@app/shared/prime.module';
         .p-progress-spinner {
           width: 50px;
           height: 50px;
+          display: flex;
         }
       }
     `,

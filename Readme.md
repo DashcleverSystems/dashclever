@@ -2,6 +2,7 @@
 
 To run application you have to have java, docker and docker compose set up on a device.
 ___
+- To make `./gradlew` work on Ubuntu WSL2 give user all permissions to the gradle file `chmod 777 gradlew` or `chmod +x gradlew` and then to make it work type `sed -i -e 's/\r$//' gradlew`.
 - To set application environment you can simply run: `./gradlew setDev`.
 - Application can be run in dev mode with command:`./gradlew bootDev`. It will try to set up database and application. It assumes that java, docker, docker compose is pre-installed.
 - To skip installing a UI into spring jar you can `./gradlew bootDev -x installWeb`
@@ -45,4 +46,3 @@ The following guides illustrate how to use some features concretely:
 These additional references should also help you:
 
 * [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
-

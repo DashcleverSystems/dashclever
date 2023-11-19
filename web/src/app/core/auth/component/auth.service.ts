@@ -41,7 +41,7 @@ export class AuthService {
     form.append('username', data.username);
     form.append('password', data.password);
 
-    return this.http.post<void>('/api/login', form);
+    return this.http.post<void>('api/login', form);
   }
 
   register(data: ICredentials & { email: string }) {
@@ -49,14 +49,14 @@ export class AuthService {
   }
 
   logout() {
-    return this.http.post<void>('/api/logout', {});
+    return this.http.post<void>('api/logout', {});
   }
 
   isLogged() {
-    return this.http.get('/api/account');
+    return this.http.get('api/account');
   }
 
   getPermissions() {
-    return this.http.get<IWorkshop[]>('/api/account/access');
+    return this.http.get<IWorkshop[]>('api/account/access');
   }
 }

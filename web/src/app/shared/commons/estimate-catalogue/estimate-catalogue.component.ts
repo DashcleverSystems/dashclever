@@ -17,9 +17,14 @@ import { IEstimatePdfDTO } from './estimate-form/estimate-form';
 export class EstimateCatalogueComponent implements OnInit, OnDestroy {
   @ViewChild('fileUploader') fileUploader: FileUpload | undefined;
 
+  get estimateCreatedListener() {
+    return this.estimateCreated$.asObservable();
+  }
+
   isMobile: boolean = false;
   loadingSpinner = false;
 
+  private estimateCreated$: Subject<void> = new Subject<void>();
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -38,6 +43,8 @@ export class EstimateCatalogueComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this.estimateCreated$.next();
+    this.estimateCreated$.complete();
   }
 
   createCatalogue(type: 'CREATE' | 'GENERATE', data?: any): void {
@@ -61,16 +68,20 @@ export class EstimateCatalogueComponent implements OnInit, OnDestroy {
   }
 
   openModalForm(type: 'CREATE' | 'GENERATE', data?: IEstimatePdfDTO): void {
-    this.dialogService.open(EstimateFormComponent, {
-      data: {
-        type,
-        data: data,
-      },
-      showHeader: false,
-      closable: false,
-      width: this.isMobile ? '100svw' : undefined,
-      style: {"min-width": !this.isMobile ? "40svw" : undefined },
-      modal: true,
-    });
+    this.dialogService
+      .open(EstimateFormComponent, {
+        data: {
+          type,
+          data: data,
+        },
+        showHeader: false,
+        closable: false,
+        width: this.isMobile ? '100svw' : undefined,
+        style: { 'min-width': !this.isMobile ? '40svw' : undefined },
+        modal: true,
+      })
+      .onClose.subscribe(
+        (res) => res?.result === 'success' && this.estimateCreated$.next()
+      );
   }
 }

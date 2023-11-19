@@ -6,7 +6,7 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, catchError, of, switchMap, take, tap } from 'rxjs';
+import { Observable, catchError, of, switchMap, tap } from 'rxjs';
 import {
   availablePermissions,
   isAuthorized,
@@ -87,7 +87,7 @@ export class PermissionService {
   }
 
   getPermissions() {
-    return this.http.get<IWorkshop[]>('/api/account/access');
+    return this.http.get<IWorkshop[]>('api/account/access');
   }
 
   private checkPermissions(permissions: string[]): Observable<boolean> {
