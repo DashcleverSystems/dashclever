@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivateFn,
@@ -6,15 +6,7 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { Store } from '@ngrx/store';
-import {
-  Observable,
-  catchError,
-  of,
-  switchMap,
-  tap,
-  combineLatest,
-  map,
-} from 'rxjs';
+import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
 import {
   currentPermissions,
   isAuthorized,
@@ -102,12 +94,11 @@ export class PermissionService {
   }
 
   private checkPermissions(permissions: string[]): Observable<boolean> {
-    const permissionsFromStore$ = this.store.select(currentPermissions);
     const permissionsFromApi$ = this.accountApi.currentUser().pipe(
       map((accessDto: AccessDto) => Array.from(accessDto.authorities)),
       map((authorities) => authorities.map((auth) => auth.toString())),
     );
-    return combineLatest([permissionsFromStore$, permissionsFromApi$]).pipe(
+    return permissionsFromApi$.pipe(
       switchMap(([store, api]) => {
         console.log(store);
         console.log(api);
