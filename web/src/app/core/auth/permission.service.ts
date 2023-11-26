@@ -6,15 +6,25 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, catchError, of, switchMap, tap } from 'rxjs';
 import {
-  availablePermissions,
+  Observable,
+  catchError,
+  of,
+  switchMap,
+  tap,
+  combineLatest,
+  map,
+} from 'rxjs';
+import {
+  currentPermissions,
   isAuthorized,
 } from '../store/core-store.selectors';
 import { ToastService } from '@app/shared/services/toast.service';
 import { HttpClient } from '@angular/common/http';
 import { coreStoreActions } from '../store/core-store.actions';
 import { IWorkshop } from '@app/shared/models/workshop';
+import { AccessDto } from '@api/models/accessDto';
+import { AccountRestApiService } from '@api/services/accountRestApi.service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,19 +33,20 @@ export class PermissionService {
   constructor(
     private router: Router,
     private store: Store,
+    private accountApi: AccountRestApiService,
     private toast: ToastService,
-    private http: HttpClient
+    private http: HttpClient,
   ) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    state: RouterStateSnapshot,
   ): boolean | Observable<boolean> {
     const permissions = next.data['permissions'];
 
     if (Array.isArray(permissions) && permissions.length > 0) {
       return this.checkPermissions(permissions).pipe(
-        switchMap((permitted) => (!permitted ? this.notPermitted() : of(true)))
+        switchMap((permitted) => (!permitted ? this.notPermitted() : of(true))),
       );
     } else if (Array.isArray(permissions)) {
       return true;
@@ -52,37 +63,37 @@ export class PermissionService {
             switchMap(() => this.getPermissions()),
             tap((workshops) => {
               this.store.dispatch(
-                coreStoreActions.loginSuccessfully({ logged: true })
+                coreStoreActions.loginSuccessfully({ logged: true }),
               );
               this.store.dispatch(
-                coreStoreActions.changeWorkshops({ workshops })
+                coreStoreActions.changeWorkshops({ workshops }),
               );
             }),
             switchMap(() => of(true)),
-            catchError(() => this.notAuthorized())
+            catchError(() => this.notAuthorized()),
           );
         }
 
         return of(isAuth);
-      })
+      }),
     );
   }
 
   hasPermission(permission: string): Observable<boolean> {
-    return this.store.select(availablePermissions).pipe(
+    return this.store.select(currentPermissions).pipe(
       switchMap((avPermissions) => {
         return of(!!avPermissions.find((p) => p === permission));
-      })
+      }),
     );
   }
 
   hasAnyPermission(permissions: string[]): Observable<boolean> {
     return this.store
-      .select(availablePermissions)
+      .select(currentPermissions)
       .pipe(
         switchMap((avPermissions) =>
-          of(permissions.some((p) => avPermissions.includes(p)))
-        )
+          of(permissions.some((p) => avPermissions.includes(p))),
+        ),
       );
   }
 
@@ -91,13 +102,22 @@ export class PermissionService {
   }
 
   private checkPermissions(permissions: string[]): Observable<boolean> {
-    return this.store
-      .select(availablePermissions)
-      .pipe(
-        switchMap((avPermissions) =>
-          of(permissions.every((perm) => avPermissions.includes(perm)))
-        )
-      );
+    const permissionsFromStore$ = this.store.select(currentPermissions);
+    const permissionsFromApi$ = this.accountApi.currentUser().pipe(
+      map((accessDto: AccessDto) => Array.from(accessDto.authorities)),
+      map((authorities) => authorities.map((auth) => auth.toString())),
+    );
+    return combineLatest([permissionsFromStore$, permissionsFromApi$]).pipe(
+      switchMap(([store, api]) => {
+        console.log(store);
+        console.log(api);
+        return of(
+          permissions.every(
+            (perm) => store.includes(perm) || api.includes(perm),
+          ),
+        );
+      }),
+    );
   }
 
   private notPermitted(): Observable<false> {
@@ -133,11 +153,11 @@ export class PermissionService {
 
 export const PermissionGuard: CanActivateFn = (
   next: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
+  state: RouterStateSnapshot,
 ): boolean | Observable<boolean> =>
   inject(PermissionService).canActivate(next, state);
 
 export const AuthorizedGuard: CanActivateFn = (
   next: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
+  state: RouterStateSnapshot,
 ): boolean | Observable<boolean> => inject(PermissionService).isAuthorized();

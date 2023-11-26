@@ -1,12 +1,13 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SelectorListComponent } from './template/selector.template';
 import { IWorkshop } from '@app/shared/models/workshop';
 import { Store } from '@ngrx/store';
 import {
-  Observable,
-  combineLatest,
   debounceTime,
   distinctUntilChanged,
+  forkJoin,
+  map,
+  Observable,
   of,
   take,
   takeUntil,
@@ -17,7 +18,8 @@ import {
   getWorkshops,
 } from '@app/core/store/core-store.selectors';
 import { coreStoreActions } from '@app/core/store/core-store.actions';
-import { isEqual } from 'lodash';
+import { AccountRestApiService } from '@api/services/accountRestApi.service';
+import { AccessDto } from '@api/models/accessDto';
 
 @Component({
   selector: 'app-workshop-selector',
@@ -33,7 +35,10 @@ export class WorkshopSelectorComponent
   override title: string = 'components.accessesSelector.workshops.title';
   override itemName: string = 'Workshop';
 
-  constructor(private store: Store) {
+  constructor(
+    private store: Store,
+    private accountRestApi: AccountRestApiService,
+  ) {
     super();
   }
 
@@ -43,9 +48,8 @@ export class WorkshopSelectorComponent
       debounceTime(100),
       tap((list) => {
         this.visible = list.length > 0;
-      })
+      }),
     );
-
     this.store
       .select(getSelectedWorkshop)
       .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
@@ -57,21 +61,30 @@ export class WorkshopSelectorComponent
   }
 
   override defineInitialValue(): void {
-    combineLatest([this.itemList, this.store.select(getSelectedWorkshop)])
-      .pipe(take(1))
-      .subscribe(([items, access]) => {
-        const exists = items.find(
-          (acc) => acc.workshopId === access?.workshopId
+    const currentAccessWorkshopId$ = this.accountRestApi
+      .currentUser()
+      .pipe(map((access: AccessDto) => access.workshopId));
+    const displayedWorkshops$ = this.itemList.pipe(take(1));
+    forkJoin([displayedWorkshops$, currentAccessWorkshopId$]).subscribe(
+      ([displayedWorkshops, currentAccessWorkshopId]) => {
+        const exists = displayedWorkshops.find(
+          (acc) => acc.workshopId === currentAccessWorkshopId,
         );
         if (exists) {
           this.selectSpecificItem(exists);
+          this.store.dispatch(
+            coreStoreActions.selectWorkshopByWorkshopId({
+              workshopId: exists.workshopId,
+            }),
+          );
         }
-      });
+      },
+    );
   }
 
   override onClick(index: number, workshop: IWorkshop | undefined): void {
     this.store.dispatch(
-      coreStoreActions.selectWorkshop({ workshop: workshop ?? undefined })
+      coreStoreActions.selectWorkshop({ workshop: workshop ?? undefined }),
     );
   }
 }

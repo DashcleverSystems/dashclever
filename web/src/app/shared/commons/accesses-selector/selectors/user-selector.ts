@@ -20,8 +20,8 @@ import {
   getUsers,
 } from '@app/core/store/core-store.selectors';
 import { coreStoreActions } from '@app/core/store/core-store.actions';
-import { isEqual } from 'lodash';
 import { UserSelectorService } from './user-selector.service';
+import { AccountRestApiService } from '@api/services/accountRestApi.service';
 
 @Component({
   selector: 'app-user-selector',
@@ -39,7 +39,11 @@ export class UserSelectorComponent
   override title: string = 'components.accessesSelector.users.title';
   override itemName: string = 'User';
 
-  constructor(private store: Store, private service: UserSelectorService) {
+  constructor(
+    private store: Store,
+    private service: UserSelectorService,
+    private accountApi: AccountRestApiService,
+  ) {
     super();
   }
 
@@ -56,7 +60,7 @@ export class UserSelectorComponent
           this.visible = false;
           return [];
         }
-      })
+      }),
     );
 
     this.store
@@ -78,19 +82,22 @@ export class UserSelectorComponent
           this.service.selectUser({
             workshopId: selectedWorkshop?.workshopId ?? null,
             employeeId: access?.employeeId ?? null,
-          })
-        )
+          }),
+        ),
       )
       .subscribe(() =>
-        this.store.dispatch(coreStoreActions.selectAccess({ access }))
+        this.store.dispatch(coreStoreActions.selectAccess({ access })),
       );
   }
 
   override defineInitialValue(): void {
-    combineLatest([this.itemList, this.store.select(getSelectedAccess)])
+    const currentAccess$ = this.accountApi.currentUser();
+    combineLatest([this.itemList, currentAccess$])
       .pipe(take(1))
-      .subscribe(([items, access]) => {
-        const exists = items.find((acc) => isEqual(acc, access));
+      .subscribe(([items, currentAccess]) => {
+        const exists = items.find(
+          (acc) => acc.employeeId == currentAccess.employeeId,
+        );
         if (exists) {
           this.selectSpecificItem(exists);
         }

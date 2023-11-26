@@ -19,6 +19,7 @@ export const coreStoreActions = createActionGroup({
     'Get workshops': emptyProps(),
     'Change Workshops': props<{ workshops: IWorkshop[] }>(),
     'Select Workshop': props<{ workshop: IWorkshop | undefined }>(),
+    'Select Workshop By WorkshopId': props<{ workshopId: string }>(),
     'Select Access': props<{ access: IAccess | undefined }>(),
     'Clear Core State': emptyProps(),
   },
