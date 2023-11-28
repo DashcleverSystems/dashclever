@@ -105,6 +105,10 @@ val bootDev = tasks.register("bootDev") {
     tasks.getByName("bootRun").mustRunAfter(tasks.getByName("setDev"))
 }
 
+tasks.bootRun.configure {
+    jvmArgs = listOf("-Duser.timezone=UTC")
+}
+
 val stopDev = tasks.register<Exec>("stopDev") {
     commandLine("docker", "compose", "-p", project.name, "-f", dockerComposeFile, "stop")
 }

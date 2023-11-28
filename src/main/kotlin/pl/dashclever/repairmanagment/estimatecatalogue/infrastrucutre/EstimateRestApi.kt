@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import pl.dashclever.commons.security.LocalDateTimeHelper.timezoned
 import pl.dashclever.publishedlanguage.ALREADY_EXISTS
 import pl.dashclever.publishedlanguage.DomainException
 import pl.dashclever.publishedlanguage.SortDirection
@@ -24,8 +25,12 @@ import pl.dashclever.publishedlanguage.SortDirection.DESC
 import pl.dashclever.repairmanagment.estimatecatalogue.Estimate
 import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository
 import pl.dashclever.repairmanagment.estimatecatalogue.EstimateSpecifications
+import pl.dashclever.repairmanagment.estimatecatalogue.Job
+import pl.dashclever.repairmanagment.estimatecatalogue.PaintInfo
+import pl.dashclever.repairmanagment.estimatecatalogue.VehicleInfo
 import java.net.URI
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.UUID
 
 private const val PATH = "/api/estimatecatalogue"
@@ -60,10 +65,10 @@ internal class EstimateRestApi(
     )
 
     @GetMapping(produces = ["application/json"])
-    fun get(filters: EstimateFilters?): Page<Estimate> =
+    fun get(filters: EstimateFilters?): Page<EstimateDto> =
         filter(filters ?: EstimateFilters(null, null, 0, 20, DESC))
 
-    private fun filter(filters: EstimateFilters): Page<Estimate> {
+    private fun filter(filters: EstimateFilters): Page<EstimateDto> {
         var specification: Specification<Estimate>? = null
         if (filters.createdAfter != null) {
             specification = EstimateSpecifications.createdOnAfter(filters.createdAfter!!)
@@ -78,9 +83,8 @@ internal class EstimateRestApi(
             DESC -> Sort.by("createdOn").descending()
         }
         val pageReq = PageRequest.of(filters.pageNo, filters.pageSize, sort)
-        return specification?.let { this.estimateRepository.findAll(it, pageReq) } ?: this.estimateRepository.findAll(
-            pageReq
-        )
+        val estimatePage = specification?.let { this.estimateRepository.findAll(it, pageReq) } ?: this.estimateRepository.findAll(pageReq)
+        return estimatePage.map { it.toDto() }
     }
 
     @DeleteMapping
@@ -88,4 +92,24 @@ internal class EstimateRestApi(
     fun delete(@RequestParam estimateId: UUID) {
         return this.estimateRepository.deleteById(estimateId)
     }
+
+    internal data class EstimateDto(
+        val estimateId: String,
+        val vehicleInfo: VehicleInfo,
+        val paintInfo: PaintInfo,
+        val jobs: Set<Job>,
+        val creationTimestamp: LocalDateTime
+    )
+
+    private fun Estimate.toDto(): EstimateDto =
+        EstimateDto(
+            this.estimateId,
+            this.vehicleInfo,
+            this.paintInfo,
+            this.jobs,
+            this.getCreationTimestamp().timezoned(ZoneId.of("GMT+1"))
+        ).also {
+            println("entity is : ${getCreationTimestamp()}")
+            println("dto is: ${it.creationTimestamp}")
+        }
 }
