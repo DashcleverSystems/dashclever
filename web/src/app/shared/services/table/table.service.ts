@@ -1,6 +1,6 @@
 import { TableStore } from './table.store';
 import { PaginatorState } from 'primeng/paginator';
-import {SortDirection} from '@shared/enums/sort-direction';
+import { SortDirection } from '@shared/enums/sort-direction';
 
 /**
  * Abstract class for table component
@@ -61,7 +61,7 @@ export abstract class Table<T, O = object> {
   }
 
   get totalElements$() {
-    return this.tableAbstractStore.totalElements$
+    return this.tableAbstractStore.totalElements$;
   }
 
   constructor(private tableAbstractStore: TableStore<T>) {}
@@ -89,8 +89,8 @@ export abstract class Table<T, O = object> {
   }
 
   protected primePageChange(event: PaginatorState): void {
-      this.page = event.page;
-      this.size = event.rows;
-      this.getCollection();
+    this.page = event.page;
+    this.size = event.rows;
+    this.getCollection();
   }
 }

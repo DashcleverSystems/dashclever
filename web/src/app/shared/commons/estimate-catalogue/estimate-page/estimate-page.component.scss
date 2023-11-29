@@ -2,16 +2,22 @@
   width: 80svw;
 }
 
-.filter-button {
-  display: flex;
-  justify-content: flex-start;
-}
-
-
 .filters {
   display: flex;
-  width: 100%;
-  justify-content: flex-start;
+  width: 50%;
   align-items: center;
-  margin-top: 1rem;
+
+  .estimateId {
+    width: 100%;
+  }
+
+  .createdAfter {
+    width: 100%;
+  }
+
+  .submit {
+    justify-content: flex-start;
+    width: 100%;
+    margin-right: auto;
+  }
 }
