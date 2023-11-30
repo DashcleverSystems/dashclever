@@ -29,9 +29,9 @@ import pl.dashclever.repairmanagment.estimatecatalogue.Job
 import pl.dashclever.repairmanagment.estimatecatalogue.PaintInfo
 import pl.dashclever.repairmanagment.estimatecatalogue.VehicleInfo
 import java.net.URI
-import java.time.LocalDateTime
 import java.time.ZoneId
-import java.util.UUID
+import java.time.ZonedDateTime
+import java.util.*
 
 private const val PATH = "/api/estimatecatalogue"
 
@@ -45,20 +45,20 @@ internal class EstimateRestApi(
     @PostMapping
     fun create(
         @Valid @RequestBody
-        estimate: Estimate
-    ): ResponseEntity<Estimate> {
-        if (this.estimateRepository.existsByEstimateId(estimate.estimateId)) {
+        estimateDto: EstimateDto
+    ): ResponseEntity<EstimateDto> {
+        if (this.estimateRepository.existsByEstimateId(estimateDto.estimateId)) {
             throw DomainException(ALREADY_EXISTS)
         }
+        val estimate = createEstimate(estimateDto)
         this.estimateRepository.save(estimate)
-        return ResponseEntity
-            .created(URI.create("$PATH/${estimate.id}"))
-            .build()
+        return ResponseEntity.created(URI.create("$PATH/${estimate.id}"))
+            .body(estimate.toDto())
     }
 
     data class EstimateFilters(
         var estimateId: String? = null,
-        var createdAfter: LocalDateTime? = null,
+        var createdAfter: ZonedDateTime? = null,
         var pageNo: Int = 0,
         var pageSize: Int = 20,
         var sortDirection: SortDirection = DESC
@@ -71,7 +71,8 @@ internal class EstimateRestApi(
     private fun filter(filters: EstimateFilters): Page<EstimateDto> {
         var specification: Specification<Estimate>? = null
         if (filters.createdAfter != null) {
-            specification = EstimateSpecifications.createdOnAfter(filters.createdAfter!!)
+            val localDateTimeOfGmt = filters.createdAfter!!.withZoneSameInstant(ZoneId.of("GMT")).toLocalDateTime()
+            specification = EstimateSpecifications.createdOnAfter(localDateTimeOfGmt)
         }
         if (filters.estimateId != null) {
             specification = specification?.and(EstimateSpecifications.estimateId(filters.estimateId!!))
@@ -98,8 +99,16 @@ internal class EstimateRestApi(
         val vehicleInfo: VehicleInfo,
         val paintInfo: PaintInfo,
         val jobs: Set<Job>,
-        val creationTimestamp: LocalDateTime
+        val creationTimestamp: ZonedDateTime? = null
     )
+
+    private fun createEstimate(estimateDto: EstimateDto) =
+        Estimate(
+            estimateDto.estimateId,
+            estimateDto.vehicleInfo,
+            estimateDto.paintInfo,
+            estimateDto.jobs
+        )
 
     private fun Estimate.toDto(): EstimateDto =
         EstimateDto(
@@ -107,9 +116,6 @@ internal class EstimateRestApi(
             this.vehicleInfo,
             this.paintInfo,
             this.jobs,
-            this.getCreationTimestamp().timezoned(ZoneId.of("GMT+1"))
-        ).also {
-            println("entity is : ${getCreationTimestamp()}")
-            println("dto is: ${it.creationTimestamp}")
-        }
+            this.getCreationTimestamp().timezoned(ZoneId.of("GMT"))
+        )
 }
