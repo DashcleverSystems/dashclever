@@ -8,15 +8,18 @@
           class="estimateId m-1"
           placeholder="Translation here"
           [(ngModel)]="filters.estimateId"
+          (ngModelChange)="checkEmpty($event)"
         />
         <p-calendar
           class="createdAfter m-1"
-          [(ngModel)]="filters.createdAfter"
+          (onClear)="setCreatedAfterFilter($event)"
+          (onSelect)="setCreatedAfterFilter($event)"
           [showTime]="true"
+          [showClear]="true"
           [showIcon]="true"
         />
         <p-button
-          (click)="filter()"
+          (click)="onFilter(filters)"
           icon="pi pi-search"
           size="small"
           class="submit"

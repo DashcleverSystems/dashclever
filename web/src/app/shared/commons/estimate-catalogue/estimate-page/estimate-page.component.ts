@@ -2,10 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { isMobile } from '@core/store/core-store.selectors';
 import { Subject, distinctUntilChanged, takeUntil, Observable } from 'rxjs';
-import {
-  Estimate,
-  EstimateFilters,
-} from 'generated/openapi';
+import { EstimateDto, EstimateFilters } from 'generated/openapi';
 import { Table } from '@app/shared/services/table/table.service';
 import { EstimatePageTableStore } from './estimate-page.store';
 
@@ -16,16 +13,23 @@ import { EstimatePageTableStore } from './estimate-page.store';
   providers: [EstimatePageTableStore],
 })
 export class EstimatePageComponent
-  extends Table<Estimate, EstimateFilters>
+  extends Table<EstimateDto, EstimateFilters>
   implements OnInit, OnDestroy
 {
-  @Input() refreshListener$: Observable<void> | undefined;
+  @Input() refreshContentListener$: Observable<void> | undefined;
   isMobile: boolean = false;
 
   private destroy$ = new Subject<void>();
 
-  constructor(private store: Store, tableStore: EstimatePageTableStore) {
+  constructor(
+    private store: Store,
+    tableStore: EstimatePageTableStore,
+  ) {
     super(tableStore);
+    this.filters = {
+      estimateId: null,
+      createdAfter: null,
+    };
   }
 
   ngOnInit(): void {
@@ -38,10 +42,24 @@ export class EstimatePageComponent
   }
 
   private subscribeRefreshListener(): void {
-    if (this.refreshListener$) {
-      this.refreshListener$
+    if (this.refreshContentListener$) {
+      this.refreshContentListener$
         .pipe(takeUntil(this.destroy$))
         .subscribe(() => this.getCollection());
+    }
+  }
+
+  setCreatedAfterFilter(date: Date | null) {
+    if (date != null) {
+      this.filters.createdAfter = date.toISOString();
+    } else {
+      this.filters.createdAfter = null;
+    }
+  }
+
+  checkEmpty(newValue: string | null) {
+    if (newValue != null && newValue.length == 0) {
+      this.filters.estimateId = null;
     }
   }
 
