@@ -6,12 +6,17 @@
           pInputText
           type="text"
           class="estimateId m-1"
-          placeholder="Translation here"
+          [placeholder]="
+            'components.estimatePage.filters.estimateId' | translate
+          "
           [(ngModel)]="filters.estimateId"
           (ngModelChange)="checkEmpty($event)"
         />
         <p-calendar
           class="createdAfter m-1"
+          [placeholder]="
+            'components.estimatePage.filters.createdAfter' | translate
+          "
           (onClear)="setCreatedAfterFilter($event)"
           (onSelect)="setCreatedAfterFilter($event)"
           [showTime]="true"

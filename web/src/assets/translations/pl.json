@@ -33,7 +33,11 @@
     "estimatePage": {
       "title": "Kosztorysy",
       "estimateId": "Identyfikator",
-      "creationTimestamp": "Data utworzenia"
+      "creationTimestamp": "Data utworzenia",
+      "filters": {
+        "createdAfter": "Utworzone po:",
+        "estimateId": "Identyfiaktor kosztorysu:"
+      }
     },
     "estimateCatalogue": {
       "title": "Kosztorys",
