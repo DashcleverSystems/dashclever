@@ -125,8 +125,7 @@ internal class EstimateWorkshopSecuredReadRepositoryTest(
         val friday = LocalDateTime.of(2023, 12, 1, 11, 0)
         val thursday = friday.minusDays(1)
         val wednesday = thursday.minusDays(1)
-
-        auditingHandler.setDateTimeProvider { Optional.of(wednesday) }
+        val tuesday = wednesday.minusDays(1)
 
         val access = TestAccess(
             accountId = UUID.randomUUID(),
@@ -134,29 +133,35 @@ internal class EstimateWorkshopSecuredReadRepositoryTest(
             workshopId = UUID.randomUUID()
         )
         testAccessSetter.setAccess(access)
+
+        auditingHandler.setDateTimeProvider { Optional.of(tuesday) }
+        testee.save(`new estimate`("23/2023dk"))
+
+        auditingHandler.setDateTimeProvider { Optional.of(wednesday) }
         testee.save(`new estimate`("24/2023dk"))
 
         auditingHandler.setDateTimeProvider { Optional.of(thursday) }
-
-        val anotherAccess = TestAccess(
-            accountId = UUID.randomUUID(),
-            authorities = Authority.values().toSet(),
-            workshopId = UUID.randomUUID()
-        )
-        testAccessSetter.setAccess(anotherAccess)
         testee.save(`new estimate`("25/2023dk"))
 
-        // when
         auditingHandler.setDateTimeProvider { Optional.of(friday) }
+        testee.save(`new estimate`("26/2023dk"))
+
+        // when
+
         val result = testee.findAll(
             EstimateSpecifications.createdOnAfter(thursday.minusHours(2)),
             PageRequest.of(0, 10)
         )
 
         // then
-        assertThat(result).singleElement().satisfies({ estimate ->
-            assertThat(estimate.estimateId).isEqualTo("25/2023dk")
-        })
+        assertThat(result).satisfiesExactlyInAnyOrder(
+            {
+                assertThat(it.estimateId).isEqualTo("25/2023dk")
+            },
+            {
+                assertThat(it.estimateId).isEqualTo("26/2023dk")
+            }
+        )
     }
 
     @Test
