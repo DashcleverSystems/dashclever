@@ -4,13 +4,12 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
-
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.LastModifiedDate;
 
 @MappedSuperclass
 public abstract class UpdateTimestampEntity<T> extends CreationTimestampEntity<T> {
 
-    @UpdateTimestamp
+    @LastModifiedDate
     @Column(name = "last_modified_on")
     private LocalDateTime lastModifiedOn;
 }
