@@ -89,7 +89,7 @@ internal class AccountRestApi(
         return accessesReader.findAccountWorkshopAccesses(accDto.id)
     }
 
-    @GetMapping
+    @GetMapping(produces = ["application/json"])
     fun currentUser(authentication: Authentication?): AccessDto? {
         if (authentication == null) {
             throw ResponseStatusException(HttpStatus.UNAUTHORIZED)

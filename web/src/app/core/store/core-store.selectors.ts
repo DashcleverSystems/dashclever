@@ -7,42 +7,42 @@ export const selectedLanguage = createSelector(coreStoreSelectors, (_state) => {
   return _state.lang;
 });
 
-export const availablePermissions = createSelector(
+export const currentPermissions = createSelector(
   coreStoreSelectors,
   (_state) => {
     return _state.permissions;
-  }
+  },
 );
 
 export const isAuthorized = createSelector(
   coreStoreSelectors,
-  (_state) => _state.logged
+  (_state) => _state.logged,
 );
 
 export const getWorkshops = createSelector(coreStoreSelectors, (_state) =>
-  _state.workshops.map((w) => ({ ...w, accesses: undefined }))
+  _state.workshops.map((w) => ({ ...w, accesses: undefined })),
 );
 
 export const getUsers = createSelector(
   coreStoreSelectors,
-  (_state) => _state.selectedWorkshop?.accesses
+  (_state) => _state.selectedWorkshop?.accesses,
 );
 
 export const getUsersByWorkshop = (workshopId: string) =>
   createSelector(coreStoreSelectors, (_state) =>
-    _state.workshops.find((w) => w.workshopId === workshopId)
+    _state.workshops.find((w) => w.workshopId === workshopId),
   );
 
 export const getSelectedAccess = createSelector(
   coreStoreSelectors,
-  (_state) => _state.selectedAccess
+  (_state) => _state.selectedAccess,
 );
 export const getSelectedWorkshop = createSelector(
   coreStoreSelectors,
-  (_state) => _state.selectedWorkshop
+  (_state) => _state.selectedWorkshop,
 );
 
 export const isMobile = createSelector(
   coreStoreSelectors,
-  (_state) => _state.mobile
+  (_state) => _state.mobile,
 );

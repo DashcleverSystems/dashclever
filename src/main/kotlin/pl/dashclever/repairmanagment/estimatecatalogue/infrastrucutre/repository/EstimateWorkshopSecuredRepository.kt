@@ -42,7 +42,7 @@ class EstimateWorkshopSecuredRepository(
 
     override fun findAll(specification: Specification<Estimate>, pageable: Pageable): Page<Estimate> {
         val currentAccess = this.springCurrentAccessProvider.currentWorkshop()
-        val spec = specification.and(joinSecurityRecords()).and(withWorkshopId(currentAccess.workshopId))
+        val spec = specification.and(belongingToWorkshop(currentAccess.workshopId))
         return this.estimateWorkshopSecuredJpaReadRepository.findAll(spec, pageable)
     }
 
@@ -65,23 +65,15 @@ class EstimateWorkshopSecuredRepository(
 
     private companion object {
 
-        fun joinSecurityRecords(): Specification<Estimate> {
+        fun belongingToWorkshop(workshopId: UUID): Specification<Estimate> {
             return Specification { root, query, criteriaBuilder ->
                 val securityRecordRoot: Root<WorkshopEstimate> = query.from(WorkshopEstimate::class.java)
-                criteriaBuilder.equal(
+                val innerJoinPredicate = criteriaBuilder.equal(
                     root.get<UUID>("id"),
                     securityRecordRoot.get<WorkshopEstimate.ComposePk>("id").get<UUID>("estimateId")
                 )
-            }
-        }
-
-        fun withWorkshopId(workshopId: UUID): Specification<Estimate> {
-            return Specification { _, query, criteriaBuilder ->
-                val securityRecordRoot: Root<WorkshopEstimate> = query.from(WorkshopEstimate::class.java)
-                criteriaBuilder.equal(
-                    securityRecordRoot.get<WorkshopEstimate.ComposePk>("id").get<UUID>("workshopId"),
-                    workshopId
-                )
+                val workshopIdPredicate = criteriaBuilder.equal(securityRecordRoot.get<WorkshopEstimate.ComposePk>("id").get<UUID>("workshopId"), workshopId)
+                criteriaBuilder.and(innerJoinPredicate, workshopIdPredicate)
             }
         }
     }

@@ -45,8 +45,6 @@ dependencies {
 
     annotationProcessor("org.projectlombok:lombok")
 
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
-
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation("org.testcontainers:junit-jupiter")
@@ -103,6 +101,10 @@ val setDev = tasks.register<Exec>("setDev") {
 val bootDev = tasks.register("bootDev") {
     dependsOn(tasks.bootRun, setDev)
     tasks.getByName("bootRun").mustRunAfter(tasks.getByName("setDev"))
+}
+
+tasks.bootRun.configure {
+    jvmArgs = listOf("-Duser.timezone=UTC")
 }
 
 val stopDev = tasks.register<Exec>("stopDev") {

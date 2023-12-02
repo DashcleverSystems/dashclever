@@ -7,8 +7,8 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { isEqual } from 'lodash';
 import { Observable, Subject, take } from 'rxjs';
+import { isEqual } from 'lodash';
 
 @Component({
   template: '',
@@ -23,10 +23,10 @@ export abstract class SelectorListComponent<T>
   @Output() clicked: Subject<T | null> = new Subject<T | null>();
 
   abstract itemList: Observable<T[]>;
+  abstract itemName: string;
   value: string = 'value';
   alternativeValue: string = 'alternativeValue';
   title: string = 'Choose Item';
-  itemName: string = 'Item';
 
   protected selected: { [key: string]: any } = {};
 
@@ -71,7 +71,7 @@ export abstract class SelectorListComponent<T>
       const index = list.findIndex((i) => isEqual(i, item));
       const id = this.itemId(item, index);
       const selectedItem = this.listContainer?.nativeElement.querySelector(
-        `div[id="${id}"]`
+        `div[id="${id}"]`,
       );
       this.addClassToSelectedItem(selectedItem as HTMLDivElement, id);
     });

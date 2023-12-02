@@ -1,6 +1,37 @@
 <div class="estimate-page-container">
   <app-card title="components.estimatePage.title">
     <div class="table-container">
+      <div class="filters">
+        <input
+          pInputText
+          type="text"
+          class="estimateId m-1"
+          [placeholder]="
+            'components.estimatePage.filters.estimateId' | translate
+          "
+          [(ngModel)]="filters.estimateId"
+          (ngModelChange)="checkEmpty($event)"
+        />
+        <p-calendar
+          class="createdAfter m-1"
+          [placeholder]="
+            'components.estimatePage.filters.createdAfter' | translate
+          "
+          (onClear)="setCreatedAfterFilter($event)"
+          (onSelect)="setCreatedAfterFilter($event)"
+          [showTime]="true"
+          [showClear]="true"
+          [showIcon]="true"
+        />
+        <p-button
+          (click)="onFilter(filters)"
+          icon="pi pi-search"
+          size="small"
+          class="submit"
+        >
+        </p-button>
+      </div>
+
       <p-table [value]="data$ | async">
         <ng-template pTemplate="header">
           <tr>
@@ -13,7 +44,7 @@
         <ng-template pTemplate="body" let-estimate>
           <tr>
             <td>{{ estimate.estimateId }}</td>
-            <td>{{ estimate.creationTimestamp | date : 'YYYY-MM-d HH:m' }}</td>
+            <td>{{ estimate.creationTimestamp | date: 'YYYY-MM-d HH:mm' }}</td>
           </tr>
         </ng-template>
       </p-table>

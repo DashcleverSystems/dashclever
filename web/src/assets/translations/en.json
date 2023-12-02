@@ -33,7 +33,11 @@
     "estimatePage": {
       "title": "Estimates",
       "estimateId": "Identifier",
-      "creationTimestamp": "Creation timestamp"
+      "creationTimestamp": "Creation timestamp",
+      "filters": {
+        "createdAfter": "Created after:",
+        "estimateId": "Estimate identifier:"
+      }
     },
     "estimateCatalogue": {
       "title": "Estimate",
