@@ -100,8 +100,6 @@ export class PermissionService {
     );
     return permissionsFromApi$.pipe(
       switchMap(([store, api]) => {
-        console.log(store);
-        console.log(api);
         return of(
           permissions.every(
             (perm) => store.includes(perm) || api.includes(perm),
