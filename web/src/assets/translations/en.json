@@ -22,6 +22,13 @@
     "login": "Login"
   },
   "components": {
+    "workshopCreator": {
+      "createWorkshop": "Create workshop",
+      "form": {
+        "title": "Create workshop",
+        "workshopName": "Name"
+      }
+    },
     "accessesSelector": {
       "users": {
         "title": "Choose worker"
@@ -119,6 +126,7 @@
     }
   },
   "toast": {
+    "unknown": "Unexpected error occurred",
     "unauthorized": {
       "title": "Unauthorized",
       "message": "You are not authorized to execute this action or your session lapsed."
@@ -136,6 +144,8 @@
   "error": {
     "form": {
       "validationError": "Form is invalid"
-    }
+    },
+    "errorOccurred": "Error occurred",
+    "unknown": "We are sorry something went wrong. Please try again later"
   }
 }
