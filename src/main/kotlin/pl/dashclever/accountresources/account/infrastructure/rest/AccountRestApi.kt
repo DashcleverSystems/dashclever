@@ -77,8 +77,8 @@ internal class AccountRestApi(
         return ResponseEntity.created(URI.create("$PATH/workshop/$workshopId")).build()
     }
 
-    @GetMapping("/access")
-    fun login(authentication: Authentication?): Set<WorkshopAccessesDto> {
+    @GetMapping("/access", produces = ["application/json"])
+    fun getAccesses(authentication: Authentication?): Set<WorkshopAccessesDto> {
         if (authentication == null) {
             throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
         }
