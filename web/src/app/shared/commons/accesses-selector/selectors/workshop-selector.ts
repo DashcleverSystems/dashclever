@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SelectorListComponent } from './template/selector.template';
 import { IWorkshop } from '@app/shared/models/workshop';
 import { Store } from '@ngrx/store';
@@ -9,6 +9,7 @@ import {
   map,
   Observable,
   of,
+  Subscription,
   take,
   takeUntil,
   tap,
@@ -20,6 +21,8 @@ import {
 import { coreStoreActions } from '@app/core/store/core-store.actions';
 import { AccountRestApiService } from '@api/services/accountRestApi.service';
 import { AccessDto } from '@api/models/accessDto';
+import { WorkshopCreatedNotifier } from '@shared/commons/workshop/workshop-creator/workshop-creator.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-workshop-selector',
@@ -28,16 +31,20 @@ import { AccessDto } from '@api/models/accessDto';
 })
 export class WorkshopSelectorComponent
   extends SelectorListComponent<Omit<IWorkshop, 'accesses'>>
-  implements OnInit
+  implements OnInit, OnDestroy
 {
   override itemList: Observable<Omit<IWorkshop, 'accesses'>[]> = of([]);
   override value: string = 'workshopName';
   override title: string = 'components.accessesSelector.workshops.title';
   override itemName: string = 'Workshop';
 
+  private workshopCreatedSub = this.listenToWorkshopCreation();
+
   constructor(
     private store: Store,
     private accountRestApi: AccountRestApiService,
+    private workshopCreatedNotifier: WorkshopCreatedNotifier,
+    private http: HttpClient,
   ) {
     super();
   }
@@ -58,6 +65,20 @@ export class WorkshopSelectorComponent
           this.removeSelected();
         }
       });
+  }
+
+  private listenToWorkshopCreation(): Subscription {
+    return this.workshopCreatedNotifier.workshopCreatedListener.subscribe(
+      () => {
+        this.http
+          .get<IWorkshop[]>('api/account/access')
+          .subscribe((accesses: IWorkshop[]) => {
+            this.store.dispatch(
+              coreStoreActions.changeWorkshops({ workshops: accesses }),
+            );
+          });
+      },
+    );
   }
 
   override defineInitialValue(): void {
@@ -86,5 +107,10 @@ export class WorkshopSelectorComponent
     this.store.dispatch(
       coreStoreActions.selectWorkshop({ workshop: workshop ?? undefined }),
     );
+  }
+
+  override ngOnDestroy() {
+    super.ngOnDestroy();
+    this.workshopCreatedSub.unsubscribe();
   }
 }
