@@ -1,15 +1,8 @@
-import {
-  Component,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { WorkshopCreatorFormComponent } from '@shared/commons/workshop/workshop-creator/workshop-creator-form/workshop-creator-form.component';
 import { WorkshopCreatedNotifier } from '@shared/commons/workshop/workshop-creator/workshop-creator.service';
 import { Store } from '@ngrx/store';
-import { result } from 'lodash';
 import { getWorkshops } from '@core/store/core-store.selectors';
 import { IWorkshop } from '@shared/models/workshop';
 import { Subject, takeUntil } from 'rxjs';

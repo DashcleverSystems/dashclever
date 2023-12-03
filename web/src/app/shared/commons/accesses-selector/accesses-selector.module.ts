@@ -8,7 +8,6 @@ import { ButtonModule } from 'primeng/button';
 import { WorkshopCreatorFormComponent } from '@shared/commons/workshop/workshop-creator/workshop-creator-form/workshop-creator-form.component';
 import { WorkshopCreatorComponent } from '@shared/commons/workshop/workshop-creator/workshop-creator.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ToastService } from '@shared/services/toast.service';
 import { InputTextModule } from 'primeng/inputtext';
 import { PrimeModule } from '@shared/prime.module';
 import { WorkshopCreatedNotifier } from '@shared/commons/workshop/workshop-creator/workshop-creator.service';
