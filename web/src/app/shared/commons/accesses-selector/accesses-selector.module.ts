@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { PrimeModule } from '@shared/prime.module';
 import { WorkshopCreatedNotifier } from '@shared/commons/workshop/workshop-creator/workshop-creator.service';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { WorkshopCreatedNotifier } from '@shared/commons/workshop/workshop-creat
     ReactiveFormsModule,
     FormsModule,
     PrimeModule,
+    TooltipModule,
   ],
   providers: [WorkshopCreatedNotifier],
 })

@@ -24,6 +24,9 @@
   "components": {
     "workshopCreator": {
       "createWorkshop": "Utwórz warsztat",
+      "tooltip": {
+        "cantCreateWorkshop": "Już posiadasz maksymalną ilość warsztatów"
+      },
       "form": {
         "title": "Utwórz warsztat",
         "workshopName": "Nazwa"

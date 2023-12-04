@@ -24,6 +24,9 @@
   "components": {
     "workshopCreator": {
       "createWorkshop": "Create workshop",
+      "tooltip": {
+        "cantCreateWorkshop": "You already have max amount of workshops"
+      },
       "form": {
         "title": "Create workshop",
         "workshopName": "Name"

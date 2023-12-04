@@ -43,11 +43,7 @@ export class WorkshopCreatorComponent implements OnInit, OnDestroy {
       .select(getWorkshops)
       .pipe(takeUntil(this.destroy$))
       .subscribe((workshops: IWorkshop[]) => {
-        if (workshops.length < 2) {
-          this.canCreateWorkshop = true;
-        } else {
-          this.canCreateWorkshop = true;
-        }
+        this.canCreateWorkshop = workshops.length < 2;
       });
   }
 

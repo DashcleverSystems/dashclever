@@ -1,8 +1,15 @@
 <div class="workshop-button-wrapper">
-  <button
-    pButton
-    [disabled]="!canCreateWorkshop"
-    translate="components.workshopCreator.createWorkshop"
-    (click)="openWorkshopCreateForm()"
-  ></button>
+  <div
+    pTooltip="{{
+      'components.workshopCreator.tooltip.cantCreateWorkshop' | translate
+    }}"
+    [tooltipDisabled]="canCreateWorkshop"
+  >
+    <button
+      pButton
+      [disabled]="!canCreateWorkshop"
+      translate="components.workshopCreator.createWorkshop"
+      (click)="openWorkshopCreateForm()"
+    ></button>
+  </div>
 </div>
