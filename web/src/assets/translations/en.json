@@ -42,11 +42,25 @@
     },
     "estimatePage": {
       "title": "Estimates",
+      "estimateCreate": "Create estimate",
       "estimateId": "Identifier",
       "creationTimestamp": "Creation timestamp",
       "filters": {
         "createdAfter": "Created after:",
         "estimateId": "Estimate identifier:"
+      }
+    },
+    "estimateCatalogueConfirmDialog": {
+      "title": "Do you want to create a planning for this estimate?",
+      "options": {
+        "estimateId": "Estimate identifier",
+        "registration": "Registration",
+        "brand": "Brand",
+        "model": "Model"
+      },
+      "actions": {
+        "confirm": "Confirm",
+        "cancel": "Cancel"
       }
     },
     "estimateCatalogue": {
@@ -92,7 +106,7 @@
     },
     "employee": {
       "form": {
-        "title":{
+        "title": {
           "create": "Add new employee",
           "edit": "Edit employee"
         },

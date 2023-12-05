@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Message, MessageService } from 'primeng/api';
 
 export interface IToastMessage {
-  title: string;
+  title?: string;
   message: string;
   translate?: boolean;
   options?: Omit<Message, 'severity' | 'summary' | 'detail'>;
@@ -15,7 +15,7 @@ export interface IToastMessage {
 export class ToastService {
   constructor(
     private messageService: MessageService,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) {}
 
   success(data: IToastMessage): void {
@@ -37,7 +37,7 @@ export class ToastService {
 
     this.messageService.add({
       severity: type,
-      summary: data.title,
+      summary: data.title ?? '',
       detail: data.message,
       life: 1500,
       ...data.options,
@@ -47,7 +47,7 @@ export class ToastService {
   private translateOptions(data: IToastMessage): IToastMessage {
     return {
       ...data,
-      title: this.translate.instant(data.title),
+      title: data.title && this.translate.instant(data.title),
       message: this.translate.instant(data.message),
     };
   }

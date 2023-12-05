@@ -1,10 +1,13 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, SkipSelf } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { isMobile } from '@core/store/core-store.selectors';
 import { Subject, distinctUntilChanged, takeUntil, Observable } from 'rxjs';
 import { EstimateDto, EstimateFilters } from 'generated/openapi';
 import { Table } from '@app/shared/services/table/table.service';
 import { EstimatePageTableStore } from './estimate-page.store';
+import { DialogService } from 'primeng/dynamicdialog';
+import { EstimateCatalogueConfirmationCreateComponent } from '../estimate-catalogue-confirmation-create/estimate-catalogue-confirmation-create.component';
+import { ToastService } from '@app/shared/services/toast.service';
 
 @Component({
   selector: 'app-estimate-page',
@@ -23,6 +26,8 @@ export class EstimatePageComponent
 
   constructor(
     private store: Store,
+    @SkipSelf() private dialogService: DialogService,
+    private toastr: ToastService,
     tableStore: EstimatePageTableStore,
   ) {
     super(tableStore);
@@ -61,6 +66,29 @@ export class EstimatePageComponent
     if (newValue != null && newValue.length == 0) {
       this.filters.estimateId = null;
     }
+  }
+
+  createEstimate(estimate: EstimateDto): void {
+    this.dialogService
+      .open(EstimateCatalogueConfirmationCreateComponent, {
+        data: {
+          estimate,
+        },
+        showHeader: false,
+        closable: false,
+        width: this.isMobile ? '100svw' : undefined,
+        style: { 'min-width': !this.isMobile ? '40svw' : undefined },
+        modal: true,
+      })
+      .onClose.subscribe((res) => {
+        if (res) {
+          this.toastr.success({
+            message:
+              'components.estimateCatalogueConfirmDialog.actions.success',
+            translate: true,
+          });
+        }
+      });
   }
 
   ngOnDestroy(): void {
