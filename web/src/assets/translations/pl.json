@@ -22,6 +22,16 @@
     "login": "Zaloguj"
   },
   "components": {
+    "workshopCreator": {
+      "createWorkshop": "Utwórz warsztat",
+      "tooltip": {
+        "cantCreateWorkshop": "Już posiadasz maksymalną ilość warsztatów"
+      },
+      "form": {
+        "title": "Utwórz warsztat",
+        "workshopName": "Nazwa"
+      }
+    },
     "accessesSelector": {
       "users": {
         "title": "Wybierz pracownika"
@@ -64,6 +74,7 @@
           "remove": "Usuń prace"
         },
         "toast": {
+          "unknown": "Wystąpił nieznany błąd",
           "titleSave": "Zapisywanie kosztorysu",
           "successSave": "Kosztorys zapisano prawidłowo"
         }
@@ -119,6 +130,7 @@
     }
   },
   "toast": {
+    "unknown": "Wystąpił niespodziewany błąd",
     "unauthorized": {
       "title": "Brak uprawnień",
       "message": "Nie masz uprawnień aby wykonać tą akcje lub twoja sekcja wygasła."
@@ -137,6 +149,7 @@
     "form": {
       "validationError": "Formularz został niepoprawnie wypełniony"
     },
+    "unknown": "Przepraszamy, wystąpił niespodziewnay błąd. Spróbuj ponownie później",
     "errorOccurred": "Wystąpił błąd"
   }
 }

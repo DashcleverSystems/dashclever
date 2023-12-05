@@ -1,4 +1,7 @@
-<div class="selectors-container">
-  <app-workshop-selector (clicked)="onClick($event)"></app-workshop-selector>
-  <app-user-selector (clicked)="onClick($event)"></app-user-selector>
+<div class="container">
+  <div class="selectors-container">
+    <app-workshop-selector (clicked)="onClick($event)"></app-workshop-selector>
+    <app-user-selector (clicked)="onClick($event)"></app-user-selector>
+  </div>
+  <app-workshop-creator></app-workshop-creator>
 </div>

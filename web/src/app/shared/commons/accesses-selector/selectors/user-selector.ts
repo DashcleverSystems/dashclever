@@ -91,7 +91,7 @@ export class UserSelectorComponent
   }
 
   override defineInitialValue(): void {
-    const currentAccess$ = this.accountApi.currentUser();
+    const currentAccess$ = this.accountApi?.currentUser();
     combineLatest([this.itemList, currentAccess$])
       .pipe(take(1))
       .subscribe(([items, currentAccess]) => {
