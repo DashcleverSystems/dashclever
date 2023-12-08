@@ -32,7 +32,7 @@ export class EstimateCatalogueConfirmationCreateComponent {
   onConfirm(): void {
     this.isLoading = true;
     this.service
-      .createSelectedEstimate(this.estimate.estimateId)
+      .createSelectedEstimate(this.estimate.id)
       .subscribe(() => this.ref.close(true));
   }
 }
