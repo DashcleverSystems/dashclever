@@ -19,8 +19,8 @@ import pl.dashclever.repairmanagment.plannig.model.PlanCreating
 import pl.dashclever.repairmanagment.plannig.model.PlanRepository
 import pl.dashclever.repairmanagment.plannig.readmodel.PlanDto
 import pl.dashclever.tests.integration.TestcontainersInitializer
+import pl.dashclever.tests.integration.repairmanagment.estimatecatalogue.EstimateBuilder
 import pl.dashclever.tests.integration.repairmanagment.estimatecatalogue.EstimateTestsRepository
-import pl.dashclever.tests.integration.repairmanagment.`new estimate`
 import java.time.LocalDate
 
 @Disabled("Not yet decided how to test API in regards to Security")
@@ -43,7 +43,7 @@ internal class PlanReadModelTests(
     @Test
     fun `should find plan`() {
         // given
-        val estimate = `new estimate`("24/2022wk")
+        val estimate = EstimateBuilder { this.estimateId = "24/2022wk" }
         estimateRepository.save(estimate)
         val planningId = planCreating.create(estimate.id)
         val planning = planRepository.findById(planningId)!!
@@ -66,7 +66,7 @@ internal class PlanReadModelTests(
     @Test
     fun `should find plan by estimate id`() {
         // given
-        val estimate = `new estimate`("24/2022wk")
+        val estimate = EstimateBuilder { this.estimateId = "24/2022wk" }
         estimateRepository.save(estimate)
         planCreating.create(estimate.id)
 
@@ -87,7 +87,7 @@ internal class PlanReadModelTests(
     @Test
     fun `should find plan within date range`() {
         // given
-        val estimate = `new estimate`("24/2022wk")
+        val estimate = EstimateBuilder { this.estimateId = "24/2022wk" }
         estimateRepository.save(estimate)
         val planningId = planCreating.create(estimate.id)
         val planning = planRepository.findById(planningId)!!

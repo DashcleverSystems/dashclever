@@ -19,8 +19,8 @@ import pl.dashclever.repairmanagment.plannig.model.PlanCreating
 import pl.dashclever.repairmanagment.plannig.model.PlanRepository
 import pl.dashclever.repairmanagment.plannig.readmodel.EmployeeOccupationDto
 import pl.dashclever.tests.integration.TestcontainersInitializer
+import pl.dashclever.tests.integration.repairmanagment.estimatecatalogue.EstimateBuilder
 import pl.dashclever.tests.integration.repairmanagment.estimatecatalogue.EstimateTestsRepository
-import pl.dashclever.tests.integration.repairmanagment.`new estimate`
 import java.time.LocalDate
 import java.util.UUID
 
@@ -47,7 +47,7 @@ internal class EmployeeOccupationDtoReadTests(
     @Test
     fun `employee occupation read test`() {
         // given
-        val estimate = `new estimate`("testEstimateUniqueUserId")
+        val estimate = EstimateBuilder { this.estimateId = "24/2023dk" }
         estimateRepository.save(estimate)
         val planId = planCreating.create(estimate.id)
         val plan = planRepository.findById(planId)!!
