@@ -4,30 +4,30 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.transaction.annotation.Transactional
+import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository
 import pl.dashclever.repairmanagment.plannig.model.PlanFactory
 import pl.dashclever.repairmanagment.plannig.model.PlanRepository
 import pl.dashclever.repairmanagment.plannig.readmodel.PlanDto
 import pl.dashclever.repairmanagment.plannig.readmodel.PlanReader
 import pl.dashclever.tests.integration.TestcontainersInitializer
+import pl.dashclever.tests.integration.repairmanagment.estimatecatalogue.EstimateBuilder
+import pl.dashclever.tests.integration.repairmanagment.estimatecatalogue.JobBuilder
 import pl.dashclever.tests.integration.spring.TestAccess
 import pl.dashclever.tests.integration.spring.TestAccessSetter
 import java.time.LocalDate
-import java.util.UUID
-import java.util.stream.Stream
+import java.util.*
 
 @SpringBootTest
 @Transactional
 @ContextConfiguration(initializers = [TestcontainersInitializer::class])
-internal class PlanFindingWithinDatesTest @Autowired constructor(
-    private val planRepository: PlanRepository,
-    private val planReader: PlanReader
+internal class PlanFindingWithinDatesTest(
+    @Autowired private val planRepository: PlanRepository,
+    @Autowired private val planReader: PlanReader,
+    @Autowired private val estimateRepository: EstimateRepository
 ) {
 
     private val testAccessSetter = TestAccessSetter()
@@ -47,49 +47,21 @@ internal class PlanFindingWithinDatesTest @Autowired constructor(
         testAccessSetter.setAccess(null)
     }
 
-    private companion object {
-
-        @JvmStatic
-        fun `test dates set`(): Stream<Arguments> =
-            Stream.of(
-                Arguments.of(
-                    LocalDate.of(2023, 1, 5),
-                    LocalDate.of(2023, 1, 6)
-                ),
-                Arguments.of(
-                    LocalDate.of(2023, 1, 6),
-                    LocalDate.of(2023, 1, 6)
-                ),
-                Arguments.of(
-                    LocalDate.of(2023, 1, 6),
-                    LocalDate.of(2023, 1, 7)
-                ),
-                Arguments.of(
-                    LocalDate.of(2023, 1, 4),
-                    LocalDate.of(2023, 1, 7)
-                ),
-                Arguments.of(
-                    LocalDate.of(2023, 1, 4),
-                    LocalDate.of(2023, 1, 7)
-                ),
-                Arguments.of(
-                    LocalDate.of(1999, 1, 1),
-                    LocalDate.of(2024, 1, 1)
-                )
-            )
-    }
-
     @Test
     fun `should not find any`() {
         // given
+        val estimate = EstimateBuilder {
+            this.jobs = setOf(
+                JobBuilder { this.manMinutes = 120 },
+                JobBuilder { this.manMinutes = 240 }
+            )
+        }
+        estimateRepository.save(estimate)
         val plan = PlanFactory.create(
             estimateId = UUID.randomUUID(),
-            jobs = mapOf(
-                1L to 120,
-                2L to 240
-            )
+            jobs = estimate.jobs.associate { it.id!! to it.manMinutes }
         )
-        plan.assign(1L, "employeeId", LocalDate.of(2023, 1, 6))
+        plan.assign(estimate.jobs.first().id!!, "employeeId", LocalDate.of(2023, 1, 6))
         planRepository.save(plan)
 
         // when
@@ -103,33 +75,49 @@ internal class PlanFindingWithinDatesTest @Autowired constructor(
         assertThat(result).isEmpty()
     }
 
-    @ParameterizedTest
-    @MethodSource("test dates set")
+    @Test
     fun `should find two within given dates range`() {
         // given
-        val plan1 = PlanFactory.create(
-            estimateId = UUID.randomUUID(),
-            jobs = mapOf(
-                1L to 120,
-                2L to 240
+        val estimate = EstimateBuilder {
+            this.estimateId = "01/2022WK"
+            this.jobs = setOf(
+                JobBuilder { this.manMinutes = 120 },
+                JobBuilder { this.manMinutes = 240 }
             )
+        }
+        estimateRepository.save(estimate)
+        val plan1 = PlanFactory.create(
+            estimateId = estimate.id,
+            jobs = estimate.jobs.associate { it.id!! to it.manMinutes }
         )
-        plan1.assign(1L, "employeeId", LocalDate.of(2023, 1, 6))
+        plan1.assign(estimate.jobs.first().id!!, "employeeId", LocalDate.of(2023, 1, 6))
         planRepository.save(plan1)
         val plan2 = PlanFactory.create(
-            estimateId = UUID.randomUUID(),
-            jobs = mapOf(
-                1L to 120,
-                2L to 240
-            )
+            estimateId = estimate.id,
+            jobs = estimate.jobs.associate { it.id!! to it.manMinutes }
         )
-        plan2.assign(1L, "employeeId", LocalDate.of(2023, 1, 8))
+        plan2.assign(estimate.jobs.first().id!!, "employeeId", LocalDate.of(2023, 1, 8))
         planRepository.save(plan2)
 
         // when
-        val result: Set<PlanDto> = planReader.findByDateRange(testAccess.workshopId, LocalDate.of(2023, 1, 6), LocalDate.of(2023, 1, 8))
+        val result: Set<PlanDto> = planReader.findByDateRange(
+            testAccess.workshopId,
+            LocalDate.of(1999, 1, 1),
+            LocalDate.of(2024, 1, 1)
+        )
 
         // then
-        assertThat(result).hasSize(2)
+        assertThat(result).satisfiesExactlyInAnyOrder(
+            {
+                assertThat(it.estimateName).isEqualTo("01/2022WK")
+                assertThat(it.estimateId).isEqualTo(estimate.id.toString())
+                assertThat(it.technicalRepairTimeInMinutes).isEqualTo(360)
+            },
+            {
+                assertThat(it.estimateName).isEqualTo("01/2022WK")
+                assertThat(it.estimateId).isEqualTo(estimate.id.toString())
+                assertThat(it.technicalRepairTimeInMinutes).isEqualTo(360)
+            }
+        )
     }
 }
