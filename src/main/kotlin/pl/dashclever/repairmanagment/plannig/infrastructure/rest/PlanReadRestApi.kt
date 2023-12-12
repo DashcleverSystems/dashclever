@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
-import pl.dashclever.publishedlanguage.PageRequestDto
-import pl.dashclever.publishedlanguage.PagingInfo
+import pl.dashclever.commons.paging.PageRequestDto
+import pl.dashclever.commons.paging.PagingInfo
 import pl.dashclever.repairmanagment.plannig.readmodel.PlanReader
 import pl.dashclever.repairmanagment.plannig.readmodel.PlanReader.PlanDto
 import pl.dashclever.repairmanagment.plannig.readmodel.PlanReader.PlanFilters

@@ -1,4 +1,4 @@
-package pl.dashclever.publishedlanguage
+package pl.dashclever.commons.paging
 
 data class Sort(
     val field: String,
