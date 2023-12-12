@@ -6,18 +6,21 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.domain.PageRequest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.transaction.annotation.Transactional
 import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository
 import pl.dashclever.repairmanagment.plannig.model.PlanFactory
 import pl.dashclever.repairmanagment.plannig.model.PlanRepository
-import pl.dashclever.repairmanagment.plannig.readmodel.PlanDto
 import pl.dashclever.repairmanagment.plannig.readmodel.PlanReader
+import pl.dashclever.repairmanagment.plannig.readmodel.PlanReader.PlanDto
+import pl.dashclever.repairmanagment.plannig.readmodel.PlanReader.PlanFilters
 import pl.dashclever.tests.integration.TestcontainersInitializer
 import pl.dashclever.tests.integration.repairmanagment.estimatecatalogue.EstimateBuilder
 import pl.dashclever.tests.integration.repairmanagment.estimatecatalogue.JobBuilder
 import pl.dashclever.tests.integration.spring.TestAccess
 import pl.dashclever.tests.integration.spring.TestAccessSetter
+import java.lang.Thread.sleep
 import java.util.*
 
 @SpringBootTest
@@ -67,7 +70,8 @@ internal class PlanFindingByIdTests @Autowired constructor(
         planRepository.save(plan)
 
         // when
-        val result: Optional<PlanDto> = planReader.findById(testAccess.workshopId, plan.id)
+        sleep(1000)
+        val result: Optional<PlanDto> = planReader.findById(plan.id)
 
         // then
         assertThat(result).hasValueSatisfying { planDto ->
@@ -88,7 +92,6 @@ internal class PlanFindingByIdTests @Autowired constructor(
             JobBuilder { this.manMinutes = 60 }
         )
         val estimate = EstimateBuilder {
-            this.estimateId = "25/2022WK"
             this.jobs = jobs
         }
         estimateRepository.save(estimate)
@@ -98,16 +101,17 @@ internal class PlanFindingByIdTests @Autowired constructor(
             jobs = jobs.associate { it.id!! to it.manMinutes }
         )
         planRepository.save(plan)
+        val filters = PlanFilters(estimateId = estimate.id)
 
         // when
-        val result: Set<PlanDto> = planReader.findByEstimateId(testAccess.workshopId, estimate.id)
+        sleep(1000)
+        val result = planReader.filter(filters, PageRequest.of(0, 10))
 
         // then
-        assertThat(result).singleElement().satisfies(
+        assertThat(result.content).singleElement().satisfies(
             { planDto ->
                 assertThat(planDto.id).isEqualTo(plan.id)
                 assertThat(planDto.estimateId).isEqualTo(plan.estimateId.toString())
-                assertThat(planDto.estimateName).isEqualTo("25/2022WK")
                 assertThat(planDto.technicalRepairTimeInMinutes).isEqualTo(300)
                 assertThat(planDto.createdOn).isNotNull()
             }

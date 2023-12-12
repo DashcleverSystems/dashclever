@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
-import pl.dashclever.commons.security.LocalDateTimeHelper.timezoned
+import pl.dashclever.commons.time.LocalDateTimeHelper.asGmt
 import pl.dashclever.publishedlanguage.ALREADY_EXISTS
 import pl.dashclever.publishedlanguage.DomainException
 import pl.dashclever.publishedlanguage.SortDirection
@@ -118,6 +118,6 @@ internal class EstimateRestApi(
             this.vehicleInfo,
             this.paintInfo,
             this.jobs,
-            this.getCreationTimestamp().timezoned(ZoneId.of("GMT"))
+            this.getCreationTimestamp().asGmt()
         )
 }

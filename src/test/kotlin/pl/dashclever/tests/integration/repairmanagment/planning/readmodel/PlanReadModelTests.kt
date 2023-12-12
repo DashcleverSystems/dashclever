@@ -17,7 +17,7 @@ import org.springframework.test.context.ContextConfiguration
 import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository
 import pl.dashclever.repairmanagment.plannig.model.PlanCreating
 import pl.dashclever.repairmanagment.plannig.model.PlanRepository
-import pl.dashclever.repairmanagment.plannig.readmodel.PlanDto
+import pl.dashclever.repairmanagment.plannig.readmodel.PlanReader.PlanDto
 import pl.dashclever.tests.integration.TestcontainersInitializer
 import pl.dashclever.tests.integration.repairmanagment.estimatecatalogue.EstimateBuilder
 import pl.dashclever.tests.integration.repairmanagment.estimatecatalogue.EstimateTestsRepository
