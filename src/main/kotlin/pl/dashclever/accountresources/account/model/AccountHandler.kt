@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.server.ResponseStatusException
+import pl.dashclever.accountresources.account.model.AccountCommand.BoundEmployee
+import pl.dashclever.accountresources.account.model.AccountCommand.CreateWorkshop
 import pl.dashclever.accountresources.employee.EmployeeRepository
 import java.util.UUID
 

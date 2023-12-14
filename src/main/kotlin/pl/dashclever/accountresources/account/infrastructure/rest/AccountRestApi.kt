@@ -15,8 +15,8 @@ import pl.dashclever.accountresources.account.infrastructure.AccountService
 import pl.dashclever.accountresources.account.infrastructure.rest.requests.AccessReq
 import pl.dashclever.accountresources.account.infrastructure.rest.requests.CreateWorkshopReq
 import pl.dashclever.accountresources.account.infrastructure.rest.requests.RegisterReq
+import pl.dashclever.accountresources.account.model.AccountCommand.CreateWorkshop
 import pl.dashclever.accountresources.account.model.AccountHandler
-import pl.dashclever.accountresources.account.model.CreateWorkshop
 import pl.dashclever.accountresources.account.readmodel.AccessDto
 import pl.dashclever.accountresources.account.readmodel.AccessesReader
 import pl.dashclever.accountresources.account.readmodel.AccountDto

@@ -7,12 +7,12 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort.Direction
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Component
-import pl.dashclever.commons.security.CurrentAccessProvider
-import pl.dashclever.commons.time.LocalDateTimeHelper.asGmt
 import pl.dashclever.commons.paging.PagingInfo
 import pl.dashclever.commons.paging.Sort
 import pl.dashclever.commons.paging.SortDirection.ASC
 import pl.dashclever.commons.paging.SortDirection.DESC
+import pl.dashclever.commons.security.CurrentAccessProvider
+import pl.dashclever.commons.time.LocalDateTimeHelper.asGmt
 import pl.dashclever.repairmanagment.estimatecatalogue.Estimate
 import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository
 import pl.dashclever.repairmanagment.plannig.infrastructure.repository.WorkshopPlan
@@ -84,7 +84,7 @@ class PlanReader(
                 logger.warn { "Could not fetch estimate of plan id: ${plan.id}" }
                 return@mapNotNull null
             }
-            PlanDto(
+            return@mapNotNull PlanDto(
                 id = plan.id,
                 estimateName = estimate.estimateId,
                 estimateId = estimate.id.toString(),

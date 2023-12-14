@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.transaction.annotation.Transactional
 import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository
+import pl.dashclever.repairmanagment.estimatecatalogue.JobType
 import pl.dashclever.repairmanagment.plannig.model.PlanFactory
 import pl.dashclever.repairmanagment.plannig.model.PlanRepository
 import pl.dashclever.repairmanagment.plannig.readmodel.JobDto
@@ -54,10 +55,12 @@ internal class JobReaderTest(
             JobBuilder {
                 this.manMinutes = 60
                 this.description = "job1"
+                this.jobType = JobType.LABOUR
             },
             JobBuilder {
                 this.manMinutes = 120
                 this.description = "job2"
+                this.jobType = JobType.VARNISHING
             }
         )
         val estimate = EstimateBuilder { this.jobs = jobs }
@@ -77,10 +80,12 @@ internal class JobReaderTest(
             {
                 assertThat(it.manMinutes).isEqualTo(60L)
                 assertThat(it.jobDescription).isEqualTo("job1")
+                assertThat(it.jobType).isEqualTo(JobType.LABOUR.name)
             },
             {
                 assertThat(it.manMinutes).isEqualTo(120L)
                 assertThat(it.jobDescription).isEqualTo("job2")
+                assertThat(it.jobType).isEqualTo(JobType.VARNISHING.name)
             }
         )
     }
