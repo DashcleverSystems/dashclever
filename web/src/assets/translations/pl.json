@@ -42,11 +42,26 @@
     },
     "estimatePage": {
       "title": "Kosztorysy",
+      "estimateCreate": "Utwórz kosztorys",
       "estimateId": "Identyfikator",
       "creationTimestamp": "Data utworzenia",
       "filters": {
         "createdAfter": "Utworzone po:",
         "estimateId": "Identyfiaktor kosztorysu:"
+      }
+    },
+    "estimateCatalogueConfirmDialog": {
+      "title": "Chcesz zaplanować ten kosztorys?",
+      "options": {
+        "estimateId": "Identyfikator kosztorysu",
+        "registration": "Rejestracja",
+        "brand": "Marka",
+        "model": "Model"
+      },
+      "actions": {
+        "confirm": "Zatwierdź",
+        "cancel": "Anuluj",
+        "success": "Tworzenie planu zakończone prawidłowo."
       }
     },
     "estimateCatalogue": {
@@ -93,7 +108,7 @@
     },
     "employee": {
       "form": {
-        "title":{
+        "title": {
           "create": "Dodaj nowego pracownika",
           "edit": "Edytuj informację o pracowniku"
         },

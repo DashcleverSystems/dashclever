@@ -1,0 +1,73 @@
+<div class="container">
+  <div class="header">
+    <div class="title">
+      {{ 'components.estimateCatalogueConfirmDialog.title' | translate }}
+    </div>
+  </div>
+  <div class="content">
+    <div class="section">
+      <div class="control">
+        <div class="label">
+          {{
+            'components.estimateCatalogueConfirmDialog.options.estimateId'
+              | translate
+          }}:
+        </div>
+        <div class="control-content">
+          {{ estimate.estimateId }}
+        </div>
+      </div>
+      <div class="control">
+        <div class="label">
+          {{
+            'components.estimateCatalogueConfirmDialog.options.registration'
+              | translate
+          }}:
+        </div>
+        <div class="control-content">
+          {{ estimate.vehicleInfo.registration }}
+        </div>
+      </div>
+      <div class="control">
+        <div class="label">
+          {{
+            'components.estimateCatalogueConfirmDialog.options.brand'
+              | translate
+          }}:
+        </div>
+        <div class="control-content">
+          {{ estimate.vehicleInfo.brand }}
+        </div>
+      </div>
+      <div class="control">
+        <div class="label">
+          {{
+            'components.estimateCatalogueConfirmDialog.options.model'
+              | translate
+          }}:
+        </div>
+        <div class="control-content">
+          {{ estimate.vehicleInfo.model }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="actions">
+      <app-spinner [enable]="isLoading">
+        <button
+          pButton
+          type="submit"
+          (click)="onConfirm()"
+          translate="components.estimateCatalogueConfirmDialog.actions.confirm"
+        ></button>
+        <button
+          pButton
+          type="button"
+          (click)="ref.close()"
+          translate="components.estimateCatalogueConfirmDialog.actions.cancel"
+        ></button>
+      </app-spinner>
+    </div>
+  </div>
+</div>

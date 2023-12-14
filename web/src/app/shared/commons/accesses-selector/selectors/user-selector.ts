@@ -95,7 +95,7 @@ export class UserSelectorComponent
     combineLatest([this.itemList, currentAccess$])
       .pipe(take(1))
       .subscribe(([items, currentAccess]) => {
-        const exists = items.find(
+        const exists = items?.find(
           (acc) => acc.employeeId == currentAccess.employeeId,
         );
         if (exists) {
