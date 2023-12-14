@@ -53,7 +53,7 @@
     "estimateCatalogueConfirmDialog": {
       "title": "Chcesz zaplanować ten kosztorys?",
       "options": {
-        "estimateId": "Id kosztorysu",
+        "estimateId": "Identyfikator kosztorysu",
         "registration": "Rejestracja",
         "brand": "Marka",
         "model": "Model"
@@ -61,7 +61,7 @@
       "actions": {
         "confirm": "Zatwierdź",
         "cancel": "Anuluj",
-        "success": "Planowanie kosztorysu zaszło poprawnie"
+        "success": "Tworzenie planu zakończone prawidłowo."
       }
     },
     "estimateCatalogue": {

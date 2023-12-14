@@ -60,7 +60,8 @@
       },
       "actions": {
         "confirm": "Confirm",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "success": "Created plan successfully"
       }
     },
     "estimateCatalogue": {

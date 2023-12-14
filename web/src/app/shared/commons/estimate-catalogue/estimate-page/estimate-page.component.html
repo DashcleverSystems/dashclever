@@ -5,7 +5,7 @@
         <input
           pInputText
           type="text"
-          class="estimateId m-1"
+          class="estimateId"
           [placeholder]="
             'components.estimatePage.filters.estimateId' | translate
           "
@@ -13,7 +13,7 @@
           (ngModelChange)="checkEmpty($event)"
         />
         <p-calendar
-          class="createdAfter m-1"
+          class="createdAfter"
           [placeholder]="
             'components.estimatePage.filters.createdAfter' | translate
           "
@@ -26,10 +26,9 @@
         <p-button
           (click)="onFilter(filters)"
           icon="pi pi-search"
-          size="small"
+          size="medium"
           class="submit"
-        >
-        </p-button>
+        />
       </div>
 
       <p-table [value]="data$ | async">

@@ -3,6 +3,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: fadeInRight 600ms both;
 
   .table-container {
     width: 80svw;
@@ -19,5 +20,9 @@
     justify-content: flex-end;
     align-items: center;
     margin-top: 1rem;
+  }
+
+  @media only screen and (max-width: 700px) {
+    animation: 700ms fadeInUp both;
   }
 }

@@ -1,6 +1,14 @@
+@import "src/assets/styles/variables";
+@import "src/assets/styles/_animations.scss";
+
 .workshop-button-wrapper {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  animation: 1.2s fadeInDown;
+  @media only screen and (max-width: 700px) {
+    animation: 1.2s fadeInUp;
+  }
 }
