@@ -95,7 +95,7 @@ internal class EstimateRestApi(
     }
 
     internal data class EstimateDto(
-        val id: UUID,
+        val id: UUID?,
         val estimateId: String,
         val vehicleInfo: VehicleInfo,
         val paintInfo: PaintInfo,
