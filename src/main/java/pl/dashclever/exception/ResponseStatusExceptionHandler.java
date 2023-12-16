@@ -11,7 +11,7 @@ public class ResponseStatusExceptionHandler {
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<ErrorMessage> handleException(ResponseStatusException ex) {
         String cause = ex.getCause() != null ? ex.getCause().getMessage() : "";
-        ErrorMessage errorMessage = new ErrorMessage(ex.getMessage(), cause);
+        ErrorMessage errorMessage = new ErrorMessage(ex.getReason(), cause);
         return ResponseEntity.status(ex.getStatusCode()).body(errorMessage);
     }
 }
