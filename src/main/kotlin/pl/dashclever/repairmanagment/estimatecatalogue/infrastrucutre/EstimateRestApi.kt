@@ -2,6 +2,7 @@ package pl.dashclever.repairmanagment.estimatecatalogue.infrastrucutre
 
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
+import jakarta.validation.constraints.Size
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController
 import pl.dashclever.commons.security.LocalDateTimeHelper.timezoned
 import pl.dashclever.publishedlanguage.ALREADY_EXISTS
 import pl.dashclever.publishedlanguage.DomainException
+import pl.dashclever.publishedlanguage.SIZE_BETWEEN
 import pl.dashclever.publishedlanguage.SortDirection
 import pl.dashclever.publishedlanguage.SortDirection.ASC
 import pl.dashclever.publishedlanguage.SortDirection.DESC
@@ -96,8 +98,11 @@ internal class EstimateRestApi(
 
     internal data class EstimateDto(
         val id: UUID,
+        @field:Size(min = 1, max = 24, message = "$SIZE_BETWEEN;1;24")
         val estimateId: String,
+        @field:Valid
         val vehicleInfo: VehicleInfo,
+        @field:Valid
         val paintInfo: PaintInfo,
         val jobs: Set<Job>,
         val creationTimestamp: ZonedDateTime? = null
