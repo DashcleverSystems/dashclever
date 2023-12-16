@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.domain.Specification
+import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.ResponseStatusException
 import pl.dashclever.commons.security.LocalDateTimeHelper.timezoned
 import pl.dashclever.publishedlanguage.ALREADY_EXISTS
 import pl.dashclever.publishedlanguage.DomainException
@@ -26,7 +28,7 @@ import pl.dashclever.publishedlanguage.SortDirection.ASC
 import pl.dashclever.publishedlanguage.SortDirection.DESC
 import pl.dashclever.repairmanagment.estimatecatalogue.Estimate
 import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository
-import pl.dashclever.repairmanagment.estimatecatalogue.EstimateSpecifications
+import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository.EstimateSpecifications
 import pl.dashclever.repairmanagment.estimatecatalogue.Job
 import pl.dashclever.repairmanagment.estimatecatalogue.PaintInfo
 import pl.dashclever.repairmanagment.estimatecatalogue.VehicleInfo
@@ -49,10 +51,8 @@ internal class EstimateRestApi(
         @Valid @RequestBody
         estimateDto: EstimateDto
     ): ResponseEntity<EstimateDto> {
-        if (this.estimateRepository.existsByEstimateId(estimateDto.estimateId)) {
-            throw DomainException(ALREADY_EXISTS)
-        }
-        val estimate = createEstimate(estimateDto)
+        if (estimateRepository.existsByEstimateId(estimateDto.estimateId))  throw ResponseStatusException(HttpStatus.BAD_REQUEST, ALREADY_EXISTS)
+        val estimate = estimateDto.toEntity()
         this.estimateRepository.save(estimate)
         return ResponseEntity.created(URI.create("$PATH/${estimate.id}"))
             .body(estimate.toDto())
@@ -97,7 +97,7 @@ internal class EstimateRestApi(
     }
 
     internal data class EstimateDto(
-        val id: UUID,
+        val id: UUID?,
         @field:Size(min = 1, max = 24, message = "$SIZE_BETWEEN;1;24")
         val estimateId: String,
         @field:Valid
@@ -108,12 +108,12 @@ internal class EstimateRestApi(
         val creationTimestamp: ZonedDateTime? = null
     )
 
-    private fun createEstimate(estimateDto: EstimateDto) =
+    private fun EstimateDto.toEntity() =
         Estimate(
-            estimateDto.estimateId,
-            estimateDto.vehicleInfo,
-            estimateDto.paintInfo,
-            estimateDto.jobs
+            estimateId,
+            vehicleInfo,
+            paintInfo,
+            jobs
         )
 
     private fun Estimate.toDto(): EstimateDto =
