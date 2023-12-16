@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
 import pl.dashclever.commons.security.LocalDateTimeHelper.timezoned
 import pl.dashclever.publishedlanguage.ALREADY_EXISTS
-import pl.dashclever.publishedlanguage.DomainException
 import pl.dashclever.publishedlanguage.SIZE_BETWEEN
 import pl.dashclever.publishedlanguage.SortDirection
 import pl.dashclever.publishedlanguage.SortDirection.ASC
@@ -51,7 +50,7 @@ internal class EstimateRestApi(
         @Valid @RequestBody
         estimateDto: EstimateDto
     ): ResponseEntity<EstimateDto> {
-        if (estimateRepository.existsByEstimateId(estimateDto.estimateId))  throw ResponseStatusException(HttpStatus.BAD_REQUEST, ALREADY_EXISTS)
+        if (estimateRepository.existsByEstimateId(estimateDto.estimateId)) throw ResponseStatusException(HttpStatus.BAD_REQUEST, ALREADY_EXISTS)
         val estimate = estimateDto.toEntity()
         this.estimateRepository.save(estimate)
         return ResponseEntity.created(URI.create("$PATH/${estimate.id}"))
