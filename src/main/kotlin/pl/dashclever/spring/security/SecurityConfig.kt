@@ -37,7 +37,7 @@ internal class SecurityConfig(
             .httpBasic().disable()
             .formLogin().loginProcessingUrl("/api/login")
             .successHandler { _, response, _ -> response.status = HttpStatus.OK.value() }
-            .failureHandler { _, response, _ -> response.status = HttpStatus.UNAUTHORIZED.value() }
+            .failureHandler { _, response, _ -> response.status = HttpStatus.BAD_REQUEST.value() }
             .permitAll()
             .and()
             .logout().logoutUrl("/api/logout")
@@ -45,7 +45,7 @@ internal class SecurityConfig(
             .and()
             .exceptionHandling()
             .accessDeniedHandler { _, response, _ -> response.status = HttpStatus.FORBIDDEN.value() }
-            .authenticationEntryPoint { _, response, _ -> response.status = HttpStatus.FORBIDDEN.value() }
+            .authenticationEntryPoint { _, response, _ -> response.status = HttpStatus.UNAUTHORIZED.value() }
             .and()
             .build()
     }
