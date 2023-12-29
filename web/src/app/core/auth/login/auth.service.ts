@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ICredentials } from '@app/shared/models/user';
-import { IWorkshop } from '@app/shared/models/workshop';
+import { AccountRestApiService } from '@api/services/accountRestApi.service';
 
 export interface ILoginForm {
   username: FormControl<string | null>;
@@ -17,7 +17,11 @@ export interface ILoginForm {
 
 @Injectable()
 export class AuthService {
-  constructor(private fb: FormBuilder, private http: HttpClient) {}
+  constructor(
+    private fb: FormBuilder,
+    private accountApi: AccountRestApiService,
+    private http: HttpClient,
+  ) {}
 
   createForm(): FormGroup<ILoginForm> {
     const form = this.fb.group({
@@ -45,18 +49,11 @@ export class AuthService {
   }
 
   register(data: ICredentials & { email: string }) {
-    return this.http.post('api/account', data);
-  }
-
-  logout() {
-    return this.http.post<void>('api/logout', {});
-  }
-
-  isLogged() {
-    return this.http.get('api/account');
-  }
-
-  getPermissions() {
-    return this.http.get<IWorkshop[]>('api/account/access');
+    const registerReq = {
+      username: data.username,
+      password: data.password,
+      email: data.email,
+    };
+    return this.accountApi.register(registerReq);
   }
 }
