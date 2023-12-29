@@ -6,8 +6,6 @@ import { coreStoreActions } from './core-store.actions';
 export const initialState: ICoreStore = {
   lang: Language.PL,
   mobile: false,
-  permissions: [],
-  logged: false,
   workshops: [],
   selectedWorkshop: undefined,
   selectedAccess: undefined,
@@ -34,30 +32,6 @@ export const coreStoreReducer = createReducer(
       permissions,
     };
   }),
-
-  on(coreStoreActions.loginSuccessfully, (_state, { logged }) => {
-    return {
-      ..._state,
-      logged,
-    };
-  }),
-
-  on(coreStoreActions.loginFail, (_state) => {
-    return {
-      ..._state,
-      permissions: [],
-      logged: false,
-    };
-  }),
-
-  on(coreStoreActions.logoutSuccessfully, (_state) => ({
-    ..._state,
-    logged: false,
-    permissions: [],
-    workshops: [],
-    selectedWorkshop: undefined,
-    selectedAccess: undefined,
-  })),
 
   on(coreStoreActions.changeWorkshops, (_state, { workshops }) => ({
     ..._state,
