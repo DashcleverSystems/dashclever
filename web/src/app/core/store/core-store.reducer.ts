@@ -6,9 +6,6 @@ import { coreStoreActions } from './core-store.actions';
 export const initialState: ICoreStore = {
   lang: Language.PL,
   mobile: false,
-  workshops: [],
-  selectedWorkshop: undefined,
-  selectedAccess: undefined,
 };
 
 export const coreStoreReducer = createReducer(
@@ -24,49 +21,6 @@ export const coreStoreReducer = createReducer(
   on(coreStoreActions.changeAppView, (_state, { mobile }) => ({
     ..._state,
     mobile,
-  })),
-
-  on(coreStoreActions.changePermissions, (_state, { permissions }) => {
-    return {
-      ..._state,
-      permissions,
-    };
-  }),
-
-  on(coreStoreActions.changeWorkshops, (_state, { workshops }) => ({
-    ..._state,
-    workshops: workshops,
-  })),
-
-  on(coreStoreActions.selectWorkshop, (_state, { workshop }) => {
-    const foundWorkshop = _state.workshops.find(
-      (w) => w.workshopId === workshop?.workshopId,
-    );
-
-    return {
-      ..._state,
-      selectedWorkshop: foundWorkshop ?? undefined,
-      selectedAccess: undefined,
-      permissions: [],
-    };
-  }),
-  on(coreStoreActions.selectWorkshopByWorkshopId, (_state, { workshopId }) => {
-    const foundWorkshop = _state.workshops.find(
-      (w) => w.workshopId === workshopId,
-    );
-
-    return {
-      ..._state,
-      selectedWorkshop: foundWorkshop ?? undefined,
-      selectedAccess: undefined,
-      permissions: [],
-    };
-  }),
-
-  on(coreStoreActions.selectAccess, (_state, { access }) => ({
-    ..._state,
-    selectedAccess: access,
-    permissions: access?.authorities ?? [],
   })),
 
   on(coreStoreActions.clearCoreState, (_state) => ({
