@@ -24,7 +24,7 @@ class EntryUserDetailsService(
         override val accountId: UUID,
         private val username: String,
         private val passwordHash: String
-    ) : Access, UserDetails {
+    ) : Access, WithAccess, UserDetails {
 
         override fun getAuthorities(): MutableCollection<out GrantedAuthority> =
             mutableSetOf()
@@ -46,5 +46,7 @@ class EntryUserDetailsService(
 
         override fun isEnabled(): Boolean =
             true
+
+        override val access: Access = this
     }
 }
