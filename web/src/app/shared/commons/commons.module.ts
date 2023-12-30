@@ -3,8 +3,8 @@ import { LanguageSelector } from './language-selector/language-selector.componen
 import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { PrimeModule } from '../prime.module';
-import { AccessesModule } from './accesses-selector/accesses-selector.module';
-import { AccessesSelectorComponent } from './accesses-selector/accesses-selector.component';
+import { AccessesModule } from '@shared/commons/accesses-selector/accesses-selector.module';
+import { AccessesSelectorComponent } from '@shared/commons/accesses-selector/accesses-selector.component';
 import { ManageStaffComponent } from './manage-staff/manage-staff.component';
 import { AppCardComponent } from './card/card.component';
 import { EstimateCatalogueComponent } from './estimate-catalogue/estimate-catalogue.component';
@@ -25,6 +25,7 @@ import { InputTextModule } from 'primeng/inputtext';
     EstimateFormComponent,
   ],
   imports: [
+    AccessesModule,
     CommonModule,
     PrimeModule,
     PaginatorModule,

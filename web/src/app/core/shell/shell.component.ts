@@ -27,7 +27,7 @@ export class ShellComponent implements OnInit, AfterViewInit, OnDestroy {
       if (width >= 700 && this.mobile) {
         this.mobile = false;
         this.store.dispatch(
-          coreStoreActions.changeAppView({ mobile: this.mobile })
+          coreStoreActions.changeAppView({ mobile: this.mobile }),
         );
         this.content?.nativeElement.classList.remove('mobile');
         this.container?.nativeElement.classList.remove('mobile');
@@ -35,20 +35,20 @@ export class ShellComponent implements OnInit, AfterViewInit, OnDestroy {
       } else if (!this.mobile && width < 700) {
         this.mobile = true;
         this.store.dispatch(
-          coreStoreActions.changeAppView({ mobile: this.mobile })
+          coreStoreActions.changeAppView({ mobile: this.mobile }),
         );
 
         this.content?.nativeElement.classList.add('mobile');
         this.container?.nativeElement.classList.add('mobile');
         this._cdr.detectChanges();
       }
-    }
+    },
   );
 
   constructor(
     private _cdr: ChangeDetectorRef,
     private router: Router,
-    private store: Store
+    private store: Store,
   ) {}
 
   ngOnInit(): void {
@@ -60,7 +60,7 @@ export class ShellComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(
       coreStoreActions.changeAppView({
         mobile: document.body.getBoundingClientRect().width <= 700,
-      })
+      }),
     );
   }
 

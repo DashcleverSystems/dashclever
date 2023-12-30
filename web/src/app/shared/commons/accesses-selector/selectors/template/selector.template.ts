@@ -40,6 +40,7 @@ export abstract class SelectorListComponent<T>
   protected destroy$ = new Subject<void>();
 
   ngAfterViewInit(): void {
+    this.itemList.subscribe(() => this.removeSelected());
     this.defineInitialValue();
   }
 
@@ -55,13 +56,16 @@ export abstract class SelectorListComponent<T>
     const id = this.itemId(item, index);
     const isSelected =
       itemRef.classList.contains('selected') || this.selected[id];
-    this.addClassToSelectedItem(itemRef, id);
 
     if (isSelected) {
       this.onClick(index, undefined);
+      itemRef.classList.remove('selected');
+      this.selected[id] = undefined;
       this.clicked.next(null);
     } else {
       this.onClick(index, item);
+      itemRef.classList.add('selected');
+      this.selected[id] = true;
       this.clicked.next(item);
     }
   }
@@ -73,19 +77,9 @@ export abstract class SelectorListComponent<T>
       const selectedItem = this.listContainer?.nativeElement.querySelector(
         `div[id="${id}"]`,
       );
-      this.addClassToSelectedItem(selectedItem as HTMLDivElement, id);
-    });
-  }
-
-  private addClassToSelectedItem(el: HTMLDivElement, id: string): void {
-    if (el.classList.contains('selected')) {
-      el.classList.remove('selected');
-      this.selected[id] = undefined;
-    } else {
-      this.removeSelected();
-      el.classList.add('selected');
       this.selected[id] = true;
-    }
+      selectedItem.classList.add('selected');
+    });
   }
 
   protected removeSelected(): void {

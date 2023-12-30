@@ -16,10 +16,10 @@ export class ManageStaffStore extends ComponentStore<ManageStaffStoreState> {
   readonly loadCollection = this.effect((effect$) =>
     effect$.pipe(
       switchMap(() => this.restApiService.getAll()),
-      tap((employeeSet: EmployeeDto[]) => {
-        this.loadEmployees(Array.from(employeeSet));
-      })
-    )
+      tap((employees: EmployeeDto[]) => {
+        this.loadEmployees(employees);
+      }),
+    ),
   );
 
   readonly loadEmployees = this.updater((state, employees: EmployeeDto[]) => ({
