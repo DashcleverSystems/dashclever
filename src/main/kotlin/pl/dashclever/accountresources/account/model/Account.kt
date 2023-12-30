@@ -6,6 +6,8 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
+import pl.dashclever.accountresources.account.model.AccountEvent.AccountCreatedWorkshop
+import pl.dashclever.accountresources.account.model.AccountEvent.AddedEmployeeship
 import pl.dashclever.accountresources.employee.Employee
 import pl.dashclever.commons.hibernate.OptimisticLockEntity
 import pl.dashclever.publishedlanguage.DomainException

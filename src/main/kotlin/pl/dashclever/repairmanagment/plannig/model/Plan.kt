@@ -11,6 +11,7 @@ import pl.dashclever.commons.hibernate.OptimisticLockEntity
 import pl.dashclever.publishedlanguage.DomainException
 import pl.dashclever.repairmanagment.plannig.model.PlanEvent.TaskAssigned
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.UUID
 import kotlin.math.ceil
 import kotlin.math.roundToLong
@@ -51,6 +52,11 @@ class Plan internal constructor(
         }
         return assign(job, employeeId, at, hour)
     }
+
+    fun getJobCatalogueIds(): Set<Long> =
+        this.jobs.map { it.catalogueJobId }.toSet()
+
+    fun getCreationTimestamp(): LocalDateTime = this.createdOn
 
     private fun tryFindJob(jobId: Long): Job = jobs.first { it.catalogueJobId == jobId }
 

@@ -1,64 +1,151 @@
 package pl.dashclever.repairmanagment.plannig.readmodel
 
-import org.springframework.data.jpa.repository.Query
-import org.springframework.data.repository.Repository
+import io.github.oshai.kotlinlogging.KotlinLogging
+import jakarta.persistence.criteria.Root
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort.Direction
+import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Component
+import pl.dashclever.commons.paging.PagingInfo
+import pl.dashclever.commons.paging.Sort
+import pl.dashclever.commons.paging.SortDirection.ASC
+import pl.dashclever.commons.paging.SortDirection.DESC
+import pl.dashclever.commons.security.CurrentAccessProvider
+import pl.dashclever.commons.time.LocalDateTimeHelper.asGmt
+import pl.dashclever.repairmanagment.estimatecatalogue.Estimate
+import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository
+import pl.dashclever.repairmanagment.plannig.infrastructure.repository.WorkshopPlan
 import pl.dashclever.repairmanagment.plannig.model.Plan
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.util.Optional
-import java.util.UUID
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.util.*
+import org.springframework.data.domain.Sort as JpaSort
+
+private val logger = KotlinLogging.logger { }
 
 @Component
-interface PlanReader : Repository<Plan, UUID> {
+class PlanReader(
+    private val planRepository: PlanJpaSpecificationExecutor,
+    private val estimateRepository: EstimateRepository,
+    private val currentAccessProvider: CurrentAccessProvider
+) {
 
-    @Query(
-        value =
-        """
-        SELECT p.id AS id, p.estimate_id AS estimateId, SUM(j.man_minutes) AS technicalRepairTimeInMinutes, p.created_on AS createdOn
-        FROM RM_PLANNING_PLAN p INNER JOIN RM_PLANNING_JOB j ON j.plan_id = p.id
-        INNER JOIN RM_SR_WORKSHOP_PLAN sr ON sr.workshop_id = :workshopId
-        WHERE p.id = :id
-        GROUP BY p.id
-        """,
-        nativeQuery = true
+    data class PlanDto(
+        val id: UUID,
+        val estimateName: String,
+        val estimateId: String,
+        val technicalRepairTimeInMinutes: Int,
+        val createdOn: ZonedDateTime
     )
-    fun findById(workshopId: UUID, id: UUID): Optional<PlanDto>
 
-    @Query(
-        value =
-        """
-        SELECT p.id AS id, p.estimate_id AS estimateId, SUM(j.man_minutes) AS technicalRepairTimeInMinutes, p.created_on AS createdOn
-        FROM RM_PLANNING_PLAN p INNER JOIN RM_PLANNING_JOB j ON j.plan_id = p.id
-        INNER JOIN RM_SR_WORKSHOP_PLAN sr ON sr.plan_id = p.id
-        WHERE p.estimate_id = :estimateId AND sr.workshop_id = :workshopId
-        GROUP BY p.id
-        """,
-        nativeQuery = true
+    data class PlanFilters(
+        val createdAfter: LocalDateTime? = null,
+        val estimateId: UUID? = null,
+        val estimateName: String? = null,
+        val sort: Sort? = null
     )
-    fun findByEstimateId(workshopId: UUID, estimateId: UUID): Set<PlanDto>
 
-    @Query(
-        value =
-        """
-        SELECT p.id AS id, p.estimate_id AS estimateId, SUM(j.man_minutes) AS technicalRepairTimeInMinutes, p.created_on AS createdOn
-        FROM RM_PLANNING_PLAN p
-        INNER JOIN RM_PLANNING_JOB j ON j.plan_id = p.id
-        INNER JOIN RM_SR_WORKSHOP_PLAN sr ON sr.plan_id = p.id
-        WHERE (SELECT MIN(yj.assigned_at) FROM RM_PLANNING_JOB yj WHERE yj.plan_id = p.id) >= :from
-        AND (SELECT MIN(yj.assigned_at) FROM RM_PLANNING_JOB yj WHERE yj.plan_id = p.id) <= :to
-        AND sr.workshop_id = :workshopId
-        GROUP BY p.id
-        """,
-        nativeQuery = true
-    )
-    fun findByDateRange(workshopId: UUID, from: LocalDate, to: LocalDate): Set<PlanDto>
-}
+    fun findById(id: UUID): Optional<PlanDto> {
+        val plan = planRepository.findById(id)
+        val estimate = plan?.let { estimateRepository.findById(it.estimateId) }
+        if (plan == null) {
+            logger.warn { "Did not find plan with id: $id" }
+            return Optional.empty()
+        }
+        if (estimate == null) {
+            logger.warn { "Did not find estimate of a plan with id: $id" }
+            return Optional.empty()
+        }
+        val planDto = PlanDto(
+            id = plan.id,
+            estimateId = estimate.id.toString(),
+            estimateName = estimate.estimateId,
+            technicalRepairTimeInMinutes = estimate.jobs.filter { plan.getJobCatalogueIds().contains(it.id) }.sumOf { it.manMinutes },
+            createdOn = plan.getCreationTimestamp().asGmt()
+        )
+        return Optional.of(planDto)
+    }
 
-interface PlanDto {
+    fun filter(filters: PlanFilters, pageRequest: PageRequest): PagingInfo<PlanDto> {
+        val currentAccessWorkshop = this.currentAccessProvider.currentWorkshop()
+        val specification = listOfNotNull(
+            Specifications.belongingToWorkshop(currentAccessWorkshop.workshopId),
+            filters.createdAfter?.let { Specifications.createdAfter(it) },
+            filters.estimateName?.let { Specifications.withEstimateNameLike(it) },
+            filters.estimateId?.let { Specifications.withEstimateId(it) }
+        ).reduce { acc, specification -> acc.and(specification) }
+        val sortPageRequest = pageRequest.withSort(filters.sort.toJpaSort())
+        val plans: Page<Plan> = planRepository.findAll(specification, sortPageRequest)
+        val planDtos: List<PlanDto> = plans.mapNotNull { plan ->
+            val estimate = estimateRepository.findById(plan.estimateId)
+            if (estimate == null) {
+                logger.warn { "Could not fetch estimate of plan id: ${plan.id}" }
+                return@mapNotNull null
+            }
+            return@mapNotNull PlanDto(
+                id = plan.id,
+                estimateName = estimate.estimateId,
+                estimateId = estimate.id.toString(),
+                technicalRepairTimeInMinutes = estimate.jobs.filter { plan.getJobCatalogueIds().contains(it.id) }.sumOf { it.manMinutes },
+                createdOn = plan.getCreationTimestamp().atZone(ZoneId.of("GMT"))
+            )
+        }
+        return PagingInfo(
+            totalElements = plans.totalElements,
+            totalPages = plans.totalPages,
+            pageNumber = plans.number,
+            content = planDtos
+        )
+    }
 
-    val id: UUID
-    val estimateId: String
-    val technicalRepairTimeInMinutes: Int
-    val createdOn: LocalDateTime
+    private fun Sort?.toJpaSort(): JpaSort {
+        if (this == null) {
+            return JpaSort.unsorted()
+        }
+        return when (this.direction) {
+            DESC -> JpaSort.by(Direction.DESC, this.field)
+            ASC -> JpaSort.by(Direction.ASC, this.field)
+        }
+    }
+
+    private object Specifications {
+
+        fun createdAfter(time: LocalDateTime): Specification<Plan> =
+            Specification { root, _, cb -> cb.greaterThanOrEqualTo(root.get("createdOn"), time) }
+
+        fun withEstimateNameLike(estimateName: String): Specification<Plan> =
+            Specification { root, query, cb ->
+                val estimateRoot: Root<Estimate> = query.from(Estimate::class.java)
+                val innerJoinPredicate = cb.equal(
+                    root.get<UUID>("estimateId"),
+                    estimateRoot.get<UUID>("id")
+                )
+                val estimateIdPredicate = cb.like(estimateRoot.get("estimateId"), estimateName)
+                cb.and(innerJoinPredicate, estimateIdPredicate)
+            }
+
+        fun withEstimateId(estimateId: UUID): Specification<Plan> =
+            Specification { root, query, cb ->
+                val estimateRoot: Root<Estimate> = query.from(Estimate::class.java)
+                val innerJoinPredicate = cb.equal(
+                    root.get<UUID>("estimateId"),
+                    estimateRoot.get<UUID>("id")
+                )
+                val estimateIdPredicate = cb.equal(estimateRoot.get<UUID>("id"), estimateId)
+                cb.and(innerJoinPredicate, estimateIdPredicate)
+            }
+
+        fun belongingToWorkshop(workshopId: UUID): Specification<Plan> =
+            Specification { root, query, criteriaBuilder ->
+                val securityRecordRoot: Root<WorkshopPlan> = query.from(WorkshopPlan::class.java)
+                val innerJoinPredicate = criteriaBuilder.equal(
+                    root.get<UUID>("id"),
+                    securityRecordRoot.get<WorkshopPlan.ComposePk>("id").get<UUID>("planId")
+                )
+                val workshopIdPredicate = criteriaBuilder.equal(securityRecordRoot.get<WorkshopPlan.ComposePk>("id").get<UUID>("workshopId"), workshopId)
+                criteriaBuilder.and(innerJoinPredicate, workshopIdPredicate)
+            }
+    }
 }

@@ -15,7 +15,7 @@ private const val PATH = "/api/planning/{planningId}/job"
 @RestController
 @RequestMapping(PATH)
 @Tag(name = "planning-api")
-internal class PlanJobsRestApi(
+internal class PlanJobReadRestApi(
     private val jobsReader: JobReader,
     private val currentAccessProvider: CurrentAccessProvider
 ) {

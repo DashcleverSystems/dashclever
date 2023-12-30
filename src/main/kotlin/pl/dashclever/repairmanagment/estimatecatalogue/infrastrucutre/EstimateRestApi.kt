@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
-import pl.dashclever.commons.security.LocalDateTimeHelper.timezoned
+import pl.dashclever.commons.paging.SortDirection
+import pl.dashclever.commons.paging.SortDirection.ASC
+import pl.dashclever.commons.paging.SortDirection.DESC
+import pl.dashclever.commons.time.LocalDateTimeHelper.asGmt
 import pl.dashclever.publishedlanguage.ALREADY_EXISTS
 import pl.dashclever.publishedlanguage.DomainException
-import pl.dashclever.publishedlanguage.SortDirection
-import pl.dashclever.publishedlanguage.SortDirection.ASC
-import pl.dashclever.publishedlanguage.SortDirection.DESC
 import pl.dashclever.repairmanagment.estimatecatalogue.Estimate
 import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository
 import pl.dashclever.repairmanagment.estimatecatalogue.EstimateSpecifications
@@ -95,7 +95,7 @@ internal class EstimateRestApi(
     }
 
     internal data class EstimateDto(
-        val id: UUID,
+        val id: UUID?,
         val estimateId: String,
         val vehicleInfo: VehicleInfo,
         val paintInfo: PaintInfo,
@@ -118,6 +118,6 @@ internal class EstimateRestApi(
             this.vehicleInfo,
             this.paintInfo,
             this.jobs,
-            this.getCreationTimestamp().timezoned(ZoneId.of("GMT"))
+            this.getCreationTimestamp().asGmt()
         )
 }
