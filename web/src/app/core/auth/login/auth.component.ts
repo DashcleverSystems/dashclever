@@ -5,11 +5,12 @@ import { Router } from '@angular/router';
 import { AuthStore } from '@core/auth/login/auth.store';
 import { takeUntil } from 'rxjs';
 import { ToastService } from '@shared/services/toast.service';
+import { provideComponentStore } from '@ngrx/component-store';
 
 @Component({
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
-  providers: [AuthStore],
+  providers: [provideComponentStore(AuthStore)],
 })
 export class AuthComponent implements OnInit {
   @HostListener('keydown', ['$event']) onKeyDown = (e: any) => {

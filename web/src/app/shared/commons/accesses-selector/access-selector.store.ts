@@ -1,6 +1,10 @@
 import { IAccess } from '@shared/models/accesses';
-import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { Injectable } from '@angular/core';
+import {
+  ComponentStore,
+  OnStoreInit,
+  tapResponse,
+} from '@ngrx/component-store';
+import { Injectable, OnInit } from '@angular/core';
 import { IWorkshop } from '@shared/models/workshop';
 import { AccountRestApiService } from '@api/services/accountRestApi.service';
 import { EMPTY, map, Observable, switchMap, tap } from 'rxjs';
@@ -16,7 +20,10 @@ interface AccessesState {
 }
 
 @Injectable()
-export class AccessesSelectorComponentStore extends ComponentStore<AccessesState> {
+export class AccessesSelectorComponentStore
+  extends ComponentStore<AccessesState>
+  implements OnStoreInit
+{
   constructor(
     private readonly accountApi: AccountRestApiService,
     private readonly toast: ToastService,
@@ -26,6 +33,9 @@ export class AccessesSelectorComponentStore extends ComponentStore<AccessesState
       selectedWorkshop: undefined,
       selectedAccess: undefined,
     });
+  }
+
+  ngrxOnStoreInit(): void {
     this.loadAccesses();
     this.loadCurrentAccess();
   }

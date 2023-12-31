@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ComponentStore } from '@ngrx/component-store';
+import { ComponentStore, OnStoreInit } from '@ngrx/component-store';
 import { AccountRestApiService } from '@api/services/accountRestApi.service';
 
 interface AuthState {
@@ -7,9 +7,15 @@ interface AuthState {
 }
 
 @Injectable()
-export class AuthStore extends ComponentStore<AuthState> {
+export class AuthStore
+  extends ComponentStore<AuthState>
+  implements OnStoreInit
+{
   constructor(private accountApi: AccountRestApiService) {
     super({ isAuthenticated: false });
+  }
+
+  ngrxOnStoreInit(): void {
     this.accountApi.currentUser().subscribe({
       next: () => this.authenticated(true),
       error: () => this.authenticated(false),
