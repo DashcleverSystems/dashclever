@@ -1,17 +1,15 @@
 package pl.dashclever.repairmanagment.plannig.infrastructure.rest
 
 import io.swagger.v3.oas.annotations.tags.Tag
-import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.server.ResponseStatusException
 import pl.dashclever.repairmanagment.plannig.readmodel.EmployeeOccupationDto
 import pl.dashclever.repairmanagment.plannig.readmodel.EmployeeOccupationReader
 import java.time.LocalDate
-import java.util.UUID
+import java.util.*
 
 private const val PATH = "/api/employee"
 
@@ -28,5 +26,11 @@ internal class EmployeeOccupationReadRestApi(
         @RequestParam("at") at: LocalDate
     ): EmployeeOccupationDto =
         employeeOccupationReader.findByEmployeeIdAt(employeeId.toString(), at)
-            .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
+            .orElse(NotOccupiedEmployee(employeeId.toString()))
+
+    private data class NotOccupiedEmployee(
+        override val employeeId: String
+    ) : EmployeeOccupationDto {
+        override val manMinutes: Int = 0
+    }
 }
