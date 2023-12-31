@@ -47,10 +47,9 @@ export class WorkshopSelectorComponent
     this.accessesStore.selectedWorkshop$
       .pipe(takeUntil(this.accessesStore.destroy$))
       .subscribe((workshop: IWorkshop | undefined) => {
+        this.removeSelected();
         if (workshop) {
-          this.selectWorkshopById(workshop.workshopId);
-        } else {
-          this.removeSelected();
+          this.selectSpecificItem(workshop);
         }
       });
   }
@@ -62,18 +61,6 @@ export class WorkshopSelectorComponent
   }
 
   override defineInitialValue(): void {}
-
-  private selectWorkshopById(id: string) {
-    this.removeSelected();
-    this.itemList.pipe(take(1)).subscribe((displayedWorkshops: IWorkshop[]) => {
-      const desiredWorkshop: IWorkshop | null = displayedWorkshops.find(
-        (workshop) => workshop.workshopId === id,
-      );
-      if (desiredWorkshop) {
-        this.selectSpecificItem(desiredWorkshop);
-      }
-    });
-  }
 
   override onClick(index: number, workshop: IWorkshop | undefined): void {
     this.accessesStore.selectWorkshop(workshop);
