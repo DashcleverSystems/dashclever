@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { AuthService, ILoginForm } from './auth.service';
 import { FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -11,7 +11,7 @@ import { ToastService } from '@shared/services/toast.service';
   styleUrls: ['./auth.component.scss'],
   providers: [AuthStore],
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit {
   @HostListener('keydown', ['$event']) onKeyDown = (e: any) => {
     if (e.keyCode === 13 && e.key === 'Enter') {
       this.onSubmit();
@@ -35,7 +35,9 @@ export class AuthComponent {
     private authStore: AuthStore,
     private toast: ToastService,
     private router: Router,
-  ) {
+  ) {}
+
+  ngOnInit(): void {
     this.onLogin();
     this.redirectToHomeIfAuthenticated();
   }
