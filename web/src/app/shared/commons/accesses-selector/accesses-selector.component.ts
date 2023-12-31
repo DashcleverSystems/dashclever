@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { AccessesSelectorComponentStore } from '@shared/commons/accesses-selector/access-selector.store';
 import { provideComponentStore } from '@ngrx/component-store';
 

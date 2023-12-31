@@ -4,14 +4,13 @@ import {
   OnStoreInit,
   tapResponse,
 } from '@ngrx/component-store';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { IWorkshop } from '@shared/models/workshop';
 import { AccountRestApiService } from '@api/services/accountRestApi.service';
 import { EMPTY, map, Observable, switchMap, tap } from 'rxjs';
 import { WorkshopAccessesDto } from '@api/models/workshopAccessesDto';
 import { AccessDto } from '@api/models/accessDto';
 import { ToastService } from '@shared/services/toast.service';
-import { values } from 'lodash';
 
 interface AccessesState {
   workshops: IWorkshop[];
