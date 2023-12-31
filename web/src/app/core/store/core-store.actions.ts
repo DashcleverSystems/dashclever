@@ -7,7 +7,6 @@ export const coreStoreActions = createActionGroup({
     'Change Language': props<{ lang: Language }>(),
     'Change App View': props<{ mobile: boolean }>(),
     'Change permissions': props<{ permissions: string[] }>(),
-    fetchAccesses: emptyProps(),
     'Clear Core State': emptyProps(),
   },
 });
