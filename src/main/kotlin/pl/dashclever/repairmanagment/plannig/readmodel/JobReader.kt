@@ -12,9 +12,16 @@ interface JobReader : Repository<Plan, UUID> {
 
     @Query(
         value = """
-			SELECT j.catalogue_job_id AS catalogueJobId, j.man_minutes AS manMinutes,
-			j.assigned_to AS assignedTo, j.assigned_at AS assignedAT
-			FROM RM_PLANNING_JOB j INNER JOIN RM_PLANNING_PLAN p ON p.id = j.plan_id
+			SELECT
+                j.catalogue_job_id AS catalogueJobId,
+                j.man_minutes AS manMinutes,
+			    j.assigned_to AS assignedTo,
+                j.assigned_at AS assignedAt,
+                ej.name AS jobDescription,
+                ej.job_type AS jobType
+			FROM RM_PLANNING_JOB j
+            INNER JOIN RM_PLANNING_PLAN p ON p.id = j.plan_id
+            INNER JOIN RM_ESTIMATECATALOGUE_JOB ej ON ej.id = j.catalogue_job_id
             INNER JOIN RM_SR_WORKSHOP_PLAN sr ON sr.plan_id = p.id
 			WHERE j.plan_id = :planId AND sr.workshop_id = :workshopId
 		""",
@@ -26,7 +33,9 @@ interface JobReader : Repository<Plan, UUID> {
 interface JobDto {
 
     val catalogueJobId: Long
+    val jobDescription: String
     val manMinutes: Int
     val assignedTo: String?
     val assignedAt: LocalDate?
+    val jobType: String
 }

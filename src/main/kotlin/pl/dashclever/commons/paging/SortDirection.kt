@@ -1,4 +1,4 @@
-package pl.dashclever.publishedlanguage
+package pl.dashclever.commons.paging
 
 enum class SortDirection {
     DESC,

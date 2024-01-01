@@ -2,6 +2,7 @@ package pl.dashclever.repairmanagment.estimatecatalogue
 
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Entity
+import jakarta.persistence.FetchType.EAGER
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToMany
@@ -17,7 +18,7 @@ class Estimate(
     val estimateId: String,
     val vehicleInfo: VehicleInfo,
     val paintInfo: PaintInfo,
-    @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true, fetch = EAGER)
     @JoinColumn(name = "estimate_id")
     val jobs: Set<Job> = emptySet()
 ) : OptimisticLockEntity<UUID>() {

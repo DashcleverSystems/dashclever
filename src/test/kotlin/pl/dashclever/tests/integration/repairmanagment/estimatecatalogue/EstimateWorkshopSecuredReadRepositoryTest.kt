@@ -17,7 +17,6 @@ import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository.Estima
 import pl.dashclever.repairmanagment.estimatecatalogue.infrastrucutre.repository.EstimateWorkshopSecuredRepository
 import pl.dashclever.repairmanagment.estimatecatalogue.infrastrucutre.repository.WorkshopEstimate
 import pl.dashclever.tests.integration.TestcontainersInitializer
-import pl.dashclever.tests.integration.repairmanagment.`new estimate`
 import pl.dashclever.tests.integration.spring.TestAccess
 import pl.dashclever.tests.integration.spring.TestAccessSetter
 import java.time.LocalDateTime
@@ -46,7 +45,7 @@ internal class EstimateWorkshopSecuredReadRepositoryTest(
             workshopId = UUID.randomUUID()
         )
         testAccessSetter.setAccess(access)
-        val estimate = `new estimate`("24/2023dk")
+        val estimate = EstimateBuilder { this.estimateId = "24/2023dk" }
 
         // when
         testee.save(estimate)
@@ -65,7 +64,7 @@ internal class EstimateWorkshopSecuredReadRepositoryTest(
             workshopId = UUID.randomUUID()
         )
         testAccessSetter.setAccess(access)
-        testee.save(`new estimate`("24/2023dk"))
+        testee.save(EstimateBuilder { this.estimateId = "24/2023dk" })
 
         val anotherAccess = TestAccess(
             accountId = UUID.randomUUID(),
@@ -73,7 +72,7 @@ internal class EstimateWorkshopSecuredReadRepositoryTest(
             workshopId = UUID.randomUUID()
         )
         testAccessSetter.setAccess(anotherAccess)
-        testee.save(`new estimate`("25/2023dk"))
+        testee.save(EstimateBuilder { this.estimateId = "25/2023dk" })
 
         // when
         val result = testee.findAll(PageRequest.of(0, 10))
@@ -95,7 +94,7 @@ internal class EstimateWorkshopSecuredReadRepositoryTest(
             workshopId = UUID.randomUUID()
         )
         testAccessSetter.setAccess(access)
-        testee.save(`new estimate`("24/2023dk"))
+        testee.save(EstimateBuilder { this.estimateId = "24/2023dk" })
 
         val anotherAccess = TestAccess(
             accountId = UUID.randomUUID(),
@@ -103,7 +102,7 @@ internal class EstimateWorkshopSecuredReadRepositoryTest(
             workshopId = UUID.randomUUID()
         )
         testAccessSetter.setAccess(anotherAccess)
-        testee.save(`new estimate`("25/2023dk"))
+        testee.save(EstimateBuilder { this.estimateId = "25/2023dk" })
 
         // when
         val result = testee.findAll(
@@ -136,16 +135,16 @@ internal class EstimateWorkshopSecuredReadRepositoryTest(
         testAccessSetter.setAccess(access)
 
         auditingHandler.setDateTimeProvider { Optional.of(tuesday) }
-        testee.save(`new estimate`("23/2023dk"))
+        testee.save(EstimateBuilder { this.estimateId = "23/2023dk" })
 
         auditingHandler.setDateTimeProvider { Optional.of(wednesday) }
-        testee.save(`new estimate`("24/2023dk"))
+        testee.save(EstimateBuilder { this.estimateId = "24/2023dk" })
 
         auditingHandler.setDateTimeProvider { Optional.of(thursday) }
-        testee.save(`new estimate`("25/2023dk"))
+        testee.save(EstimateBuilder { this.estimateId = "25/2023dk" })
 
         auditingHandler.setDateTimeProvider { Optional.of(friday) }
-        testee.save(`new estimate`("26/2023dk"))
+        testee.save(EstimateBuilder { this.estimateId = "26/2023dk" })
 
         // when
 
@@ -174,7 +173,7 @@ internal class EstimateWorkshopSecuredReadRepositoryTest(
             workshopId = UUID.randomUUID()
         )
         testAccessSetter.setAccess(access)
-        val estimate = `new estimate`("24/2023dk")
+        val estimate = EstimateBuilder { this.estimateId = "24/2023dk" }
         testee.save(estimate)
 
         // when & then

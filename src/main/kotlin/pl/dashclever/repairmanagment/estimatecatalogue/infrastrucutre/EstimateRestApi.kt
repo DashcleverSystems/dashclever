@@ -122,6 +122,6 @@ internal class EstimateRestApi(
             this.vehicleInfo,
             this.paintInfo,
             this.jobs,
-            this.getCreationTimestamp().timezoned(ZoneId.of("GMT"))
+            this.getCreationTimestamp().asGmt()
         )
 }
