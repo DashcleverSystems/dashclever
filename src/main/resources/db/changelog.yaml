@@ -29,3 +29,5 @@ databaseChangeLog:
             file: db/accountresources/employee/sr_workshop_employee1.0.0.yaml
     -   include:
             file: db/accountresources/employee/employee1.0.1.yaml
+    -   include:
+            file: db/repairmanagment/estimatecatalogue/estimate1.0.1.yaml
