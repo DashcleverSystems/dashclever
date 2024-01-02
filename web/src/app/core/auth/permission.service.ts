@@ -27,10 +27,13 @@ export class PermissionService {
     const permissions = next.data['permissions'];
     if (Array.isArray(permissions) && permissions.length > 0) {
       return this.checkPermissions(permissions).pipe(
-        switchMap((permitted) => (!permitted ? this.notPermitted() : of(true))),
+        switchMap((permitted) => {
+          console.log(`Did permit to go to: ${next.url}? ${permitted}`);
+          return !permitted ? this.notPermitted() : of(true);
+        }),
       );
     } else if (Array.isArray(permissions)) {
-      return true;
+      return of(true);
     }
 
     return this.notPermitted();
@@ -46,15 +49,21 @@ export class PermissionService {
   private checkPermissions(permissions: string[]): Observable<boolean> {
     const permissionsFromApi$: Observable<string[]> = this.accountApi
       .currentUser()
-      .pipe(map((accessDto: AccessDto) => Array.from(accessDto.authorities)));
+      .pipe(
+        map(
+          (accessDto: AccessDto | undefined) =>
+            accessDto?.authorities ?? new Set(),
+        ),
+        map((authorities: Set<AccessDto.AuthoritiesEnum>) =>
+          [...authorities].map((authority) => authority.toString()),
+        ),
+      );
     return permissionsFromApi$.pipe(
-      switchMap((permissionsFromApi: string[]) => {
-        return of(
-          permissions.every((permission: string) =>
-            permissionsFromApi.includes(permission),
-          ),
-        );
-      }),
+      map((permissionsFromApi: string[]) =>
+        permissions.every((permission: string) =>
+          permissionsFromApi.includes(permission),
+        ),
+      ),
     );
   }
 
