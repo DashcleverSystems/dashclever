@@ -1,16 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import {
-  TranslateModule,
   TranslateLoader,
-  TranslateStore,
+  TranslateModule,
   TranslateService,
+  TranslateStore,
 } from '@ngx-translate/core';
 import { Store } from '@ngrx/store';
 import { CoreSelectors } from '../store';
-import { distinctUntilChanged } from 'rxjs';
 import { Language } from 'src/app/shared/enums/languages';
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -35,7 +34,10 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [TranslateStore, TranslateService],
 })
 export class NgxTranslateModule {
-  constructor(private store: Store, private translate: TranslateService) {
+  constructor(
+    private store: Store,
+    private translate: TranslateService,
+  ) {
     this.translate.defaultLang = Language.PL;
 
     this.store

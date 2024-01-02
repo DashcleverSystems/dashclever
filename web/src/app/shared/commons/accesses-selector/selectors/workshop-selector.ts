@@ -45,12 +45,10 @@ export class WorkshopSelectorComponent
     );
     this.accessesStore.selectedWorkshop$
       .pipe(takeUntil(this.accessesStore.destroy$))
-      .subscribe((workshop: IWorkshop | undefined) => {
-        this.removeSelected();
-        if (workshop) {
-          this.selectSpecificItem(workshop);
-        }
-      });
+      .subscribe((workshop: IWorkshop | undefined) =>
+        this.selectWorkshop(workshop),
+      );
+    this.accessesStore.loadAccesses();
   }
 
   private listenToWorkshopCreation(): Subscription {
@@ -60,6 +58,13 @@ export class WorkshopSelectorComponent
   }
 
   override defineInitialValue(): void {}
+
+  private selectWorkshop(workshop: IWorkshop | undefined): void {
+    this.removeSelected();
+    if (workshop) {
+      this.selectSpecificItem(workshop);
+    }
+  }
 
   override onClick(index: number, workshop: IWorkshop | undefined): void {
     this.accessesStore.selectWorkshop(workshop);

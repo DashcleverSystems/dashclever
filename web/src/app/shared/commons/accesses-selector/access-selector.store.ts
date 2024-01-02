@@ -34,13 +34,25 @@ export class AccessesSelectorComponentStore
     });
   }
 
-  ngrxOnStoreInit(): void {
-    this.loadAccesses();
-    this.loadCurrentAccess();
+  ngrxOnStoreInit() {
+    this.loadAccesses().subscribe(() => this.loadCurrentAccess());
+  }
+
+  loadAccesses(): Observable<IWorkshop[]> {
+    return this.accountApi.getAccesses().pipe(
+      map((workshopAccessDtos: Set<WorkshopAccessesDto>) =>
+        [...workshopAccessDtos].map(
+          (workshopAccessDto: WorkshopAccessesDto): IWorkshop =>
+            this.mapToIWorkshop(workshopAccessDto),
+        ),
+      ),
+      tap((workshops: IWorkshop[]) => this.changeWorkshops(workshops)),
+    );
   }
 
   private loadCurrentAccess() {
     this.accountApi.currentUser().subscribe((accessDto: AccessDto | null) => {
+      console.log(`Loaded current access ${accessDto}`);
       if (accessDto != null) {
         const access: IAccess = this.mapToIAccess(accessDto);
         this.selectWorkshopByWorkshopId(accessDto.workshopId);
@@ -51,21 +63,6 @@ export class AccessesSelectorComponentStore
       }
     });
   }
-
-  readonly loadAccesses = this.effect((effect$) =>
-    effect$.pipe(
-      switchMap(() => this.accountApi.getAccesses()),
-      map((workshopAccessDtos: Set<WorkshopAccessesDto>) =>
-        [...workshopAccessDtos].map(
-          (workshopAccessDto: WorkshopAccessesDto): IWorkshop =>
-            this.mapToIWorkshop(workshopAccessDto),
-        ),
-      ),
-      tap((workshops: IWorkshop[]) => {
-        this.changeWorkshops(workshops);
-      }),
-    ),
-  );
 
   private mapToIWorkshop(workshopAccessDto: WorkshopAccessesDto): IWorkshop {
     return {
@@ -87,10 +84,12 @@ export class AccessesSelectorComponentStore
     };
   }
 
-  readonly changeWorkshops = this.updater((state, workshops: IWorkshop[]) => ({
-    ...state,
-    workshops: workshops,
-  }));
+  private readonly changeWorkshops = this.updater(
+    (state, workshops: IWorkshop[]) => ({
+      ...state,
+      workshops: workshops,
+    }),
+  );
 
   readonly selectWorkshop = this.updater(
     (state, workshop: IWorkshop | undefined) => ({
