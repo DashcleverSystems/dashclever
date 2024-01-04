@@ -1,15 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SelectorListComponent } from './template/selector.template';
 import { IWorkshop } from '@shared/models/workshop';
-import {
-  debounceTime,
-  Observable,
-  of,
-  Subscription,
-  takeUntil,
-  tap,
-} from 'rxjs';
-import { WorkshopCreatedNotifier } from '@shared/commons/workshop/workshop-creator/workshop-creator.service';
+import { debounceTime, Observable, of, takeUntil, tap } from 'rxjs';
 import { AccessesSelectorComponentStore } from '@shared/commons/accesses-selector/access-selector.store';
 
 @Component({
@@ -26,12 +18,7 @@ export class WorkshopSelectorComponent
   override title: string = 'components.accessesSelector.workshops.title';
   override itemName: string = 'Workshop';
 
-  private workshopCreatedSub = this.listenToWorkshopCreation();
-
-  constructor(
-    private accessesStore: AccessesSelectorComponentStore,
-    private workshopCreatedNotifier: WorkshopCreatedNotifier,
-  ) {
+  constructor(private readonly accessesStore: AccessesSelectorComponentStore) {
     super();
   }
 
@@ -51,12 +38,6 @@ export class WorkshopSelectorComponent
     this.accessesStore.loadAccesses();
   }
 
-  private listenToWorkshopCreation(): Subscription {
-    return this.workshopCreatedNotifier.workshopCreatedListener.subscribe(() =>
-      this.accessesStore.loadAccesses(),
-    );
-  }
-
   override defineInitialValue(): void {}
 
   private selectWorkshop(workshop: IWorkshop | undefined): void {
@@ -72,6 +53,5 @@ export class WorkshopSelectorComponent
 
   override ngOnDestroy() {
     super.ngOnDestroy();
-    this.workshopCreatedSub.unsubscribe();
   }
 }

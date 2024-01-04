@@ -50,7 +50,7 @@ export class AccessesSelectorComponentStore
     );
   }
 
-  private loadCurrentAccess() {
+  loadCurrentAccess() {
     this.accountApi.currentUser().subscribe((accessDto: AccessDto | null) => {
       console.log(`Loaded current access ${accessDto}`);
       if (accessDto != null) {
