@@ -43,6 +43,7 @@
     "estimatePage": {
       "title": "Kosztorysy",
       "estimateCreate": "Utwórz kosztorys",
+      "createPlanning": "Utwórz plan",
       "estimateId": "Identyfikator",
       "creationTimestamp": "Data utworzenia",
       "filters": {

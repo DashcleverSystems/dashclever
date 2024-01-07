@@ -43,6 +43,7 @@
     "estimatePage": {
       "title": "Estimates",
       "estimateCreate": "Create estimate",
+      "createPlanning": "Create planning",
       "estimateId": "Identifier",
       "creationTimestamp": "Creation timestamp",
       "filters": {
