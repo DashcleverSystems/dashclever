@@ -2,10 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { WorkshopCreatorFormComponent } from '@shared/commons/workshop/workshop-creator/workshop-creator-form/workshop-creator-form.component';
 import { WorkshopCreatedNotifier } from '@shared/commons/workshop/workshop-creator/workshop-creator.service';
-import { Store } from '@ngrx/store';
-import { getWorkshops } from '@core/store/core-store.selectors';
 import { IWorkshop } from '@shared/models/workshop';
 import { Subject, takeUntil } from 'rxjs';
+import { AccessesSelectorComponentStore } from '@shared/commons/accesses-selector/access-selector.store';
 
 @Component({
   selector: 'app-workshop-creator',
@@ -16,7 +15,7 @@ export class WorkshopCreatorComponent implements OnInit, OnDestroy {
   constructor(
     private dialogService: DialogService,
     private workshopCreatedNotifier: WorkshopCreatedNotifier,
-    private store: Store,
+    private accessesStore: AccessesSelectorComponentStore,
   ) {}
 
   canCreateWorkshop: boolean = false;
@@ -39,9 +38,8 @@ export class WorkshopCreatorComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store
-      .select(getWorkshops)
-      .pipe(takeUntil(this.destroy$))
+    this.accessesStore.workshops$
+      .pipe(takeUntil(this.accessesStore.destroy$))
       .subscribe((workshops: IWorkshop[]) => {
         this.canCreateWorkshop = workshops.length < 2;
       });

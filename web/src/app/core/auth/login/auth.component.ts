@@ -1,15 +1,16 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { AuthService, ILoginForm } from './auth.service';
 import { FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { coreStoreActions } from '@app/core/store/core-store.actions';
-import { isAuthorized } from '@app/core/store/core-store.selectors';
-import { EMPTY, catchError, switchMap, take, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { AuthStore } from '@core/auth/login/auth.store';
+import { takeUntil } from 'rxjs';
+import { ToastService } from '@shared/services/toast.service';
+import { provideComponentStore } from '@ngrx/component-store';
 
 @Component({
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
+  providers: [provideComponentStore(AuthStore)],
 })
 export class AuthComponent implements OnInit {
   @HostListener('keydown', ['$event']) onKeyDown = (e: any) => {
@@ -32,37 +33,24 @@ export class AuthComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private store: Store,
-    private router: Router
-  ) {
-    this.onLogin();
-  }
+    private authStore: AuthStore,
+    private toast: ToastService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
-    this.store
-      .select(isAuthorized)
-      .pipe(
-        take(1),
-        switchMap((isAuth) => {
-          if (!isAuth)
-            return this.authService.isLogged().pipe(
-              catchError((err) => EMPTY),
-              switchMap((isLogged) => this.authService.getPermissions()),
-              tap((workshops) => {
-                this.store.dispatch(
-                  coreStoreActions.loginSuccessfully({ logged: true })
-                );
-                this.store.dispatch(
-                  coreStoreActions.changeWorkshops({ workshops })
-                );
+    this.onLogin();
+    this.redirectToHomeIfAuthenticated();
+  }
 
-                this.router.navigate(['home']);
-              })
-            );
-          else return EMPTY;
-        })
-      )
-      .subscribe();
+  private redirectToHomeIfAuthenticated(): void {
+    this.authStore.isAuthenticated$
+      .pipe(takeUntil(this.authStore.destroy$))
+      .subscribe((isAuthenticated: boolean) => {
+        if (isAuthenticated === true) {
+          this.router.navigate(['home']);
+        }
+      });
   }
 
   onRegister(): void {
@@ -95,8 +83,19 @@ export class AuthComponent implements OnInit {
       username: this.form.controls.username.value ?? '',
       password: this.form.controls.password.value ?? '',
     };
-
-    this.store.dispatch(coreStoreActions.login({ credentials }));
+    this.authService.login(credentials).subscribe({
+      next: () => this.authStore.authenticated(true),
+      error: (response) => {
+        this.authStore.authenticated(false);
+        if (response.status == 400) {
+          this.toast.warn({
+            title: 'toast.wrongCredentials.title',
+            message: 'toast.wrongCredentials.message',
+            translate: true,
+          });
+        }
+      },
+    });
   }
 
   onRegisterSubmit(): void {

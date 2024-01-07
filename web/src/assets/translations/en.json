@@ -149,6 +149,10 @@
       "title": "Unauthorized",
       "message": "You are not authorized to execute this action or your session lapsed."
     },
+    "wrongCredentials": {
+      "title": "We could not log you in",
+      "message": "Provided credentials are wrong"
+    },
     "router": {
       "permissions": {
         "message": "You have no permission to visit this page.",

@@ -23,7 +23,6 @@ import pl.dashclever.accountresources.account.readmodel.AccountDto
 import pl.dashclever.accountresources.account.readmodel.AccountReader
 import pl.dashclever.accountresources.account.readmodel.AuthorityDto
 import pl.dashclever.accountresources.account.readmodel.WorkshopAccessesDto
-import pl.dashclever.commons.security.Access
 import pl.dashclever.commons.security.Access.WithAuthorities.Authority
 import pl.dashclever.commons.security.Access.WithAuthorities.Authority.INSIGHT_REPAIR
 import pl.dashclever.commons.security.Access.WithAuthorities.Authority.MANAGE_STAFF
@@ -32,6 +31,7 @@ import pl.dashclever.commons.security.Access.WorkshopEmployeeAccess
 import pl.dashclever.commons.security.Access.WorkshopOwnerAccess
 import pl.dashclever.commons.security.CurrentAccessProvider
 import pl.dashclever.spring.security.SpringSecurityApplicationFacade
+import pl.dashclever.spring.security.WithAccess
 import java.net.URI
 
 private const val PATH = "/api/account"
@@ -66,7 +66,7 @@ internal class AccountRestApi(
         req: CreateWorkshopReq,
         authentication: Authentication
     ): ResponseEntity<AccessDto> {
-        val accountId = (authentication.principal as? Access?)?.accountId
+        val accountId = (authentication.principal as? WithAccess?)?.access?.accountId
             ?: throw IllegalAccessException("Could not determine account id")
         val workshopId = accountHandler.createWorkshop(
             CreateWorkshop(
