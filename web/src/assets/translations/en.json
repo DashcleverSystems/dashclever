@@ -145,6 +145,12 @@
     }
   },
   "toast": {
+    "error": {
+      "domain": {
+        "title": "Unexpected error!",
+        "message": "Actions you took are not currently allowed. This error should be reported including circumstances it occured"
+      }
+    },
     "unknown": "Unexpected error occurred",
     "unauthorized": {
       "title": "Unauthorized",

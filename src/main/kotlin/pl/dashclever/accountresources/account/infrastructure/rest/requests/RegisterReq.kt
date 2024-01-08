@@ -2,8 +2,8 @@ package pl.dashclever.accountresources.account.infrastructure.rest.requests
 
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.Size
-import pl.dashclever.publishedlanguage.EMAIL
-import pl.dashclever.publishedlanguage.SIZE_BETWEEN
+import pl.dashclever.commons.exception.EMAIL
+import pl.dashclever.commons.exception.SIZE_BETWEEN
 
 internal data class RegisterReq(
     @field:Size(min = 8, max = 24, message = "$SIZE_BETWEEN;8;24")

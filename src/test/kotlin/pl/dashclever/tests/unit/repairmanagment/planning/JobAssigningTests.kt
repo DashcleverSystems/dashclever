@@ -6,7 +6,7 @@ import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-import pl.dashclever.publishedlanguage.DomainException
+import pl.dashclever.commons.exception.DomainException
 import pl.dashclever.repairmanagment.plannig.model.Plan
 import pl.dashclever.repairmanagment.plannig.model.PlanEvent.TaskAssigned
 import pl.dashclever.repairmanagment.plannig.model.PlanFactory

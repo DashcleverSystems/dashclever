@@ -10,7 +10,7 @@ import pl.dashclever.accountresources.account.model.AccountEvent.AccountCreatedW
 import pl.dashclever.accountresources.account.model.AccountEvent.AddedEmployeeship
 import pl.dashclever.accountresources.employee.Employee
 import pl.dashclever.commons.hibernate.OptimisticLockEntity
-import pl.dashclever.publishedlanguage.DomainException
+import pl.dashclever.commons.exception.DomainException
 import java.util.UUID
 import kotlin.jvm.Throws
 

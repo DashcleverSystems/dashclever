@@ -146,6 +146,12 @@
     }
   },
   "toast": {
+    "error": {
+      "domain": {
+        "title": "Wystąpił niespodziewany błąd!",
+        "message": "Operacje które próbujesz wykonać nie są dozwolone. Prosimy abyś zgłosił ten błąd!"
+      }
+    },
     "unknown": "Wystąpił niespodziewany błąd",
     "unauthorized": {
       "title": "Brak uprawnień",
