@@ -33,6 +33,20 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
       this.router.navigate(['login']).finally();
     }
 
+    if (
+      response?.status === 422 &&
+      response?.error?.message === 'error.domain.validation.failure'
+    ) {
+      this.toast.error(
+        {
+          title: 'toast.error.domain.title',
+          message: 'toast.error.domain.message',
+          translate: true,
+        },
+        5000,
+      );
+    }
+
     if (response?.status === 403) {
       this.toast.error({
         title: 'toast.unauthorized.title',

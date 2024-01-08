@@ -26,11 +26,15 @@ export class ToastService {
     this.show('warn', data);
   }
 
-  error(data: IToastMessage): void {
-    this.show('error', data);
+  error(data: IToastMessage, time?: number): void {
+    this.show('error', data, time);
   }
 
-  private show(type: 'success' | 'warn' | 'error', data: IToastMessage): void {
+  private show(
+    type: 'success' | 'warn' | 'error',
+    data: IToastMessage,
+    time?: number,
+  ): void {
     if (data.translate) {
       data = this.translateOptions(data);
     }
@@ -39,7 +43,7 @@ export class ToastService {
       severity: type,
       summary: data.title ?? '',
       detail: data.message,
-      life: 1500,
+      life: time ?? 1500,
       ...data.options,
     });
   }
