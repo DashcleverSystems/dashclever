@@ -125,7 +125,7 @@
   "enum": {
     "Panel": {
       "MANAGE_STAFF": "Zarządzanie zespołem",
-      "INSIGHT_REPAIR": "Przypisane naprawy",
+      "INSIGHT_REPAIR": "Szczegóły napraw",
       "REPAIR_PROCESS": "Proces napraw"
     },
     "Language": {

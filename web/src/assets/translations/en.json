@@ -124,7 +124,7 @@
   "enum": {
     "Panel": {
       "MANAGE_STAFF": "Manage staff",
-      "INSIGHT_REPAIR": "Insight repair",
+      "INSIGHT_REPAIR": "Repair insights",
       "REPAIR_PROCESS": "Repair process"
     },
     "Language": {
