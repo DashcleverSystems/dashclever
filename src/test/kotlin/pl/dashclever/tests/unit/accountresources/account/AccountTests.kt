@@ -6,7 +6,7 @@ import org.junit.jupiter.api.assertThrows
 import pl.dashclever.accountresources.account.model.Account
 import pl.dashclever.accountresources.employee.Employee
 import pl.dashclever.accountresources.employee.Workplace.LABOUR
-import pl.dashclever.publishedlanguage.DomainException
+import pl.dashclever.commons.exception.DomainException
 
 internal class AccountTests {
 

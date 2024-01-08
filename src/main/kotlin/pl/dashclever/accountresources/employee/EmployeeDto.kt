@@ -1,7 +1,7 @@
 package pl.dashclever.accountresources.employee
 
 import jakarta.validation.constraints.NotBlank
-import pl.dashclever.publishedlanguage.NOT_BLANK
+import pl.dashclever.commons.exception.NOT_BLANK
 import java.util.UUID
 
 data class EmployeeDto(

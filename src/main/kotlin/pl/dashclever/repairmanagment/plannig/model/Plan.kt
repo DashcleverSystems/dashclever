@@ -8,7 +8,7 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import pl.dashclever.commons.hibernate.OptimisticLockEntity
-import pl.dashclever.publishedlanguage.DomainException
+import pl.dashclever.commons.exception.DomainException
 import pl.dashclever.repairmanagment.plannig.model.PlanEvent.TaskAssigned
 import java.time.LocalDate
 import java.time.LocalDateTime

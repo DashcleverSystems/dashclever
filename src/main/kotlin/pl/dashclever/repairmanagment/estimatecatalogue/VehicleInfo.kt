@@ -2,7 +2,7 @@ package pl.dashclever.repairmanagment.estimatecatalogue
 
 import jakarta.persistence.Embeddable
 import jakarta.validation.constraints.Size
-import pl.dashclever.publishedlanguage.SIZE_MAX
+import pl.dashclever.commons.exception.SIZE_MAX
 
 @Embeddable
 data class VehicleInfo(
