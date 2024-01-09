@@ -1,13 +1,16 @@
 <div class="planning-page-container">
-  <app-card title="components.planningPage.title">
+  <app-card title="components.planning.planningPage.title">
     <div class="table-container">
-
       <p-table [value]="data$ | async">
         <ng-template pTemplate="header">
           <tr>
-            <th>{{ 'components.planningPage.estimateId' | translate }}</th>
             <th>
-              {{ 'components.planningPage.creationTimestamp' | translate }}
+              {{ 'components.planning.planningPage.estimateId' | translate }}
+            </th>
+            <th>
+              {{
+                'components.planning.planningPage.creationTimestamp' | translate
+              }}
             </th>
           </tr>
         </ng-template>

@@ -42,9 +42,9 @@
     },
     "planning": {
       "planningPage": {
-        "title": "Plannings",
-        "estimateId": "Estimate identifier",
-        "creationTimestamp": "Created on"
+        "title": "Plany napraw",
+        "estimateId": "Identyfikator kosztorysu",
+        "creationTimestamp": "Utworzono"
       }
     },
     "estimatePage": {
