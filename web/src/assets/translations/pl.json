@@ -40,6 +40,13 @@
         "title": "Wybierz warsztat"
       }
     },
+    "planning": {
+      "planningPage": {
+        "title": "Plannings",
+        "estimateId": "Estimate identifier",
+        "creationTimestamp": "Created on"
+      }
+    },
     "estimatePage": {
       "title": "Kosztorysy",
       "estimateCreate": "Utwórz kosztorys",

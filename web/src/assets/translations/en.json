@@ -40,6 +40,13 @@
         "title": "Choose workshop"
       }
     },
+    "planning": {
+      "planningPage": {
+        "title": "Plannings",
+        "estimateId": "Estimate identifier",
+        "creationTimestamp": "Created on"
+      }
+    },
     "estimatePage": {
       "title": "Estimates",
       "estimateCreate": "Create estimate",
