@@ -19,7 +19,7 @@ export class PlanningPageStore extends TableStore<PlanDto> {
       effect.pipe(
         switchMap(() => this.service.filter(filters)),
         tap((data: PagingInfoPlanDto) => {
-          this.setData(data.content);
+          this.setData(data?.content ?? []);
           this.setTotalElements(data.totalElements);
         }),
       ),

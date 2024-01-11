@@ -8,9 +8,10 @@ import { ManageStaffModule } from '@shared/commons/manage-staff/manage-staff.mod
 import { AppCardComponent } from '@shared/commons/card/card.component';
 import { PlanningPageComponent } from '@shared/commons/planning/planning-page/planning-page.component';
 import { CalendarModule } from 'primeng/calendar';
+import { PlanningComponent } from '@shared/commons/planning/planning.component';
 
 @NgModule({
-  declarations: [PlanningPageComponent],
+  declarations: [PlanningPageComponent, PlanningComponent],
   imports: [
     AccessesModule,
     CommonModule,
@@ -21,7 +22,7 @@ import { CalendarModule } from 'primeng/calendar';
     AppCardComponent,
     CalendarModule,
   ],
-  exports: [PlanningPageComponent],
+  exports: [PlanningComponent],
   providers: [],
 })
 export class PlanningModule {}

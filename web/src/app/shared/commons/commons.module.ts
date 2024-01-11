@@ -16,6 +16,8 @@ import { EstimatePageComponent } from '@shared/commons/estimate-catalogue/estima
 import { PaginatorModule } from 'primeng/paginator';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
+import { PlanningModule } from '@shared/commons/planning/planning.module';
+import { PlanningComponent } from '@shared/commons/planning/planning.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import { InputTextModule } from 'primeng/inputtext';
     AppSpinner,
     InputTextModule,
     CalendarModule,
+    PlanningModule,
   ],
   exports: [
     LanguageSelector,
@@ -46,6 +49,7 @@ import { InputTextModule } from 'primeng/inputtext';
     EstimateCatalogueComponent,
     EstimatePageComponent,
     EstimateFormComponent,
+    PlanningComponent,
   ],
   providers: [],
 })
