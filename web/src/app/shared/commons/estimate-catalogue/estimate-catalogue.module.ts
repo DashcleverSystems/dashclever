@@ -12,7 +12,6 @@ import { AppSpinner } from '@shared/commons/spinner/spinner.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { EstimateCreateComponent } from '@shared/commons/estimate-catalogue/estimate-create/estimate-create.component';
 import { CalendarModule } from 'primeng/calendar';
-import { EstimateCreateNotifier } from '@shared/commons/estimate-catalogue/estimate-create/estimate-create.notifier';
 
 @NgModule({
   declarations: [

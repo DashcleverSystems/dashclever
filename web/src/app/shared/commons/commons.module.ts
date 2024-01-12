@@ -12,7 +12,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppSpinner } from './spinner/spinner.component';
 import { ManageStaffModule } from '@shared/commons/manage-staff/manage-staff.module';
 import { PaginatorModule } from 'primeng/paginator';
-import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
 import { PlanningModule } from '@shared/commons/planning/planning.module';
 import { PlanningComponent } from '@shared/commons/planning/planning.component';

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Self } from '@angular/core';
+import { Component, Self } from '@angular/core';
 import { EstimateDto } from '@api/models/estimateDto';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { CreatePlanningService } from '@shared/commons/planning/create-confirmation-dialog/create-planning.service';

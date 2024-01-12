@@ -3,7 +3,6 @@ package pl.dashclever.repairmanagment.plannig.readmodel
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.persistence.criteria.Root
 import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort.Direction
 import org.springframework.data.jpa.domain.Specification
