@@ -2,6 +2,7 @@ package pl.dashclever.accountresources.account.infrastructure.rest
 
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.UserDetails
@@ -77,7 +78,7 @@ internal class AccountRestApi(
         return ResponseEntity.created(URI.create("$PATH/workshop/$workshopId")).build()
     }
 
-    @GetMapping("/access", produces = ["application/json"])
+    @GetMapping("/access", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getAccesses(authentication: Authentication?): Set<WorkshopAccessesDto> {
         if (authentication == null) {
             throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
@@ -89,7 +90,7 @@ internal class AccountRestApi(
         return accessesReader.findAccountWorkshopAccesses(accDto.id)
     }
 
-    @GetMapping(produces = ["application/json"])
+    @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
     fun currentUser(authentication: Authentication?): AccessDto? {
         if (authentication == null) {
             throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
