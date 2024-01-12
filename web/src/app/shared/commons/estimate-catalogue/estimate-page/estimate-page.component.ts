@@ -56,7 +56,7 @@ export class EstimatePageComponent
     }
   }
 
-  setCreatedAfterFilter(date: Date | null) {
+  setCreatedAfterFilter(date?: Date | null) {
     if (date != null) {
       this.filters.createdAfter = date.toISOString();
     } else {
