@@ -31,6 +31,7 @@ import { EstimateCatalogueModule } from '@shared/commons/estimate-catalogue/esti
     AccessesModule,
     ManageStaffModule,
     EstimateCatalogueModule,
+    PlanningModule,
     AppCardComponent,
     AppSpinner,
     InputTextModule,

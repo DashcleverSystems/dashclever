@@ -6,8 +6,9 @@ import { EstimateDto, EstimateFilters } from 'generated/openapi';
 import { Table } from '@app/shared/services/table/table.service';
 import { EstimatePageTableStore } from './estimate-page.store';
 import { DialogService } from 'primeng/dynamicdialog';
-import { EstimateCatalogueConfirmationCreateComponent } from '../estimate-catalogue-confirmation-create/estimate-catalogue-confirmation-create.component';
+import { CreatePlanningConfirmationDialog } from '@shared/commons/planning/create-confirmation-dialog/create-planning.component';
 import { ToastService } from '@app/shared/services/toast.service';
+import { EstimateCreateNotifier } from '@shared/commons/estimate-catalogue/estimate-create/estimate-create.notifier';
 
 @Component({
   selector: 'app-estimate-page',
@@ -28,6 +29,7 @@ export class EstimatePageComponent
     private store: Store,
     @SkipSelf() private dialogService: DialogService,
     private toastr: ToastService,
+    private notifier: EstimateCreateNotifier,
     tableStore: EstimatePageTableStore,
   ) {
     super(tableStore);
@@ -68,9 +70,9 @@ export class EstimatePageComponent
     }
   }
 
-  createEstimate(estimate: EstimateDto): void {
+  createPlanningFromEstimate(estimate: EstimateDto): void {
     this.dialogService
-      .open(EstimateCatalogueConfirmationCreateComponent, {
+      .open(CreatePlanningConfirmationDialog, {
         data: {
           estimate,
         },

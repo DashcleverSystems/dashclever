@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { PlanDto, PlanFilters } from 'generated/openapi';
 import { Table } from '@app/shared/services/table/table.service';
 import { PlanningPageStore } from '@shared/commons/planning/planning-page/planning-page.store';
+import { PlanningCreatedNotifier } from '@shared/commons/planning/create-confirmation-dialog/planning-created.notifier';
 
 @Component({
   selector: 'app-planning-page',
@@ -16,7 +17,10 @@ export class PlanningPageComponent
 {
   private destroy$ = new Subject<void>();
 
-  constructor(tableStore: PlanningPageStore) {
+  constructor(
+    private readonly planningCreatedNotifier: PlanningCreatedNotifier,
+    tableStore: PlanningPageStore,
+  ) {
     super(tableStore);
     this.filters = {
       estimateId: null,
@@ -28,6 +32,10 @@ export class PlanningPageComponent
 
   ngOnInit(): void {
     this.getCollection();
+    this.planningCreatedNotifier.planningCreated$
+      .asObservable()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.getCollection());
   }
 
   ngOnDestroy(): void {

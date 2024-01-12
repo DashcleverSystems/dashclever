@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { distinctUntilChanged, finalize, Subject, takeUntil } from 'rxjs';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Store } from '@ngrx/store';
@@ -7,6 +7,7 @@ import { EstimateFormComponent } from '@shared/commons/estimate-catalogue/estima
 import { FileUpload } from 'primeng/fileupload';
 import { isMobile } from '@core/store/core-store.selectors';
 import { EstimateCreateService } from '@shared/commons/estimate-catalogue/estimate-create/estimate-create.service';
+import { EstimateCreateNotifier } from '@shared/commons/estimate-catalogue/estimate-create/estimate-create.notifier';
 
 @Component({
   selector: 'app-estimate-create',
@@ -14,19 +15,19 @@ import { EstimateCreateService } from '@shared/commons/estimate-catalogue/estima
   styleUrl: './estimate-create.component.css',
   providers: [EstimateCreateService],
 })
-export class EstimateCreateComponent {
+export class EstimateCreateComponent implements OnInit, OnDestroy {
   @ViewChild('fileUploader') fileUploader: FileUpload | undefined;
 
   isMobile: boolean = false;
   loadingSpinner = false;
 
-  private estimateCreated$: Subject<void> = new Subject<void>();
   private destroy$ = new Subject<void>();
 
   constructor(
     private dialogService: DialogService,
     private store: Store,
     private service: EstimateCreateService,
+    private notifier: EstimateCreateNotifier,
   ) {}
 
   ngOnInit(): void {
@@ -39,8 +40,8 @@ export class EstimateCreateComponent {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    this.estimateCreated$.next();
-    this.estimateCreated$.complete();
+    this.notifier.estimateCreated$.next();
+    this.notifier.estimateCreated$.complete();
   }
 
   createCatalogue(type: 'CREATE' | 'GENERATE', data?: any): void {
@@ -77,7 +78,8 @@ export class EstimateCreateComponent {
         modal: true,
       })
       .onClose.subscribe(
-        (res) => res?.result === 'success' && this.estimateCreated$.next(),
+        (res) =>
+          res?.result === 'success' && this.notifier.estimateCreated$.next(),
       );
   }
 }

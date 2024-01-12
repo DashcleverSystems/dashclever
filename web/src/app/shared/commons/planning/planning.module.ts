@@ -9,9 +9,17 @@ import { AppCardComponent } from '@shared/commons/card/card.component';
 import { PlanningPageComponent } from '@shared/commons/planning/planning-page/planning-page.component';
 import { CalendarModule } from 'primeng/calendar';
 import { PlanningComponent } from '@shared/commons/planning/planning.component';
+import { CreatePlanningService } from '@shared/commons/planning/create-confirmation-dialog/create-planning.service';
+import { PlanningCreatedNotifier } from '@shared/commons/planning/create-confirmation-dialog/planning-created.notifier';
+import { CreatePlanningConfirmationDialog } from '@shared/commons/planning/create-confirmation-dialog/create-planning.component';
+import { AppSpinner } from '@shared/commons/spinner/spinner.component';
 
 @NgModule({
-  declarations: [PlanningPageComponent, PlanningComponent],
+  declarations: [
+    CreatePlanningConfirmationDialog,
+    PlanningPageComponent,
+    PlanningComponent,
+  ],
   imports: [
     AccessesModule,
     CommonModule,
@@ -19,6 +27,7 @@ import { PlanningComponent } from '@shared/commons/planning/planning.component';
     PaginatorModule,
     TranslateModule,
     ManageStaffModule,
+    AppSpinner,
     AppCardComponent,
     CalendarModule,
   ],

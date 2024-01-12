@@ -1,4 +1,6 @@
 <div class="container">
   <app-estimate-create class="create-estimate"></app-estimate-create>
-  <app-estimate-page></app-estimate-page>
+  <app-estimate-page
+    [refreshContentListener$]="estimateCreated$"
+  ></app-estimate-page>
 </div>
