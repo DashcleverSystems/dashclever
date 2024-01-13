@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Component
 import pl.dashclever.commons.paging.PagingInfo
 import pl.dashclever.commons.paging.Sort
+import pl.dashclever.commons.paging.SortDirection
 import pl.dashclever.commons.paging.SortDirection.ASC
 import pl.dashclever.commons.paging.SortDirection.DESC
 import pl.dashclever.commons.security.CurrentAccessProvider
@@ -44,7 +45,7 @@ class PlanReader(
         val createdAfter: LocalDateTime? = null,
         val estimateId: UUID? = null,
         val estimateName: String? = null,
-        val sort: Sort? = null
+        val sortDirection: SortDirection? = null
     )
 
     fun findById(id: UUID): Optional<PlanDto> {
@@ -76,7 +77,7 @@ class PlanReader(
             filters.estimateName?.let { Specifications.withEstimateNameLike(it) },
             filters.estimateId?.let { Specifications.withEstimateId(it) }
         ).reduce { acc, specification -> acc.and(specification) }
-        val sortPageRequest = pageRequest.withSort(filters.sort.toJpaSort())
+        val sortPageRequest = pageRequest.withSort(filters.getSort().toJpaSort())
         val plans: Page<Plan> = planRepository.findAll(specification, sortPageRequest)
         val planDtos: List<PlanDto> = plans.mapNotNull { plan ->
             val estimate = estimateRepository.findById(plan.estimateId)
@@ -98,6 +99,13 @@ class PlanReader(
             pageNumber = plans.number,
             content = planDtos
         )
+    }
+
+    private fun PlanFilters.getSort(): Sort? {
+        if (this.sortDirection == null) {
+            return null
+        }
+        return Sort("createdOn", this.sortDirection ?: DESC)
     }
 
     private fun Sort?.toJpaSort(): JpaSort {

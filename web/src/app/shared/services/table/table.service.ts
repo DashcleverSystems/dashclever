@@ -26,13 +26,7 @@ export abstract class Table<T, O = object> {
    * @memberof Table
    */
   page: number = 0;
-  /**
-   * Sort direction
-   *
-   * @type {EstimateFilters.SortDirectionEnum} - default DESC
-   * @memberof Table
-   */
-  sortDirection: SortDirection = SortDirection.DESC;
+
   /**
    *  For pagination item array with rows per page
    *
@@ -82,9 +76,8 @@ export abstract class Table<T, O = object> {
   getCollection(): void {
     this.tableAbstractStore.getCollection({
       ...this.filters,
-      pageNo: this.page,
+      pageNumber: this.page,
       pageSize: this.size,
-      sortDirection: this.sortDirection,
     })();
   }
 
