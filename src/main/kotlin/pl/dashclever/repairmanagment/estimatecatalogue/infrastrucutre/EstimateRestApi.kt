@@ -26,6 +26,7 @@ import pl.dashclever.commons.paging.SortDirection.DESC
 import pl.dashclever.commons.time.LocalDateTimeHelper.asGmt
 import pl.dashclever.commons.exception.ALREADY_EXISTS
 import pl.dashclever.commons.exception.SIZE_BETWEEN
+import pl.dashclever.commons.paging.PageRequestDto
 import pl.dashclever.repairmanagment.estimatecatalogue.Estimate
 import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository
 import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository.EstimateSpecifications
@@ -59,18 +60,16 @@ internal class EstimateRestApi(
     }
 
     data class EstimateFilters(
-        var estimateId: String? = null,
-        var createdAfter: ZonedDateTime? = null,
-        var pageNo: Int = 0,
-        var pageSize: Int = 20,
-        var sortDirection: SortDirection = DESC
+        val estimateId: String? = null,
+        val createdAfter: ZonedDateTime? = null,
+        val sortDirection: SortDirection = DESC
     )
 
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun get(filters: EstimateFilters?): Page<EstimateDto> =
-        filter(filters ?: EstimateFilters(null, null, 0, 20, DESC))
+    fun get(filters: EstimateFilters?, pageRequestDto: PageRequestDto? = null): Page<EstimateDto> =
+        filter(filters ?: EstimateFilters(), pageRequestDto ?: PageRequestDto())
 
-    private fun filter(filters: EstimateFilters): Page<EstimateDto> {
+    private fun filter(filters: EstimateFilters, pageRequestDto: PageRequestDto): Page<EstimateDto> {
         var specification: Specification<Estimate>? = null
         if (filters.createdAfter != null) {
             val localDateTimeOfGmt = filters.createdAfter!!.withZoneSameInstant(ZoneId.of("GMT")).toLocalDateTime()
@@ -85,7 +84,7 @@ internal class EstimateRestApi(
             ASC -> Sort.by("createdOn").ascending()
             DESC -> Sort.by("createdOn").descending()
         }
-        val pageReq = PageRequest.of(filters.pageNo, filters.pageSize, sort)
+        val pageReq = PageRequest.of(pageRequestDto.pageNumber, pageRequestDto.pageSize, sort)
         val estimatePage = specification?.let { this.estimateRepository.findAll(it, pageReq) } ?: this.estimateRepository.findAll(pageReq)
         return estimatePage.map { it.toDto() }
     }
