@@ -1,0 +1,30 @@
+<app-card title="components.planning.planningPage.title">
+  <div class="table-container">
+    <p-table [value]="data$ | async">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>
+            {{ 'components.planning.planningPage.estimateId' | translate }}
+          </th>
+          <th>
+            {{
+              'components.planning.planningPage.creationTimestamp' | translate
+            }}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-planning>
+        <tr>
+          <td>{{ planning.estimateName }}</td>
+          <td>{{ planning.createdOn | date: 'YYYY-MM-d HH:mm' }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <p-paginator
+      (onPageChange)="primePageChange($event)"
+      [rows]="size"
+      [totalRecords]="totalElements$ | async"
+      [rowsPerPageOptions]="rowsPerPage"
+    ></p-paginator>
+  </div>
+</app-card>

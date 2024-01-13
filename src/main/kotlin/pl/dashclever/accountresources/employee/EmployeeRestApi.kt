@@ -54,7 +54,7 @@ internal class EmployeeRestApi(
         return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON).body(EmployeeDto.from(employee))
     }
 
-    @GetMapping("/employee", produces = ["application/json"])
+    @GetMapping("/employee", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getAll(): List<EmployeeDto> {
         return employeeRepository.findAll().map { EmployeeDto.from(it) }
     }

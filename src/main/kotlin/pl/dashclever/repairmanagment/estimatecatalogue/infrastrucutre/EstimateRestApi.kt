@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.NO_CONTENT
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -65,7 +66,7 @@ internal class EstimateRestApi(
         var sortDirection: SortDirection = DESC
     )
 
-    @GetMapping(produces = ["application/json"])
+    @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
     fun get(filters: EstimateFilters?): Page<EstimateDto> =
         filter(filters ?: EstimateFilters(null, null, 0, 20, DESC))
 

@@ -40,6 +40,14 @@
         "title": "Wybierz warsztat"
       }
     },
+    "planning": {
+      "planningPage": {
+        "title": "Plany napraw",
+        "estimateId": "Identyfikator kosztorysu",
+        "creationTimestamp": "Data utworzenia",
+        "noPlanningsInfo": "Nie posiadasz jeszcze żadnych planów napraw. Pojawią się one tutaj jak tylko je utworzysz."
+      }
+    },
     "estimatePage": {
       "title": "Kosztorysy",
       "estimateCreate": "Utwórz kosztorys",

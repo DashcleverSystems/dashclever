@@ -40,6 +40,14 @@
         "title": "Choose workshop"
       }
     },
+    "planning": {
+      "planningPage": {
+        "title": "Plannings",
+        "estimateId": "Estimate identifier",
+        "creationTimestamp": "Created on",
+        "noPlanningsInfo": "You have no plannings yet. We will show them here as you create one."
+      }
+    },
     "estimatePage": {
       "title": "Estimates",
       "estimateCreate": "Create estimate",

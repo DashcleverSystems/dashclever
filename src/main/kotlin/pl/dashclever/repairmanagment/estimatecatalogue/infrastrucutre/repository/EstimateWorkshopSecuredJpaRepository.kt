@@ -20,7 +20,7 @@ interface EstimateWorkshopSecuredJpaRepository :
 
     @Query(
         value = "SELECT e FROM Estimate e INNER JOIN WorkshopEstimate we ON e.id = we.id.estimateId WHERE we.id.workshopId = :currentAccessWorkshopId",
-        countQuery = "SELECT COUNT(e.id) FROM Estimate e INNER JOIN WorkshopEstimate we ON e.id = we.id.estimateId GROUP BY e.id"
+        countQuery = "SELECT COUNT(e.id) FROM Estimate e INNER JOIN WorkshopEstimate we ON e.id = we.id.estimateId WHERE we.id.workshopId = :currentAccessWorkshopId GROUP BY e.id"
     )
     fun findAll(
         currentAccessWorkshopId: UUID,
