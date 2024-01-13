@@ -10,9 +10,9 @@ import jakarta.persistence.Id
 import jakarta.persistence.SequenceGenerator
 import jakarta.persistence.Table
 import jakarta.validation.constraints.Size
+import pl.dashclever.commons.exception.SIZE_MAX
 import pl.dashclever.commons.hibernate.OptimisticLockEntity
 import pl.dashclever.publishedlanguage.Money
-import pl.dashclever.commons.exception.SIZE_MAX
 
 @Entity(name = "RM_ESTIMATECATALOGUE_JOB")
 @Table(name = "RM_ESTIMATECATALOGUE_JOB")
