@@ -1,3 +1,33 @@
 .table-container {
   width: 80svw;
+
+  .filters {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+
+    @media only screen and (max-width: 700px) {
+      flex-direction: column;
+    }
+
+    .estimateId {
+      width: 100%;
+      max-width: 280px;
+    }
+
+    .createdAfter {
+      width: 100%;
+      max-width: 280px;
+    }
+
+    .submit {
+      @media only screen and (max-width: 700px) {
+        ::ng-deep .p-button {
+          min-width: 280px;
+        }
+      }
+    }
+  }
 }
