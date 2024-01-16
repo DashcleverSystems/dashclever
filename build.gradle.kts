@@ -138,11 +138,6 @@ val cleanWebBuild = tasks.register<Delete>("cleanDist") {
     delete = setOf("web/dist", "src/main/resources/public")
 }
 
-val generateHttpClients = tasks.register("generateHttpClients") {
-    dependsOn(tasks.clean, "web:generateHttpClients", tasks.generateOpenApiDocs)
-    tasks.getByPath("web:generateHttpClients").mustRunAfter(tasks.getByName("generateOpenApiDocs"))
-}
-
 openApi {
     apiDocsUrl.set("http://localhost:9999/open-api")
     customBootRun {

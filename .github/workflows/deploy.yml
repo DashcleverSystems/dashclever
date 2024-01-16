@@ -30,7 +30,7 @@ jobs:
 
       - name: generate angular http clients
         run: |+
-          ./gradlew generateHttpClients -x installWeb
+          ./gradlew web:generateHttpClients
 
       - name: tarball code
         run: |+

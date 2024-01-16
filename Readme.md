@@ -5,9 +5,9 @@ ___
 - To make `./gradlew` work on Ubuntu WSL2 give user all permissions to the gradle file `chmod 777 gradlew` or `chmod +x gradlew` and then to make it work type `sed -i -e 's/\r$//' gradlew`.
 - To set application environment you can simply run: `./gradlew setDev`.
 - Application can be run in dev mode with command:`./gradlew bootDev`. It will try to set up database and application. It assumes that java, docker, docker compose is pre-installed.
-- To skip installing a UI into spring jar you can `./gradlew bootDev -x installWeb`
-- Frontend uses http clients generated with openapi generator. To generate them you can run `./gradlew generateHttpClients -x installWeb` or from within `web` module `npm run generate:api`. Keep in mind
-that in second case you will have to ensure that current openapi specification is present in `./build/openapi.json`, nevertheless you can generate it with `./gradlew generateOpenApiDocs -x installWeb`
+- To skip installing a UI into spring jar you can specify gradle exclude param argument `-x installWeb`, for instance: `./gradlew bootDev -x installWeb`.
+- Frontend uses http clients generated with openapi generator. To generate them you can run `./gradlew web:generateHttpClients -x installWeb` or from within `web` module `npm run generate:api`. Keep in mind
+that You have to ensure that current openapi specification is present in `./build/openapi.json`, nevertheless you can generate it with `./gradlew generateOpenApiDocs -x installWeb`
 - To run frontend without having a node installed on your machine you can run `./gradlew web:start`
 - If you want to run it as jar you have to specify program arguments:
   - `--jdbc.db.url="jdbc:postgresql://localhost:5432/dashclever"`
@@ -21,6 +21,9 @@ ___
 ### Open API
 
 You can generate Open API specification with `./gradlew generateOpenApiDocs`. Keep in mind that this will spin up the whole application for a moment so you need to have dev env set up.
+
+Frontend uses http clients generated with openapi generator. To generate them you can run `./gradlew web:generateHttpClients` or from within `web` module `npm run generate:api`.
+
 ### Reference Documentation
 
 For further reference, please consider the following sections:
