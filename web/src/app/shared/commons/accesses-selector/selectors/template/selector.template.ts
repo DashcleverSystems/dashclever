@@ -78,7 +78,7 @@ export abstract class SelectorListComponent<T>
         `div[id="${id}"]`,
       );
       this.selected[id] = true;
-      selectedItem.classList.add('selected');
+      selectedItem?.classList.add('selected');
     });
   }
 
