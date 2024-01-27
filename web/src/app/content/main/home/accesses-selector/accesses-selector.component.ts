@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AccessesSelectorComponentStore } from '@shared/commons/accesses-selector/access-selector.store';
+import { AccessesSelectorComponentStore } from '@app/content/main/home/accesses-selector/access-selector.store';
 import { provideComponentStore } from '@ngrx/component-store';
-import { WorkshopCreatedNotifier } from '@shared/commons/workshop/workshop-creator/workshop-creator.service';
+import { WorkshopCreatedNotifier } from '@app/content/main/home/workshop-creator/workshop-creator.service';
 import { Subscription } from 'rxjs';
 
 @Component({

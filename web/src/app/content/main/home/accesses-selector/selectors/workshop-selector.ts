@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SelectorListComponent } from './template/selector.template';
 import { IWorkshop } from '@shared/models/workshop';
 import { debounceTime, Observable, of, takeUntil, tap } from 'rxjs';
-import { AccessesSelectorComponentStore } from '@shared/commons/accesses-selector/access-selector.store';
+import { AccessesSelectorComponentStore } from '@app/content/main/home/accesses-selector/access-selector.store';
 
 @Component({
   selector: 'app-workshop-selector',

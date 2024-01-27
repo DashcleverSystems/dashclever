@@ -15,6 +15,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { KeyFilterModule } from 'primeng/keyfilter';
+import { CalendarModule } from 'primeng/calendar';
+import { PaginatorModule } from 'primeng/paginator';
 @NgModule({
   imports: [
     ButtonModule,
@@ -32,6 +34,8 @@ import { KeyFilterModule } from 'primeng/keyfilter';
     FileUploadModule,
     ProgressSpinnerModule,
     KeyFilterModule,
+    CalendarModule,
+    PaginatorModule,
   ],
   exports: [
     ButtonModule,
@@ -49,6 +53,8 @@ import { KeyFilterModule } from 'primeng/keyfilter';
     FileUploadModule,
     ProgressSpinnerModule,
     KeyFilterModule,
+    CalendarModule,
+    PaginatorModule,
   ],
 })
 export class PrimeModule {}

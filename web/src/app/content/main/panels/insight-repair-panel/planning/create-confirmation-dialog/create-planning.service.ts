@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { PlanningCreatedNotifier } from '@shared/commons/planning/create-confirmation-dialog/planning-created.notifier';
+import { PlanningCreatedNotifier } from '@app/content/main/panels/insight-repair-panel/planning/create-confirmation-dialog/planning-created.notifier';
 
 @Injectable()
 export class CreatePlanningService {

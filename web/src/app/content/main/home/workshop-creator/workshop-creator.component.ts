@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { WorkshopCreatorFormComponent } from '@shared/commons/workshop/workshop-creator/workshop-creator-form/workshop-creator-form.component';
-import { WorkshopCreatedNotifier } from '@shared/commons/workshop/workshop-creator/workshop-creator.service';
+import { WorkshopCreatorFormComponent } from '@app/content/main/home/workshop-creator/workshop-creator-form/workshop-creator-form.component';
+import { WorkshopCreatedNotifier } from '@app/content/main/home/workshop-creator/workshop-creator.service';
 import { IWorkshop } from '@shared/models/workshop';
 import { Subject, takeUntil } from 'rxjs';
-import { AccessesSelectorComponentStore } from '@shared/commons/accesses-selector/access-selector.store';
+import { AccessesSelectorComponentStore } from '@app/content/main/home/accesses-selector/access-selector.store';
 
 @Component({
   selector: 'app-workshop-creator',

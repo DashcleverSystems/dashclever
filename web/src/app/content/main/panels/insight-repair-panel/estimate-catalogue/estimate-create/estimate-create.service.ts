@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IEstimatePdfDTO } from '@shared/commons/estimate-catalogue/estimate-form/estimate-form';
+import { IEstimatePdfDTO } from '@app/content/main/panels/insight-repair-panel/estimate-catalogue/estimate-form/estimate-form';
 
 @Injectable()
 export class EstimateCreateService {

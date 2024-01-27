@@ -6,9 +6,9 @@ import { EstimateDto, EstimateFilters } from 'generated/openapi';
 import { Table } from '@app/shared/services/table/table.service';
 import { EstimatePageTableStore } from './estimate-page.store';
 import { DialogService } from 'primeng/dynamicdialog';
-import { CreatePlanningConfirmationDialog } from '@shared/commons/planning/create-confirmation-dialog/create-planning.component';
+import { CreatePlanningConfirmationDialog } from '@app/content/main/panels/insight-repair-panel/planning/create-confirmation-dialog/create-planning.component';
 import { ToastService } from '@app/shared/services/toast.service';
-import { EstimateCreateNotifier } from '@shared/commons/estimate-catalogue/estimate-create/estimate-create.notifier';
+import { EstimateCreateNotifier } from '@app/content/main/panels/insight-repair-panel/estimate-catalogue/estimate-create/estimate-create.notifier';
 
 @Component({
   selector: 'app-estimate-page',

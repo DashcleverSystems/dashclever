@@ -12,7 +12,7 @@ import {
   takeUntil,
   tap,
 } from 'rxjs';
-import { AccessesSelectorComponentStore } from '@shared/commons/accesses-selector/access-selector.store';
+import { AccessesSelectorComponentStore } from '@app/content/main/home/accesses-selector/access-selector.store';
 import { IWorkshop } from '@shared/models/workshop';
 
 @Component({

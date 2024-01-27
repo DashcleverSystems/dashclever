@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { PlanDto, PlanFilters } from 'generated/openapi';
 import { Table } from '@app/shared/services/table/table.service';
-import { PlanningPageStore } from '@shared/commons/planning/planning-page/planning-page.store';
-import { PlanningCreatedNotifier } from '@shared/commons/planning/create-confirmation-dialog/planning-created.notifier';
+import { PlanningPageStore } from '@app/content/main/panels/insight-repair-panel/planning/planning-page/planning-page.store';
+import { PlanningCreatedNotifier } from '@app/content/main/panels/insight-repair-panel/planning/create-confirmation-dialog/planning-created.notifier';
 import { SortDirection } from '@shared/enums/sort-direction';
 import { TableLazyLoadEvent } from 'primeng/table';
 
