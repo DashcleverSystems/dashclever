@@ -1,10 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-card',
-  standalone: true,
-  imports: [TranslateModule],
   template: `
     <div class="info">{{ title | translate }}</div>
     <div class="card-container">

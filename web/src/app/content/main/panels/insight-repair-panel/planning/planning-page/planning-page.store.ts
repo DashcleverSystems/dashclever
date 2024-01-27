@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { TableStore } from '@app/shared/services/table/table.store';
+import { TableStore } from '@shared/services/table/table.store';
 import {
   PageRequestDto,
   PagingInfoPlanDto,
   PlanDto,
   PlanFilters,
   PlanningApiService,
-} from 'generated/openapi';
+} from '../../../../../../../../generated/openapi';
 import { switchMap, tap } from 'rxjs';
 
 @Injectable()

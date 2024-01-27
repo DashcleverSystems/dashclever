@@ -1,4 +1,4 @@
-import { Type } from '@angular/core';
+import { NgModule, Type } from '@angular/core';
 import { HomeComponent } from 'src/app/content/main/home/home.component';
 import { InsightRepairPanelComponent } from 'src/app/content/main/panels/insight-repair-panel/insight-repair-panel.component';
 import { ManagePanelComponent } from 'src/app/content/main/panels/manage-panel/manage-panel.component';
@@ -10,7 +10,7 @@ export interface IShellRoute {
   url: string;
   name: string;
   permissions: string[];
-  component?: Type<any>;
+  moduleSupplier?: () => Promise<any>;
   iconName?: string;
   data?: any;
   canActivate?: any[];
@@ -20,7 +20,8 @@ export const ShellRoutes: IShellRoute[] = [
   {
     url: 'home',
     name: 'Home',
-    component: HomeComponent,
+    moduleSupplier: () =>
+      import('../../content/main/home/home.module').then((m) => m.HomeModule),
     iconName: 'home',
     permissions: [],
     canActivate: [AuthorizedGuard],
@@ -28,7 +29,10 @@ export const ShellRoutes: IShellRoute[] = [
   {
     url: 'manage',
     name: 'enum.Panel.' + Panel.MANAGE_STAFF,
-    component: ManagePanelComponent,
+    moduleSupplier: () =>
+      import('../../content/main/panels/manage-panel/manage-panel.module').then(
+        (m) => m.ManagePanelModule,
+      ),
     iconName: 'manage',
     permissions: [Panel.MANAGE_STAFF],
     canActivate: [AuthorizedGuard, PermissionGuard],
@@ -36,7 +40,8 @@ export const ShellRoutes: IShellRoute[] = [
   {
     url: 'insight-repair',
     name: 'enum.Panel.' + Panel.INSIGHT_REPAIR,
-    component: InsightRepairPanelComponent,
+    moduleSupplier: () =>
+      import('../../content/main/home/home.module').then((m) => m.HomeModule),
     iconName: 'repair',
     permissions: [Panel.INSIGHT_REPAIR],
     canActivate: [AuthorizedGuard, PermissionGuard],
@@ -44,7 +49,8 @@ export const ShellRoutes: IShellRoute[] = [
   {
     url: 'repair-process',
     name: 'enum.Panel.' + Panel.REPAIR_PROCESS,
-    component: RepairProcessPanelComponent,
+    moduleSupplier: () =>
+      import('../../content/main/home/home.module').then((m) => m.HomeModule),
     iconName: 'repair_process',
     permissions: [Panel.REPAIR_PROCESS],
     canActivate: [AuthorizedGuard, PermissionGuard],

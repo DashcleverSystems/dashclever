@@ -1,12 +1,12 @@
-import {Component, OnDestroy} from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 
 import { FormControl, FormGroup } from '@angular/forms';
-import {Workplace} from '@shared/models/employee';
+import { Workplace } from '@shared/models/employee';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { DictionaryDTO, enumToDictionary } from '@shared/utils/dictionary';
-import {Observable, Subject} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { EmployeeFormService } from './employee-form.service';
-import {EmployeeDto} from 'generated/openapi';
+import { EmployeeDto } from '../../../../../../../../generated/openapi';
 
 @Component({
   templateUrl: './employee-form.component.html',
@@ -17,19 +17,18 @@ export class EmployeeFormComponent implements OnDestroy {
   constructor(
     public ref: DynamicDialogRef,
     private conf: DynamicDialogConfig,
-    private service: EmployeeFormService
+    private service: EmployeeFormService,
   ) {}
 
   blockChars: RegExp = /^[^{}\\|"';:?!.,><#*-+~`=@$%^&()_-]+$/;
 
   form: FormGroup<IEmployeeForm> = this.service.createEmployeeForm(
-    this.conf.data.employee
+    this.conf.data.employee,
   );
 
-    private employee: EmployeeDto | undefined | null = this.conf.data.employee
+  private employee: EmployeeDto | undefined | null = this.conf.data.employee;
 
-  isCreatingNewEmployee =
-    this.employee === undefined || this.employee === null;
+  isCreatingNewEmployee = this.employee === undefined || this.employee === null;
 
   loadingSpinner = false;
 
@@ -44,25 +43,25 @@ export class EmployeeFormComponent implements OnDestroy {
       return;
     }
 
-      this.createOrUpdateEmployee().subscribe((employee) => {
-          this.ref.close(employee);
-      });
+    this.createOrUpdateEmployee().subscribe((employee) => {
+      this.ref.close(employee);
+    });
   }
 
-    private createOrUpdateEmployee(): Observable<EmployeeDto> {
-        const employeeDto: EmployeeDto = {
-            ...this.form.getRawValue(),
-            id: this.employee?.id,
-            firstName: this.form.controls.firstName.value ?? '',
-            lastName: this.form.controls.lastName.value ?? '',
-            workplace: this.form.controls.workplace.value ?? Workplace.LABOUR,
-        };
-        if (this.isCreatingNewEmployee) {
-            return this.service.createEmployee(employeeDto);
-        } else {
-            return this.service.updateEmployee(employeeDto);
-        }
+  private createOrUpdateEmployee(): Observable<EmployeeDto> {
+    const employeeDto: EmployeeDto = {
+      ...this.form.getRawValue(),
+      id: this.employee?.id,
+      firstName: this.form.controls.firstName.value ?? '',
+      lastName: this.form.controls.lastName.value ?? '',
+      workplace: this.form.controls.workplace.value ?? Workplace.LABOUR,
+    };
+    if (this.isCreatingNewEmployee) {
+      return this.service.createEmployee(employeeDto);
+    } else {
+      return this.service.updateEmployee(employeeDto);
     }
+  }
 
   ngOnDestroy(): void {
     this.destroy$.next();

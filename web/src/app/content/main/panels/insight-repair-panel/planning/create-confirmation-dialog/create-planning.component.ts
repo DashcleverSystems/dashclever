@@ -1,7 +1,7 @@
 import { Component, Self } from '@angular/core';
 import { EstimateDto } from '@api/models/estimateDto';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { CreatePlanningService } from '@shared/commons/planning/create-confirmation-dialog/create-planning.service';
+import { CreatePlanningService } from '@content/main/panels/insight-repair-panel/planning/create-confirmation-dialog/create-planning.service';
 
 @Component({
   templateUrl: './create-planning.component.html',

@@ -2,12 +2,12 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { distinctUntilChanged, finalize, Subject, takeUntil } from 'rxjs';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Store } from '@ngrx/store';
-import { IEstimatePdfDTO } from '@shared/commons/estimate-catalogue/estimate-form/estimate-form';
-import { EstimateFormComponent } from '@shared/commons/estimate-catalogue/estimate-form/estimate-form.component';
 import { FileUpload } from 'primeng/fileupload';
 import { isMobile } from '@core/store/core-store.selectors';
-import { EstimateCreateService } from '@shared/commons/estimate-catalogue/estimate-create/estimate-create.service';
-import { EstimateCreateNotifier } from '@shared/commons/estimate-catalogue/estimate-create/estimate-create.notifier';
+import { EstimateCreateService } from '@content/main/panels/insight-repair-panel/estimate-catalogue/estimate-create/estimate-create.service';
+import { EstimateCreateNotifier } from '@content/main/panels/insight-repair-panel/estimate-catalogue/estimate-create/estimate-create.notifier';
+import { IEstimatePdfDTO } from '@content/main/panels/insight-repair-panel/estimate-catalogue/estimate-form/estimate-form';
+import { EstimateFormComponent } from '@content/main/panels/insight-repair-panel/estimate-catalogue/estimate-form/estimate-form.component';
 
 @Component({
   selector: 'app-estimate-create',

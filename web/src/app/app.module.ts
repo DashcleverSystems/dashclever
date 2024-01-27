@@ -4,7 +4,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { CoreModule } from '@core/core.module';
-import { ContentModule } from '@content/content.module';
 import { AppRoutingModule } from './app-routing.module';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TranslateModule } from '@ngx-translate/core';
@@ -35,7 +34,6 @@ export function apiConfigFactory(): Configuration {
     BrowserModule,
     BrowserAnimationsModule,
     CoreModule,
-    ContentModule,
     AppRoutingModule,
     HttpClientModule,
     ToastModule,

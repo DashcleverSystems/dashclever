@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { EstimateCreateNotifier } from '@shared/commons/estimate-catalogue/estimate-create/estimate-create.notifier';
 import { Observable } from 'rxjs';
+import { EstimateCreateNotifier } from '@content/main/panels/insight-repair-panel/estimate-catalogue/estimate-create/estimate-create.notifier';
 
 @Component({
   selector: 'app-estimate-catalogue',

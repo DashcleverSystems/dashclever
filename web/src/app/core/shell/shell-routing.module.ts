@@ -10,7 +10,7 @@ const routes: Routes = [
     children: ShellRoutes.map((route) => {
       return {
         path: route.url,
-        component: route.component,
+        loadChildren: route.moduleSupplier,
         data: {
           ...route?.data,
           permissions: route.permissions,

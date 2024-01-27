@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { isMobile } from '@app/core/store/core-store.selectors';
+import { isMobile } from '@core/store/core-store.selectors';
 import { Subject, takeUntil, distinctUntilChanged } from 'rxjs';
 import { DialogService } from 'primeng/dynamicdialog';
-import { EmployeeFormComponent } from '@shared/commons/manage-staff/employee-form/employee-form.component';
+import { EmployeeFormComponent } from '@content/main/panels/manage-panel/manage-staff/employee-form/employee-form.component';
 import { isEqual } from 'lodash';
 import { ManageStaffStore } from './manage-staff.store';
-import {EmployeeDto} from 'generated/openapi';
+import { EmployeeDto } from '../../../../../../../generated/openapi';
 
 @Component({
   selector: 'app-manage-staff',
@@ -23,7 +23,7 @@ export class ManageStaffComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store,
     private manageStore: ManageStaffStore,
-    private dialogService: DialogService
+    private dialogService: DialogService,
   ) {}
 
   ngOnInit(): void {

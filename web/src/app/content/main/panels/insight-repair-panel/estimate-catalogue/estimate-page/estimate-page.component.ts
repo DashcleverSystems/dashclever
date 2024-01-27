@@ -1,14 +1,13 @@
 import { Component, Input, OnDestroy, OnInit, SkipSelf } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { isMobile } from '@core/store/core-store.selectors';
-import { Subject, distinctUntilChanged, takeUntil, Observable } from 'rxjs';
+import { distinctUntilChanged, Observable, Subject, takeUntil } from 'rxjs';
 import { EstimateDto, EstimateFilters } from 'generated/openapi';
 import { Table } from '@app/shared/services/table/table.service';
 import { EstimatePageTableStore } from './estimate-page.store';
 import { DialogService } from 'primeng/dynamicdialog';
-import { CreatePlanningConfirmationDialog } from '@shared/commons/planning/create-confirmation-dialog/create-planning.component';
+import { CreatePlanningConfirmationDialog } from '@content/main/panels/insight-repair-panel/planning/create-confirmation-dialog/create-planning.component';
 import { ToastService } from '@app/shared/services/toast.service';
-import { EstimateCreateNotifier } from '@shared/commons/estimate-catalogue/estimate-create/estimate-create.notifier';
 
 @Component({
   selector: 'app-estimate-page',
@@ -28,8 +27,7 @@ export class EstimatePageComponent
   constructor(
     private store: Store,
     @SkipSelf() private dialogService: DialogService,
-    private toastr: ToastService,
-    private notifier: EstimateCreateNotifier,
+    private toast: ToastService,
     tableStore: EstimatePageTableStore,
   ) {
     super(tableStore);
@@ -84,7 +82,7 @@ export class EstimatePageComponent
       })
       .onClose.subscribe((res) => {
         if (res) {
-          this.toastr.success({
+          this.toast.success({
             message:
               'components.estimateCatalogueConfirmDialog.actions.success',
             translate: true,
