@@ -17,6 +17,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { CalendarModule } from 'primeng/calendar';
 import { PaginatorModule } from 'primeng/paginator';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { TabMenuModule } from 'primeng/tabmenu';
 @NgModule({
   imports: [
     ButtonModule,
@@ -36,6 +38,8 @@ import { PaginatorModule } from 'primeng/paginator';
     KeyFilterModule,
     CalendarModule,
     PaginatorModule,
+    TabMenuModule,
+    SelectButtonModule,
   ],
   exports: [
     ButtonModule,
@@ -55,6 +59,8 @@ import { PaginatorModule } from 'primeng/paginator';
     KeyFilterModule,
     CalendarModule,
     PaginatorModule,
+    TabMenuModule,
+    SelectButtonModule,
   ],
 })
 export class PrimeModule {}

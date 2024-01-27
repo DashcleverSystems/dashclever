@@ -52,7 +52,6 @@ export class AccessesSelectorComponentStore
 
   loadCurrentAccess() {
     this.accountApi.currentUser().subscribe((accessDto: AccessDto | null) => {
-      console.log(`Loaded current access ${accessDto}`);
       if (accessDto != null) {
         const access: IAccess = this.mapToIAccess(accessDto);
         this.selectWorkshopByWorkshopId(accessDto.workshopId);

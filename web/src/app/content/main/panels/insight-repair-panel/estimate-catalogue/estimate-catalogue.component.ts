@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
   selector: 'app-estimate-catalogue',
   templateUrl: './estimate-catalogue.component.html',
   styleUrls: ['./estimate-catalogue.component.scss'],
-  providers: [],
 })
 export class EstimateCatalogueComponent {
   constructor(

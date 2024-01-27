@@ -21,6 +21,16 @@
     "logout": "Wyloguj",
     "login": "Zaloguj"
   },
+  "panels": {
+    "insightRepairPanel": {
+      "routes": {
+        "planning": "Planowanie",
+        "estimateCatalogue": "Kosztorys"
+      }
+    },
+    "managePanel": {},
+    "repairProcessPanel": {}
+  },
   "components": {
     "workshopCreator": {
       "createWorkshop": "Utwórz warsztat",

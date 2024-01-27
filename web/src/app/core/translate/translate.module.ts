@@ -44,7 +44,6 @@ export class NgxTranslateModule {
       .select(CoreSelectors.selectedLanguage)
       .pipe()
       .subscribe((lang) => {
-        console.log('LangChanged', lang);
         this.translate.use(lang);
       });
   }

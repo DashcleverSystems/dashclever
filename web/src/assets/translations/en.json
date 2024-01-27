@@ -21,6 +21,16 @@
     "logout": "Logout",
     "login": "Login"
   },
+  "panels": {
+    "insightRepairPanel": {
+      "routes": {
+        "planning": "Planning",
+        "estimateCatalogue": "Estimate"
+      }
+    },
+    "managePanel": {},
+    "repairProcessPanel": {}
+  },
   "components": {
     "workshopCreator": {
       "createWorkshop": "Create workshop",
