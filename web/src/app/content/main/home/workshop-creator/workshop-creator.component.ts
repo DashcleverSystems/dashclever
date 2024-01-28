@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { WorkshopCreatorFormComponent } from '@app/content/main/home/workshop-creator/workshop-creator-form/workshop-creator-form.component';
 import { WorkshopCreatedNotifier } from '@app/content/main/home/workshop-creator/workshop-creator.service';
 import { IWorkshop } from '@shared/models/workshop';
 import { Subject, takeUntil } from 'rxjs';
 import { AccessesSelectorComponentStore } from '@app/content/main/home/accesses-selector/access-selector.store';
+import { AppDialogService } from '@app/shared/commons/dialog/dialog.service';
 
 @Component({
   selector: 'app-workshop-creator',
@@ -13,7 +14,7 @@ import { AccessesSelectorComponentStore } from '@app/content/main/home/accesses-
 })
 export class WorkshopCreatorComponent implements OnInit, OnDestroy {
   constructor(
-    private dialogService: DialogService,
+    private dialog: AppDialogService,
     private workshopCreatedNotifier: WorkshopCreatedNotifier,
     private accessesStore: AccessesSelectorComponentStore,
   ) {}
@@ -22,12 +23,10 @@ export class WorkshopCreatorComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
   openWorkshopCreateForm() {
-    const ref: DynamicDialogRef = this.dialogService.open(
+    const ref: DynamicDialogRef = this.dialog.open(
       WorkshopCreatorFormComponent,
       {
-        showHeader: false,
         closable: false,
-        modal: true,
       },
     );
     ref.onClose.subscribe((result: string) => {

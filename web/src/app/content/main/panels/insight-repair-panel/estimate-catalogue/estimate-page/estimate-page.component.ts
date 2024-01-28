@@ -5,10 +5,10 @@ import { Subject, distinctUntilChanged, takeUntil, Observable } from 'rxjs';
 import { EstimateDto, EstimateFilters } from 'generated/openapi';
 import { Table } from '@app/shared/services/table/table.service';
 import { EstimatePageTableStore } from './estimate-page.store';
-import { DialogService } from 'primeng/dynamicdialog';
 import { CreatePlanningConfirmationDialog } from '@app/content/main/panels/insight-repair-panel/planning/create-confirmation-dialog/create-planning.component';
 import { ToastService } from '@app/shared/services/toast.service';
 import { EstimateCreateNotifier } from '@app/content/main/panels/insight-repair-panel/estimate-catalogue/estimate-create/estimate-create.notifier';
+import { AppDialogService } from '@app/shared/commons/dialog/dialog.service';
 
 @Component({
   selector: 'app-estimate-page',
@@ -27,10 +27,10 @@ export class EstimatePageComponent
 
   constructor(
     private store: Store,
-    @SkipSelf() private dialogService: DialogService,
     private toastr: ToastService,
     private notifier: EstimateCreateNotifier,
     tableStore: EstimatePageTableStore,
+    @SkipSelf() private dialog: AppDialogService,
   ) {
     super(tableStore);
     this.filters = {
@@ -71,16 +71,15 @@ export class EstimatePageComponent
   }
 
   createPlanningFromEstimate(estimate: EstimateDto): void {
-    this.dialogService
+    this.dialog
       .open(CreatePlanningConfirmationDialog, {
         data: {
           estimate,
         },
-        showHeader: false,
         closable: false,
         width: this.isMobile ? '100svw' : undefined,
         style: { 'min-width': !this.isMobile ? '40svw' : undefined },
-        modal: true,
+        // modal: true,
       })
       .onClose.subscribe((res) => {
         if (res) {

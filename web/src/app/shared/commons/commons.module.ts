@@ -5,9 +5,10 @@ import { CommonModule } from '@angular/common';
 import { PrimeModule } from '../prime.module';
 import { AppCardComponent } from './card/card.component';
 import { AppSpinner } from './spinner/spinner.component';
+import { AppDialogComponent } from './dialog/dialog.component';
 
 @NgModule({
-  declarations: [LanguageSelector],
+  declarations: [LanguageSelector, AppDialogComponent],
   imports: [
     CommonModule,
     PrimeModule,
@@ -15,7 +16,7 @@ import { AppSpinner } from './spinner/spinner.component';
     AppCardComponent,
     AppSpinner,
   ],
-  exports: [LanguageSelector, AppCardComponent, AppSpinner],
+  exports: [LanguageSelector, AppCardComponent, AppSpinner, AppDialogComponent],
   providers: [],
 })
 export class CommonsModule {}

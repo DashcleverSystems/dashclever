@@ -34,7 +34,7 @@ export class EstimateFormComponent implements OnInit {
     private service: EstimateFormService,
     private conf: DynamicDialogConfig,
     public ref: DynamicDialogRef,
-    private toast: ToastService
+    private toast: ToastService,
   ) {}
 
   ngOnInit(): void {
@@ -74,7 +74,7 @@ export class EstimateFormComponent implements OnInit {
 
           return EMPTY;
         }),
-        finalize(() => (this.loadingSpinner = false))
+        finalize(() => (this.loadingSpinner = false)),
       )
       .subscribe(() => {
         this.toast.success({

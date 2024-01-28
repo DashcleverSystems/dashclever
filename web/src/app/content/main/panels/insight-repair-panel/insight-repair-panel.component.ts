@@ -1,7 +1,7 @@
-import { Component, OnInit, SkipSelf } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnDestroy, OnInit, SkipSelf } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { take } from 'rxjs';
+import { Subject, skipUntil, skipWhile, take, takeUntil } from 'rxjs';
 
 type RoutingItem = {
   name: string;
@@ -17,7 +17,7 @@ enum RoutesType {
   templateUrl: './insight-repair-panel.component.html',
   styleUrls: ['./insight-repair-panel.component.scss'],
 })
-export class InsightRepairPanelComponent implements OnInit {
+export class InsightRepairPanelComponent implements OnInit, OnDestroy {
   items: RoutingItem[] = [
     {
       name: 'panels.insightRepairPanel.routes.planning',
@@ -31,14 +31,30 @@ export class InsightRepairPanelComponent implements OnInit {
 
   selected: RoutesType;
 
+  private destroy$ = new Subject<void>();
+
   constructor(@SkipSelf() private router: Router) {}
 
   ngOnInit(): void {
     this.setCorrectLink();
+    this.subscribeRouteChange();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   routeChange({ value }: any) {
     this.changeRoute(value);
+  }
+
+  private subscribeRouteChange(): void {
+    this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.setCorrectLink();
+      }
+    });
   }
 
   private setCorrectLink() {

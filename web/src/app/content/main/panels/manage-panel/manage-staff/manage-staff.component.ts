@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { isMobile } from '@app/core/store/core-store.selectors';
 import { Subject, takeUntil, distinctUntilChanged } from 'rxjs';
-import { DialogService } from 'primeng/dynamicdialog';
 import { EmployeeFormComponent } from '@app/content/main/panels/manage-panel/manage-staff/employee-form/employee-form.component';
 import { isEqual } from 'lodash';
 import { ManageStaffStore } from './manage-staff.store';
 import { EmployeeDto } from 'generated/openapi';
+import { AppDialogService } from '@app/shared/commons/dialog/dialog.service';
 
 @Component({
   selector: 'app-manage-staff',
@@ -23,7 +23,7 @@ export class ManageStaffComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store,
     private manageStore: ManageStaffStore,
-    private dialogService: DialogService,
+    private dialog: AppDialogService,
   ) {}
 
   ngOnInit(): void {
@@ -53,15 +53,13 @@ export class ManageStaffComponent implements OnInit, OnDestroy {
   }
 
   private openEmployeeForm(employee: EmployeeDto | null): void {
-    const ref = this.dialogService.open(EmployeeFormComponent, {
+    const ref = this.dialog.open(EmployeeFormComponent, {
       data: {
         employee: employee,
       },
-      showHeader: false,
       closable: false,
       width: this.isMobile ? '100svw' : undefined,
       style: { 'min-width': !this.isMobile ? '40svw' : undefined },
-      modal: true,
     });
 
     ref.onClose.subscribe((res) => res && this.manageStore.loadCollection());

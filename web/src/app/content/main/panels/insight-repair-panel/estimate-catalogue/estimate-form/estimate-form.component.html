@@ -1,248 +1,245 @@
-<div class="container">
-  <div class="header">
+<app-dialog>
+  <div class="header" modal-header>
     <div class="title">
       {{ 'components.estimateCatalogue.form.title' | translate }}
     </div>
   </div>
-  <div class="content" [formGroup]="form">
-    <div class="section">
-      <div class="controls-container">
-        <div class="control">
-          <label htmlFor="field-estimateId">{{
-            'components.estimateCatalogue.form.estimateId' | translate
-          }}</label>
-          <input
-            pInputText
-            id="field-estimateId"
-            type="text"
-            aria-describedby="estimateId-help"
-            formControlName="estimateId"
-          />
-        </div>
-      </div>
-      <ng-container formGroupName="vehicleInfo">
-        <div class="title">
-          {{ 'components.estimateCatalogue.form.vehicleInfo' | translate }}
-        </div>
+  <div modal-content [formGroup]="form">
+    <div class="content">
+      <div class="section">
         <div class="controls-container">
           <div class="control">
-            <label htmlFor="field-registration">{{
-              'components.estimateCatalogue.form.registration' | translate
+            <label htmlFor="field-estimateId">{{
+              'components.estimateCatalogue.form.estimateId' | translate
             }}</label>
             <input
               pInputText
-              id="field-registration"
+              id="field-estimateId"
               type="text"
-              aria-describedby="registration-help"
-              formControlName="registration"
-            />
-          </div>
-          <div class="control">
-            <label htmlFor="field-brand">{{
-              'components.estimateCatalogue.form.brand' | translate
-            }}</label>
-            <input
-              pInputText
-              id="field-brand"
-              type="text"
-              aria-describedby="brand-help"
-              formControlName="brand"
+              aria-describedby="estimateId-help"
+              formControlName="estimateId"
             />
           </div>
         </div>
-        <div class="controls-container">
-          <div class="control">
-            <label htmlFor="field-model">{{
-              'components.estimateCatalogue.form.model' | translate
-            }}</label>
-            <input
-              pInputText
-              id="field-model"
-              type="text"
-              aria-describedby="model-help"
-              formControlName="model"
-            />
+        <ng-container formGroupName="vehicleInfo">
+          <div class="title">
+            {{ 'components.estimateCatalogue.form.vehicleInfo' | translate }}
           </div>
-        </div>
-      </ng-container>
-    </div>
-    <div class="section">
-      <ng-container formGroupName="paintInfo">
-        <div class="title">
-          {{ 'components.estimateCatalogue.form.paintInfo' | translate }}
-        </div>
-        <div class="controls-container">
-          <div class="control">
-            <label htmlFor="field-baseColorWithCode">{{
-              'components.estimateCatalogue.form.baseColorWithCode' | translate
-            }}</label>
-            <input
-              pInputText
-              id="field-baseColorWithCode"
-              type="text"
-              aria-describedby="baseColorWithCode-help"
-              formControlName="baseColorWithCode"
-            />
-          </div>
-          <div class="control">
-            <label htmlFor="field-varnishingPaintInfo">{{
-              'components.estimateCatalogue.form.varnishingPaintInfo'
-                | translate
-            }}</label>
-            <input
-              pInputText
-              id="field-varnishingPaintInfo"
-              type="text"
-              aria-describedby="varnishingPaintInfo-help"
-              formControlName="varnishingPaintInfo"
-            />
-          </div>
-        </div>
-      </ng-container>
-    </div>
-    <div class="section">
-      <div class="title">
-        {{ 'components.estimateCatalogue.form.jobs' | translate }}
-        <button
-          pButton
-          [pTooltip]="
-            'components.estimateCatalogue.form.actions.add' | translate
-          "
-          (click)="addJob()"
-        >
-          <i class="pi pi-plus"></i>
-        </button>
-      </div>
-      <ng-container *ngFor="let job of form.controls.jobs.controls; index as i">
-        <div class="section">
-          <div class="action">
-            <button
-              pButton
-              *ngIf="form.controls.jobs.length > 1"
-              (click)="removeJob(i)"
-              [pTooltip]="
-                'components.estimateCatalogue.form.actions.remove' | translate
-              "
-            >
-              <i class="pi pi-times"></i>
-            </button>
-          </div>
-          <ng-container [formGroup]="job">
-            <div class="controls-container">
-              <div class="control">
-                <label htmlFor="field-name">{{
-                  'components.estimateCatalogue.form.name' | translate
-                }}</label>
-                <input
-                  pInputText
-                  id="field-name"
-                  type="text"
-                  aria-describedby="name-help"
-                  formControlName="name"
-                />
-              </div>
-              <div class="control">
-                <label htmlFor="manMinutes">{{
-                  'components.estimateCatalogue.form.manMinutes' | translate
-                }}</label>
-                <p-inputNumber
-                  id="field-manMinutes"
-                  aria-describedby="manMinutes-help"
-                  formControlName="manMinutes"
-                ></p-inputNumber>
-              </div>
+          <div class="controls-container">
+            <div class="control">
+              <label htmlFor="field-registration">{{
+                'components.estimateCatalogue.form.registration' | translate
+              }}</label>
+              <input
+                pInputText
+                id="field-registration"
+                type="text"
+                aria-describedby="registration-help"
+                formControlName="registration"
+              />
             </div>
-            <ng-container formGroupName="worth">
+            <div class="control">
+              <label htmlFor="field-brand">{{
+                'components.estimateCatalogue.form.brand' | translate
+              }}</label>
+              <input
+                pInputText
+                id="field-brand"
+                type="text"
+                aria-describedby="brand-help"
+                formControlName="brand"
+              />
+            </div>
+          </div>
+          <div class="controls-container">
+            <div class="control">
+              <label htmlFor="field-model">{{
+                'components.estimateCatalogue.form.model' | translate
+              }}</label>
+              <input
+                pInputText
+                id="field-model"
+                type="text"
+                aria-describedby="model-help"
+                formControlName="model"
+              />
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="section">
+        <ng-container formGroupName="paintInfo">
+          <div class="title">
+            {{ 'components.estimateCatalogue.form.paintInfo' | translate }}
+          </div>
+          <div class="controls-container">
+            <div class="control">
+              <label htmlFor="field-baseColorWithCode">{{
+                'components.estimateCatalogue.form.baseColorWithCode'
+                  | translate
+              }}</label>
+              <input
+                pInputText
+                id="field-baseColorWithCode"
+                type="text"
+                aria-describedby="baseColorWithCode-help"
+                formControlName="baseColorWithCode"
+              />
+            </div>
+            <div class="control">
+              <label htmlFor="field-varnishingPaintInfo">{{
+                'components.estimateCatalogue.form.varnishingPaintInfo'
+                  | translate
+              }}</label>
+              <input
+                pInputText
+                id="field-varnishingPaintInfo"
+                type="text"
+                aria-describedby="varnishingPaintInfo-help"
+                formControlName="varnishingPaintInfo"
+              />
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="section">
+        <div class="title">
+          {{ 'components.estimateCatalogue.form.jobs' | translate }}
+          <button
+            pButton
+            [pTooltip]="
+              'components.estimateCatalogue.form.actions.add' | translate
+            "
+            (click)="addJob()"
+          >
+            <i class="pi pi-plus"></i>
+          </button>
+        </div>
+        <ng-container
+          *ngFor="let job of form.controls.jobs.controls; index as i"
+        >
+          <div class="section">
+            <div class="action">
+              <button
+                pButton
+                *ngIf="form.controls.jobs.length > 1"
+                (click)="removeJob(i)"
+                [pTooltip]="
+                  'components.estimateCatalogue.form.actions.remove' | translate
+                "
+              >
+                <i class="pi pi-times"></i>
+              </button>
+            </div>
+            <ng-container [formGroup]="job">
               <div class="controls-container">
                 <div class="control">
-                  <label htmlFor="field-denomination">{{
-                    'components.estimateCatalogue.form.worth' | translate
+                  <label htmlFor="field-name">{{
+                    'components.estimateCatalogue.form.name' | translate
                   }}</label>
-                  <p-inputNumber
-                    id="field-denomination"
-                    aria-describedby="denomination-help"
-                    formControlName="denomination"
-                    [minFractionDigits]="2"
-                  ></p-inputNumber>
+                  <input
+                    pInputText
+                    id="field-name"
+                    type="text"
+                    aria-describedby="name-help"
+                    formControlName="name"
+                  />
                 </div>
                 <div class="control">
-                  <label htmlFor="field-currency">{{
-                    'components.estimateCatalogue.form.currency' | translate
+                  <label htmlFor="manMinutes">{{
+                    'components.estimateCatalogue.form.manMinutes' | translate
+                  }}</label>
+                  <p-inputNumber
+                    id="field-manMinutes"
+                    aria-describedby="manMinutes-help"
+                    formControlName="manMinutes"
+                  ></p-inputNumber>
+                </div>
+              </div>
+              <ng-container formGroupName="worth">
+                <div class="controls-container">
+                  <div class="control">
+                    <label htmlFor="field-denomination">{{
+                      'components.estimateCatalogue.form.worth' | translate
+                    }}</label>
+                    <p-inputNumber
+                      id="field-denomination"
+                      aria-describedby="denomination-help"
+                      formControlName="denomination"
+                      [minFractionDigits]="2"
+                    ></p-inputNumber>
+                  </div>
+                  <div class="control">
+                    <label htmlFor="field-currency">{{
+                      'components.estimateCatalogue.form.currency' | translate
+                    }}</label>
+                    <p-dropdown
+                      appendTo="body"
+                      [options]="dictionaries.currencies"
+                      id="field-currency"
+                      aria-describedby="currency-help"
+                      formControlName="currency"
+                      optionLabel="value"
+                      optionValue="id"
+                      [style]="{ width: '100%' }"
+                    >
+                      <ng-template pTemplate="selectedItem" let-currency>
+                        <div class="flex align-items-center gap-2">
+                          <div [translate]="currency.value"></div>
+                        </div>
+                      </ng-template>
+                      <ng-template let-currency pTemplate="item">
+                        <div class="flex align-items-center gap-2">
+                          <div [translate]="currency.value"></div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                </div>
+              </ng-container>
+              <div class="controls-container">
+                <div class="control">
+                  <label htmlFor="field-jobType" class="pi-required">{{
+                    'components.estimateCatalogue.form.jobType' | translate
                   }}</label>
                   <p-dropdown
                     appendTo="body"
-                    [options]="dictionaries.currencies"
-                    id="field-currency"
-                    aria-describedby="currency-help"
-                    formControlName="currency"
+                    [options]="dictionaries.jobTypes"
+                    id="field-jobType"
+                    aria-describedby="jobType-help"
+                    formControlName="jobType"
                     optionLabel="value"
                     optionValue="id"
                     [style]="{ width: '100%' }"
                   >
-                    <ng-template pTemplate="selectedItem" let-currency>
+                    <ng-template pTemplate="selectedItem" let-jobType>
                       <div class="flex align-items-center gap-2">
-                        <div [translate]="currency.value"></div>
+                        <div [translate]="jobType.value"></div>
                       </div>
                     </ng-template>
-                    <ng-template let-currency pTemplate="item">
+                    <ng-template let-jobType pTemplate="item">
                       <div class="flex align-items-center gap-2">
-                        <div [translate]="currency.value"></div>
+                        <div [translate]="jobType.value"></div>
                       </div>
                     </ng-template>
                   </p-dropdown>
                 </div>
               </div>
             </ng-container>
-            <div class="controls-container">
-              <div class="control">
-                <label htmlFor="field-jobType" class="pi-required">{{
-                  'components.estimateCatalogue.form.jobType' | translate
-                }}</label>
-                <p-dropdown
-                  appendTo="body"
-                  [options]="dictionaries.jobTypes"
-                  id="field-jobType"
-                  aria-describedby="jobType-help"
-                  formControlName="jobType"
-                  optionLabel="value"
-                  optionValue="id"
-                  [style]="{ width: '100%' }"
-                >
-                  <ng-template pTemplate="selectedItem" let-jobType>
-                    <div class="flex align-items-center gap-2">
-                      <div [translate]="jobType.value"></div>
-                    </div>
-                  </ng-template>
-                  <ng-template let-jobType pTemplate="item">
-                    <div class="flex align-items-center gap-2">
-                      <div [translate]="jobType.value"></div>
-                    </div>
-                  </ng-template>
-                </p-dropdown>
-              </div>
-            </div>
-          </ng-container>
-        </div>
-      </ng-container>
+          </div>
+        </ng-container>
+      </div>
     </div>
   </div>
-  <div class="footer">
-    <div class="actions">
-      <app-spinner [enable]="loadingSpinner">
-        <button
-          pButton
-          type="submit"
-          (click)="submitForm()"
-          [style]="{ width: '100px' }"
-          translate="components.estimateCatalogue.form.actions.save"
-        ></button>
-        <button
-          [style]="{ width: '100px' }"
-          pButton
-          (click)="ref.close()"
-          translate="components.estimateCatalogue.form.actions.close"
-        ></button>
-      </app-spinner>
-    </div>
+  <div class="footer" modal-footer>
+    <app-spinner [enable]="loadingSpinner">
+      <button
+        pButton
+        type="submit"
+        (click)="submitForm()"
+        [style]="{ width: '100px' }"
+        translate="components.estimateCatalogue.form.actions.save"
+      ></button>
+    </app-spinner>
   </div>
-</div>
+</app-dialog>

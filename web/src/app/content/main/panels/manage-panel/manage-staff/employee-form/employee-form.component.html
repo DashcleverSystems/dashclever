@@ -1,5 +1,5 @@
-<div class="container">
-  <div class="header">
+<app-dialog>
+  <div class="header" modal-header>
     <div class="title">
       {{
         isCreatingNewEmployee
@@ -8,7 +8,7 @@
       }}
     </div>
   </div>
-  <div class="content" [formGroup]="form">
+  <div class="content" [formGroup]="form" modal-content>
     <div class="controls-container">
       <div class="control">
         <label htmlFor="field-firstName">{{
@@ -63,23 +63,15 @@
         </p-dropdown>
       </div>
     </div>
-    <div class="footer">
-      <div class="actions">
-        <app-spinner [enable]="loadingSpinner">
-          <button
-            [style]="{ width: '100px' }"
-            pButton
-            (click)="submit()"
-            translate="components.employee.form.actions.submit"
-          ></button>
-          <button
-            [style]="{ width: '100px' }"
-            pButton
-            (click)="ref.close()"
-            translate="components.estimateCatalogue.form.actions.close"
-          ></button>
-        </app-spinner>
-      </div>
-    </div>
   </div>
-</div>
+  <div class="footer" modal-footer>
+    <app-spinner [enable]="loadingSpinner">
+      <button
+        [style]="{ width: '100px' }"
+        pButton
+        (click)="submit()"
+        translate="components.employee.form.actions.submit"
+      ></button>
+    </app-spinner>
+  </div>
+</app-dialog>

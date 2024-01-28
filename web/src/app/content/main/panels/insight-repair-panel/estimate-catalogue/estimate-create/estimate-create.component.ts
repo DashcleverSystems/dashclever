@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { distinctUntilChanged, finalize, Subject, takeUntil } from 'rxjs';
-import { DialogService } from 'primeng/dynamicdialog';
 import { Store } from '@ngrx/store';
 import { IEstimatePdfDTO } from '@app/content/main/panels/insight-repair-panel/estimate-catalogue/estimate-form/estimate-form';
 import { EstimateFormComponent } from '@app/content/main/panels/insight-repair-panel/estimate-catalogue/estimate-form/estimate-form.component';
@@ -8,6 +7,7 @@ import { FileUpload } from 'primeng/fileupload';
 import { isMobile } from '@core/store/core-store.selectors';
 import { EstimateCreateService } from '@app/content/main/panels/insight-repair-panel/estimate-catalogue/estimate-create/estimate-create.service';
 import { EstimateCreateNotifier } from '@app/content/main/panels/insight-repair-panel/estimate-catalogue/estimate-create/estimate-create.notifier';
+import { AppDialogService } from '@app/shared/commons/dialog/dialog.service';
 
 @Component({
   selector: 'app-estimate-create',
@@ -24,10 +24,10 @@ export class EstimateCreateComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
-    private dialogService: DialogService,
     private store: Store,
     private service: EstimateCreateService,
     private notifier: EstimateCreateNotifier,
+    private dialog: AppDialogService,
   ) {}
 
   ngOnInit(): void {
@@ -65,7 +65,7 @@ export class EstimateCreateComponent implements OnInit, OnDestroy {
   }
 
   openModalForm(type: 'CREATE' | 'GENERATE', data?: IEstimatePdfDTO): void {
-    this.dialogService
+    this.dialog
       .open(EstimateFormComponent, {
         data: {
           type,

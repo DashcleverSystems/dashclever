@@ -14,7 +14,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '@env/environments';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { DialogService } from 'primeng/dynamicdialog';
 import {
   ApiModule,
   Configuration,
@@ -52,7 +51,6 @@ export function apiConfigFactory(): Configuration {
       multi: true,
     },
     MessageService,
-    DialogService,
   ],
   bootstrap: [AppComponent],
 })
