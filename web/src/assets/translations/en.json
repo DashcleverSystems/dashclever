@@ -77,7 +77,7 @@
       "title": "Estimate",
       "form": {
         "title": "Adding Estimate",
-        "estimateId": "Estimate id",
+        "estimateId": "Estimate identifier",
         "vehicleInfo": "Vehicle info",
         "registration": "Registration",
         "brand": "Brand",
