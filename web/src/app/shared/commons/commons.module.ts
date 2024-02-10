@@ -6,6 +6,7 @@ import { PrimeModule } from '../prime.module';
 import { AppCardComponent } from './card/card.component';
 import { AppSpinner } from './spinner/spinner.component';
 import { AppDialogComponent } from './dialog/dialog.component';
+import { LinearDatePickerComponent } from './date-picker/linear-date-picker.component';
 
 @NgModule({
   declarations: [LanguageSelector, AppDialogComponent],
@@ -15,8 +16,15 @@ import { AppDialogComponent } from './dialog/dialog.component';
     TranslateModule,
     AppCardComponent,
     AppSpinner,
+    LinearDatePickerComponent,
   ],
-  exports: [LanguageSelector, AppCardComponent, AppSpinner, AppDialogComponent],
+  exports: [
+    LanguageSelector,
+    AppCardComponent,
+    AppSpinner,
+    AppDialogComponent,
+    LinearDatePickerComponent,
+  ],
   providers: [],
 })
 export class CommonsModule {}
