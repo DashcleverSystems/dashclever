@@ -125,7 +125,7 @@ export class EstimateFormService {
   ): FormGroup<IEstimatedWorthForm> {
     return this.fb.group({
       denomination: this.fb.control<number | null>(
-        data?.denomination != null ? data?.denomination / 100 : null,
+        data?.denomination ? data?.denomination / 100 : null,
         Validators.required,
       ),
       currency: this.fb.control<string | Currency | null>(
