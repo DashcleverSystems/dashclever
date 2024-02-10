@@ -7,7 +7,7 @@ import { ToastService } from '@app/shared/services/toast.service';
 import { DictionaryDTO, enumToDictionary } from '@app/shared/utils/dictionary';
 import { JobType } from '@app/shared/enums/job-type';
 import { Currency } from '@app/shared/enums/currency';
-import { EMPTY, catchError, finalize } from 'rxjs';
+import { catchError, EMPTY, finalize } from 'rxjs';
 
 interface Dictionaries {
   jobTypes: DictionaryDTO<JobType, string>[];
@@ -20,25 +20,22 @@ interface Dictionaries {
   providers: [EstimateFormService],
 })
 export class EstimateFormComponent implements OnInit {
-  type: 'CREATE' | 'GENERATE' = this.conf.data.type;
-
   form: FormGroup<IEstimateForm> = this.service.createForm();
 
   loadingSpinner = false;
-
-  get deleteJobButtonEnable(): boolean {
-    return this.form.controls.jobs.controls.length > 1;
-  }
 
   constructor(
     private service: EstimateFormService,
     private conf: DynamicDialogConfig,
     public ref: DynamicDialogRef,
-    private toast: ToastService
+    private toast: ToastService,
   ) {}
 
   ngOnInit(): void {
-    const data: IEstimatePdfDTO = this.conf.data.data;
+    let data: IEstimatePdfDTO | null = this.conf.data?.data;
+    if (data === null || data === undefined) {
+      return;
+    }
     this.service.patchValues(this.form, this.service.formatDataFromPdf(data));
   }
 
@@ -74,7 +71,7 @@ export class EstimateFormComponent implements OnInit {
 
           return EMPTY;
         }),
-        finalize(() => (this.loadingSpinner = false))
+        finalize(() => (this.loadingSpinner = false)),
       )
       .subscribe(() => {
         this.toast.success({

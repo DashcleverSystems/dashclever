@@ -10,10 +10,10 @@
         accept=".pdf"
         [auto]="true"
         [maxFileSize]="1000000"
-        (onSelect)="createCatalogue('GENERATE', $event)"
+        (onSelect)="createEstimate('GENERATE', $event)"
       ></p-fileUpload>
       <button
-        (click)="createCatalogue('CREATE')"
+        (click)="createEstimate('CREATE')"
         pButton
         type="button"
         translate="components.estimateCatalogue.actions.create"

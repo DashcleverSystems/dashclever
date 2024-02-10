@@ -6,7 +6,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { EmployeeFormComponent } from '@shared/commons/manage-staff/employee-form/employee-form.component';
 import { isEqual } from 'lodash';
 import { ManageStaffStore } from './manage-staff.store';
-import {EmployeeDto} from 'generated/openapi';
+import { EmployeeDto } from 'generated/openapi';
 
 @Component({
   selector: 'app-manage-staff',
@@ -23,7 +23,7 @@ export class ManageStaffComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store,
     private manageStore: ManageStaffStore,
-    private dialogService: DialogService
+    private dialogService: DialogService,
   ) {}
 
   ngOnInit(): void {
