@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
-  IEstimateDTO,
-  IEstimateForm,
   IEstimatedJob,
   IEstimatedJobForm,
   IEstimatedPaintInfo,
   IEstimatedPaintInfoForm,
-  IEstimatePdfDTO,
+  IEstimateDTO,
   IEstimatedVehicleInfo,
   IEstimatedVehicleInfoForm,
   IEstimatedWorth,
   IEstimatedWorthForm,
+  IEstimateForm,
+  IEstimatePdfDTO,
 } from './estimate-form';
 import { Currency } from '@app/shared/enums/currency';
 import { JobType } from '@app/shared/enums/job-type';
@@ -20,22 +20,25 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class EstimateFormService {
-  constructor(private fb: FormBuilder, private http: HttpClient) {}
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+  ) {}
 
   createForm(
-    data?: Partial<IEstimateDTO> | undefined
+    data?: Partial<IEstimateDTO> | undefined,
   ): FormGroup<IEstimateForm> {
     return this.fb.group({
       estimateId: this.fb.control<string | null>(
         data?.estimateId ?? null,
-        Validators.required
+        Validators.required,
       ),
       vehicleInfo: this.getVehicleInfoGroup(data?.vehicleInfo),
       paintInfo: this.getVehiclePaintInfoGroup(data?.paintInfo),
       jobs: this.fb.array<FormGroup<IEstimatedJobForm>>(
         data?.jobs && Array.isArray(data.jobs) && data.jobs.length > 0
           ? Array.from(data.jobs, (job) => this.getJobGroup(job))
-          : [this.getJobGroup()]
+          : [this.getJobGroup()],
       ),
     });
   }
@@ -79,68 +82,55 @@ export class EstimateFormService {
     form.controls.vehicleInfo.patchValue(data.vehicleInfo);
     form.controls.jobs.clear();
     data.jobs.forEach((job) =>
-      form.controls.jobs.controls.push(this.getJobGroup(job))
+      form.controls.jobs.controls.push(this.getJobGroup(job)),
     );
   }
 
-  mapValuesBeforeSave(data: IEstimateDTO) {
-    return {
-      ...data,
-      jobs: data.jobs.map((job) => ({
-        ...job,
-        worth: {
-          ...job.worth,
-          denomination: job.worth.denomination * 100,
-        },
-      })),
-    };
-  }
-
   getVehicleInfoGroup(
-    data?: Partial<IEstimatedVehicleInfo>
+    data?: Partial<IEstimatedVehicleInfo>,
   ): FormGroup<IEstimatedVehicleInfoForm> {
     return this.fb.group({
       registration: this.fb.control<string | null>(
         data?.registration ?? null,
-        Validators.required
+        Validators.required,
       ),
       brand: this.fb.control<string | null>(
         data?.brand ?? null,
-        Validators.required
+        Validators.required,
       ),
       model: this.fb.control<string | null>(
         data?.model ?? null,
-        Validators.required
+        Validators.required,
       ),
     });
   }
 
   getVehiclePaintInfoGroup(
-    data?: Partial<IEstimatedPaintInfo>
+    data?: Partial<IEstimatedPaintInfo>,
   ): FormGroup<IEstimatedPaintInfoForm> {
     return this.fb.group({
       baseColorWithCode: this.fb.control<string | null>(
         data?.baseColorWithCode ?? null,
-        Validators.required
+        Validators.required,
       ),
       varnishingPaintInfo: this.fb.control<string | null>(
         data?.varnishingPaintInfo ?? null,
-        Validators.required
+        Validators.required,
       ),
     });
   }
 
   getWorthJobGroup(
-    data?: Partial<IEstimatedWorth>
+    data?: Partial<IEstimatedWorth>,
   ): FormGroup<IEstimatedWorthForm> {
     return this.fb.group({
       denomination: this.fb.control<number | null>(
         data?.denomination ? data?.denomination / 100 : null,
-        Validators.required
+        Validators.required,
       ),
       currency: this.fb.control<string | Currency | null>(
-        data?.currency ?? null,
-        Validators.required
+        data?.currency ?? Currency.PLN,
+        Validators.required,
       ),
     });
   }
@@ -149,16 +139,16 @@ export class EstimateFormService {
     return this.fb.group({
       name: this.fb.control<string | null>(
         data?.name ?? null,
-        Validators.required
+        Validators.required,
       ),
       manMinutes: this.fb.control<number | null>(
         data?.manMinutes ?? null,
-        Validators.required
+        Validators.required,
       ),
       worth: this.getWorthJobGroup(data?.worth),
       jobType: this.fb.control<string | JobType | null>(
-        data?.jobType ?? null,
-        Validators.required
+        data?.jobType ?? JobType.LABOUR,
+        Validators.required,
       ),
     });
   }
