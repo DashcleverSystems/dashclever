@@ -5,21 +5,23 @@ import org.springframework.data.repository.Repository
 import org.springframework.stereotype.Component
 import pl.dashclever.repairmanagment.plannig.model.Plan
 import java.time.LocalDate
-import java.util.Optional
-import java.util.UUID
+import java.util.*
 
 @Component
 interface EmployeeOccupationReader : Repository<Plan, UUID> {
 
     @Query(
         value = """
-            SELECT j.assigned_to AS employeeId, SUM(j.man_minutes) AS manMinutes
+            SELECT j.assignedTo AS employeeId, SUM(j.manMinutes) AS manMinutes
             FROM RM_PLANNING_JOB j
-            WHERE j.assigned_at = :at AND j.assigned_to = :employeeId GROUP BY j.assigned_to
-            """,
-        nativeQuery = true
+            WHERE j.assignedAt = :at AND j.assignedTo = :employeeId GROUP BY j.assignedTo
+            """
     )
     fun findByEmployeeIdAt(employeeId: String, at: LocalDate): Optional<EmployeeOccupationDto>
+
+    @Query(value = "SELECT j.assignedTo AS employeeId, SUM(j.manMinutes) AS manMinutes FROM RM_PLANNING_JOB j WHERE j.assignedAt = :at GROUP BY j.assignedTo")
+    fun findAll(at: LocalDate): Set<EmployeeOccupationDto>
+
 }
 
 interface EmployeeOccupationDto {
