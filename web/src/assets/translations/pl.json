@@ -87,9 +87,9 @@
       "title": "Kosztorys",
       "form": {
         "title": "Dodawanie Kosztorysu",
-        "estimateId": "Id kosztorysu",
+        "estimateId": "Identyfikator kosztorysu",
         "vehicleInfo": "Informacje o samochodzie",
-        "registration": "Rejestracja",
+        "registration": "Numer rejestracyjny",
         "brand": "Marka",
         "model": "Model",
         "paintInfo": "Informacje o kolorze",
@@ -97,7 +97,7 @@
         "varnishingPaintInfo": "Dodatkowe informacje",
         "jobs": "Prace",
         "name": "Nazwa",
-        "manMinutes": "Zaplanowane minuty",
+        "manMinutes": "Roboczogodziny",
         "worth": "Wartość",
         "currency": "Waluta",
         "jobType": "Typ pracy",
@@ -155,8 +155,8 @@
       "VARNISHING": "Malarska"
     },
     "Currency": {
-      "PLN": "Polski złoty",
-      "EUR": "Euro"
+      "PLN": "PLN",
+      "EUR": "EUR"
     },
     "Workplace": {
       "SUPERVISOR": "Pracownik biura",

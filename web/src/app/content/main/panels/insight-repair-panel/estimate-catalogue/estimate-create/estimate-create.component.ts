@@ -44,9 +44,9 @@ export class EstimateCreateComponent implements OnInit, OnDestroy {
     this.notifier.estimateCreated$.complete();
   }
 
-  createCatalogue(type: 'CREATE' | 'GENERATE', data?: any): void {
+  createEstimate(type: 'CREATE' | 'GENERATE', data?: any): void {
     if (type === 'CREATE') {
-      this.openModalForm(type);
+      this.openModalForm();
     }
 
     if (type === 'GENERATE') {
@@ -55,7 +55,7 @@ export class EstimateCreateComponent implements OnInit, OnDestroy {
         .getEstimateFromFile(data.currentFiles[0])
         .pipe(finalize(() => (this.loadingSpinner = false)))
         .subscribe((data) => {
-          this.openModalForm('GENERATE', data);
+          this.openModalForm(data);
         });
 
       if (this.fileUploader) {
@@ -64,11 +64,10 @@ export class EstimateCreateComponent implements OnInit, OnDestroy {
     }
   }
 
-  openModalForm(type: 'CREATE' | 'GENERATE', data?: IEstimatePdfDTO): void {
+  private openModalForm(data?: IEstimatePdfDTO): void {
     this.dialog
       .open(EstimateFormComponent, {
         data: {
-          type,
           data: data,
         },
         showHeader: false,

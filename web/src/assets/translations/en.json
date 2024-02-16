@@ -86,8 +86,8 @@
     "estimateCatalogue": {
       "title": "Estimate",
       "form": {
-        "title": "Adding Estimate",
-        "estimateId": "Estimate id",
+        "title": "Creating estimate",
+        "estimateId": "Estimate identifier",
         "vehicleInfo": "Vehicle info",
         "registration": "Registration",
         "brand": "Brand",
@@ -113,8 +113,8 @@
         }
       },
       "actions": {
-        "generatePDF": "Generuj z pliku",
-        "create": "Stwórz własny"
+        "generatePDF": "Generate from file",
+        "create": "Manual"
       }
     },
     "manageStaff": {

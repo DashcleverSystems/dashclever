@@ -23,7 +23,7 @@ export class ManageStaffComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store,
     private manageStore: ManageStaffStore,
-    private dialog: AppDialogService,
+    private dialogService: AppDialogService,
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +53,7 @@ export class ManageStaffComponent implements OnInit, OnDestroy {
   }
 
   private openEmployeeForm(employee: EmployeeDto | null): void {
-    const ref = this.dialog.open(EmployeeFormComponent, {
+    const ref = this.dialogService.open(EmployeeFormComponent, {
       data: {
         employee: employee,
       },
