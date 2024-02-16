@@ -9,12 +9,13 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import pl.dashclever.repairmanagment.plannig.model.PlanFactory
 import pl.dashclever.repairmanagment.plannig.model.PlanRepository
+import pl.dashclever.repairmanagment.plannig.readmodel.EmployeeOccupationDto
 import pl.dashclever.repairmanagment.plannig.readmodel.EmployeeOccupationReader
 import pl.dashclever.tests.integration.TestcontainersInitializer
 import pl.dashclever.tests.integration.spring.TestAccess
 import pl.dashclever.tests.integration.spring.TestAccessSetter
 import java.time.LocalDate
-import java.util.UUID
+import java.util.*
 
 @SpringBootTest
 @ContextConfiguration(initializers = [TestcontainersInitializer::class])
@@ -62,5 +63,36 @@ internal class EmployeeOccupationReaderTest(
             assertThat(it.employeeId).isEqualTo("employeeId")
             assertThat(it.manMinutes).isEqualTo(100)
         }
+    }
+
+
+    @Test
+    fun `should return information about all employees occupation at given day`() {
+        // given
+        val plan = PlanFactory.create(
+            estimateId = UUID.randomUUID(),
+            jobs = mapOf(
+                1L to 60,
+                2L to 40
+            )
+        )
+        plan.assign(1L, "employeeId1", LocalDate.of(2020, 2, 2))
+        plan.assign(2L, "employeeId2", LocalDate.of(2020, 2, 2))
+        planRepository.save(plan)
+
+        // when
+        val result: Set<EmployeeOccupationDto> = employeeOccupationReader.findAll(LocalDate.of(2020, 2, 2))
+
+        // then
+        assertThat(result).satisfiesExactlyInAnyOrder(
+            {
+                assertThat(it.employeeId).isEqualTo("employeeId1")
+                assertThat(it.manMinutes).isEqualTo(60)
+            },
+            {
+                assertThat(it.employeeId).isEqualTo("employeeId2")
+                assertThat(it.manMinutes).isEqualTo(40)
+            }
+        )
     }
 }
