@@ -37,4 +37,8 @@ export class InsightRepairAssignService {
       },
     ]);
   }
+
+  removeAssigned(planId: string, jobId: number): Observable<any> {
+    return this.http.delete(`/api/planning/${planId}/job/${jobId}`);
+  }
 }

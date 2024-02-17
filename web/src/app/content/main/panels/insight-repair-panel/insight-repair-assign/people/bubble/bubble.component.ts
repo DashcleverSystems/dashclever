@@ -71,7 +71,6 @@ export class InsightRepairAssignBubble implements AfterViewInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.worker && this.bubble) {
-      console.log(this.worker);
       this.getBubbleData();
     }
   }

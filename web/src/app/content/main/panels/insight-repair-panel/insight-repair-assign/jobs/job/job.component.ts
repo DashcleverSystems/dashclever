@@ -11,6 +11,7 @@ import {
   BubbleWorker,
   InsightRepairAssignStore,
 } from '@content/main/panels/insight-repair-panel/insight-repair-assign/insight-repair-assign.store';
+import { InsightRepairAssignService } from '@content/main/panels/insight-repair-panel/insight-repair-assign/insight-repair-assign.service';
 
 @Component({
   selector: 'app-repair-assign-job',
@@ -79,7 +80,10 @@ export class InsightRepairAssignJob implements OnInit, OnChanges {
       return `${this.worker.name}\n${this.job.assignedAt}`;
     } else return '';
   }
-  constructor(@SkipSelf() private store: InsightRepairAssignStore) {}
+  constructor(
+    @SkipSelf() private store: InsightRepairAssignStore,
+    @SkipSelf() private service: InsightRepairAssignService,
+  ) {}
 
   ngOnInit() {
     this.getAssignedWorker();
@@ -91,7 +95,9 @@ export class InsightRepairAssignJob implements OnInit, OnChanges {
     }
   }
 
-  onRemoveAssignment() {}
+  onRemoveAssignment() {
+    this.store.removeJobAssigment(this.job.catalogueJobId);
+  }
 
   private getAssignedWorker() {
     if (this.isAssignedToSomeone) {

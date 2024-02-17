@@ -15,12 +15,14 @@ export interface InsightRepairAssignState {
   jobs: JobDto[];
   workers: EmployeeDto[];
   currentDayOccupation: EmployeeOccupationDto[];
+  planId: string | null;
 }
 
 const initialState: InsightRepairAssignState = {
   jobs: [],
   workers: [],
   currentDayOccupation: [],
+  planId: null,
 };
 
 @Injectable()
@@ -28,19 +30,23 @@ export class InsightRepairAssignStore extends ComponentStore<InsightRepairAssign
   readonly loadCollection = this.effect((planningId$: Observable<string>) =>
     planningId$.pipe(
       switchMap((planningId) =>
-        combineLatest<[JobDto[], EmployeeDto[], EmployeeOccupationDto[]]>([
+        combineLatest<
+          [JobDto[], EmployeeDto[], EmployeeOccupationDto[], string]
+        >([
           this.service.getPlanJobsById(planningId),
           this.service.getAllWorkers(),
           this.service.getWorkersOccupationByDay(new Date()),
+          of(planningId),
         ]),
       ),
       tap(
-        ([jobs, workers, currentDayOccupation]: [
+        ([jobs, workers, currentDayOccupation, planId]: [
           JobDto[],
           EmployeeDto[],
           EmployeeOccupationDto[],
+          string,
         ]) => {
-          this.setData({ jobs, workers, currentDayOccupation });
+          this.setData({ jobs, workers, currentDayOccupation, planId });
         },
       ),
     ),
@@ -86,6 +92,15 @@ export class InsightRepairAssignStore extends ComponentStore<InsightRepairAssign
       };
     });
   });
+
+  readonly removeJobAssigment = this.effect(($effect: Observable<number>) =>
+    $effect.pipe(
+      switchMap((jobId: number) =>
+        this.service.removeAssigned(this.get().planId, jobId),
+      ),
+      tap(() => this.loadCollection(this.get().planId)),
+    ),
+  );
 
   constructor(private service: InsightRepairAssignService) {
     super(initialState);
