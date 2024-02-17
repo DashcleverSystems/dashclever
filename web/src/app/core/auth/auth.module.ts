@@ -7,6 +7,7 @@ import { SharedModule } from '@app/shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from '@core/auth/login/auth.service';
 import { HttpClientModule } from '@angular/common/http';
+import { CommonFormControlModule } from '@shared/commons/form-control/common-form-control.module';
 
 @NgModule({
   declarations: [AuthComponent],
@@ -19,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
+    CommonFormControlModule,
   ],
   providers: [AuthService],
 })
