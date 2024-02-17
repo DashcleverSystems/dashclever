@@ -19,7 +19,8 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, {
       preloadingStrategy: PreloadAllModules,
-      useHash: true
+      useHash: true,
+      enableViewTransitions: true,
     }),
   ],
   exports: [RouterModule],
