@@ -9,6 +9,7 @@ import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import pl.dashclever.commons.exception.DomainException
 import pl.dashclever.commons.hibernate.OptimisticLockEntity
+import pl.dashclever.repairmanagment.plannig.model.PlanEvent.TaskUnassigned
 import pl.dashclever.repairmanagment.plannig.model.PlanEvent.TaskAssigned
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -27,6 +28,12 @@ class Plan internal constructor(
     @JoinColumn(name = "plan_id")
     private val jobs: Set<Job>
 ) : OptimisticLockEntity<UUID>() {
+
+    fun removeAssignment(jobId: Long): TaskUnassigned {
+        val job = tryFindJob(jobId)
+        job.removeAssignment()
+        return TaskUnassigned(this.id.toString(), job.catalogueJobId.toString())
+    }
 
     fun assign(jobId: Long, employeeId: String, at: LocalDate): TaskAssigned {
         val job = tryFindJob(jobId)

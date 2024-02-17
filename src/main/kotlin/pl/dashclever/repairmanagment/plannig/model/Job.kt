@@ -22,6 +22,11 @@ internal class Job(
 
     fun isAssigned() = assignedTo != null
 
+    fun removeAssignment() {
+        this.assignedTo = null
+        this.assignedAt = null
+    }
+
     fun assign(employeeId: String, at: LocalDate) {
         this.assignedTo = employeeId
         this.assignedAt = at

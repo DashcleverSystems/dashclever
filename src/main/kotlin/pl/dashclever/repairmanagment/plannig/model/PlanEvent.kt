@@ -9,4 +9,9 @@ sealed interface PlanEvent {
         val jobId: String,
         val employeeId: String
     ) : PlanEvent
+
+    data class TaskUnassigned(
+        override val planId: String,
+        val jobId: String
+    ) : PlanEvent
 }
