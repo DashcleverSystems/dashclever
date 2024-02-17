@@ -1,0 +1,11 @@
+<div class="bubble-container" [attr.inputId]="id">
+  <div class="bubble">
+    <p-chart type="doughnut" #bubble></p-chart>
+  </div>
+  <span [pTooltip]="worker.name">{{ worker.name }}</span>
+  @if (isDragAbove) {
+    <div class="hover-bubble">
+      <span>{{ 'components.bubble.actions.drop' | translate }}</span>
+    </div>
+  }
+</div>

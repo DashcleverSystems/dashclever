@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { InsightRepairPanelComponent } from './insight-repair-panel.component';
 import { PlanningComponent } from './planning/planning.component';
 import { EstimateCatalogueComponent } from './estimate-catalogue/estimate-catalogue.component';
+import { InsightRepairAssign } from './insight-repair-assign/insight-repair-assign.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,10 @@ const routes: Routes = [
         component: EstimateCatalogueComponent,
       },
     ],
+  },
+  {
+    path: 'planning/:id/plan',
+    component: InsightRepairAssign,
   },
 ];
 
