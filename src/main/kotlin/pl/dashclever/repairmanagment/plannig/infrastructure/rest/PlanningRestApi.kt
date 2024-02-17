@@ -3,6 +3,8 @@ package pl.dashclever.repairmanagment.plannig.infrastructure.rest
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
+import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -15,6 +17,7 @@ import pl.dashclever.repairmanagment.plannig.model.AssignJobHandler
 import pl.dashclever.repairmanagment.plannig.model.AssignJobHandler.AssignJob
 import pl.dashclever.repairmanagment.plannig.model.Plan
 import pl.dashclever.repairmanagment.plannig.model.PlanCreating
+import pl.dashclever.repairmanagment.plannig.model.PlanService
 import pl.dashclever.repairmanagment.plannig.readmodel.JobDto
 import pl.dashclever.repairmanagment.plannig.readmodel.JobReader
 import java.net.URI
@@ -28,6 +31,7 @@ private const val PATH = "/api/planning"
 @Tag(name = "planning-api")
 internal class PlanningRestApi(
     private val planCreating: PlanCreating,
+    private val planService: PlanService,
     private val assignJobHandler: AssignJobHandler,
     private val currentAccessProvider: CurrentAccessProvider,
     private val jobReader: JobReader
@@ -49,6 +53,10 @@ internal class PlanningRestApi(
         val currentAccess = currentAccessProvider.currentWorkshop()
         return jobReader.findByPlanId(currentAccess.workshopId, planId)
     }
+
+    @DeleteMapping("/{planId}/job/{catalogueJobId}")
+    @Transactional
+    fun removeAssignment(@PathVariable planId: UUID, @PathVariable catalogueJobId: Long) = planService.removeAssignment(planId, catalogueJobId)
 
     data class Assignment(
         val employeeId: String,

@@ -135,4 +135,24 @@ internal class JobAssigningTests {
             plan.assignWithTime(2, "employeeId", LocalDate.of(2023, 1, 7), 24)
         }
     }
+
+    @Test
+    fun `should remove job assignment`() {
+        // given
+        val plan = PlanFactory.create(
+            estimateId = UUID.randomUUID(),
+            jobs = mapOf(
+                1L to 60,
+                2L to 50
+            )
+        )
+        plan.assign(1L, "employeeId", LocalDate.of(2023, 1, 1))
+
+        // when
+        val result = plan.removeAssignment(1L)
+
+        // then
+        assertThat(result.jobId).isEqualTo("1")
+        assertThat(result.planId).isEqualTo(plan.id.toString())
+    }
 }
