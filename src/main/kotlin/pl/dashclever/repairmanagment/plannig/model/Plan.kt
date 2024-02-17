@@ -32,7 +32,7 @@ class Plan internal constructor(
     fun removeAssignment(jobId: Long): TaskUnassigned {
         val job = tryFindJob(jobId)
         job.removeAssignment()
-        return TaskUnassigned(this.id.toString(), job.id.toString())
+        return TaskUnassigned(this.id.toString(), job.catalogueJobId.toString())
     }
 
     fun assign(jobId: Long, employeeId: String, at: LocalDate): TaskAssigned {
