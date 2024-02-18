@@ -16,7 +16,6 @@ const routes: Routes = [
           permissions: route.permissions,
         },
         canActivate: route.canActivate,
-        loadChildren: route.loadChildren,
       };
     }),
   },

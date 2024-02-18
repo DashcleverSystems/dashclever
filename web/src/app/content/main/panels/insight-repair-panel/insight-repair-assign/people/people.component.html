@@ -1,9 +1,0 @@
-<div class="people-wrapper">
-  @if (workers$ | async; as workers) {
-    <div class="people-bubble-wrapper">
-      @for (worker of workers; track worker.id) {
-        <app-bubble [worker]="worker"></app-bubble>
-      }
-    </div>
-  }
-</div>

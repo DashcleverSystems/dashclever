@@ -17,7 +17,6 @@
   .p-button {
     background-color: $primary-middle;
     border-color: $primary-middle;
-    justify-content: center;
 
     &:enabled:hover {
       background: $primary-dark;
@@ -36,6 +35,7 @@
 
   .p-dialog {
     .p-dialog-content {
+      padding: 0 !important;
       border-radius: 6px;
     }
   }
