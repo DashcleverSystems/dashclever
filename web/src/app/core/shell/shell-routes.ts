@@ -1,8 +1,4 @@
 import { Type } from '@angular/core';
-import { HomeComponent } from 'src/app/content/main/home/home.component';
-import { InsightRepairPanelComponent } from 'src/app/content/main/panels/insight-repair-panel/insight-repair-panel.component';
-import { ManagePanelComponent } from 'src/app/content/main/panels/manage-panel/manage-panel.component';
-import { RepairProcessPanelComponent } from 'src/app/content/main/panels/repair-process-panel/repair-process-panel.component';
 import { Panel } from 'src/app/shared/enums/panels';
 import { AuthorizedGuard, PermissionGuard } from '../auth/permission.service';
 
