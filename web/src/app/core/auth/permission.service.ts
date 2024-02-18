@@ -28,6 +28,7 @@ export class PermissionService {
     if (Array.isArray(permissions) && permissions.length > 0) {
       return this.checkPermissions(permissions).pipe(
         switchMap((permitted) => {
+          console.log(`Did permit to go to: ${next.url}? ${permitted}`);
           return !permitted ? this.notPermitted() : of(true);
         }),
       );

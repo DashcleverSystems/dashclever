@@ -1,6 +1,5 @@
-<div class="blur" *ngIf="mobile"></div>
-<div class="side-panel-container" [class.mobile]="mobile">
-  <div class="side-panel-el" [class.mobile]="mobile" id="side-panel">
+<div class="side-panel-container">
+  <div class="side-panel-el" #container id="side-panel">
     <div class="menu-container">
       <ng-container *ngTemplateOutlet="nav"></ng-container>
     </div>
@@ -26,6 +25,6 @@
     routerLinkActive="active"
     [pTooltip]="item.name | translate"
   >
-    <i [ngClass]="'icon small icon--' + item?.iconName"></i>
+    <i [ngClass]="'icon icon--' + item?.iconName"></i>
   </div>
 </ng-template>

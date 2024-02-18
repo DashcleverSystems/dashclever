@@ -21,16 +21,6 @@
     "logout": "Logout",
     "login": "Login"
   },
-  "panels": {
-    "insightRepairPanel": {
-      "routes": {
-        "planning": "Planning",
-        "estimateCatalogue": "Estimate"
-      }
-    },
-    "managePanel": {},
-    "repairProcessPanel": {}
-  },
   "components": {
     "workshopCreator": {
       "createWorkshop": "Create workshop",
@@ -55,18 +45,7 @@
         "title": "Plannings",
         "estimateId": "Estimate identifier",
         "creationTimestamp": "Created on",
-        "noPlanningsInfo": "You have no plannings yet. We will show them here as you create one.",
-        "plan": "Start planning"
-      }
-    },
-    "bubble": {
-      "chartLabels": {
-        "freeTime": "Free time",
-        "workTime": "Work time",
-        "overTime": "Overtime"
-      },
-      "actions": {
-        "drop": "Assign"
+        "noPlanningsInfo": "You have no plannings yet. We will show them here as you create one."
       }
     },
     "estimatePage": {
