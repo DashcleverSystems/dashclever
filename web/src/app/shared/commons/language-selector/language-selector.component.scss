@@ -1,10 +1,20 @@
-.language {
-  width: 30px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  border-radius: 25px;
-  cursor: pointer;
+:host::ng-deep {
+  .language-setting {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 250px;
+
+    .label {
+      width: 100px;
+    }
+
+    .control {
+      min-width: 150px;
+
+      .p-dropdown {
+        width: 150px;
+      }
+    }
+  }
 }

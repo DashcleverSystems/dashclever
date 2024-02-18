@@ -56,4 +56,15 @@ export const ShellRoutes: IShellRoute[] = [
     permissions: [Panel.REPAIR_PROCESS],
     canActivate: [AuthorizedGuard, PermissionGuard],
   },
+  {
+    url: 'settings',
+    name: 'settings',
+    loadChildren: () =>
+      import('@content/main/settings/settings.module').then(
+        (m) => m.SettingsModule,
+      ),
+    iconName: 'settings',
+    permissions: [],
+    canActivate: [AuthorizedGuard],
+  },
 ];
