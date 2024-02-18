@@ -1,0 +1,49 @@
+@import "src/assets/styles/variables";
+
+:host {
+  .p-dialog {
+    min-width: 40vw;
+    border: none;
+
+    .dialog-header {
+      padding: 20px;
+      color: $header-color;
+      border-bottom: 1px solid rgba($color: #a4c3b2, $alpha: 1);
+      background: $secondary-light;
+
+      letter-spacing: 0.28px;
+      ::ng-deep h2 {
+        margin: 0;
+      }
+    }
+
+    .dialog-content {
+      overflow: auto;
+      padding: 20px;
+      background: $secondary-light;
+    }
+
+    .dialog-footer {
+      padding: 10px;
+      border-top: none;
+      gap: 1rem;
+      background: $secondary-light;
+      position: sticky;
+      bottom: 0;
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+    }
+  }
+
+  .p-dialog-mask {
+    height: auto !important;
+    position: relative !important;
+  }
+
+  .p-dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

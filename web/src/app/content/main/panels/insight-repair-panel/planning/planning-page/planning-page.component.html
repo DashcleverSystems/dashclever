@@ -1,0 +1,74 @@
+<app-card title="components.planning.planningPage.title">
+  <div class="table-container">
+    <div class="filters">
+      <input
+        pInputText
+        type="text"
+        class="estimateId"
+        [placeholder]="'components.estimatePage.filters.estimateId' | translate"
+        [(ngModel)]="filters.estimateName"
+        (ngModelChange)="checkEmpty($event)"
+      />
+      <p-calendar
+        class="createdAfter"
+        [placeholder]="
+          'components.estimatePage.filters.createdAfter' | translate
+        "
+        (onClear)="setCreatedAfterFilter($event)"
+        (onSelect)="setCreatedAfterFilter($event)"
+        [showTime]="true"
+        [showClear]="true"
+        [showIcon]="true"
+      />
+      <p-button
+        (click)="onFilter(filters)"
+        icon="pi pi-search"
+        size="medium"
+        class="submit"
+      />
+    </div>
+    <p-table
+      [value]="data$ | async"
+      [lazy]="true"
+      (onLazyLoad)="setSort($event)"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>
+            {{ 'components.planning.planningPage.estimateId' | translate }}
+          </th>
+          <th pSortableColumn="creationTimestamp">
+            {{
+              'components.planning.planningPage.creationTimestamp' | translate
+            }}
+            <p-sortIcon field="creationTimestamp"></p-sortIcon>
+          </th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-planning>
+        <tr>
+          <td>{{ planning.estimateName }}</td>
+          <td>{{ planning.createdOn | date: 'YYYY-MM-d HH:mm' }}</td>
+          <td>
+            <div class="flex justify-content-end align-items-center">
+              <i
+                class="pi pi-hourglass pointer"
+                pTooltip="{{
+                  'components.planning.planningPage.plan' | translate
+                }}"
+                (click)="startPlanning(planning.id)"
+              ></i>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <p-paginator
+      (onPageChange)="primePageChange($event)"
+      [rows]="size"
+      [totalRecords]="totalElements$ | async"
+      [rowsPerPageOptions]="rowsPerPage"
+    ></p-paginator>
+  </div>
+</app-card>

@@ -1,6 +1,17 @@
 @import "src/assets/styles/variables";
 @import "src/assets/styles/_animations.scss";
 
+.blur {
+  background-color: transparent;
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  width: calc(100% - 16px);
+  backdrop-filter: blur(2px);
+  padding: 25px 0 25px 0;
+}
+
 .side-panel-container {
   background-color: $secondary-light;
   height: 100%;

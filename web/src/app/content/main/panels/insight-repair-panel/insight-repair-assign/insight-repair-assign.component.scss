@@ -1,0 +1,63 @@
+.insight-repair-assign-wrapper {
+  width: 100%;
+  max-height: calc(100% - 1rem - 60px);
+  height: calc(100% - 1rem - 60px);
+  display: grid;
+  position: relative;
+  overflow: hidden;
+
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr;
+  margin-top: 60px;
+
+  @media only screen and (max-width: 700px) {
+    margin-top: 0;
+    max-height: calc(100% - 1rem);
+    height: calc(100% - 1rem);
+  }
+
+  .jobs-list {
+    max-height: calc(100% - 120px);
+  }
+
+  .table-date {
+    width: 100%;
+    max-height: calc(100% - 120px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .legend {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 10px;
+    height: 1rem;
+
+    .legend-color {
+      width: 10px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+    }
+
+    .legend-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+
+      &:first-child > .legend-color {
+        background-color: #c3e2c2;
+      }
+
+      &:nth-child(2) > .legend-color {
+        background-color: #49b0ce;
+      }
+
+      &:nth-child(3) > .legend-color {
+        background-color: #7a3a8e;
+      }
+    }
+  }
+}
