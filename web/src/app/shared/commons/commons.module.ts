@@ -7,6 +7,7 @@ import { AppCardComponent } from './card/card.component';
 import { AppSpinner } from './spinner/spinner.component';
 import { AppDialogComponent } from './dialog/dialog.component';
 import { LinearDatePickerComponent } from './date-picker/linear-date-picker.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [LanguageSelector, AppDialogComponent],
@@ -17,6 +18,8 @@ import { LinearDatePickerComponent } from './date-picker/linear-date-picker.comp
     AppCardComponent,
     AppSpinner,
     LinearDatePickerComponent,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   exports: [
     LanguageSelector,

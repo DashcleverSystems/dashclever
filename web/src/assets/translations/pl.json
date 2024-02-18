@@ -1,5 +1,6 @@
 {
   "Home": "Strona główna",
+  "Settings": "Ustawienia",
   "login": {
     "username": "Nazwa użytkownika",
     "password": "Hasło",
@@ -41,6 +42,9 @@
         "title": "Utwórz warsztat",
         "workshopName": "Nazwa"
       }
+    },
+    "languageSelector": {
+      "label": "Język strony"
     },
     "accessesSelector": {
       "users": {

@@ -63,6 +63,13 @@
     mask-size: cover;
   }
 
+  &--settings {
+    mask-image: url("~assets/images/icons/settings_icon.svg");
+    -webkit-mask-image: url("~assets/images/icons/settings_icon.svg");
+    background-color: $icon-bg;
+    mask-size: cover;
+  }
+
   &--login {
     mask-image: url("~assets/images/icons/login_icon.svg");
     -webkit-mask-image: url("~assets/images/icons/login_icon.svg");
