@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit, SkipSelf } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { Subject, skipUntil, skipWhile, take, takeUntil } from 'rxjs';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 
 type RoutingItem = {
   name: string;
@@ -12,6 +11,7 @@ enum RoutesType {
   PLANNING = 'PLANNING',
   ESTIMATE_CATALOGUE = 'ESTIMATE-CATALOGUE',
 }
+
 @Component({
   selector: 'app-insight-repair-panel',
   templateUrl: './insight-repair-panel.component.html',
