@@ -1,14 +1,13 @@
 import { Component, OnDestroy, OnInit, SkipSelf } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { Subject, skipUntil, skipWhile, take, takeUntil } from 'rxjs';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 
 type RoutingItem = {
   name: string;
-  value: RoutesType;
+  value: RouteDestination;
 };
 
-enum RoutesType {
+enum RouteDestination {
   PLANNING = 'PLANNING',
   ESTIMATE_CATALOGUE = 'ESTIMATE-CATALOGUE',
 }
@@ -18,18 +17,18 @@ enum RoutesType {
   styleUrls: ['./insight-repair-panel.component.scss'],
 })
 export class InsightRepairPanelComponent implements OnInit, OnDestroy {
-  items: RoutingItem[] = [
+  routes: RoutingItem[] = [
     {
       name: 'panels.insightRepairPanel.routes.planning',
-      value: RoutesType.PLANNING,
+      value: RouteDestination.PLANNING,
     },
     {
       name: 'panels.insightRepairPanel.routes.estimateCatalogue',
-      value: RoutesType.ESTIMATE_CATALOGUE,
+      value: RouteDestination.ESTIMATE_CATALOGUE,
     },
   ];
 
-  selected: RoutesType;
+  selected: RouteDestination;
 
   private destroy$ = new Subject<void>();
 
@@ -63,18 +62,18 @@ export class InsightRepairPanelComponent implements OnInit, OnDestroy {
     const lastRoute = url.split('/').at(-1);
     if (lastRoute === 'insight-repair') {
       this.setDefault();
-    } else this.changeRoute(lastRoute.toUpperCase() as RoutesType);
+    } else this.changeRoute(lastRoute.toUpperCase() as RouteDestination);
   }
 
-  private changeRoute(route: RoutesType) {
+  private changeRoute(route: RouteDestination) {
     switch (route) {
-      case RoutesType.PLANNING: {
+      case RouteDestination.PLANNING: {
         this.router.navigate(['/insight-repair/planning']);
         this.selected = route;
 
         break;
       }
-      case RoutesType.ESTIMATE_CATALOGUE: {
+      case RouteDestination.ESTIMATE_CATALOGUE: {
         this.router.navigate(['/insight-repair/estimate-catalogue']);
         this.selected = route;
         break;
@@ -83,7 +82,7 @@ export class InsightRepairPanelComponent implements OnInit, OnDestroy {
   }
 
   private setDefault() {
-    this.selected = RoutesType.PLANNING;
+    this.selected = RouteDestination.PLANNING;
     this.changeRoute(this.selected);
   }
 }

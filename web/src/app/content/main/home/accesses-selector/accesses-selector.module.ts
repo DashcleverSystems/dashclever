@@ -13,11 +13,7 @@ import { WorkshopSelectorComponent } from './selectors/workshop-selector';
     UserSelectorComponent,
     WorkshopSelectorComponent,
   ],
-  exports: [
-    AccessesSelectorComponent,
-    WorkshopSelectorComponent,
-    UserSelectorComponent,
-  ],
+  exports: [AccessesSelectorComponent],
   imports: [SharedModule, PrimeModule, WorkshopCreatorModule],
   providers: [WorkshopCreatedNotifier],
 })
