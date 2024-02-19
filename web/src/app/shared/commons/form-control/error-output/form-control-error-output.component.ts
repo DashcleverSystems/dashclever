@@ -1,10 +1,10 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
-  FormControl,
+  FormControlStatus,
   UntypedFormControl,
   ValidationErrors,
 } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
+import { filter, Subject, takeUntil } from 'rxjs';
 import { ErrorNameWithDescription } from '@shared/commons/form-control/error-output/error-explanation-provider.interface';
 import { ErrorExplanationService } from '@shared/commons/form-control/error-output/error-explanation.service';
 
@@ -34,17 +34,25 @@ export class FormControlErrorOutput implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.control.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      if (this.control.invalid && this.control.touched) {
-        const error: ErrorNameWithDescription = this.getFirstError(
-          this.control.errors,
-        );
-        this.errorOutput =
-          this.errorExplanationService.provideExplanation(error);
-      } else {
-        this.errorOutput = null;
-      }
-    });
+    this.control.statusChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((status: FormControlStatus) => status == 'INVALID'),
+      )
+      .subscribe(() => {
+        if (
+          this.control.invalid &&
+          (this.control.dirty || this.control.touched)
+        ) {
+          const error: ErrorNameWithDescription = this.getFirstError(
+            this.control.errors,
+          );
+          this.errorOutput =
+            this.errorExplanationService.provideExplanation(error);
+        } else {
+          this.errorOutput = null;
+        }
+      });
   }
 
   private getFirstError(errors: ValidationErrors): ErrorNameWithDescription {
