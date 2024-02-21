@@ -25,7 +25,7 @@ export class ThemeSwitchService {
 
   private STORAGE_KEY: string = 'theme';
 
-  constructor() {
+  public checkTheme(): void {
     if (this.checkIfInsideLocalStorageExistSelectedTheme()) {
       const theme: ThemeType = this.getSelectedThemeFromStorage();
       this.setDarkMode = theme === ThemeType.DARK;
