@@ -1,16 +1,3 @@
 <h1>{{ 'enum.Panel.INSIGHT_REPAIR' | translate }}</h1>
-<div class="router-button">
-  <p-selectButton
-    [options]="routes"
-    [multiple]="false"
-    [(ngModel)]="selected"
-    (onChange)="routeChange($event)"
-    optionLabel="name"
-    optionValue="value"
-  >
-    <ng-template let-item pTemplate>
-      {{ item.name | translate }}
-    </ng-template>
-  </p-selectButton>
-</div>
-<router-outlet></router-outlet>
+<app-estimate-catalogue></app-estimate-catalogue>
+<app-planning></app-planning>

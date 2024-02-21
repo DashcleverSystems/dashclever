@@ -1,0 +1,85 @@
+<div class="container">
+  <div class="header">
+    <div class="title">
+      {{
+        isCreatingNewEmployee
+          ? ('components.employee.form.title.create' | translate)
+          : ('components.employee.form.title.edit' | translate)
+      }}
+    </div>
+  </div>
+  <div class="content" [formGroup]="form">
+    <div class="controls-container">
+      <div class="control">
+        <label htmlFor="field-firstName">{{
+          'components.employee.firstName' | translate
+        }}</label>
+        <input
+          pInputText
+          [pKeyFilter]="blockChars"
+          id="field-firstName"
+          type="text"
+          aria-describedby="firstName-help"
+          formControlName="firstName"
+        />
+      </div>
+      <div class="control">
+        <label htmlFor="field-lastName">{{
+          'components.employee.lastName' | translate
+        }}</label>
+        <input
+          pInputText
+          [pKeyFilter]="blockChars"
+          id="field-lastName"
+          type="text"
+          aria-describedby="lastName-help"
+          formControlName="lastName"
+        />
+      </div>
+      <div class="control">
+        <label htmlFor="field-workplace">{{
+          'components.employee.workplace' | translate
+        }}</label>
+        <p-dropdown
+          appendTo="body"
+          [options]="dictionaries.workplaces"
+          id="field-workplace"
+          aria-describedby="workplace-help"
+          formControlName="workplace"
+          optionLabel="value"
+          optionValue="id"
+          [style]="{ width: '100%' }"
+        >
+          <ng-template pTemplate="selectedItem" let-workplace>
+            <div class="flex align-items-center gap-2">
+              <div [translate]="workplace.value"></div>
+            </div>
+          </ng-template>
+          <ng-template let-workplace pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div [translate]="workplace.value"></div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="actions">
+        <app-spinner [enable]="loadingSpinner">
+          <button
+            [style]="{ width: '100px' }"
+            pButton
+            (click)="submit()"
+            translate="components.employee.form.actions.submit"
+          ></button>
+          <button
+            [style]="{ width: '100px' }"
+            pButton
+            (click)="ref.close()"
+            translate="components.estimateCatalogue.form.actions.close"
+          ></button>
+        </app-spinner>
+      </div>
+    </div>
+  </div>
+</div>

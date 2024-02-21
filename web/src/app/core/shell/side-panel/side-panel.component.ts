@@ -2,8 +2,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import { IShellRoute, ShellRoutes } from '../shell-routes';
 
@@ -13,8 +17,10 @@ import { IShellRoute, ShellRoutes } from '../shell-routes';
   styleUrls: ['./side-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidePanelComponent implements OnInit {
+export class SidePanelComponent implements OnInit, OnChanges {
   @Input() mobile: boolean = false;
+
+  @ViewChild('container') container: ElementRef<HTMLDivElement> | undefined;
 
   private open: boolean = false;
 
@@ -44,5 +50,17 @@ export class SidePanelComponent implements OnInit {
   ngOnInit(): void {
     this.navList = ShellRoutes;
     this._cdr.markForCheck();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const mobile = changes['mobile'];
+
+    if (mobile && this.container) {
+      if (this.mobile) {
+        this.container.nativeElement.classList.add('mobile');
+      } else {
+        this.container.nativeElement.classList.remove('mobile');
+      }
+    }
   }
 }
