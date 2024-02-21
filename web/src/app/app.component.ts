@@ -14,7 +14,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.coreTranslateService.init(
       environment.defaultLanguage as Language,
-      environment.supportedLanguages as Language[]
+      environment.supportedLanguages as Language[],
     );
   }
 

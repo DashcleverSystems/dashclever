@@ -1,15 +1,18 @@
 .table-container {
-  width: 80svw;
+  min-width: 80svw;
+  padding: 1rem;
 
   .filters {
+    gap: 1rem;
     display: flex;
     width: 100%;
     align-items: center;
     justify-content: flex-start;
-    gap: 1rem;
+    padding-bottom: 1rem;
 
     @media only screen and (max-width: 700px) {
-      flex-direction: column;
+      flex-wrap: wrap;
+      align-items: flex-start;
     }
 
     .estimateId {
@@ -18,16 +21,19 @@
     }
 
     .createdAfter {
-      width: 100%;
       max-width: 280px;
     }
 
     .submit {
       @media only screen and (max-width: 700px) {
-        ::ng-deep .p-button {
+        :host::ng-deep .p-button {
           min-width: 280px;
         }
       }
     }
   }
+}
+
+.plan-icon-column {
+  width: 42px;
 }

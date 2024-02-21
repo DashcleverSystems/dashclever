@@ -7,6 +7,7 @@
 
   .table-container {
     width: 80svw;
+    padding: 1rem;
 
     .action-button {
       display: flex;
@@ -24,5 +25,11 @@
 
   @media only screen and (max-width: 700px) {
     animation: 700ms fadeInUp both;
+  }
+}
+
+:host::ng-deep {
+  .p-datatable-tbody > tr:last-of-type {
+    border-radius: 0 0 1rem 1rem;
   }
 }

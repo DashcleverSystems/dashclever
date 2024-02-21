@@ -20,6 +20,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { ChartModule } from 'primeng/chart';
+import { InputSwitchModule } from 'primeng/inputswitch';
 @NgModule({
   imports: [
     ButtonModule,
@@ -42,6 +43,7 @@ import { ChartModule } from 'primeng/chart';
     TabMenuModule,
     SelectButtonModule,
     ChartModule,
+    InputSwitchModule,
   ],
   exports: [
     ButtonModule,
@@ -64,6 +66,7 @@ import { ChartModule } from 'primeng/chart';
     TabMenuModule,
     SelectButtonModule,
     ChartModule,
+    InputSwitchModule,
   ],
 })
 export class PrimeModule {}

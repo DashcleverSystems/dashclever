@@ -1,6 +1,11 @@
 {
   "Home": "Strona główna",
-  "Settings": "Ustawienia",
+  "settings": {
+    "title": "Ustawienia",
+    "switch-theme": {
+      "switch": "Zmień motyw"
+    }
+  },
   "login": {
     "username": "Nazwa użytkownika",
     "password": "Hasło",

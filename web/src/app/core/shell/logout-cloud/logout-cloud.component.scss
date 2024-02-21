@@ -1,24 +1,28 @@
 @import "src/assets/styles/variables";
 @import "src/assets/styles/_animations.scss";
+@import "src/assets/styles/mixins.scss";
 
 .login-cloud-container {
   position: fixed;
   height: 50px;
   width: 150px;
-  background-color: $primary-middle;
+  background-color: var(--color-2);
   right: 2rem;
   top: 2rem;
   border-radius: 25px;
+
   display: flex;
   justify-content: center;
   align-items: center;
 
   cursor: pointer;
-  color: $secondary-light;
-  box-shadow: 6px 6px 22px -12px rgba(0, 0, 0, 0.75);
-  -webkit-box-shadow: 6px 6px 22px -12px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 6px 6px 22px -12px rgba(0, 0, 0, 0.75);
+  color: var(--color);
 
+  i {
+    background-color: var(--color);
+  }
+
+  @include shadow();
   transition: scale 500ms;
   animation: fadeInRight both 1s;
 

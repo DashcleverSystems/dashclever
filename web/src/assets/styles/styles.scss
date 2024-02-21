@@ -3,12 +3,12 @@
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
 
+@import "./variables";
 @import "./fonts";
 
 @import "./components";
 @import "./background";
-@import "./mixins.scss";
-@import "./variables.scss";
+@import "./mixins";
 @import "./icons";
 
 html,
@@ -17,6 +17,7 @@ body {
   margin: 0;
   box-sizing: border-box;
   font-family: "nato-sans-chorasmian";
-  background-color: $secondary-light;
+  background-color: var(--global-bg-color);
   font-size: 12px;
+  color: var(--color);
 }

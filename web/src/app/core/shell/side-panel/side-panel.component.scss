@@ -13,7 +13,7 @@
 }
 
 .side-panel-container {
-  background-color: $secondary-light;
+  background-color: var(--global-bg-color);
   height: 100%;
   display: flex;
   justify-content: center;
@@ -21,7 +21,7 @@
   z-index: 9999;
 
   .side-panel-el {
-    background-color: $primary-light;
+    background-color: var(--color-2);
     padding: 25px 0 25px 0;
     margin-left: 10px;
     border-radius: 25px;
@@ -78,11 +78,11 @@
         }
 
         &.active {
-          border-bottom: 1px solid $primary-middle;
-          background-color: $header-color;
+          border-bottom: 1px solid var(--active-border);
+          background-color: var(--active-bg);
           border-radius: 25px;
           i {
-            background-color: $secondary-dark;
+            background-color: var(--active-icon-bg);
           }
         }
       }

@@ -1,54 +1,85 @@
 $icons: poland;
 
-$icon-bg: rgba(
-  $color: #6b9080,
-  $alpha: 1,
-);
-
-$menu-color: rgba(
-  $color: #6b9080,
-  $alpha: 1,
-);
-
-$menu-item-color: 32;
-$menu-item-hover-color: 32;
-$menu-item-active-color: 32;
-
-$header-color: rgba(
-  $color: #6b9080,
-  $alpha: 1,
-);
-
 .pointer {
   cursor: pointer;
 }
 
-$primary-dark: rgba(
-  $color: #6b9080,
-  $alpha: 1,
-);
+:root {
+  --global-bg-color: #f0f6fa;
 
-$primary-middle: rgba(
-  $color: #a4c3b2,
-  $alpha: 1,
-);
+  --color-1: #a9d6e5;
+  --color-2: #89c2d9;
+  --color-3: #61a5c2;
+  --color-4: #468faf;
+  --color-5: #2c7da0;
 
-$primary-light: rgba(
-  $color: #cce3de,
-  $alpha: 1,
-);
+  --border-color: #2c7da0;
 
-$secondary-dark: rgba(
-  $color: #eaf4f4,
-  $alpha: 1,
-);
+  --input-bg: #cbecf4;
+  --input-color: #012a4a;
 
-$secondary-middle: rgba(
-  $color: #f6fff8,
-  $alpha: 1,
-);
+  --dialog-header-bg: #306c86;
+  --dialog-content-bg: #f0f6fa;
+  --dialog-color: #012a4a;
 
-$secondary-light: rgba(
-  $color: #f4f6f5,
-  $alpha: 1,
-);
+  --icon-bg: #2a6f97;
+
+  --active-border: #d5edf6;
+  --active-bg: #2a6f97;
+  --active-icon-bg: #d5edf6;
+  --box-shadow-color: #014f86;
+
+  --color: #012a4a;
+  --active-color: #d5edf6;
+
+  --selected-color: #d34766;
+  --invalid-color: #a02c2c;
+
+  --job-list-color: black;
+  --job-list-color-selected: white;
+
+  --table-row-color: #cdecf6;
+  --table-even-row-color: #89c2d9;
+  --table-header-bg-color: #61a5c2;
+  --table-header-color: white;
+}
+
+.dark {
+  --global-bg-color: #011a2e;
+
+  --color-1: #2a6f97;
+  --color-2: #014f86;
+  --color-3: #01497c;
+  --color-4: #013a63;
+  --color-5: #012a4a;
+
+  --icon-bg: #a9d6e5;
+
+  --border-color: #89c2d9;
+
+  --input-bg: #2a6f97;
+  --input-color: #a9d6e5;
+
+  --dialog-header-bg: #013a63;
+  --dialog-content-bg: #01497c;
+  --dialog-color: #a9d6e5;
+
+  --active-border: #011a2e;
+  --active-bg: #2a6f97;
+  --active-icon-bg: #d5edf6;
+  --box-shadow-color: #468faf;
+
+  --color: #a9d6e5;
+  --active-color: #a9d6e5;
+
+  --selected-color: #d34766;
+  --invalid-color: #a02c2c;
+
+  --job-list-color: white;
+  --job-list-color-selected: white;
+
+  --table-row-color: #2a6f97;
+  --table-even-row-color: #014f86;
+  --table-header-bg-color: #013a63;
+  --table-header-color: white;
+}
