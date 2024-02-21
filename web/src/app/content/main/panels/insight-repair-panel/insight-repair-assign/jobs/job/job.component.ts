@@ -41,13 +41,17 @@ import { InsightRepairAssignService } from '@content/main/panels/insight-repair-
       padding: 10px;
       border-radius: 25px;
       cursor: pointer;
-      background-color: #dbece9;
+      background-color: var(--input-bg);
       width: max-content;
 
       @include shadow();
 
       &.assigned {
-        background-color: #ca907e !important;
+        background-color: var(--selected-color) !important;
+
+        .description {
+          color: var(--job-list-color-selected);
+        }
       }
 
       .description {
@@ -55,9 +59,11 @@ import { InsightRepairAssignService } from '@content/main/panels/insight-repair-
         word-break: break-word;
         text-align: center;
         display: flex;
+        color: var(--job-list-color);
       }
+
       .delete {
-        color: red;
+        color: var(--invalid-color);
         margin-left: 10px;
         display: flex;
         align-items: center;

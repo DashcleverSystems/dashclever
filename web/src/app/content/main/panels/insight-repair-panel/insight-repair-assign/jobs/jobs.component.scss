@@ -8,9 +8,9 @@
   padding-right: 5px;
   margin-left: 10px;
 
-  border: 1px solid $primary-dark;
+  border: 1px solid var(--border-color);
   border-radius: 10px;
-  background-color: $secondary-dark;
+  background-color: var(--color-2);
   @include shadow;
 }
 

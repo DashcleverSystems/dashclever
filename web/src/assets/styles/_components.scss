@@ -1,36 +1,41 @@
 @import "./variables.scss";
-
+@import "./mixins";
 :root {
   .p-inputtext {
     width: 100%;
+    background-color: var(--input-bg) !important;
+    color: var(--input-color) !important;
+    border-color: var(--color-1);
+
+    &::placeholder {
+      color: var(--input-color) !important;
+    }
 
     &:enabled:hover {
-      border-color: $primary-dark;
+      border-color: var(--border-color);
     }
 
     &:enabled:focus {
-      box-shadow: 0 0 0 0.2rem $primary-light;
-      border-color: $primary-dark;
+      box-shadow: 0 0 0 0.2rem var(--color-1);
+      border-color: var(--color-3);
     }
   }
 
   .p-button {
-    background-color: $primary-middle;
-    border-color: $primary-middle;
+    background-color: var(--color-2);
+    border-color: var(--color-2);
     justify-content: center;
+    color: var(--color);
 
-    &:enabled:hover {
-      background: $primary-dark;
-      border-color: $primary-dark;
-    }
-
+    &:enabled:hover,
     &:enabled:active {
-      background: $primary-dark;
-      border-color: $primary-dark;
+      background: var(--color-3);
+      border-color: var(--color-3);
+      color: var(--active-color);
     }
 
     &:focus {
-      box-shadow: 0 0 0 0.2rem $primary-light;
+      box-shadow: 0 0 0 0.2rem var(--color-1);
     }
   }
 
@@ -41,32 +46,179 @@
   }
 
   .p-fileupload-choose {
-    background-color: $primary-middle !important;
-    border-color: $primary-middle !important;
+    background-color: var(--color-2) !important;
+    border-color: var(--color-2) !important;
+    color: var(--color);
 
-    &:hover {
-      background: $primary-dark !important;
-      border-color: $primary-dark !important;
-    }
-
+    &:hover,
     &:active {
-      background: $primary-dark !important;
-      border-color: $primary-dark !important;
+      background: var(--color-3);
+      border-color: var(--color-3);
+      color: var(--active-color);
     }
 
     &:focus {
-      box-shadow: 0 0 0 0.2rem $primary-light !important;
+      box-shadow: 0 0 0 0.2rem var(--color-1) !important;
     }
   }
 
   p-dropdown {
     width: 100%;
+
+    .p-dropdown {
+      background-color: var(--input-bg) !important;
+      color: var(--input-color) !important;
+      border-color: var(--color-1);
+
+      &:hover {
+        border-color: var(--color-3);
+      }
+    }
+
+    .p-dropdown-trigger {
+      background-color: var(--input-bg) !important;
+      color: var(--input-color) !important;
+
+      &:hover {
+        background: var(--color-2);
+        border-color: var(--color-2);
+        color: var(--active-color);
+      }
+    }
+  }
+
+  .p-dropdown-items-wrapper {
+    background-color: var(--input-bg) !important;
+    color: var(--input-color) !important;
+
+    .p-dropdown-item {
+      color: var(--color);
+
+      &:hover {
+        background: var(--active-bg);
+        border-color: var(--active-border);
+        color: var(--active-color);
+      }
+    }
+
+    .p-highlight {
+      background: var(--color-4);
+      border-color: var(--color-4);
+      color: var(--active-color);
+
+      &:hover {
+        background-color: var(--color-2);
+      }
+    }
   }
 
   p-inputnumber {
     width: 100%;
     & > span {
       width: 100%;
+    }
+  }
+
+  .p-selectbutton {
+    .p-button {
+      background-color: var(--color-2);
+      color: var(--color);
+      border-color: var(--border-color);
+
+      &.p-highlight {
+        color: var(--active-color);
+        background-color: var(--color-3);
+        @include shadow();
+      }
+    }
+  }
+
+  .p-sortable-column-icon {
+    color: var(--table-header-color);
+  }
+
+  p-table {
+    table {
+      border-radius: 1rem 1rem 0 0;
+
+      th:first-of-type {
+        border-radius: 1rem 0 0 0;
+      }
+
+      th:last-of-type {
+        border-radius: 0 1rem 0 0;
+      }
+    }
+  }
+
+  table {
+    border: 1px solid var(--border-color);
+
+    th {
+      border-bottom: 1px solid var(--border-color);
+      background-color: var(--table-header-bg-color);
+      color: var(--table-header-color);
+
+      &:not(:last-of-type) {
+        border-right: 1px solid var(--border-color);
+      }
+    }
+
+    tr {
+      background-color: var(--table-row-color);
+
+      &:nth-child(even) {
+        background-color: var(--table-even-row-color);
+      }
+
+      td:not(:last-of-type) {
+        border-right: 1px solid var(--border-color);
+      }
+
+      td {
+        color: var(--color);
+      }
+
+      border-bottom: 1px solid var(--border-color);
+    }
+  }
+
+  .p-paginator {
+    border: 1px solid var(--border-color);
+    border-top: none;
+
+    background-color: var(--table-row-color);
+    border-radius: 0 0 1rem 1rem;
+
+    > button {
+      color: var(--color);
+    }
+
+    .p-paginator-page {
+      background-color: var(--color-2);
+      color: var(--table-header-color);
+    }
+  }
+
+  .p-datepicker {
+    background-color: var(--table-row-color);
+    color: var(--color);
+
+    button {
+      color: var(--color);
+    }
+
+    .p-datepicker-header {
+      background-color: var(--table-header-bg-color);
+      color: var(--table-header-color);
+      border: none;
+      button {
+        color: var(--table-header-color);
+      }
+    }
+
+    .p-timepicker {
+      border: none;
     }
   }
 }

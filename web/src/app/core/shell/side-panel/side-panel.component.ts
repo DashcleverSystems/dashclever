@@ -25,6 +25,15 @@ export class SidePanelComponent implements OnInit {
   set openValue(val: boolean) {
     this.open = val;
   }
+  isDarkTheme: boolean = false;
+
+  toggleTheme(): void {
+    this.isDarkTheme = !this.isDarkTheme;
+
+    if (this.isDarkTheme) {
+      document.body.classList.add('dark');
+    } else document.body.classList.remove('dark');
+  }
 
   navList: IShellRoute[] = [];
 

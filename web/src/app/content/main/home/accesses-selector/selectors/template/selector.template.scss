@@ -1,5 +1,6 @@
 @import "src/assets/styles/variables";
-@import "src/assets/styles/animations";
+@import "src/assets/styles/variables";
+@import "src/assets/styles/mixins";
 
 .items-container {
   width: 100%;
@@ -35,11 +36,9 @@
     width: 100%;
     border-radius: 10px;
     padding: 2rem;
-    border: 1px solid $primary-middle;
-    box-shadow: 4px 10px 12px -9px rgba($color: $primary-dark, $alpha: 0.69);
-    -webkit-box-shadow: 4px 10px 12px -9px rgba($color: $primary-dark, $alpha:
-          0.69);
-    -moz-box-shadow: 4px 10px 12px -9px rgba($color: $primary-dark, $alpha: 0.69);
+    border: 1px solid var(--border-color);
+
+    @include shadow();
 
     .item {
       width: 100%;
@@ -47,20 +46,20 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: $secondary-dark;
-      border: 1px solid $primary-middle;
+      background-color: transparent;
+      border: 1px solid var(--border-color);
 
       padding: 1rem;
 
       &:hover {
-        background-color: $primary-light;
+        background-color: var(--color-1);
         cursor: pointer;
       }
 
       &.selected {
-        background-color: $primary-middle;
+        background-color: var(--color-2);
         &:hover {
-          background-color: $primary-dark;
+          background-color: var(--color-3);
         }
       }
     }
