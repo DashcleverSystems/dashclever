@@ -58,7 +58,7 @@ export const ShellRoutes: IShellRoute[] = [
   },
   {
     url: 'settings',
-    name: 'settings',
+    name: 'settings.title',
     loadChildren: () =>
       import('@content/main/settings/settings.module').then(
         (m) => m.SettingsModule,
