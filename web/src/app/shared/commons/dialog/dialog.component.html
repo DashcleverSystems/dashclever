@@ -1,0 +1,32 @@
+<div class="p-dialog">
+  <div class="dialog-header" *ngIf="showHeader">
+    <ng-content select="[modal-header]"></ng-content>
+    <div class="header-actions">
+      <button
+        *ngIf="closable"
+        type="button"
+        [ngClass]="{
+          'p-dialog-header-icon p-dialog-header-close p-link': true
+        }"
+        (click)="close()"
+        (keydown.enter)="close()"
+        pRipple
+      ></button>
+    </div>
+  </div>
+  <div class="dialog-content" [ngClass]="contentStyleClass">
+    <ng-content select="[modal-content]"></ng-content>
+  </div>
+  <div class="dialog-footer" *ngIf="showFooter">
+    <ng-content select="[modal-footer]"></ng-content>
+    <button
+      *ngIf="showCancel"
+      pButton
+      pRipple
+      type="button"
+      [label]="'components.estimateCatalogue.form.actions.close' | translate"
+      class="p-button-secondary"
+      (click)="close()"
+    ></button>
+  </div>
+</div>

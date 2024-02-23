@@ -21,6 +21,16 @@
     "logout": "Wyloguj",
     "login": "Zaloguj"
   },
+  "panels": {
+    "insightRepairPanel": {
+      "routes": {
+        "planning": "Planowanie",
+        "estimateCatalogue": "Kosztorys"
+      }
+    },
+    "managePanel": {},
+    "repairProcessPanel": {}
+  },
   "components": {
     "workshopCreator": {
       "createWorkshop": "Utwórz warsztat",
@@ -45,7 +55,18 @@
         "title": "Plany napraw",
         "estimateId": "Identyfikator kosztorysu",
         "creationTimestamp": "Data utworzenia",
-        "noPlanningsInfo": "Nie posiadasz jeszcze żadnych planów napraw. Pojawią się one tutaj jak tylko je utworzysz."
+        "noPlanningsInfo": "Nie posiadasz jeszcze żadnych planów napraw. Pojawią się one tutaj jak tylko je utworzysz.",
+        "plan": "Planuj"
+      }
+    },
+    "bubble": {
+      "chartLabels": {
+        "freeTime": "Czas wolny",
+        "workTime": "Czas pracy",
+        "overTime": "Nadgodziny"
+      },
+      "actions": {
+        "drop": "Przypisz"
       }
     },
     "estimatePage": {

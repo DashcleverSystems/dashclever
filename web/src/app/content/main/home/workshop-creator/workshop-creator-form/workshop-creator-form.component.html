@@ -1,0 +1,30 @@
+<app-dialog>
+  <div class="header" modal-header>
+    <div class="title">
+      {{ 'components.workshopCreator.form.title' | translate }}
+    </div>
+  </div>
+  <div class="content" [formGroup]="form" modal-content>
+    <div class="controls-container">
+      <div class="control">
+        <label htmlFor="field-WorkshopName">
+          {{ 'components.workshopCreator.form.workshopName' | translate }}
+        </label>
+        <input
+          pInputText
+          id="field-workshopName"
+          type="text"
+          aria-describedby="workshopName-help"
+          formControlName="workshopName"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="footer" modal-footer>
+    <button
+      pButton
+      (click)="submit()"
+      translate="components.employee.form.actions.submit"
+    ></button>
+  </div>
+</app-dialog>
