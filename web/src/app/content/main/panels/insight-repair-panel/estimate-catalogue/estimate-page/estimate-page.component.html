@@ -31,7 +31,9 @@
     <p-table [value]="data$ | async">
       <ng-template pTemplate="header">
         <tr>
-          <th>{{ 'components.estimatePage.estimateId' | translate }}</th>
+          <th>{{ 'components.estimatePage.registration' | translate }}</th>
+          <th>{{ 'components.estimatePage.brand' | translate }}</th>
+          <th>{{ 'components.estimatePage.model' | translate }}</th>
           <th>
             {{ 'components.estimatePage.creationTimestamp' | translate }}
           </th>
@@ -40,7 +42,9 @@
       </ng-template>
       <ng-template pTemplate="body" let-estimate>
         <tr>
-          <td>{{ estimate.estimateId }}</td>
+          <td>{{ estimate.vehicleInfo.registration }}</td>
+          <td>{{ estimate.vehicleInfo.brand }}</td>
+          <td>{{ estimate.vehicleInfo.model }}</td>
           <td>{{ estimate.creationTimestamp | date: 'YYYY-MM-d HH:mm' }}</td>
           <td class="plan-icon-column">
             <div>

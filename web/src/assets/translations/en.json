@@ -75,6 +75,9 @@
       "createPlanning": "Create planning",
       "estimateId": "Identifier",
       "creationTimestamp": "Creation timestamp",
+      "registration": "Registration",
+      "brand": "Brand",
+      "model": "Model",
       "filters": {
         "createdAfter": "Created after:",
         "estimateId": "Estimate identifier:"
