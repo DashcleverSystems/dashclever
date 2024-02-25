@@ -41,7 +41,7 @@
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-estimate>
-        <tr>
+        <tr [pTooltip]="estimate.estimateId">
           <td>{{ estimate.vehicleInfo.registration }}</td>
           <td>{{ estimate.vehicleInfo.brand }}</td>
           <td>{{ estimate.vehicleInfo.model }}</td>
