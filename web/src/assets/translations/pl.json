@@ -102,6 +102,7 @@
       "form": {
         "title": "Dodawanie Kosztorysu",
         "estimateId": "Identyfikator kosztorysu",
+        "customerName": "Klient",
         "vehicleInfo": "Informacje o samochodzie",
         "registration": "Numer rejestracyjny",
         "brand": "Marka",
