@@ -1,11 +1,15 @@
 package pl.dashclever.readers.domain.audatex;
 
-import pl.dashclever.readers.domain.EstimateReader;
-import pl.dashclever.readers.domain.ReaderException;
-
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import pl.dashclever.readers.domain.EstimateReader;
+import pl.dashclever.readers.domain.ReaderException;
 
 public final class AudatexReader extends EstimateReader {
 
@@ -30,6 +34,12 @@ public final class AudatexReader extends EstimateReader {
         var plates = findPlates(platesLine).replaceAll("\\s+", "");
 
         return new VehicleInfo(plates, brand, model);
+    }
+
+    @Override
+    public CustomerInfo findCustomerInfo() {
+        var lines = new OwnerVehicleSectionFinder(super.EstimatePages).findSectionLines();
+        return new CustomerInfoFinder(lines).findCustomerInfo();
     }
 
     private String findPaintBaseColorWithCodeInfo(String paintLine) {

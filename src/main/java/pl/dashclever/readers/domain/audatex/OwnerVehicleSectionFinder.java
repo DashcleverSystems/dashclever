@@ -12,6 +12,10 @@ class OwnerVehicleSectionFinder implements SectionFinder {
 
     @Override
     public List<String> findSectionLines() {
+        return getAllFirstPageLines();
+    }
+
+    private List<String> getAllFirstPageLines() {
         return Arrays.stream(estimatePages.get(0).split("\n")).toList();
     }
 }
