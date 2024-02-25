@@ -1,24 +1,24 @@
 databaseChangeLog:
-    -   changeSet:
-            id: change-uuid-column-of-estimateId
-            author: damian
-            changes:
-                -   addColumn:
-                        tableName: RM_PLANNING_PLAN
-                        columns:
-                            -   column:
-                                    name: estimate_id_2
-                                    type: UUID
-                -   update:
-                        tableName: RM_PLANNING_PLAN
-                        columns:
-                            -   column:
-                                    name: estimate_id_2
-                                    valueComputed: CAST(estimate_id AS UUID)
-                -   dropColumn:
-                        tableName: RM_PLANNING_PLAN
-                        columnName: estimate_id
-                -   renameColumn:
-                        tableName: RM_PLANNING_PLAN
-                        oldColumnName: estimate_id_2
-                        newColumnName: estimate_id
+  - changeSet:
+      id: change-uuid-column-of-estimateId
+      author: damian
+      changes:
+        - addColumn:
+            tableName: RM_PLANNING_PLAN
+            columns:
+              - column:
+                  name: estimate_id_2
+                  type: UUID
+        - update:
+            tableName: RM_PLANNING_PLAN
+            columns:
+              - column:
+                  name: estimate_id_2
+                  valueComputed: CAST(estimate_id AS UUID)
+        - dropColumn:
+            tableName: RM_PLANNING_PLAN
+            columnName: estimate_id
+        - renameColumn:
+            tableName: RM_PLANNING_PLAN
+            oldColumnName: estimate_id_2
+            newColumnName: estimate_id
