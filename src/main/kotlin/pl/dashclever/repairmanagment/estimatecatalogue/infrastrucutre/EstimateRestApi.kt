@@ -45,13 +45,13 @@ private const val PATH = "/api/estimatecatalogue"
 @RequestMapping(PATH)
 @Tag(name = "estimate-api")
 internal class EstimateRestApi(
-    private val estimateRepository: EstimateRepository,
+    private val estimateRepository: EstimateRepository
 ) {
 
     @PostMapping
     fun create(
         @Valid @RequestBody
-        estimateDto: EstimateDto,
+        estimateDto: EstimateDto
     ): ResponseEntity<EstimateDto> {
         if (estimateRepository.existsByEstimateName(estimateDto.estimateName)) throw ResponseStatusException(HttpStatus.BAD_REQUEST, ALREADY_EXISTS)
         val estimate = estimateDto.toEntity()
@@ -63,7 +63,7 @@ internal class EstimateRestApi(
     data class EstimateFilters(
         val estimateName: String? = null,
         val createdAfter: ZonedDateTime? = null,
-        val sortDirection: SortDirection = DESC,
+        val sortDirection: SortDirection = DESC
     )
 
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
@@ -107,7 +107,7 @@ internal class EstimateRestApi(
         @field:Valid
         val paintInfo: PaintInfo,
         val jobs: Set<Job>,
-        val creationTimestamp: ZonedDateTime? = null,
+        val creationTimestamp: ZonedDateTime? = null
     )
 
     private fun EstimateDto.toEntity() =
