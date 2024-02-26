@@ -37,7 +37,7 @@ export class FormControlErrorOutput implements OnInit, OnDestroy {
     this.control.statusChanges
       .pipe(
         takeUntil(this.destroy$),
-        filter((status: FormControlStatus) => status == 'INVALID'),
+        filter((status: FormControlStatus) => status === 'INVALID'),
       )
       .subscribe(() => {
         if (
@@ -55,15 +55,15 @@ export class FormControlErrorOutput implements OnInit, OnDestroy {
       });
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   private getFirstError(errors: ValidationErrors): ErrorNameWithDescription {
     const errorNames: string[] = Object.keys(errors);
     const firstErrorName: string = errorNames[0];
     const firstErrorDescription: any = errors[firstErrorName];
     return { name: firstErrorName, description: firstErrorDescription };
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

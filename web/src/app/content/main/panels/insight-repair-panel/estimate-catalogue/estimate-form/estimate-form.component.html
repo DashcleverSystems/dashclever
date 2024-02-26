@@ -8,18 +8,23 @@
     <div class="content">
       <div class="section">
         <div class="controls-container">
-          <div class="control">
-            <label htmlFor="field-estimateId">{{
-              'components.estimateCatalogue.form.estimateId' | translate
-            }}</label>
-            <input
-              pInputText
-              id="field-estimateId"
-              type="text"
-              aria-describedby="estimateId-help"
-              formControlName="estimateId"
-            />
-          </div>
+          @if (form.controls.estimateId; as control) {
+            <div class="control">
+              <label htmlFor="field-estimateId">{{
+                'components.estimateCatalogue.form.estimateId' | translate
+              }}</label>
+              <input
+                pInputText
+                id="field-estimateId"
+                type="text"
+                aria-describedby="estimateId-help"
+                formControlName="estimateId"
+              />
+              <app-form-control-error-output
+                [control]="control"
+              ></app-form-control-error-output>
+            </div>
+          }
         </div>
         <ng-container formGroupName="vehicleInfo">
           <div class="title">
@@ -37,6 +42,9 @@
                 aria-describedby="registration-help"
                 formControlName="registration"
               />
+              <app-form-control-error-output
+                [control]="form.controls.vehicleInfo.controls.registration"
+              ></app-form-control-error-output>
             </div>
             <div class="control">
               <label htmlFor="field-brand">{{
@@ -49,6 +57,9 @@
                 aria-describedby="brand-help"
                 formControlName="brand"
               />
+              <app-form-control-error-output
+                [control]="form.controls.vehicleInfo.controls.brand"
+              ></app-form-control-error-output>
             </div>
           </div>
           <div class="controls-container">
@@ -63,6 +74,9 @@
                 aria-describedby="model-help"
                 formControlName="model"
               />
+              <app-form-control-error-output
+                [control]="form.controls.vehicleInfo.controls.model"
+              ></app-form-control-error-output>
             </div>
           </div>
         </ng-container>
@@ -85,6 +99,9 @@
                 aria-describedby="baseColorWithCode-help"
                 formControlName="baseColorWithCode"
               />
+              <app-form-control-error-output
+                [control]="form.controls.paintInfo.controls.baseColorWithCode"
+              ></app-form-control-error-output>
             </div>
             <div class="control">
               <label htmlFor="field-varnishingPaintInfo">{{
@@ -98,6 +115,9 @@
                 aria-describedby="varnishingPaintInfo-help"
                 formControlName="varnishingPaintInfo"
               />
+              <app-form-control-error-output
+                [control]="form.controls.paintInfo.controls.varnishingPaintInfo"
+              ></app-form-control-error-output>
             </div>
           </div>
         </ng-container>
@@ -115,21 +135,21 @@
             <i class="pi pi-plus"></i>
           </button>
         </div>
-        <ng-container
-          *ngFor="let job of form.controls.jobs.controls; index as i"
-        >
+        @for (job of form.controls.jobs.controls; track job; let i = $index) {
           <div class="section">
             <div class="action">
-              <button
-                pButton
-                *ngIf="form.controls.jobs.length > 1"
-                (click)="removeJob(i)"
-                [pTooltip]="
-                  'components.estimateCatalogue.form.actions.remove' | translate
-                "
-              >
-                <i class="pi pi-times"></i>
-              </button>
+              @if (form.controls.jobs.length > 1) {
+                <button
+                  pButton
+                  (click)="removeJob(i)"
+                  [pTooltip]="
+                    'components.estimateCatalogue.form.actions.remove'
+                      | translate
+                  "
+                >
+                  <i class="pi pi-times"></i>
+                </button>
+              }
             </div>
             <ng-container [formGroup]="job">
               <div class="controls-container">
@@ -227,19 +247,21 @@
               </div>
             </ng-container>
           </div>
-        </ng-container>
+        }
       </div>
     </div>
   </div>
   <div class="footer" modal-footer>
-    <app-spinner [enable]="loadingSpinner">
-      <button
-        pButton
-        type="submit"
-        (click)="submitForm()"
-        [style]="{ width: '100px' }"
-        translate="components.estimateCatalogue.form.actions.save"
-      ></button>
-    </app-spinner>
+    <div class="actions">
+      <app-spinner [enable]="loadingSpinner">
+        <button
+          pButton
+          type="submit"
+          (click)="submitForm()"
+          [style]="{ width: '100px' }"
+          translate="components.estimateCatalogue.form.actions.save"
+        ></button>
+      </app-spinner>
+    </div>
   </div>
 </app-dialog>
