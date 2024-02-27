@@ -164,6 +164,9 @@
                     aria-describedby="name-help"
                     formControlName="name"
                   />
+                  <app-form-control-error-output
+                    [control]="job.controls.name"
+                  />
                 </div>
                 <div class="control">
                   <label htmlFor="manMinutes">{{
@@ -174,6 +177,9 @@
                     aria-describedby="manMinutes-help"
                     formControlName="manMinutes"
                   ></p-inputNumber>
+                  <app-form-control-error-output
+                    [control]="job.controls.manMinutes"
+                  />
                 </div>
               </div>
               <ng-container formGroupName="worth">
@@ -188,6 +194,9 @@
                       formControlName="denomination"
                       [minFractionDigits]="2"
                     ></p-inputNumber>
+                    <app-form-control-error-output
+                      [control]="job.controls.worth.controls.denomination"
+                    />
                   </div>
                   <div class="control">
                     <label htmlFor="field-currency">{{

@@ -56,6 +56,7 @@ export class EstimateFormComponent implements OnInit {
         translate: true,
       });
       this.loadingSpinner = false;
+      this.form.markAllAsTouched();
       return;
     }
 

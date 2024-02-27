@@ -1,16 +1,12 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import {
-  FormControlStatus,
-  UntypedFormControl,
-  ValidationErrors,
-} from '@angular/forms';
-import { filter, Subject, takeUntil } from 'rxjs';
+import { UntypedFormControl, ValidationErrors } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
 import { ErrorNameWithDescription } from '@shared/commons/form-control/error-output/error-explanation-provider.interface';
 import { ErrorExplanationService } from '@shared/commons/form-control/error-output/error-explanation.service';
 
 @Component({
   selector: 'app-form-control-error-output',
-  template: ` <small [hidden]="!errorOutput">{{ errorOutput }}</small> `,
+  template: ` <small [hidden]="!control.touched">{{ errorOutput }}</small> `,
   providers: [ErrorExplanationService],
   styles: [
     `
@@ -34,30 +30,26 @@ export class FormControlErrorOutput implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.populateErrorOutput();
     this.control.statusChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((status: FormControlStatus) => status === 'INVALID'),
-      )
-      .subscribe(() => {
-        if (
-          this.control.invalid &&
-          (this.control.dirty || this.control.touched)
-        ) {
-          const error: ErrorNameWithDescription = this.getFirstError(
-            this.control.errors,
-          );
-          this.errorOutput =
-            this.errorExplanationService.provideExplanation(error);
-        } else {
-          this.errorOutput = null;
-        }
-      });
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.populateErrorOutput());
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private populateErrorOutput() {
+    if (this.control.invalid) {
+      const error: ErrorNameWithDescription = this.getFirstError(
+        this.control.errors,
+      );
+      this.errorOutput = this.errorExplanationService.provideExplanation(error);
+    } else {
+      this.errorOutput = null;
+    }
   }
 
   private getFirstError(errors: ValidationErrors): ErrorNameWithDescription {
