@@ -10,7 +10,7 @@ import java.util.UUID
 
 @Entity
 @Table(name = "EMPLOYEE")
-data class Employee(
+class Employee(
     var firstName: String,
     var lastName: String?,
     @Enumerated(ORDINAL)
