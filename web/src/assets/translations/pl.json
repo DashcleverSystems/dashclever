@@ -75,6 +75,9 @@
       "createPlanning": "Utwórz plan",
       "estimateId": "Identyfikator",
       "creationTimestamp": "Data utworzenia",
+      "registration": "Rejestracja",
+      "brand": "Marka",
+      "model": "Model",
       "filters": {
         "createdAfter": "Utworzone po:",
         "estimateId": "Identyfiaktor kosztorysu:"
