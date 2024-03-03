@@ -9,8 +9,8 @@ import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import pl.dashclever.commons.exception.DomainException
 import pl.dashclever.commons.hibernate.OptimisticLockEntity
-import pl.dashclever.repairmanagment.plannig.model.PlanEvent.TaskUnassigned
 import pl.dashclever.repairmanagment.plannig.model.PlanEvent.TaskAssigned
+import pl.dashclever.repairmanagment.plannig.model.PlanEvent.TaskUnassigned
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.UUID

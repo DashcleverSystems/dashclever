@@ -65,7 +65,6 @@ internal class EmployeeOccupationReaderTest(
         }
     }
 
-
     @Test
     fun `should return information about all employees occupation at given day`() {
         // given
