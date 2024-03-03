@@ -205,9 +205,16 @@
   },
   "error": {
     "form": {
-      "validationError": "Formularz został niepoprawnie wypełniony"
-    },
-    "unknown": "Przepraszamy, wystąpił niespodziewnay błąd. Spróbuj ponownie później",
-    "errorOccurred": "Wystąpił błąd"
-  }
+      "validationError": "Formularz został niepoprawnie wypełniony",
+      "input": {
+        "default": "Nieprawidłowe dane",
+        "minlength": "Minimalna ilośc znaków:",
+        "maxlength": "Maksymalna ilośc znaków:",
+        "email": "Nie poprawny email",
+        "required": "Pole jest wymagane"
+      }
+    }
+  },
+  "unknown": "Przepraszamy, wystąpił niespodziewnay błąd. Spróbuj ponownie później",
+  "errorOccurred": "Wystąpił błąd"
 }

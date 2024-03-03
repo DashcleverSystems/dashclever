@@ -126,7 +126,7 @@ export class EstimateFormService {
     return this.fb.group({
       denomination: this.fb.control<number | null>(
         data?.denomination ? data?.denomination / 100 : null,
-        Validators.required,
+        [Validators.required, Validators.min(0)],
       ),
       currency: this.fb.control<string | Currency | null>(
         data?.currency ?? Currency.PLN,
@@ -141,10 +141,10 @@ export class EstimateFormService {
         data?.name ?? null,
         Validators.required,
       ),
-      manMinutes: this.fb.control<number | null>(
-        data?.manMinutes ?? null,
+      manMinutes: this.fb.control<number | null>(data?.manMinutes ?? null, [
         Validators.required,
-      ),
+        Validators.min(1),
+      ]),
       worth: this.getWorthJobGroup(data?.worth),
       jobType: this.fb.control<string | JobType | null>(
         data?.jobType ?? JobType.LABOUR,

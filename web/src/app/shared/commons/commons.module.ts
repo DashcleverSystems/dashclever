@@ -7,6 +7,8 @@ import { AppCardComponent } from './card/card.component';
 import { AppSpinner } from './spinner/spinner.component';
 import { AppDialogComponent } from './dialog/dialog.component';
 import { LinearDatePickerComponent } from './date-picker/linear-date-picker.component';
+import { CommonFormControlModule } from '@shared/commons/form-control/common-form-control.module';
+import { FormControlErrorOutput } from '@shared/commons/form-control/error-output/form-control-error-output.component';
 
 @NgModule({
   declarations: [LanguageSelector, AppDialogComponent],
@@ -17,12 +19,14 @@ import { LinearDatePickerComponent } from './date-picker/linear-date-picker.comp
     AppCardComponent,
     AppSpinner,
     LinearDatePickerComponent,
+    CommonFormControlModule,
   ],
   exports: [
     LanguageSelector,
     AppCardComponent,
     AppSpinner,
     AppDialogComponent,
+    FormControlErrorOutput,
     LinearDatePickerComponent,
   ],
   providers: [],

@@ -204,7 +204,14 @@
   },
   "error": {
     "form": {
-      "validationError": "Form is invalid"
+      "validationError": "Form is invalid",
+      "input": {
+        "default": "Invalid input",
+        "minlength": "Minimum length is:",
+        "maxlength": "Maximum length is:",
+        "email": "Not an email",
+        "required": "Required"
+      }
     },
     "errorOccurred": "Error occurred",
     "unknown": "We are sorry something went wrong. Please try again later"
