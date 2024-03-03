@@ -16,21 +16,11 @@ import { IShellRoute, ShellRoutes } from '../shell-routes';
 export class SidePanelComponent implements OnInit {
   @Input() mobile: boolean = false;
 
-  private open: boolean = false;
-
-  get openValue() {
-    return this.open;
-  }
-
-  set openValue(val: boolean) {
-    this.open = val;
-  }
-
   navList: IShellRoute[] = [];
 
-  trackBy = (index: number, el: any) => index;
+  trackBy = (index: number) => index;
 
-  constructor(private _cdr: ChangeDetectorRef) {}
+  constructor(private readonly _cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.navList = ShellRoutes;
