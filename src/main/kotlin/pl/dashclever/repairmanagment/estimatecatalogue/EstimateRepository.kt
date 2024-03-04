@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
 import java.time.LocalDateTime
-import java.util.UUID
+import java.util.*
 
 interface EstimateRepository {
 
@@ -28,6 +28,18 @@ interface EstimateRepository {
 
         fun estimateId(estimateId: String): Specification<Estimate> {
             return Specification<Estimate> { root, _, cb -> cb.equal(root.get<String>("estimateId"), estimateId) }
+        }
+
+        fun customerName(customerName: String): Specification<Estimate> {
+            return Specification<Estimate> { root, _, cb -> cb.equal(root.get<String>("customerName"), customerName) }
+        }
+
+        fun vehicleRegistration(registration: String): Specification<Estimate> {
+            return Specification<Estimate> { root, _, cb -> cb.like(root.get<VehicleInfo>("vehicleInfo").get("registration"), registration) }
+        }
+
+        fun vehicleBrand(brand: String): Specification<Estimate> {
+            return Specification<Estimate> { root, _, cb -> cb.like(root.get<VehicleInfo>("vehicleInfo").get("brand"), brand) }
         }
     }
 }
