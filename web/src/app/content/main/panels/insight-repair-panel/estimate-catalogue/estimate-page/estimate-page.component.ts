@@ -1,14 +1,14 @@
 import { Component, Input, OnDestroy, OnInit, SkipSelf } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { isMobile } from '@core/store/core-store.selectors';
-import { Subject, distinctUntilChanged, takeUntil, Observable } from 'rxjs';
+import { distinctUntilChanged, Observable, Subject, takeUntil } from 'rxjs';
 import { EstimateDto, EstimateFilters } from 'generated/openapi';
 import { Table } from '@app/shared/services/table/table.service';
 import { EstimatePageTableStore } from './estimate-page.store';
 import { CreatePlanningConfirmationDialog } from '@app/content/main/panels/insight-repair-panel/planning/create-confirmation-dialog/create-planning.component';
 import { ToastService } from '@app/shared/services/toast.service';
-import { EstimateCreateNotifier } from '@app/content/main/panels/insight-repair-panel/estimate-catalogue/estimate-create/estimate-create.notifier';
 import { AppDialogService } from '@app/shared/commons/dialog/dialog.service';
+import { TableLazyLoadEvent } from 'primeng/table';
 
 @Component({
   selector: 'app-estimate-page',
@@ -28,7 +28,6 @@ export class EstimatePageComponent
   constructor(
     private store: Store,
     private toastr: ToastService,
-    private notifier: EstimateCreateNotifier,
     tableStore: EstimatePageTableStore,
     @SkipSelf() private dialog: AppDialogService,
   ) {
@@ -46,28 +45,6 @@ export class EstimatePageComponent
       .subscribe((mobile) => (this.isMobile = mobile));
     this.subscribeRefreshListener();
     this.getCollection();
-  }
-
-  private subscribeRefreshListener(): void {
-    if (this.refreshContentListener$) {
-      this.refreshContentListener$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(() => this.getCollection());
-    }
-  }
-
-  setCreatedAfterFilter(date?: Date | null) {
-    if (date != null) {
-      this.filters.createdAfter = date.toISOString();
-    } else {
-      this.filters.createdAfter = null;
-    }
-  }
-
-  checkEmpty(newValue: string | null) {
-    if (newValue != null && newValue.length == 0) {
-      this.filters.estimateId = null;
-    }
   }
 
   createPlanningFromEstimate(estimate: EstimateDto): void {
@@ -92,8 +69,59 @@ export class EstimatePageComponent
       });
   }
 
+  filter(event: TableLazyLoadEvent) {
+    const createdAfterFilterKey = 'createdAfter';
+    const customerNameFilterKey = 'customerName';
+    const registrationFilterKey = 'registration';
+    const brandFilterKey = 'brand';
+
+    const eventCreatedAfterFilterValue =
+      event.filters[createdAfterFilterKey][0]?.value ?? null;
+    if (eventCreatedAfterFilterValue) {
+      this.filters.createdAfter = new Date(
+        eventCreatedAfterFilterValue,
+      ).toISOString();
+    } else {
+      this.filters.createdAfter = null;
+    }
+
+    const eventCustomerNameFilterValue =
+      event.filters[customerNameFilterKey][0]?.value ?? null;
+    if (eventCustomerNameFilterValue) {
+      this.filters.customerName = eventCustomerNameFilterValue;
+    } else {
+      this.filters.customerName = eventCustomerNameFilterValue;
+    }
+
+    const eventRegistrationFilterValue =
+      event.filters[registrationFilterKey][0]?.value ?? null;
+    if (eventRegistrationFilterValue) {
+      this.filters.registration = eventRegistrationFilterValue;
+    } else {
+      this.filters.registration = null;
+    }
+
+    const eventBrandFilterValue =
+      event.filters[brandFilterKey][0]?.value ?? null;
+    if (eventBrandFilterValue) {
+      this.filters.vehicleBrand = eventBrandFilterValue;
+    } else {
+      this.filters.vehicleBrand = null;
+    }
+
+    this.getCollection();
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private subscribeRefreshListener(): void {
+    if (this.refreshContentListener$) {
+      this.refreshContentListener$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(() => this.getCollection());
+    }
   }
 }
