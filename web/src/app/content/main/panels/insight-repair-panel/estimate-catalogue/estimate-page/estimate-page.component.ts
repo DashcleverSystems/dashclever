@@ -9,6 +9,7 @@ import { CreatePlanningConfirmationDialog } from '@app/content/main/panels/insig
 import { ToastService } from '@app/shared/services/toast.service';
 import { EstimateCreateNotifier } from '@app/content/main/panels/insight-repair-panel/estimate-catalogue/estimate-create/estimate-create.notifier';
 import { AppDialogService } from '@app/shared/commons/dialog/dialog.service';
+import { TableLazyLoadEvent } from 'primeng/table';
 
 @Component({
   selector: 'app-estimate-page',
@@ -48,20 +49,6 @@ export class EstimatePageComponent
     this.getCollection();
   }
 
-  setCreatedAfterFilter(date?: Date | null) {
-    if (date != null) {
-      this.filters.createdAfter = date.toISOString();
-    } else {
-      this.filters.createdAfter = null;
-    }
-  }
-
-  checkEmpty(newValue: string | null) {
-    if (newValue != null && newValue.length === 0) {
-      this.filters.estimateName = null;
-    }
-  }
-
   createPlanningFromEstimate(estimate: EstimateDto): void {
     this.dialog
       .open(CreatePlanningConfirmationDialog, {
@@ -82,6 +69,49 @@ export class EstimatePageComponent
           });
         }
       });
+  }
+
+  filter(event: TableLazyLoadEvent) {
+    const createdAfterFilterKey = 'createdAfter';
+    const customerNameFilterKey = 'customerName';
+    const registrationFilterKey = 'registration';
+    const brandFilterKey = 'brand';
+
+    const eventCreatedAfterFilterValue =
+      event.filters[createdAfterFilterKey][0]?.value ?? null;
+    if (eventCreatedAfterFilterValue) {
+      this.filters.createdAfter = new Date(
+        eventCreatedAfterFilterValue,
+      ).toISOString();
+    } else {
+      this.filters.createdAfter = null;
+    }
+
+    const eventCustomerNameFilterValue =
+      event.filters[customerNameFilterKey][0]?.value ?? null;
+    if (eventCustomerNameFilterValue) {
+      this.filters.customerName = eventCustomerNameFilterValue;
+    } else {
+      this.filters.customerName = eventCustomerNameFilterValue;
+    }
+
+    const eventRegistrationFilterValue =
+      event.filters[registrationFilterKey][0]?.value ?? null;
+    if (eventRegistrationFilterValue) {
+      this.filters.registration = eventRegistrationFilterValue;
+    } else {
+      this.filters.registration = null;
+    }
+
+    const eventBrandFilterValue =
+      event.filters[brandFilterKey][0]?.value ?? null;
+    if (eventBrandFilterValue) {
+      this.filters.vehicleBrand = eventBrandFilterValue;
+    } else {
+      this.filters.vehicleBrand = null;
+    }
+
+    this.getCollection();
   }
 
   ngOnDestroy(): void {
