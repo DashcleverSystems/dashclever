@@ -37,7 +37,7 @@ import pl.dashclever.repairmanagment.estimatecatalogue.VehicleInfo
 import java.net.URI
 import java.time.ZoneId
 import java.time.ZonedDateTime
-import java.util.*
+import java.util.UUID
 
 private const val PATH = "/api/estimatecatalogue"
 
@@ -62,6 +62,9 @@ internal class EstimateRestApi(
 
     data class EstimateFilters(
         val estimateName: String? = null,
+        val customerName: String? = null,
+        val vehicleBrand: String? = null,
+        val registration: String? = null,
         val createdAfter: ZonedDateTime? = null,
         val sortDirection: SortDirection = DESC
     )
@@ -72,14 +75,24 @@ internal class EstimateRestApi(
 
     private fun filter(filters: EstimateFilters, pageRequestDto: PageRequestDto): Page<EstimateDto> {
         var specification: Specification<Estimate>? = null
+
         if (filters.createdAfter != null) {
             val localDateTimeOfGmt = filters.createdAfter.withZoneSameInstant(ZoneId.of("GMT")).toLocalDateTime()
             specification = EstimateSpecifications.createdOnAfter(localDateTimeOfGmt)
         }
         if (filters.estimateName != null) {
-            specification = specification?.and(EstimateSpecifications.estimateName(filters.estimateName))
-                ?: EstimateSpecifications.estimateName(filters.estimateName)
+            specification = specification.and(EstimateSpecifications.estimateName(filters.estimateName))
         }
+        if (filters.customerName != null) {
+            specification = specification.and(EstimateSpecifications.customerName(filters.customerName))
+        }
+        if (filters.registration != null) {
+            specification = specification.and(EstimateSpecifications.vehicleRegistration(filters.registration))
+        }
+        if (filters.vehicleBrand != null) {
+            specification = specification.and(EstimateSpecifications.vehicleBrand(filters.vehicleBrand))
+        }
+
 
         val sort = when (filters.sortDirection) {
             ASC -> Sort.by("createdOn").ascending()
@@ -89,6 +102,9 @@ internal class EstimateRestApi(
         val estimatePage = specification?.let { this.estimateRepository.findAll(it, pageReq) } ?: this.estimateRepository.findAll(pageReq)
         return estimatePage.map { it.toDto() }
     }
+
+    private fun Specification<Estimate>?.and(spec: Specification<Estimate>?): Specification<Estimate>? =
+        this?.and(spec) ?: spec
 
     @DeleteMapping
     @ResponseStatus(NO_CONTENT)
