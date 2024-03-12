@@ -39,6 +39,14 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
     implementation("io.github.oshai:kotlin-logging-jvm:5.1.0")
 
+    // keycloak
+    implementation("org.jboss.resteasy:resteasy-jackson2-provider:6.2.7.Final")
+    implementation("org.keycloak:keycloak-dependencies-server-all:24.0.1")
+    implementation("org.keycloak:keycloak-crypto-default:24.0.1")
+    implementation("org.keycloak:keycloak-admin-ui:24.0.1")
+    compileOnly("org.keycloak:keycloak-services:24.0.1")
+    implementation("org.keycloak:keycloak-rest-admin-ui-ext:24.0.1")
+
     compileOnly("org.projectlombok:lombok")
 
     runtimeOnly("org.postgresql:postgresql")
