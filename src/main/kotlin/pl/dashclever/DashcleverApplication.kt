@@ -1,12 +1,17 @@
 package pl.dashclever
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import io.swagger.v3.oas.annotations.servers.Server
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.autoconfigure.web.ServerProperties
+import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.boot.runApplication
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.context.ApplicationListener
+import org.springframework.context.annotation.Bean
+import pl.dashclever.spring.security.keycloak.KeycloakServerProperties
+
+private val logger = KotlinLogging.logger { }
 
 @OpenAPIDefinition(
     servers = [
@@ -21,22 +26,23 @@ import org.springframework.web.bind.annotation.RestController
     ]
 )
 @SpringBootApplication
-class DashcleverApplication
+class DashcleverApplication {
+
+    @Bean
+    fun onApplicationReadyEventListener(
+        serverProperties: ServerProperties,
+        keycloakServerProperties: KeycloakServerProperties
+    ): ApplicationListener<ApplicationReadyEvent> {
+        return ApplicationListener<ApplicationReadyEvent> { evt: ApplicationReadyEvent? ->
+            val port = serverProperties.port
+            val keycloakContextPath = keycloakServerProperties.contextPath
+            logger.info { "Embedded Keycloak started: http://localhost:{$port}{$keycloakContextPath} to use keycloak" }
+        }
+    }
+}
 
 @Suppress("SpreadOperator")
 fun main(args: Array<String>) {
     runApplication<DashcleverApplication>(*args)
 }
 
-@RestController
-@RequestMapping("/api")
-internal class HealthCheck {
-
-    private companion object {
-
-        const val HEALTH_RESP = "UP AND RUNNING"
-    }
-
-    @GetMapping("/health")
-    fun health() = HEALTH_RESP
-}

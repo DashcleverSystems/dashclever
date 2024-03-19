@@ -31,6 +31,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("com.google.guava:guava:32.1.3-jre")
     implementation("org.apache.commons:commons-lang3:3.13.0")
@@ -40,12 +41,12 @@ dependencies {
     implementation("io.github.oshai:kotlin-logging-jvm:5.1.0")
 
     // keycloak
-    implementation("org.jboss.resteasy:resteasy-jackson2-provider:6.2.7.Final")
-    implementation("org.keycloak:keycloak-dependencies-server-all:24.0.1")
-    implementation("org.keycloak:keycloak-crypto-default:24.0.1")
-    implementation("org.keycloak:keycloak-admin-ui:24.0.1")
-    compileOnly("org.keycloak:keycloak-services:24.0.1")
-    implementation("org.keycloak:keycloak-rest-admin-ui-ext:24.0.1")
+    api("org.keycloak:keycloak-dependencies-server-all:22.0.0")
+    implementation("org.jboss.resteasy:resteasy-jackson2-provider:6.2.4.Final")
+    implementation("org.keycloak:keycloak-crypto-default:22.0.0")
+    implementation("org.keycloak:keycloak-admin-ui:22.0.0")
+    implementation("org.keycloak:keycloak-services:22.0.0")
+    implementation("org.keycloak:keycloak-rest-admin-ui-ext:22.0.0")
 
     compileOnly("org.projectlombok:lombok")
 

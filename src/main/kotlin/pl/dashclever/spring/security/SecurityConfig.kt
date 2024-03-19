@@ -1,5 +1,6 @@
 package pl.dashclever.spring.security
 
+import jakarta.ws.rs.POST
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -9,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector
 import pl.dashclever.accountresources.account.readmodel.CredentialsReader
 
 @Configuration
@@ -25,13 +28,16 @@ internal class SecurityConfig(
         BCryptPasswordEncoder()
 
     @Bean
-    fun configure(http: HttpSecurity): SecurityFilterChain {
+    fun configure(http: HttpSecurity, introspector: HandlerMappingIntrospector): SecurityFilterChain {
+        val mvcRequestMatcherBuilder = MvcRequestMatcher.Builder(introspector)
+        val mvcKeycloakServletMatcher = mvcRequestMatcherBuilder.pattern("/*")
+
         return http
             .csrf().disable()
             .authorizeHttpRequests()
-            .requestMatchers(HttpMethod.GET, "/*").permitAll()
-            .requestMatchers(HttpMethod.POST, "/api/account").permitAll()
-            .requestMatchers(HttpMethod.GET, "/login").denyAll()
+            .requestMatchers(mvcKeycloakServletMatcher).permitAll()
+            .requestMatchers(mvcRequestMatcherBuilder.pattern(HttpMethod.POST, "/api/account")).permitAll()
+            .requestMatchers(mvcRequestMatcherBuilder.pattern(HttpMethod.GET, "/login")).denyAll()
             .anyRequest().authenticated()
             .and()
             .httpBasic().disable()
