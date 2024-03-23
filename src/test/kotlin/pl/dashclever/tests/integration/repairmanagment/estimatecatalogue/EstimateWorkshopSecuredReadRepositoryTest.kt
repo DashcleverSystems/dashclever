@@ -205,16 +205,19 @@ internal class EstimateWorkshopSecuredReadRepositoryTest(
             )
             testAccessSetter.setAccess(access)
 
-            testee.save(EstimateBuilder {
-                this.estimateId = "23/2023dk"
-                this.vehicleInfo = VehicleInfoBuilder { this.registration = "YYYY11XX2" }
-            })
+            testee.save(
+                EstimateBuilder {
+                    this.estimateId = "23/2023dk"
+                    this.vehicleInfo = VehicleInfoBuilder { this.registration = "YYYY11XX2" }
+                }
+            )
 
-            testee.save(EstimateBuilder {
-                this.estimateId = "24/2023dk"
-                this.vehicleInfo = VehicleInfoBuilder { this.registration = "XXX11YY2" }
-            })
-
+            testee.save(
+                EstimateBuilder {
+                    this.estimateId = "24/2023dk"
+                    this.vehicleInfo = VehicleInfoBuilder { this.registration = "XXX11YY2" }
+                }
+            )
 
             // when
 
@@ -241,16 +244,19 @@ internal class EstimateWorkshopSecuredReadRepositoryTest(
             )
             testAccessSetter.setAccess(access)
 
-            testee.save(EstimateBuilder {
-                this.estimateId = "23/2023dk"
-                this.vehicleInfo = VehicleInfoBuilder { this.brand = "VOLVO" }
-            })
+            testee.save(
+                EstimateBuilder {
+                    this.estimateId = "23/2023dk"
+                    this.vehicleInfo = VehicleInfoBuilder { this.brand = "VOLVO" }
+                }
+            )
 
-            testee.save(EstimateBuilder {
-                this.estimateId = "24/2023dk"
-                this.vehicleInfo = VehicleInfoBuilder { this.brand = "BMW" }
-            })
-
+            testee.save(
+                EstimateBuilder {
+                    this.estimateId = "24/2023dk"
+                    this.vehicleInfo = VehicleInfoBuilder { this.brand = "BMW" }
+                }
+            )
 
             // when
 
@@ -277,16 +283,19 @@ internal class EstimateWorkshopSecuredReadRepositoryTest(
             )
             testAccessSetter.setAccess(access)
 
-            testee.save(EstimateBuilder {
-                this.estimateId = "23/2023dk"
-                this.customerName = "Damian Kapłon"
-            })
+            testee.save(
+                EstimateBuilder {
+                    this.estimateId = "23/2023dk"
+                    this.customerName = "Damian Kapłon"
+                }
+            )
 
-            testee.save(EstimateBuilder {
-                this.estimateId = "24/2023dk"
-                this.customerName = "Jane Doe"
-            })
-
+            testee.save(
+                EstimateBuilder {
+                    this.estimateId = "24/2023dk"
+                    this.customerName = "Jane Doe"
+                }
+            )
 
             // when
             val result = testee.findAll(

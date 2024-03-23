@@ -10,6 +10,7 @@ import { ToastService } from '@app/shared/services/toast.service';
 import { EstimateCreateNotifier } from '@app/content/main/panels/insight-repair-panel/estimate-catalogue/estimate-create/estimate-create.notifier';
 import { AppDialogService } from '@app/shared/commons/dialog/dialog.service';
 import { TableLazyLoadEvent } from 'primeng/table';
+import { FiltersSetter } from '@shared/commons/primeng/filters-setter';
 
 @Component({
   selector: 'app-estimate-page',
@@ -28,7 +29,7 @@ export class EstimatePageComponent
 
   constructor(
     private store: Store,
-    private toastr: ToastService,
+    private toast: ToastService,
     private notifier: EstimateCreateNotifier,
     tableStore: EstimatePageTableStore,
     @SkipSelf() private dialog: AppDialogService,
@@ -62,7 +63,7 @@ export class EstimatePageComponent
       })
       .onClose.subscribe((res) => {
         if (res) {
-          this.toastr.success({
+          this.toast.success({
             message:
               'components.estimateCatalogueConfirmDialog.actions.success',
             translate: true,
@@ -72,44 +73,37 @@ export class EstimatePageComponent
   }
 
   filter(event: TableLazyLoadEvent) {
-    const createdAfterFilterKey = 'createdAfter';
-    const customerNameFilterKey = 'customerName';
-    const registrationFilterKey = 'registration';
-    const brandFilterKey = 'brand';
+    const filtersSetter = new FiltersSetter(this.filters, event.filters);
 
-    const eventCreatedAfterFilterValue =
-      event.filters[createdAfterFilterKey][0]?.value ?? null;
-    if (eventCreatedAfterFilterValue) {
-      this.filters.createdAfter = new Date(
-        eventCreatedAfterFilterValue,
-      ).toISOString();
-    } else {
-      this.filters.createdAfter = null;
-    }
+    filtersSetter.setFilter(
+      (filters: EstimateFilters, primeFilterValue: string) =>
+        (filters.customerName = primeFilterValue),
+      'customerName',
+    );
 
-    const eventCustomerNameFilterValue =
-      event.filters[customerNameFilterKey][0]?.value ?? null;
-    if (eventCustomerNameFilterValue) {
-      this.filters.customerName = eventCustomerNameFilterValue;
-    } else {
-      this.filters.customerName = eventCustomerNameFilterValue;
-    }
+    filtersSetter.setFilter(
+      (filters: EstimateFilters, primeFilterValue: string) =>
+        (filters.vehicleBrand = primeFilterValue),
+      'brand',
+    );
 
-    const eventRegistrationFilterValue =
-      event.filters[registrationFilterKey][0]?.value ?? null;
-    if (eventRegistrationFilterValue) {
-      this.filters.registration = eventRegistrationFilterValue;
-    } else {
-      this.filters.registration = null;
-    }
+    filtersSetter.setFilter(
+      (filters: EstimateFilters, primeFilterValue: string) =>
+        (filters.registration = primeFilterValue),
+      'registration',
+    );
 
-    const eventBrandFilterValue =
-      event.filters[brandFilterKey][0]?.value ?? null;
-    if (eventBrandFilterValue) {
-      this.filters.vehicleBrand = eventBrandFilterValue;
-    } else {
-      this.filters.vehicleBrand = null;
-    }
+    filtersSetter.setFilter(
+      (filters: EstimateFilters, primeFilterValue: string) =>
+        (filters.createdAfter = primeFilterValue),
+      'createdAfter',
+      (filterMetadata) => {
+        if (!filterMetadata) return null;
+        const filterValue = filterMetadata[0]?.value ?? null;
+        if (filterValue) return new Date(filterValue).toISOString();
+        else return null;
+      },
+    );
 
     this.getCollection();
   }
