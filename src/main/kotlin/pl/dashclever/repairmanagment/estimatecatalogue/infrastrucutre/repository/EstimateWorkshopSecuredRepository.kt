@@ -51,9 +51,9 @@ class EstimateWorkshopSecuredRepository(
         return this.estimateWorkshopSecuredJpaReadRepository.findAll(currentAccess.workshopId, pageable)
     }
 
-    override fun existsByEstimateId(estimateId: String): Boolean {
+    override fun existsByEstimateName(estimateName: String): Boolean {
         val currentAccess = this.springCurrentAccessProvider.currentWorkshop()
-        return this.estimateWorkshopSecuredJpaReadRepository.existsByEstimateId(currentAccess.workshopId, estimateId)
+        return this.estimateWorkshopSecuredJpaReadRepository.existsByEstimateName(currentAccess.workshopId, estimateName)
     }
 
     @Transactional
@@ -70,7 +70,7 @@ class EstimateWorkshopSecuredRepository(
                 val securityRecordRoot: Root<WorkshopEstimate> = query.from(WorkshopEstimate::class.java)
                 val innerJoinPredicate = criteriaBuilder.equal(
                     root.get<UUID>("id"),
-                    securityRecordRoot.get<WorkshopEstimate.ComposePk>("id").get<UUID>("estimateId")
+                    securityRecordRoot.get<WorkshopEstimate.ComposePk>("id").get<UUID>("name")
                 )
                 val workshopIdPredicate = criteriaBuilder.equal(securityRecordRoot.get<WorkshopEstimate.ComposePk>("id").get<UUID>("workshopId"), workshopId)
                 criteriaBuilder.and(innerJoinPredicate, workshopIdPredicate)

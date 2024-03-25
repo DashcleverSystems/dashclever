@@ -29,8 +29,8 @@ export class EstimateFormService {
     data?: Partial<IEstimateDTO> | undefined,
   ): FormGroup<IEstimateForm> {
     return this.fb.group({
-      estimateId: this.fb.control<string | null>(
-        data?.estimateId ?? null,
+      estimateName: this.fb.control<string | null>(
+        data?.estimateName ?? null,
         Validators.required,
       ),
       vehicleInfo: this.getVehicleInfoGroup(data?.vehicleInfo),
@@ -49,7 +49,7 @@ export class EstimateFormService {
 
   formatDataFromPdf(data: IEstimatePdfDTO): IEstimateDTO {
     return {
-      estimateId: data?.uniqueId,
+      estimateName: data?.uniqueId,
       vehicleInfo: data?.vehicleInfo,
       paintInfo: {
         ...data?.paint,
@@ -77,7 +77,7 @@ export class EstimateFormService {
   }
 
   patchValues(form: FormGroup<IEstimateForm>, data: IEstimateDTO) {
-    form.controls.estimateId.patchValue(data.estimateId);
+    form.controls.estimateName.patchValue(data.estimateName);
     form.controls.paintInfo.patchValue(data.paintInfo);
     form.controls.vehicleInfo.patchValue(data.vehicleInfo);
     form.controls.jobs.clear();

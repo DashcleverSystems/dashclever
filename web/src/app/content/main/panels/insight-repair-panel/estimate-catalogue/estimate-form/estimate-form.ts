@@ -3,7 +3,7 @@ import { Currency } from '@app/shared/enums/currency';
 import { JobType } from '@app/shared/enums/job-type';
 
 export interface IEstimateDTO {
-  estimateId: string;
+  estimateName: string;
   vehicleInfo: IEstimatedVehicleInfo;
   paintInfo: IEstimatedPaintInfo;
   jobs: IEstimatedJob[];
@@ -21,7 +21,7 @@ export interface IEstimatePdfDTO {
 }
 
 export interface IEstimateForm {
-  estimateId: FormControl<string | null>;
+  estimateName: FormControl<string | null>;
   vehicleInfo: FormGroup<IEstimatedVehicleInfoForm>;
   paintInfo: FormGroup<IEstimatedPaintInfoForm>;
   jobs: FormArray<FormGroup<IEstimatedJobForm>>;

@@ -62,7 +62,7 @@ class PlanReader(
         val planDto = PlanDto(
             id = plan.id,
             estimateId = estimate.id.toString(),
-            estimateName = estimate.estimateId,
+            estimateName = estimate.name,
             technicalRepairTimeInMinutes = estimate.jobs.filter { plan.getJobCatalogueIds().contains(it.id) }.sumOf { it.manMinutes },
             createdOn = plan.getCreationTimestamp().asGmt()
         )
@@ -87,7 +87,7 @@ class PlanReader(
             }
             return@mapNotNull PlanDto(
                 id = plan.id,
-                estimateName = estimate.estimateId,
+                estimateName = estimate.name,
                 estimateId = estimate.id.toString(),
                 technicalRepairTimeInMinutes = estimate.jobs.filter { plan.getJobCatalogueIds().contains(it.id) }.sumOf { it.manMinutes },
                 createdOn = plan.getCreationTimestamp().atZone(ZoneId.of("GMT"))

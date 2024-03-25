@@ -16,7 +16,7 @@ interface EstimateRepository {
 
     fun findAll(pageable: Pageable): Page<Estimate>
 
-    fun existsByEstimateId(estimateId: String): Boolean
+    fun existsByEstimateName(estimateName: String): Boolean
 
     fun deleteById(id: UUID)
 

@@ -8,17 +8,17 @@
     <div class="content">
       <div class="section">
         <div class="controls-container">
-          @if (form.controls.estimateId; as control) {
+          @if (form.controls.estimateName; as control) {
             <div class="control">
               <label htmlFor="field-estimateId">{{
                 'components.estimateCatalogue.form.estimateId' | translate
               }}</label>
               <input
                 pInputText
-                id="field-estimateId"
+                id="field-estimateName"
                 type="text"
-                aria-describedby="estimateId-help"
-                formControlName="estimateId"
+                aria-describedby="estimateName-help"
+                formControlName="estimateName"
               />
               <app-form-control-error-output
                 [control]="control"
