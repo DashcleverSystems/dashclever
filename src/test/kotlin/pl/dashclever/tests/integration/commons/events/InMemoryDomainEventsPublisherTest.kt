@@ -14,14 +14,15 @@ import org.springframework.transaction.support.TransactionTemplate
 import pl.dashclever.commons.events.DomainEvent
 import pl.dashclever.commons.events.DomainEvents
 import pl.dashclever.tests.integration.TestcontainersInitializer
+import pl.dashclever.tests.integration.spring.TestInMemorySyncDomainEventsPublisherBeansInitializer
 import java.util.*
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @RecordApplicationEvents
-@ContextConfiguration(initializers = [TestcontainersInitializer::class])
+@ContextConfiguration(initializers = [TestcontainersInitializer::class, TestInMemorySyncDomainEventsPublisherBeansInitializer::class])
 internal class InMemoryDomainEventsPublisherTest(
     @Autowired private val domainEvents: DomainEvents,
-    @Autowired private val transactionTemplate: TransactionTemplate,
+    @Autowired private val transactionTemplate: TransactionTemplate
 ) {
 
     @Test
@@ -56,7 +57,6 @@ internal class InMemoryDomainEventsPublisherTest(
         } catch (_: Exception) {
         }
 
-
         // then
         assertThat(applicationEvents.stream().toList()).noneMatch { applicationEvent ->
             return@noneMatch (applicationEvent as? PayloadApplicationEvent<*>)?.payload is TestDomainEvent
@@ -76,8 +76,8 @@ internal class InMemoryDomainEventsPublisherTest(
             }
         }
     }
-}
 
-private data class TestDomainEvent(
-    override val id: UUID = UUID.randomUUID()
-) : DomainEvent
+    private data class TestDomainEvent(
+        override val id: UUID = UUID.randomUUID()
+    ) : DomainEvent
+}
