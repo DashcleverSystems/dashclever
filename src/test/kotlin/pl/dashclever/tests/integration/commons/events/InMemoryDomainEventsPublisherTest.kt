@@ -77,6 +77,22 @@ internal class InMemoryDomainEventsPublisherTest(
         }
     }
 
+    @Test
+    fun `should publish event when there is no transaction running`(applicationEvents: ApplicationEvents) {
+        // given
+        val testDomainEvent = TestDomainEvent()
+
+        // when
+        domainEvents.publish(testDomainEvent)
+
+        // then
+        assertThat(applicationEvents.stream().toList()).satisfiesOnlyOnce { applicationEvent ->
+            assertThat(applicationEvent).isInstanceOf(PayloadApplicationEvent::class.java)
+            val payloadApplicationEvent = applicationEvent as PayloadApplicationEvent<*>
+            assertThat(payloadApplicationEvent.payload).isInstanceOf(TestDomainEvent::class.java)
+        }
+    }
+
     private data class TestDomainEvent(
         override val id: UUID = UUID.randomUUID()
     ) : DomainEvent

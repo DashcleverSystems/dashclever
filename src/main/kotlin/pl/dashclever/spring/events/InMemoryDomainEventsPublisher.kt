@@ -11,6 +11,10 @@ class InMemoryDomainEventsPublisher(
 ) : DomainEvents {
 
     override fun publish(event: DomainEvent) {
+        if (TransactionSynchronizationManager.isActualTransactionActive().not()) {
+            applicationEventPublisher.publishEvent(event)
+            return
+        }
         TransactionSynchronizationManager.registerSynchronization(
             object : TransactionSynchronization {
                 override fun afterCommit() {
