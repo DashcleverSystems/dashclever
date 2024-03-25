@@ -70,7 +70,7 @@ class EstimateWorkshopSecuredRepository(
                 val securityRecordRoot: Root<WorkshopEstimate> = query.from(WorkshopEstimate::class.java)
                 val innerJoinPredicate = criteriaBuilder.equal(
                     root.get<UUID>("id"),
-                    securityRecordRoot.get<WorkshopEstimate.ComposePk>("id").get<UUID>("estimateId")
+                    securityRecordRoot.get<WorkshopEstimate.ComposePk>("id").get<UUID>("name")
                 )
                 val workshopIdPredicate = criteriaBuilder.equal(securityRecordRoot.get<WorkshopEstimate.ComposePk>("id").get<UUID>("workshopId"), workshopId)
                 criteriaBuilder.and(innerJoinPredicate, workshopIdPredicate)
