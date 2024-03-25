@@ -1,11 +1,11 @@
 package pl.dashclever.tests.integration.repairmanagment.estimatecatalogue
 
+import org.springframework.boot.test.context.TestComponent
 import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.stereotype.Component
 import pl.dashclever.repairmanagment.estimatecatalogue.Estimate
-import java.util.UUID
+import java.util.*
 
-@Component
+@TestComponent
 internal interface EstimateTestsRepository : JpaRepository<Estimate, UUID> {
 
     fun saveAll(estimates: Set<Estimate>) {
