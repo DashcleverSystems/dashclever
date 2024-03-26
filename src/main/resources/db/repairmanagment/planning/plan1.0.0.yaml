@@ -1,58 +1,58 @@
 databaseChangeLog:
-    - changeSet:
-          id: planning_plan1.0.0
-          author: damian
-          changes:
-              - createTable:
-                    tableName: RM_PLANNING_PLAN
-                    columns:
-                        - column:
-                              name: id
-                              type: uuid
-                              constraints:
-                                  - primaryKey: true
-                                  - nullable: false
-                                  - unique: true
-                        - column:
-                              name: estimate_id
-                              type: varchar(48)
-                        - column:
-                              name: version
-                              type: int
-              - createSequence:
-                    dataType: int
-                    incrementBy: 50
-                    startValue: 99
-                    schemaName: public
-                    sequenceName: rm_planning_job_id_generator_sequence
-              - createTable:
-                    tableName: RM_PLANNING_JOB
-                    columns:
-                        - column:
-                              name: id
-                              type: int
-                        - column:
-                              name: catalogue_job_id
-                              type: int
-                        - column:
-                              name: man_minutes
-                              type: int
-                        - column:
-                              name: assigned_at
-                              type: date
-                        - column:
-                              name: assigned_to
-                              type: varchar(48)
-                        - column:
-                              name: hour
-                              type: int
-                        - column:
-                              name: plan_id
-                              type: uuid
-                    constraints:
-                        - foreignKey:
-                              constraintName: RM_PLANNING_JOB_PLAN_fk
-                              baseColumnNames: plan_id
-                              baseTableName: RM_PLANNING_JOB
-                              referencedColumnNames: id
-                              referencedTableName: RM_PLANNING_PLAN
+  - changeSet:
+      id: planning_plan1.0.0
+      author: damian
+      changes:
+        - createTable:
+            tableName: RM_PLANNING_PLAN
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    - primaryKey: true
+                    - nullable: false
+                    - unique: true
+              - column:
+                  name: estimate_id
+                  type: varchar(48)
+              - column:
+                  name: version
+                  type: int
+        - createSequence:
+            dataType: int
+            incrementBy: 50
+            startValue: 99
+            schemaName: public
+            sequenceName: rm_planning_job_id_generator_sequence
+        - createTable:
+            tableName: RM_PLANNING_JOB
+            columns:
+              - column:
+                  name: id
+                  type: int
+              - column:
+                  name: catalogue_job_id
+                  type: int
+              - column:
+                  name: man_minutes
+                  type: int
+              - column:
+                  name: assigned_at
+                  type: date
+              - column:
+                  name: assigned_to
+                  type: varchar(48)
+              - column:
+                  name: hour
+                  type: int
+              - column:
+                  name: plan_id
+                  type: uuid
+            constraints:
+              - foreignKey:
+                  constraintName: RM_PLANNING_JOB_PLAN_fk
+                  baseColumnNames: plan_id
+                  baseTableName: RM_PLANNING_JOB
+                  referencedColumnNames: id
+                  referencedTableName: RM_PLANNING_PLAN

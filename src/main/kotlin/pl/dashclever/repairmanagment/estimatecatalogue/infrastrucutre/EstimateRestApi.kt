@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
 import pl.dashclever.commons.exception.ALREADY_EXISTS
 import pl.dashclever.commons.exception.SIZE_BETWEEN
+import pl.dashclever.commons.exception.SIZE_MIN
 import pl.dashclever.commons.paging.PageRequestDto
 import pl.dashclever.commons.paging.SortDirection
 import pl.dashclever.commons.paging.SortDirection.ASC
@@ -36,7 +37,7 @@ import pl.dashclever.repairmanagment.estimatecatalogue.VehicleInfo
 import java.net.URI
 import java.time.ZoneId
 import java.time.ZonedDateTime
-import java.util.*
+import java.util.UUID
 
 private const val PATH = "/api/estimatecatalogue"
 
@@ -72,12 +73,12 @@ internal class EstimateRestApi(
     private fun filter(filters: EstimateFilters, pageRequestDto: PageRequestDto): Page<EstimateDto> {
         var specification: Specification<Estimate>? = null
         if (filters.createdAfter != null) {
-            val localDateTimeOfGmt = filters.createdAfter!!.withZoneSameInstant(ZoneId.of("GMT")).toLocalDateTime()
+            val localDateTimeOfGmt = filters.createdAfter.withZoneSameInstant(ZoneId.of("GMT")).toLocalDateTime()
             specification = EstimateSpecifications.createdOnAfter(localDateTimeOfGmt)
         }
         if (filters.estimateId != null) {
-            specification = specification?.and(EstimateSpecifications.estimateId(filters.estimateId!!))
-                ?: EstimateSpecifications.estimateId(filters.estimateId!!)
+            specification = specification?.and(EstimateSpecifications.estimateId(filters.estimateId))
+                ?: EstimateSpecifications.estimateId(filters.estimateId)
         }
 
         val sort = when (filters.sortDirection) {
@@ -99,6 +100,8 @@ internal class EstimateRestApi(
         val id: UUID?,
         @field:Size(min = 1, max = 24, message = "$SIZE_BETWEEN;1;24")
         val estimateId: String,
+        @field:Size(min = 1, message = "$SIZE_MIN;1")
+        val customerName: String,
         @field:Valid
         val vehicleInfo: VehicleInfo,
         @field:Valid
@@ -110,6 +113,7 @@ internal class EstimateRestApi(
     private fun EstimateDto.toEntity() =
         Estimate(
             estimateId,
+            customerName,
             vehicleInfo,
             paintInfo,
             jobs
@@ -119,6 +123,7 @@ internal class EstimateRestApi(
         EstimateDto(
             this.id,
             this.estimateId,
+            this.customerName,
             this.vehicleInfo,
             this.paintInfo,
             this.jobs,

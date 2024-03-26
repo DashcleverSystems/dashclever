@@ -19,8 +19,9 @@ public class EstimateReading {
         EstimateReader.Paint paintInfo = estimateReader.FindPaintInfo();
         Set<EstimateReader.Job> labourJobs = estimateReader.findLabourJobs();
         Set<EstimateReader.Job> varnishingJobs = estimateReader.FindVarnishingJobs();
+        EstimateReader.CustomerInfo customerInfo = estimateReader.findCustomerInfo();
         String uniqueId = estimateReader.findUniqueNr();
-        return new RepairInfo(uniqueId, vehicleInfo, paintInfo, labourJobs, varnishingJobs);
+        return new RepairInfo(uniqueId, customerInfo, vehicleInfo, paintInfo, labourJobs, varnishingJobs);
     }
 
     public RepairInfo retrieveRepairInfo(InputStream file) throws IOException, ReaderException {

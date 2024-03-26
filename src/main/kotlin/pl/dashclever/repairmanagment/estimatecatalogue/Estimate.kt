@@ -16,6 +16,7 @@ import java.util.UUID
 class Estimate(
 
     val estimateId: String,
+    val customerName: String,
     val vehicleInfo: VehicleInfo,
     val paintInfo: PaintInfo,
     @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true, fetch = EAGER)

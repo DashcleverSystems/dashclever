@@ -1,9 +1,9 @@
 databaseChangeLog:
-    -   changeSet:
-            id: estimate1.0.1_drop_unique_id_from_estimate_id
-            author: damian
-            changes:
-                -   dropUniqueConstraint:
-                        constraintName: rm_estimatecatalogue_estimate_estimate_id_key
-                        tableName: RM_ESTIMATECATALOGUE_ESTIMATE
-                        uniqueColumns: estimate_id
+  - changeSet:
+      id: estimate1.0.1_drop_unique_id_from_estimate_id
+      author: damian
+      changes:
+        - dropUniqueConstraint:
+            constraintName: rm_estimatecatalogue_estimate_estimate_id_key
+            tableName: RM_ESTIMATECATALOGUE_ESTIMATE
+            uniqueColumns: estimate_id
