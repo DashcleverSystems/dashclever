@@ -58,7 +58,7 @@ internal class PlanFindingByIdTests @Autowired constructor(
             JobBuilder { this.manMinutes = 60 }
         )
         val estimate = EstimateBuilder {
-            this.estimateId = "24/2022WK"
+            this.estimateName = "24/2022WK"
             this.jobs = jobs
         }
         estimateRepository.save(estimate)

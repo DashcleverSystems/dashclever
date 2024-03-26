@@ -11,7 +11,7 @@ import pl.dashclever.repairmanagment.estimatecatalogue.VehicleInfo
 
 internal fun `new estimate`(estimateId: String): Estimate {
     return Estimate(
-        estimateId = estimateId,
+        name = estimateId,
         paintInfo = PaintInfo(
             baseColorWithCode = "red 222",
             varnishingPaintInfo = "2 layers/ pearl"
