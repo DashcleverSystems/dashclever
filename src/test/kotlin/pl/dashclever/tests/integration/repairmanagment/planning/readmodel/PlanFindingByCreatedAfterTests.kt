@@ -58,7 +58,7 @@ internal class PlanFindingByCreatedAfterTests(
     fun `should only plans created after given local date time`() {
         // given
         auditingHandler.setDateTimeProvider { Optional.of(LocalDateTime.of(2023, 1, 1, 12, 0)) }
-        val estimate1 = EstimateBuilder { estimateId = "01/2022WK" }
+        val estimate1 = EstimateBuilder { estimateName = "01/2022WK" }
         estimateRepository.save(estimate1)
         val plan1 = PlanFactory.create(
             estimateId = estimate1.id,
@@ -67,7 +67,7 @@ internal class PlanFindingByCreatedAfterTests(
         planRepository.save(plan1)
 
         auditingHandler.setDateTimeProvider { Optional.of(LocalDateTime.of(2023, 1, 1, 13, 0)) }
-        val estimate2 = EstimateBuilder { estimateId = "02/2022WK" }
+        val estimate2 = EstimateBuilder { estimateName = "02/2022WK" }
         estimateRepository.save(estimate2)
         val plan2 = PlanFactory.create(
             estimateId = estimate2.id,
@@ -92,7 +92,7 @@ internal class PlanFindingByCreatedAfterTests(
     fun `should not find any given created after in future`() {
         // given
         auditingHandler.setDateTimeProvider { Optional.of(LocalDateTime.of(2023, 1, 1, 12, 0)) }
-        val estimate1 = EstimateBuilder { estimateId = "01/2022WK" }
+        val estimate1 = EstimateBuilder { estimateName = "01/2022WK" }
         estimateRepository.save(estimate1)
         val plan1 = PlanFactory.create(
             estimateId = estimate1.id,
@@ -101,7 +101,7 @@ internal class PlanFindingByCreatedAfterTests(
         planRepository.save(plan1)
 
         auditingHandler.setDateTimeProvider { Optional.of(LocalDateTime.of(2023, 1, 1, 13, 0)) }
-        val estimate2 = EstimateBuilder { estimateId = "02/2022WK" }
+        val estimate2 = EstimateBuilder { estimateName = "02/2022WK" }
         estimateRepository.save(estimate2)
         val plan2 = PlanFactory.create(
             estimateId = estimate2.id,

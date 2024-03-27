@@ -47,7 +47,7 @@ internal class EmployeeOccupationDtoReadTests(
     @Test
     fun `employee occupation read test`() {
         // given
-        val estimate = EstimateBuilder { this.estimateId = "24/2023dk" }
+        val estimate = EstimateBuilder { this.estimateName = "24/2023dk" }
         estimateRepository.save(estimate)
         val planId = planCreating.create(estimate.id)
         val plan = planRepository.findById(planId)!!

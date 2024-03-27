@@ -26,8 +26,8 @@ interface EstimateRepository {
             return Specification<Estimate> { root, _, cb -> cb.greaterThan(root.get("createdOn"), date) }
         }
 
-        fun estimateId(estimateId: String): Specification<Estimate> {
-            return Specification<Estimate> { root, _, cb -> cb.equal(root.get<String>("estimateId"), estimateId) }
+        fun estimateName(estimateName: String): Specification<Estimate> {
+            return Specification<Estimate> { root, _, cb -> cb.equal(root.get<String>("name"), estimateName) }
         }
     }
 }

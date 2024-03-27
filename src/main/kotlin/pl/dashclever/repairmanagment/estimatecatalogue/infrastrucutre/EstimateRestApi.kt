@@ -60,7 +60,7 @@ internal class EstimateRestApi(
     }
 
     data class EstimateFilters(
-        val estimateId: String? = null,
+        val estimateName: String? = null,
         val createdAfter: ZonedDateTime? = null,
         val sortDirection: SortDirection = DESC
     )
@@ -75,9 +75,9 @@ internal class EstimateRestApi(
             val localDateTimeOfGmt = filters.createdAfter!!.withZoneSameInstant(ZoneId.of("GMT")).toLocalDateTime()
             specification = EstimateSpecifications.createdOnAfter(localDateTimeOfGmt)
         }
-        if (filters.estimateId != null) {
-            specification = specification?.and(EstimateSpecifications.estimateId(filters.estimateId!!))
-                ?: EstimateSpecifications.estimateId(filters.estimateId!!)
+        if (filters.estimateName != null) {
+            specification = specification?.and(EstimateSpecifications.estimateName(filters.estimateName!!))
+                ?: EstimateSpecifications.estimateName(filters.estimateName!!)
         }
 
         val sort = when (filters.sortDirection) {

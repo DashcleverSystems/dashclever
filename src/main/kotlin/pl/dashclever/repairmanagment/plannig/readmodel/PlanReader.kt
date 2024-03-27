@@ -130,7 +130,7 @@ class PlanReader(
                     root.get<UUID>("estimateId"),
                     estimateRoot.get<UUID>("id")
                 )
-                val estimateIdPredicate = cb.like(estimateRoot.get("estimateId"), estimateName)
+                val estimateIdPredicate = cb.like(estimateRoot.get("name"), estimateName)
                 cb.and(innerJoinPredicate, estimateIdPredicate)
             }
 
