@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy_heroku:
-    runs-on: SelfHosted-Pi
+    runs-on: self-hosted
 
     env:
       TF_VAR_app_name: dashclever
