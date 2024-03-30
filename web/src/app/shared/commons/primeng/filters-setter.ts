@@ -20,23 +20,8 @@ export class FiltersSetter<T> {
       return filterMetadata[0]?.value ?? null;
     },
   ) {
-    const filterMetadata = this.getFilterMetadata(
-      this.primeFilters,
-      primeFilterKey,
-    );
+    const filterMetadata = this.primeFilters[primeFilterKey] ?? null;
     const filterValue = primeFilterValueGetter(filterMetadata);
     filterSetter(this.filters, filterValue);
-  }
-
-  private getFilterMetadata(
-    primeFilters: {
-      [s: string]: FilterMetadata | FilterMetadata[] | undefined;
-    },
-    primeFilterKey: string,
-  ): FilterMetadata | FilterMetadata[] | null {
-    for (const key in primeFilters) {
-      if (key === primeFilterKey) return primeFilters[key];
-    }
-    return null;
   }
 }
