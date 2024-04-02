@@ -1,0 +1,10 @@
+databaseChangeLog:
+    -   changeSet:
+            id: estimate1.0.3_rename_estimateid_to_name
+            author: pawel
+            changes:
+                -   renameColumn:
+                        newColumnName: name
+                        oldColumnName: estimate_id
+                        tableName: RM_ESTIMATECATALOGUE_ESTIMATE
+                
