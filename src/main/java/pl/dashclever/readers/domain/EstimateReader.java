@@ -11,7 +11,6 @@ public abstract class EstimateReader {
         EstimatePages = estimatePages;
     }
 
-
     public abstract Set<Job> findLabourJobs() throws ReaderException;
 
     public abstract String findUniqueNr() throws ReaderException;
@@ -21,6 +20,8 @@ public abstract class EstimateReader {
     public abstract Paint FindPaintInfo();
 
     public abstract VehicleInfo FindVehicleInfo();
+
+    public abstract CustomerInfo findCustomerInfo();
 
     public record Job(String name, int manMinutes, Money worth) {
     }
@@ -36,5 +37,9 @@ public abstract class EstimateReader {
 
     public enum Currency {
         EUR, PLN
+    }
+
+    public record CustomerInfo(String customerName) {
+
     }
 }

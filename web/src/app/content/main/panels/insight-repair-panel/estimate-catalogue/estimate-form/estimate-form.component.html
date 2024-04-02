@@ -26,6 +26,20 @@
             </div>
           }
         </div>
+        <div class="controls-container">
+          <div class="control">
+            <label htmlFor="field-customerName">{{
+                'components.estimateCatalogue.form.customerName' | translate
+              }}</label>
+            <input
+              pInputText
+              id="field-customerName"
+              type="text"
+              aria-describedby="customerName-help"
+              formControlName="customerName"
+            />
+          </div>
+        </div>
         <ng-container formGroupName="vehicleInfo">
           <div class="title">
             {{ 'components.estimateCatalogue.form.vehicleInfo' | translate }}

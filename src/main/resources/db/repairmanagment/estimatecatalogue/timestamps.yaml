@@ -1,26 +1,26 @@
 databaseChangeLog:
-    -   changeSet:
-            id: add-timestamps-estimates-catalogue
-            author: damian
-            changes:
-                -   addColumn:
-                        tableName: RM_ESTIMATECATALOGUE_ESTIMATE
-                        columns:
-                            -   column:
-                                    name: created_on
-                                    type: timestamp
-                            -   column:
-                                    name: last_modified_on
-                                    type: timestamp
-                -   addColumn:
-                        tableName: RM_ESTIMATECATALOGUE_JOB
-                        columns:
-                            -   column:
-                                    name: created_on
-                                    type: timestamp
-                            -   column:
-                                    name: last_modified_on
-                                    type: timestamp
-                            -   column:
-                                    name: version
-                                    type: int
+  - changeSet:
+      id: add-timestamps-estimates-catalogue
+      author: damian
+      changes:
+        - addColumn:
+            tableName: RM_ESTIMATECATALOGUE_ESTIMATE
+            columns:
+              - column:
+                  name: created_on
+                  type: timestamp
+              - column:
+                  name: last_modified_on
+                  type: timestamp
+        - addColumn:
+            tableName: RM_ESTIMATECATALOGUE_JOB
+            columns:
+              - column:
+                  name: created_on
+                  type: timestamp
+              - column:
+                  name: last_modified_on
+                  type: timestamp
+              - column:
+                  name: version
+                  type: int

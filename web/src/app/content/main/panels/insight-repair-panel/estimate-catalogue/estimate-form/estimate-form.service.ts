@@ -33,6 +33,10 @@ export class EstimateFormService {
         data?.estimateName ?? null,
         Validators.required,
       ),
+      customerName: this.fb.control<string | null>(
+        data?.customerName ?? null,
+        Validators.required,
+      ),
       vehicleInfo: this.getVehicleInfoGroup(data?.vehicleInfo),
       paintInfo: this.getVehiclePaintInfoGroup(data?.paintInfo),
       jobs: this.fb.array<FormGroup<IEstimatedJobForm>>(
@@ -50,6 +54,7 @@ export class EstimateFormService {
   formatDataFromPdf(data: IEstimatePdfDTO): IEstimateDTO {
     return {
       estimateName: data?.uniqueId,
+      customerName: data?.customerInfo.customerName,
       vehicleInfo: data?.vehicleInfo,
       paintInfo: {
         ...data?.paint,
@@ -78,6 +83,7 @@ export class EstimateFormService {
 
   patchValues(form: FormGroup<IEstimateForm>, data: IEstimateDTO) {
     form.controls.estimateName.patchValue(data.estimateName);
+    form.controls.customerName.patchValue(data.customerName);
     form.controls.paintInfo.patchValue(data.paintInfo);
     form.controls.vehicleInfo.patchValue(data.vehicleInfo);
     form.controls.jobs.clear();
