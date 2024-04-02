@@ -1,9 +1,17 @@
 databaseChangeLog:
   - changeSet:
-      id: estimate1.0.2_rename_estimateid_to_name
-      author: pawel
+      id: estimate1.0.2_add_customer_name
+      author: damian
       changes:
-        - renameColumn:
-            newColumnName: name
-            oldColumnName: estimate_id
+        - addColumn:
+            tableName: RM_ESTIMATECATALOGUE_ESTIMATE
+            columns:
+              - column:
+                  name: customer_name
+                  type: clob
+        - update:
+            columns:
+              - column:
+                  name: customer_name
+                  value: "-"
             tableName: RM_ESTIMATECATALOGUE_ESTIMATE
