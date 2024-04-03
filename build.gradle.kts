@@ -80,7 +80,7 @@ val dockerComposeFile = "./docker/docker-compose.yaml"
 val dockerComposeAppVolumeName = "dashclever-volume"
 
 val devSystemProperties = mapOf(
-    "jdbc.db.url" to "jdbc:postgresql://postgresql:5432/dashclever",
+    "jdbc.db.url" to "jdbc:postgresql://10.5.0.6:5432/dashclever",
     "jdbc.db.username" to "postgres",
     "jdbc.db.password" to "postgres",
     "spring.security.logging" to "TRACE",
@@ -139,7 +139,7 @@ val cleanWebBuild = tasks.register<Delete>("cleanDist") {
 }
 
 openApi {
-    apiDocsUrl.set("http://localhost:9999/open-api")
+    apiDocsUrl.set("http://10.5.0.10:9999/open-api")
     customBootRun {
         devSystemProperties.forEach { (property, value) ->
             this.systemProperties.put(property, value)
