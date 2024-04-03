@@ -49,8 +49,8 @@ internal class PlanFindingByEstimateNameTests(
     @Test
     fun `should find only plans with given estimateName`() {
         // given
-        val estimate1 = EstimateBuilder { this.estimateId = "24/2022WK" }
-        val estimate2 = EstimateBuilder { this.estimateId = "25/2022WK" }
+        val estimate1 = EstimateBuilder { this.estimateName = "24/2022WK" }
+        val estimate2 = EstimateBuilder { this.estimateName = "25/2022WK" }
         estimateRepository.save(estimate1)
         estimateRepository.save(estimate2)
 

@@ -33,3 +33,5 @@ databaseChangeLog:
       file: db/repairmanagment/estimatecatalogue/estimate1.0.1.yaml
   - include:
       file: db/repairmanagment/estimatecatalogue/estimate1.0.2.yaml
+  - include:
+      file: db/repairmanagment/estimatecatalogue/estimate1.0.3.yaml

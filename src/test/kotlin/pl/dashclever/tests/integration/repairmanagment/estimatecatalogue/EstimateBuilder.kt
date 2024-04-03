@@ -8,8 +8,7 @@ import pl.dashclever.repairmanagment.estimatecatalogue.VehicleInfo
 internal object EstimateBuilder {
 
     class Builder {
-
-        var estimateId: String = "01/2022WK"
+        var estimateName: String = "01/2022WK"
         var customerName: String = "Test customer"
         var vehicleInfo: VehicleInfo = VehicleInfoBuilder { }
         var paintInfo: PaintInfo = PaintInfoBuilder { }
@@ -20,7 +19,7 @@ internal object EstimateBuilder {
         val builder = Builder()
         builder.init()
         return Estimate(
-            estimateId = builder.estimateId,
+            name = builder.estimateName,
             customerName = builder.customerName,
             vehicleInfo = builder.vehicleInfo,
             paintInfo = builder.paintInfo,

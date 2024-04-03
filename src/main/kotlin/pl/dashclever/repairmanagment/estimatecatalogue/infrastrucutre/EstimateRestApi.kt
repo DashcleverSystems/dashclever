@@ -53,7 +53,7 @@ internal class EstimateRestApi(
         @Valid @RequestBody
         estimateDto: EstimateDto
     ): ResponseEntity<EstimateDto> {
-        if (estimateRepository.existsByEstimateId(estimateDto.estimateId)) throw ResponseStatusException(HttpStatus.BAD_REQUEST, ALREADY_EXISTS)
+        if (estimateRepository.existsByEstimateName(estimateDto.estimateName)) throw ResponseStatusException(HttpStatus.BAD_REQUEST, ALREADY_EXISTS)
         val estimate = estimateDto.toEntity()
         this.estimateRepository.save(estimate)
         return ResponseEntity.created(URI.create("$PATH/${estimate.id}"))
@@ -61,7 +61,7 @@ internal class EstimateRestApi(
     }
 
     data class EstimateFilters(
-        val estimateId: String? = null,
+        val estimateName: String? = null,
         val createdAfter: ZonedDateTime? = null,
         val sortDirection: SortDirection = DESC
     )
@@ -76,9 +76,9 @@ internal class EstimateRestApi(
             val localDateTimeOfGmt = filters.createdAfter.withZoneSameInstant(ZoneId.of("GMT")).toLocalDateTime()
             specification = EstimateSpecifications.createdOnAfter(localDateTimeOfGmt)
         }
-        if (filters.estimateId != null) {
-            specification = specification?.and(EstimateSpecifications.estimateId(filters.estimateId))
-                ?: EstimateSpecifications.estimateId(filters.estimateId)
+        if (filters.estimateName != null) {
+            specification = specification?.and(EstimateSpecifications.estimateName(filters.estimateName!!))
+                ?: EstimateSpecifications.estimateName(filters.estimateName!!)
         }
 
         val sort = when (filters.sortDirection) {
@@ -99,7 +99,7 @@ internal class EstimateRestApi(
     internal data class EstimateDto(
         val id: UUID?,
         @field:Size(min = 1, max = 24, message = "$SIZE_BETWEEN;1;24")
-        val estimateId: String,
+        val estimateName: String,
         @field:Size(min = 1, message = "$SIZE_MIN;1")
         val customerName: String,
         @field:Valid
@@ -112,7 +112,7 @@ internal class EstimateRestApi(
 
     private fun EstimateDto.toEntity() =
         Estimate(
-            estimateId,
+            estimateName,
             customerName,
             vehicleInfo,
             paintInfo,
@@ -122,7 +122,7 @@ internal class EstimateRestApi(
     private fun Estimate.toDto(): EstimateDto =
         EstimateDto(
             this.id,
-            this.estimateId,
+            this.name,
             this.customerName,
             this.vehicleInfo,
             this.paintInfo,

@@ -51,9 +51,9 @@ class EstimateWorkshopSecuredRepository(
         return this.estimateWorkshopSecuredJpaReadRepository.findAll(currentAccess.workshopId, pageable)
     }
 
-    override fun existsByEstimateId(estimateId: String): Boolean {
+    override fun existsByEstimateName(estimateName: String): Boolean {
         val currentAccess = this.springCurrentAccessProvider.currentWorkshop()
-        return this.estimateWorkshopSecuredJpaReadRepository.existsByEstimateId(currentAccess.workshopId, estimateId)
+        return this.estimateWorkshopSecuredJpaReadRepository.existsByEstimateName(currentAccess.workshopId, estimateName)
     }
 
     @Transactional

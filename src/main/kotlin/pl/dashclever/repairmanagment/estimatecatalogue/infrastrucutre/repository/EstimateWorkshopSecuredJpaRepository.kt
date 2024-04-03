@@ -34,7 +34,7 @@ interface EstimateWorkshopSecuredJpaRepository :
                 SELECT 1
                 FROM RM_ESTIMATECATALOGUE_ESTIMATE e
                 INNER JOIN SR_WORKSHOP_ESTIMATE sr ON sr.estimate_id = e.id
-                WHERE e.estimate_id = :estimateId AND sr.workshop_id = :currentAccessWorkshopId
+                WHERE e.name = :estimateName AND sr.workshop_id = :currentAccessWorkshopId
             )
             THEN 'true'
             ELSE 'false'
@@ -42,7 +42,7 @@ interface EstimateWorkshopSecuredJpaRepository :
         """,
         nativeQuery = true
     )
-    fun existsByEstimateId(currentAccessWorkshopId: UUID, estimateId: String): Boolean
+    fun existsByEstimateName(currentAccessWorkshopId: UUID, estimateName: String): Boolean
 
     @Modifying
     @Query(

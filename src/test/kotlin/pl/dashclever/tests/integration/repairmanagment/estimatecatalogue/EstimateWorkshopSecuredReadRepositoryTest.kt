@@ -45,7 +45,7 @@ internal class EstimateWorkshopSecuredReadRepositoryTest(
             workshopId = UUID.randomUUID()
         )
         testAccessSetter.setAccess(access)
-        val estimate = EstimateBuilder { this.estimateId = "24/2023dk" }
+        val estimate = EstimateBuilder { this.estimateName = "24/2023dk" }
 
         // when
         testee.save(estimate)
@@ -64,7 +64,7 @@ internal class EstimateWorkshopSecuredReadRepositoryTest(
             workshopId = UUID.randomUUID()
         )
         testAccessSetter.setAccess(access)
-        testee.save(EstimateBuilder { this.estimateId = "24/2023dk" })
+        testee.save(EstimateBuilder { this.estimateName = "24/2023dk" })
 
         val anotherAccess = TestAccess(
             accountId = UUID.randomUUID(),
@@ -72,7 +72,7 @@ internal class EstimateWorkshopSecuredReadRepositoryTest(
             workshopId = UUID.randomUUID()
         )
         testAccessSetter.setAccess(anotherAccess)
-        testee.save(EstimateBuilder { this.estimateId = "25/2023dk" })
+        testee.save(EstimateBuilder { this.estimateName = "25/2023dk" })
 
         // when
         val result = testee.findAll(PageRequest.of(0, 10))
@@ -94,7 +94,7 @@ internal class EstimateWorkshopSecuredReadRepositoryTest(
             workshopId = UUID.randomUUID()
         )
         testAccessSetter.setAccess(access)
-        testee.save(EstimateBuilder { this.estimateId = "24/2023dk" })
+        testee.save(EstimateBuilder { this.estimateName = "24/2023dk" })
 
         val anotherAccess = TestAccess(
             accountId = UUID.randomUUID(),
@@ -102,11 +102,11 @@ internal class EstimateWorkshopSecuredReadRepositoryTest(
             workshopId = UUID.randomUUID()
         )
         testAccessSetter.setAccess(anotherAccess)
-        testee.save(EstimateBuilder { this.estimateId = "25/2023dk" })
+        testee.save(EstimateBuilder { this.estimateName = "25/2023dk" })
 
         // when
         val result = testee.findAll(
-            EstimateSpecifications.estimateId("25/2023dk"),
+            EstimateSpecifications.estimateName("25/2023dk"),
             PageRequest.of(0, 10)
         )
 
@@ -115,7 +115,7 @@ internal class EstimateWorkshopSecuredReadRepositoryTest(
             .map { it.estimateId }
         assertThat(result).allSatisfy { estimate ->
             assertThat(anotherWorkshopEstimateIds).contains(estimate.id)
-            assertThat(estimate.estimateId).isEqualTo("25/2023dk")
+            assertThat(estimate.name).isEqualTo("25/2023dk")
         }
     }
 
@@ -135,16 +135,16 @@ internal class EstimateWorkshopSecuredReadRepositoryTest(
         testAccessSetter.setAccess(access)
 
         auditingHandler.setDateTimeProvider { Optional.of(tuesday) }
-        testee.save(EstimateBuilder { this.estimateId = "23/2023dk" })
+        testee.save(EstimateBuilder { this.estimateName = "23/2023dk" })
 
         auditingHandler.setDateTimeProvider { Optional.of(wednesday) }
-        testee.save(EstimateBuilder { this.estimateId = "24/2023dk" })
+        testee.save(EstimateBuilder { this.estimateName = "24/2023dk" })
 
         auditingHandler.setDateTimeProvider { Optional.of(thursday) }
-        testee.save(EstimateBuilder { this.estimateId = "25/2023dk" })
+        testee.save(EstimateBuilder { this.estimateName = "25/2023dk" })
 
         auditingHandler.setDateTimeProvider { Optional.of(friday) }
-        testee.save(EstimateBuilder { this.estimateId = "26/2023dk" })
+        testee.save(EstimateBuilder { this.estimateName = "26/2023dk" })
 
         // when
 
@@ -156,10 +156,10 @@ internal class EstimateWorkshopSecuredReadRepositoryTest(
         // then
         assertThat(result).satisfiesExactlyInAnyOrder(
             {
-                assertThat(it.estimateId).isEqualTo("25/2023dk")
+                assertThat(it.name).isEqualTo("25/2023dk")
             },
             {
-                assertThat(it.estimateId).isEqualTo("26/2023dk")
+                assertThat(it.name).isEqualTo("26/2023dk")
             }
         )
     }
@@ -173,7 +173,7 @@ internal class EstimateWorkshopSecuredReadRepositoryTest(
             workshopId = UUID.randomUUID()
         )
         testAccessSetter.setAccess(access)
-        val estimate = EstimateBuilder { this.estimateId = "24/2023dk" }
+        val estimate = EstimateBuilder { this.estimateName = "24/2023dk" }
         testee.save(estimate)
 
         // when & then

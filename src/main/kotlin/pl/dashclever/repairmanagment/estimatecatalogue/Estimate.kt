@@ -15,7 +15,7 @@ import java.util.UUID
 @Table(name = "RM_ESTIMATECATALOGUE_ESTIMATE")
 class Estimate(
 
-    val estimateId: String,
+    val name: String,
     val customerName: String,
     val vehicleInfo: VehicleInfo,
     val paintInfo: PaintInfo,
