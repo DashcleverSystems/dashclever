@@ -80,7 +80,7 @@ val dockerComposeFile = "./docker/docker-compose.yaml"
 val dockerComposeAppVolumeName = "dashclever-volume"
 
 val devSystemProperties = mapOf(
-    "jdbc.db.url" to "jdbc:postgresql://10.5.0.6:5432/dashclever",
+    "jdbc.db.url" to "jdbc:postgresql://localhost:5432/dashclever",
     "jdbc.db.username" to "postgres",
     "jdbc.db.password" to "postgres",
     "spring.security.logging" to "TRACE",
