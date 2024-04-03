@@ -10,16 +10,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      dashclever_default:
-        ipv4_address: 10.5.0.6
+      - dashclever_default
 
 volumes:
   dashclever-volume:
-
-networks:
-  dashclever_default:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 10.5.0.0/16
-          gateway: 10.5.0.1
