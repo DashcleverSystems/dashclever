@@ -35,6 +35,7 @@ import pl.dashclever.repairmanagment.estimatecatalogue.Job
 import pl.dashclever.repairmanagment.estimatecatalogue.PaintInfo
 import pl.dashclever.repairmanagment.estimatecatalogue.VehicleInfo
 import java.net.URI
+import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.*
@@ -106,6 +107,7 @@ internal class EstimateRestApi(
         val vehicleInfo: VehicleInfo,
         @field:Valid
         val paintInfo: PaintInfo,
+        val startDate: LocalDate? = null,
         val jobs: Set<Job>,
         val creationTimestamp: ZonedDateTime? = null
     )
@@ -116,6 +118,7 @@ internal class EstimateRestApi(
             customerName,
             vehicleInfo,
             paintInfo,
+            startDate,
             jobs
         )
 
@@ -126,6 +129,7 @@ internal class EstimateRestApi(
             this.customerName,
             this.vehicleInfo,
             this.paintInfo,
+            this.startDate,
             this.jobs,
             this.getCreationTimestamp().asGmt()
         )

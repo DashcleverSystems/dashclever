@@ -39,6 +39,18 @@
               formControlName="customerName"
             />
           </div>
+          <div class="control">
+            <label htmlFor="field-startDate">{{
+              'components.estimateCatalogue.form.startDate' | translate
+              }}</label>
+            <input
+              pInputText
+              id="field-startDate"
+              type="date"
+              aria-describedby="startDate-help"
+              formControlName="startDate"
+            />
+          </div>
         </div>
         <ng-container formGroupName="vehicleInfo">
           <div class="title">
