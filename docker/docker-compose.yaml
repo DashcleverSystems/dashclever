@@ -1,3 +1,6 @@
+# Do not use in CI/CD
+version: "3.9"
+
 services:
   postgresql:
     image: postgres:15
@@ -9,8 +12,6 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - "5432:5432"
-    networks:
-      - dashclever_default
 
 volumes:
   dashclever-volume:

@@ -22,7 +22,6 @@ export class PlanningPageStore extends TableStore<PlanDto> {
           this.service.filter(
             {
               createdAfter: filtersWithPageReq.createdAfter,
-              estimateId: filtersWithPageReq.estimateId,
               estimateName: filtersWithPageReq.estimateName,
               sortDirection: filtersWithPageReq.sortDirection,
             },
