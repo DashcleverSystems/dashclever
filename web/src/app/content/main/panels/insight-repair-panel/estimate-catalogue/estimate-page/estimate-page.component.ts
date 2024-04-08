@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, SkipSelf } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { isMobile } from '@core/store/core-store.selectors';
-import { Subject, distinctUntilChanged, takeUntil, Observable } from 'rxjs';
+import { distinctUntilChanged, Observable, Subject, takeUntil } from 'rxjs';
 import { EstimateDto, EstimateFilters } from 'generated/openapi';
 import { Table } from '@app/shared/services/table/table.service';
 import { EstimatePageTableStore } from './estimate-page.store';
@@ -34,7 +34,7 @@ export class EstimatePageComponent
   ) {
     super(tableStore);
     this.filters = {
-      estimateId: null,
+      estimateName: null,
       createdAfter: null,
     };
   }
@@ -48,14 +48,6 @@ export class EstimatePageComponent
     this.getCollection();
   }
 
-  private subscribeRefreshListener(): void {
-    if (this.refreshContentListener$) {
-      this.refreshContentListener$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(() => this.getCollection());
-    }
-  }
-
   setCreatedAfterFilter(date?: Date | null) {
     if (date != null) {
       this.filters.createdAfter = date.toISOString();
@@ -65,8 +57,8 @@ export class EstimatePageComponent
   }
 
   checkEmpty(newValue: string | null) {
-    if (newValue != null && newValue.length == 0) {
-      this.filters.estimateId = null;
+    if (newValue != null && newValue.length === 0) {
+      this.filters.estimateName = null;
     }
   }
 
@@ -95,5 +87,13 @@ export class EstimatePageComponent
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private subscribeRefreshListener(): void {
+    if (this.refreshContentListener$) {
+      this.refreshContentListener$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(() => this.getCollection());
+    }
   }
 }
