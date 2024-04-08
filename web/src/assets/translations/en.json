@@ -112,6 +112,7 @@
         "varnishingPaintInfo": "Additional color information",
         "jobs": "Jobs",
         "name": "Name",
+        "startDate": "Start date [optional]",
         "manMinutes": "Estimated time [min]",
         "worth": "Worth",
         "currency": "Currency",

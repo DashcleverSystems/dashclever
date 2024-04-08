@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: estimate1.0.4_add_optional_startDate_field
+      author: pawel
+      changes:
+        - addColumn:
+            tableName: RM_ESTIMATECATALOGUE_ESTIMATE
+            columns:
+              - column:
+                  name: start_date
+                  type: date

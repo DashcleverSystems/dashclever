@@ -7,6 +7,7 @@ export interface IEstimateDTO {
   customerName: string;
   vehicleInfo: IEstimatedVehicleInfo;
   paintInfo: IEstimatedPaintInfo;
+  startDate: Date;
   jobs: IEstimatedJob[];
 }
 
@@ -27,6 +28,7 @@ export interface IEstimateForm {
   customerName: FormControl<string | null>;
   vehicleInfo: FormGroup<IEstimatedVehicleInfoForm>;
   paintInfo: FormGroup<IEstimatedPaintInfoForm>;
+  startDate: FormControl<Date | null>
   jobs: FormArray<FormGroup<IEstimatedJobForm>>;
 }
 
