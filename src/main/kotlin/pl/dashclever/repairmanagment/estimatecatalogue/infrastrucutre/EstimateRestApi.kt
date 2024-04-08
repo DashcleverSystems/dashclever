@@ -37,7 +37,7 @@ import pl.dashclever.repairmanagment.estimatecatalogue.VehicleInfo
 import java.net.URI
 import java.time.ZoneId
 import java.time.ZonedDateTime
-import java.util.UUID
+import java.util.*
 
 private const val PATH = "/api/estimatecatalogue"
 
@@ -92,7 +92,6 @@ internal class EstimateRestApi(
         if (filters.vehicleBrand != null) {
             specification = specification.and(EstimateSpecifications.vehicleBrand(filters.vehicleBrand))
         }
-
 
         val sort = when (filters.sortDirection) {
             ASC -> Sort.by("createdOn").ascending()
