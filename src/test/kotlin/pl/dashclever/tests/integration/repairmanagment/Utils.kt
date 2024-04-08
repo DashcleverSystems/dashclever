@@ -8,6 +8,7 @@ import pl.dashclever.repairmanagment.estimatecatalogue.JobType.LABOUR
 import pl.dashclever.repairmanagment.estimatecatalogue.JobType.VARNISHING
 import pl.dashclever.repairmanagment.estimatecatalogue.PaintInfo
 import pl.dashclever.repairmanagment.estimatecatalogue.VehicleInfo
+import java.time.LocalDate
 
 internal fun `new estimate`(estimateId: String): Estimate {
     return Estimate(
@@ -17,6 +18,7 @@ internal fun `new estimate`(estimateId: String): Estimate {
             baseColorWithCode = "red 222",
             varnishingPaintInfo = "2 layers/ pearl"
         ),
+        startDate = LocalDate.of(2024, 4, 8),
         vehicleInfo = VehicleInfo(
             registration = "zko8gg2",
             brand = "Peugeot",
