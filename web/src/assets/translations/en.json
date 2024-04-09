@@ -79,6 +79,7 @@
       }
     },
     "estimatePage": {
+      "customerName": "Client",
       "title": "Estimates",
       "estimateCreate": "Create estimate",
       "createPlanning": "Create planning",

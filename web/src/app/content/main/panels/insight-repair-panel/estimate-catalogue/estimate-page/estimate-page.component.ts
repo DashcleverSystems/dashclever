@@ -9,6 +9,8 @@ import { CreatePlanningConfirmationDialog } from '@app/content/main/panels/insig
 import { ToastService } from '@app/shared/services/toast.service';
 import { EstimateCreateNotifier } from '@app/content/main/panels/insight-repair-panel/estimate-catalogue/estimate-create/estimate-create.notifier';
 import { AppDialogService } from '@app/shared/commons/dialog/dialog.service';
+import { TableLazyLoadEvent } from 'primeng/table';
+import { FiltersSetter } from '@shared/commons/primeng/filters-setter';
 
 @Component({
   selector: 'app-estimate-page',
@@ -27,14 +29,14 @@ export class EstimatePageComponent
 
   constructor(
     private store: Store,
-    private toastr: ToastService,
+    private toast: ToastService,
     private notifier: EstimateCreateNotifier,
     tableStore: EstimatePageTableStore,
     @SkipSelf() private dialog: AppDialogService,
   ) {
     super(tableStore);
     this.filters = {
-      estimateId: null,
+      estimateName: null,
       createdAfter: null,
     };
   }
@@ -46,20 +48,6 @@ export class EstimatePageComponent
       .subscribe((mobile) => (this.isMobile = mobile));
     this.subscribeRefreshListener();
     this.getCollection();
-  }
-
-  setCreatedAfterFilter(date?: Date | null) {
-    if (date != null) {
-      this.filters.createdAfter = date.toISOString();
-    } else {
-      this.filters.createdAfter = null;
-    }
-  }
-
-  checkEmpty(newValue: string | null) {
-    if (newValue != null && newValue.length === 0) {
-      this.filters.estimateId = null;
-    }
   }
 
   createPlanningFromEstimate(estimate: EstimateDto): void {
@@ -75,13 +63,49 @@ export class EstimatePageComponent
       })
       .onClose.subscribe((res) => {
         if (res) {
-          this.toastr.success({
+          this.toast.success({
             message:
               'components.estimateCatalogueConfirmDialog.actions.success',
             translate: true,
           });
         }
       });
+  }
+
+  filter(event: TableLazyLoadEvent) {
+    const filtersSetter = new FiltersSetter(this.filters, event.filters);
+
+    filtersSetter.setFilter(
+      (filters: EstimateFilters, primeFilterValue: string) =>
+        (filters.customerName = primeFilterValue),
+      'customerName',
+    );
+
+    filtersSetter.setFilter(
+      (filters: EstimateFilters, primeFilterValue: string) =>
+        (filters.vehicleBrand = primeFilterValue),
+      'brand',
+    );
+
+    filtersSetter.setFilter(
+      (filters: EstimateFilters, primeFilterValue: string) =>
+        (filters.registration = primeFilterValue),
+      'registration',
+    );
+
+    filtersSetter.setFilter(
+      (filters: EstimateFilters, primeFilterValue: string) =>
+        (filters.createdAfter = primeFilterValue),
+      'createdAfter',
+      (filterMetadata) => {
+        if (!filterMetadata) return null;
+        const filterValue = filterMetadata[0]?.value ?? null;
+        if (filterValue) return new Date(filterValue).toISOString();
+        else return null;
+      },
+    );
+
+    this.getCollection();
   }
 
   ngOnDestroy(): void {

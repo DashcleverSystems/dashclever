@@ -79,6 +79,7 @@
       }
     },
     "estimatePage": {
+      "customerName": "Klient",
       "title": "Kosztorysy",
       "estimateCreate": "Utwórz kosztorys",
       "createPlanning": "Utwórz plan",
