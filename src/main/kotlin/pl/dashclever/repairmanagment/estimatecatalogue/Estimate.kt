@@ -26,7 +26,7 @@ class Estimate(
     val jobs: Set<Job> = emptySet()
 ) : OptimisticLockEntity<UUID>() {
 
-    fun getCreationTimestamp(): LocalDateTime = super.getCreatedOn()
+    fun getCreationTimestamp(): LocalDateTime? = super.getCreatedOn()
 
     @Id
     val id: UUID = UUID.randomUUID()

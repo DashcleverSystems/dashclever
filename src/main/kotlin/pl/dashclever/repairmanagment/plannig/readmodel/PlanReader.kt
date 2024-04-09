@@ -38,7 +38,7 @@ class PlanReader(
         val estimateName: String,
         val estimateId: String,
         val technicalRepairTimeInMinutes: Int,
-        val createdOn: ZonedDateTime
+        val createdOn: ZonedDateTime?
     )
 
     data class PlanFilters(
@@ -64,7 +64,7 @@ class PlanReader(
             estimateId = estimate.id.toString(),
             estimateName = estimate.name,
             technicalRepairTimeInMinutes = estimate.jobs.filter { plan.getJobCatalogueIds().contains(it.id) }.sumOf { it.manMinutes },
-            createdOn = plan.getCreationTimestamp().asGmt()
+            createdOn = plan.getCreationTimestamp()?.asGmt()
         )
         return Optional.of(planDto)
     }
@@ -90,7 +90,7 @@ class PlanReader(
                 estimateName = estimate.name,
                 estimateId = estimate.id.toString(),
                 technicalRepairTimeInMinutes = estimate.jobs.filter { plan.getJobCatalogueIds().contains(it.id) }.sumOf { it.manMinutes },
-                createdOn = plan.getCreationTimestamp().atZone(ZoneId.of("GMT"))
+                createdOn = plan.getCreationTimestamp()?.atZone(ZoneId.of("GMT"))
             )
         }
         return PagingInfo(

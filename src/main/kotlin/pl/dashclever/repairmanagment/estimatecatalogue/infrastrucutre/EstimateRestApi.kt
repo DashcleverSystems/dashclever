@@ -131,6 +131,6 @@ internal class EstimateRestApi(
             this.paintInfo,
             this.startDate,
             this.jobs,
-            this.getCreationTimestamp().asGmt()
+            this.getCreationTimestamp()?.asGmt()
         )
 }

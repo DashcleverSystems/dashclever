@@ -63,7 +63,7 @@ class Plan internal constructor(
     fun getJobCatalogueIds(): Set<Long> =
         this.jobs.map { it.catalogueJobId }.toSet()
 
-    fun getCreationTimestamp(): LocalDateTime = this.createdOn
+    fun getCreationTimestamp(): LocalDateTime? = this.createdOn
 
     private fun tryFindJob(jobId: Long): Job = jobs.first { it.catalogueJobId == jobId }
 
