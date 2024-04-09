@@ -1,53 +1,25 @@
 $icons: poland;
-$icon-bg: rgba(
-  $color: #6b9080,
-  $alpha: 1,
-);
-
-$menu-color: rgba(
-  $color: #6b9080,
-  $alpha: 1,
-);
-
-$menu-item-color: 32;
-$menu-item-hover-color: 32;
-$menu-item-active-color: 32;
-
-$header-color: rgba(
-  $color: #6b9080,
-  $alpha: 1,
-);
 
 .pointer {
   cursor: pointer;
 }
 
-$primary-dark: rgba(
-  $color: #6b9080,
-  $alpha: 1,
-);
+:root {
+  --icon-bg: var(--primary-600);
+  --border-color: var(--surface-600);
 
-$primary-middle: rgba(
-  $color: #a4c3b2,
-  $alpha: 1,
-);
+  --color: black;
+  --color-dialog: var(--primary-color-text);
 
-$primary-light: rgba(
-  $color: #cce3de,
-  $alpha: 1,
-);
+  --background-url: url("/assets/images/background/background-light.svg");
+}
 
-$secondary-dark: rgba(
-  $color: #eaf4f4,
-  $alpha: 1,
-);
+.dark {
+  --icon-bg: var(--primary-600);
+  --border-color: var(--surface-border);
 
-$secondary-middle: rgba(
-  $color: #f6fff8,
-  $alpha: 1,
-);
+  --color: white;
+  --color-dialog: white;
 
-$secondary-light: rgba(
-  $color: #f4f6f5,
-  $alpha: 1,
-);
+  --background-url: url("/assets/images/background/background-dark.svg");
+}

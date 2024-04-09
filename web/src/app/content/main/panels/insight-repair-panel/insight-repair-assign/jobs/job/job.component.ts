@@ -41,13 +41,18 @@ import { InsightRepairAssignService } from '@content/main/panels/insight-repair-
       padding: 10px;
       border-radius: 25px;
       cursor: pointer;
-      background-color: #dbece9;
+      background-color: var(--primary-color);
+      color: var(--primary-color-text);
       width: max-content;
 
       @include shadow();
 
       &.assigned {
-        background-color: #ca907e !important;
+        background-color: var(--surface-500) !important;
+
+        .description {
+          color: var(--surface-100);
+        }
       }
 
       .description {
@@ -55,9 +60,11 @@ import { InsightRepairAssignService } from '@content/main/panels/insight-repair-
         word-break: break-word;
         text-align: center;
         display: flex;
+        color: var(--primary-color-text);
       }
+
       .delete {
-        color: red;
+        color: var(--invalid-color);
         margin-left: 10px;
         display: flex;
         align-items: center;

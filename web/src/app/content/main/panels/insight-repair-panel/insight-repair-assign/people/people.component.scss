@@ -10,9 +10,9 @@
   justify-content: center;
   overflow-y: auto;
 
-  border: 1px solid $primary-dark;
+  border: 1px solid var(--border-color);
   border-radius: 10px;
-  background-color: $secondary-dark;
+  background-color: var(--primary-400);
   @include shadow;
 
   .people-bubble-wrapper {

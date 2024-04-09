@@ -7,6 +7,7 @@ import { AppCardComponent } from './card/card.component';
 import { AppSpinner } from './spinner/spinner.component';
 import { AppDialogComponent } from './dialog/dialog.component';
 import { LinearDatePickerComponent } from './date-picker/linear-date-picker.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonFormControlModule } from '@shared/commons/form-control/common-form-control.module';
 import { FormControlErrorOutput } from '@shared/commons/form-control/error-output/form-control-error-output.component';
 
@@ -19,6 +20,8 @@ import { FormControlErrorOutput } from '@shared/commons/form-control/error-outpu
     AppCardComponent,
     AppSpinner,
     LinearDatePickerComponent,
+    ReactiveFormsModule,
+    FormsModule,
     CommonFormControlModule,
   ],
   exports: [

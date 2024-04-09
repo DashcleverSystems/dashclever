@@ -13,9 +13,9 @@ export class DialogExtension {
 
   static setClass(): void {
     if (this.dialogCount > 0) {
-      document.body.className = 'overflow-hidden';
+      document.body.classList.add('overflow-hidden');
     } else {
-      document.body.className = '';
+      document.body.classList.remove('overflow-hidden');
       this.dialogCount = 0;
     }
   }

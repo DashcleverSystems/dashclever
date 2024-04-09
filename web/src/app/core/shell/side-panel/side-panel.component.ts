@@ -16,6 +16,25 @@ import { IShellRoute, ShellRoutes } from '../shell-routes';
 export class SidePanelComponent implements OnInit {
   @Input() mobile: boolean = false;
 
+  private open: boolean = false;
+
+  get openValue() {
+    return this.open;
+  }
+
+  set openValue(val: boolean) {
+    this.open = val;
+  }
+  isDarkTheme: boolean = false;
+
+  toggleTheme(): void {
+    this.isDarkTheme = !this.isDarkTheme;
+
+    if (this.isDarkTheme) {
+      document.body.classList.add('dark');
+    } else document.body.classList.remove('dark');
+  }
+
   navList: IShellRoute[] = [];
 
   trackBy = (index: number) => index;

@@ -13,18 +13,16 @@ import { TranslateModule } from '@ngx-translate/core';
   `,
   styles: [
     `
+      @import 'src/assets/styles/variables';
+      @import 'src/assets/styles/mixins';
+
       .card-container {
         width: fit-content;
         height: fit-content;
         border-radius: 10px;
         padding: 1rem;
-        border: 1px solid rgba($color: #a4c3b2, $alpha: 1);
-        box-shadow: 4px 10px 12px -9px rgba($color:
-              rgba($color: #6b9080, $alpha: 1), $alpha: 0.69);
-        -webkit-box-shadow: 4px 10px 12px -9px rgba($color:
-              rgba($color: #6b9080, $alpha: 1), $alpha: 0.69);
-        -moz-box-shadow: 4px 10px 12px -9px rgba($color:
-              rgba($color: #6b9080, $alpha: 1), $alpha: 0.69);
+        border: 1px solid var(--border-color);
+        @include shadow();
       }
     `,
   ],

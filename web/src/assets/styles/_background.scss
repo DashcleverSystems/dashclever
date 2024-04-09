@@ -7,7 +7,7 @@
   position: relative;
 
   &--login {
-    background-image: url("~assets/images/background/login_background.svg");
+    background-image: var(--background-url);
     background-size: cover;
   }
 }

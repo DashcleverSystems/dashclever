@@ -17,6 +17,7 @@
     height: auto;
     overflow: auto;
     scroll-behavior: smooth;
+    overflow-x: hidden;
 
     &.mobile {
       width: 100vw;

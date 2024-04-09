@@ -1,9 +1,22 @@
-<ul>
-  <li
-    class="pointer"
-    *ngFor="let lang of availableLanguages"
-    (click)="changeLanguage(lang.code)"
-  >
-    {{ "enum.Language." + lang.code | translate }}
-  </li>
-</ul>
+<div class="language-setting">
+  <div class="label">{{ 'components.languageSelector.label' | translate }}</div>
+  <div class="control">
+    <p-dropdown
+      [options]="availableLanguages"
+      [formControl]="languageControl"
+      optionValue="code"
+      [showClear]="false"
+    >
+      <ng-template let-lang pTemplate="selectedItem">
+        <div class="flex align-items-center gap-2" *ngIf="lang">
+          <div>{{ 'enum.Language.' + lang.code | translate }}</div>
+        </div>
+      </ng-template>
+      <ng-template let-language pTemplate="item">
+        <div class="flex align-items-center gap-2">
+          <div>{{ 'enum.Language.' + language.code | translate }}</div>
+        </div>
+      </ng-template>
+    </p-dropdown>
+  </div>
+</div>

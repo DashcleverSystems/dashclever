@@ -1,5 +1,11 @@
 {
   "Home": "Home",
+  "settings": {
+    "title": "Settings",
+    "switch-theme": {
+      "switch": "Change theme"
+    }
+  },
   "login": {
     "username": "Username",
     "password": "Password",
@@ -41,6 +47,9 @@
         "title": "Create workshop",
         "workshopName": "Name"
       }
+    },
+    "languageSelector": {
+      "label": "Language"
     },
     "accessesSelector": {
       "users": {

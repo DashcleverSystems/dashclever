@@ -26,7 +26,7 @@ export class AppDialogService {
       contentStyle: {
         'min-height': '100px',
         'max-height': '96vh',
-        overflow: 'auto',
+        'overflow-y': 'auto',
         padding: 0,
       },
       baseZIndex: 10000,
