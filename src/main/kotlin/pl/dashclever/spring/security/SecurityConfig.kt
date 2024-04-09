@@ -27,26 +27,28 @@ internal class SecurityConfig(
     @Bean
     fun configure(http: HttpSecurity): SecurityFilterChain {
         return http
-            .csrf().disable()
-            .authorizeHttpRequests()
-            .requestMatchers(HttpMethod.GET, "/*").permitAll()
-            .requestMatchers(HttpMethod.POST, "/api/account").permitAll()
-            .requestMatchers(HttpMethod.GET, "/login").denyAll()
-            .anyRequest().authenticated()
-            .and()
-            .httpBasic().disable()
-            .formLogin().loginProcessingUrl("/api/login")
-            .successHandler { _, response, _ -> response.status = HttpStatus.OK.value() }
-            .failureHandler { _, response, _ -> response.status = HttpStatus.BAD_REQUEST.value() }
-            .permitAll()
-            .and()
-            .logout().logoutUrl("/api/logout")
-            .logoutSuccessHandler { _, response, _ -> response.status = HttpStatus.OK.value() }
-            .and()
-            .exceptionHandling()
-            .accessDeniedHandler { _, response, _ -> response.status = HttpStatus.FORBIDDEN.value() }
-            .authenticationEntryPoint { _, response, _ -> response.status = HttpStatus.UNAUTHORIZED.value() }
-            .and()
+            .csrf { it.disable() }
+            .authorizeHttpRequests {
+                it.requestMatchers(HttpMethod.GET, "/*").permitAll()
+                it.requestMatchers(HttpMethod.POST, "/api/account").permitAll()
+                it.requestMatchers(HttpMethod.GET, "/login").denyAll()
+                it.anyRequest().authenticated()
+            }
+            .httpBasic { it.disable() }
+            .formLogin {
+                it.loginProcessingUrl("/api/login")
+                it.successHandler { _, response, _ -> response.status = HttpStatus.OK.value() }
+                it.failureHandler { _, response, _ -> response.status = HttpStatus.BAD_REQUEST.value() }
+                it.permitAll()
+            }
+            .logout {
+                it.logoutUrl("/api/logout")
+                it.logoutSuccessHandler { _, response, _ -> response.status = HttpStatus.OK.value() }
+            }
+            .exceptionHandling {
+                it.accessDeniedHandler { _, response, _ -> response.status = HttpStatus.FORBIDDEN.value() }
+                it.authenticationEntryPoint { _, response, _ -> response.status = HttpStatus.UNAUTHORIZED.value() }
+            }
             .build()
     }
 }

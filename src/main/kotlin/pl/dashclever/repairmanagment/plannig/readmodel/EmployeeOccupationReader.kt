@@ -21,7 +21,6 @@ interface EmployeeOccupationReader : Repository<Plan, UUID> {
 
     @Query(value = "SELECT j.assignedTo AS employeeId, SUM(j.manMinutes) AS manMinutes FROM RM_PLANNING_JOB j WHERE j.assignedAt = :at GROUP BY j.assignedTo")
     fun findAll(at: LocalDate): Set<EmployeeOccupationDto>
-
 }
 
 interface EmployeeOccupationDto {

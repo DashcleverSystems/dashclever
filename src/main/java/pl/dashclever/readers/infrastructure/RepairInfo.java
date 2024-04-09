@@ -6,6 +6,7 @@ import java.util.Set;
 
 public record RepairInfo(
     String uniqueId,
+    EstimateReader.CustomerInfo customerInfo,
     EstimateReader.VehicleInfo vehicleInfo,
     EstimateReader.Paint paint,
     Set<EstimateReader.Job> labourJobs,

@@ -37,9 +37,9 @@ export class SidePanelComponent implements OnInit {
 
   navList: IShellRoute[] = [];
 
-  trackBy = (index: number, el: any) => index;
+  trackBy = (index: number) => index;
 
-  constructor(private _cdr: ChangeDetectorRef) {}
+  constructor(private readonly _cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.navList = ShellRoutes;

@@ -24,17 +24,6 @@ export const ShellRoutes: IShellRoute[] = [
     canActivate: [AuthorizedGuard],
   },
   {
-    url: 'manage',
-    name: 'enum.Panel.' + Panel.MANAGE_STAFF,
-    loadChildren: () =>
-      import('@content/main/panels/manage-panel/manage-panel.module').then(
-        (m) => m.ManagePanelModule,
-      ),
-    iconName: 'manage',
-    permissions: [Panel.MANAGE_STAFF],
-    canActivate: [AuthorizedGuard, PermissionGuard],
-  },
-  {
     url: 'insight-repair',
     name: 'enum.Panel.' + Panel.INSIGHT_REPAIR,
     loadChildren: () =>
@@ -54,6 +43,17 @@ export const ShellRoutes: IShellRoute[] = [
       ).then((m) => m.RepairProcessPanelModule),
     iconName: 'repair_process',
     permissions: [Panel.REPAIR_PROCESS],
+    canActivate: [AuthorizedGuard, PermissionGuard],
+  },
+  {
+    url: 'manage',
+    name: 'enum.Panel.' + Panel.MANAGE_STAFF,
+    loadChildren: () =>
+      import('@content/main/panels/manage-panel/manage-panel.module').then(
+        (m) => m.ManagePanelModule,
+      ),
+    iconName: 'manage',
+    permissions: [Panel.MANAGE_STAFF],
     canActivate: [AuthorizedGuard, PermissionGuard],
   },
   {

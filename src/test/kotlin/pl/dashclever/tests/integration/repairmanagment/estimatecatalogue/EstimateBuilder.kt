@@ -4,12 +4,12 @@ import pl.dashclever.repairmanagment.estimatecatalogue.Estimate
 import pl.dashclever.repairmanagment.estimatecatalogue.Job
 import pl.dashclever.repairmanagment.estimatecatalogue.PaintInfo
 import pl.dashclever.repairmanagment.estimatecatalogue.VehicleInfo
-import java.util.*
 
 internal object EstimateBuilder {
 
     class Builder {
-        var estimateId: String = "01/2022WK"
+        var estimateName: String = "01/2022WK"
+        var customerName: String = "Test customer"
         var vehicleInfo: VehicleInfo = VehicleInfoBuilder { }
         var paintInfo: PaintInfo = PaintInfoBuilder { }
         var jobs: Set<Job> = emptySet()
@@ -19,7 +19,8 @@ internal object EstimateBuilder {
         val builder = Builder()
         builder.init()
         return Estimate(
-            estimateId = builder.estimateId,
+            name = builder.estimateName,
+            customerName = builder.customerName,
             vehicleInfo = builder.vehicleInfo,
             paintInfo = builder.paintInfo,
             jobs = builder.jobs

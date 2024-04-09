@@ -9,10 +9,15 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 max_line_length = 250
 
+[{*.yaml, *.yml}]
+indent_size = 2
+indent_style = space
+
 [{*.kt, *.kts}]
 ij_kotlin_name_count_to_use_star_import = 50
 ij_kotlin_name_count_to_use_star_import_for_members = 50
 ij_java_use_single_class_imports = true
 ij_kotlin_import_nested_classes = true
 
-
+[{*.yml, *.yaml}]
+indent_size = 2

@@ -43,7 +43,7 @@ internal class PlanReadModelTests(
     @Test
     fun `should find plan`() {
         // given
-        val estimate = EstimateBuilder { this.estimateId = "24/2022wk" }
+        val estimate = EstimateBuilder { this.estimateName = "24/2022wk" }
         estimateRepository.save(estimate)
         val planningId = planCreating.create(estimate.id)
         val planning = planRepository.findById(planningId)!!
@@ -66,7 +66,7 @@ internal class PlanReadModelTests(
     @Test
     fun `should find plan by estimate id`() {
         // given
-        val estimate = EstimateBuilder { this.estimateId = "24/2022wk" }
+        val estimate = EstimateBuilder { this.estimateName = "24/2022wk" }
         estimateRepository.save(estimate)
         planCreating.create(estimate.id)
 
@@ -87,7 +87,7 @@ internal class PlanReadModelTests(
     @Test
     fun `should find plan within date range`() {
         // given
-        val estimate = EstimateBuilder { this.estimateId = "24/2022wk" }
+        val estimate = EstimateBuilder { this.estimateName = "24/2022wk" }
         estimateRepository.save(estimate)
         val planningId = planCreating.create(estimate.id)
         val planning = planRepository.findById(planningId)!!

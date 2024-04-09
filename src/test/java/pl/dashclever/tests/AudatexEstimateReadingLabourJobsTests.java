@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static pl.dashclever.readers.domain.EstimateReader.Currency.PLN;
 
 public class AudatexEstimateReadingLabourJobsTests {
-    //THEN_WHEN_GIVEN
+
     @Test
     public void ReturnsProperLabourJobsAmount_AfterReadEstimate() throws IOException, ReaderException {
         //GIVEN

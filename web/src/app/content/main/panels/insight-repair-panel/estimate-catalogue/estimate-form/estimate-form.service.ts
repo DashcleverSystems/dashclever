@@ -29,8 +29,12 @@ export class EstimateFormService {
     data?: Partial<IEstimateDTO> | undefined,
   ): FormGroup<IEstimateForm> {
     return this.fb.group({
-      estimateId: this.fb.control<string | null>(
-        data?.estimateId ?? null,
+      estimateName: this.fb.control<string | null>(
+        data?.estimateName ?? null,
+        Validators.required,
+      ),
+      customerName: this.fb.control<string | null>(
+        data?.customerName ?? null,
         Validators.required,
       ),
       vehicleInfo: this.getVehicleInfoGroup(data?.vehicleInfo),
@@ -49,7 +53,8 @@ export class EstimateFormService {
 
   formatDataFromPdf(data: IEstimatePdfDTO): IEstimateDTO {
     return {
-      estimateId: data?.uniqueId,
+      estimateName: data?.uniqueId,
+      customerName: data?.customerInfo.customerName,
       vehicleInfo: data?.vehicleInfo,
       paintInfo: {
         ...data?.paint,
@@ -77,7 +82,8 @@ export class EstimateFormService {
   }
 
   patchValues(form: FormGroup<IEstimateForm>, data: IEstimateDTO) {
-    form.controls.estimateId.patchValue(data.estimateId);
+    form.controls.estimateName.patchValue(data.estimateName);
+    form.controls.customerName.patchValue(data.customerName);
     form.controls.paintInfo.patchValue(data.paintInfo);
     form.controls.vehicleInfo.patchValue(data.vehicleInfo);
     form.controls.jobs.clear();
@@ -126,7 +132,7 @@ export class EstimateFormService {
     return this.fb.group({
       denomination: this.fb.control<number | null>(
         data?.denomination ? data?.denomination / 100 : null,
-        Validators.required,
+        [Validators.required, Validators.min(0)],
       ),
       currency: this.fb.control<string | Currency | null>(
         data?.currency ?? Currency.PLN,
@@ -141,10 +147,10 @@ export class EstimateFormService {
         data?.name ?? null,
         Validators.required,
       ),
-      manMinutes: this.fb.control<number | null>(
-        data?.manMinutes ?? null,
+      manMinutes: this.fb.control<number | null>(data?.manMinutes ?? null, [
         Validators.required,
-      ),
+        Validators.min(1),
+      ]),
       worth: this.getWorthJobGroup(data?.worth),
       jobType: this.fb.control<string | JobType | null>(
         data?.jobType ?? JobType.LABOUR,
