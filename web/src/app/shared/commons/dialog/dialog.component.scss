@@ -8,8 +8,8 @@
     .dialog-header {
       padding: 20px;
       border-bottom: 1px solid var(--border-color);
-      background: var(--dialog-header-bg);
-      color: var(--active-color);
+      background: var(--primary-600);
+      color: var(--color-dialog);
       position: sticky;
       top: 0;
       z-index: 10;
@@ -22,8 +22,6 @@
 
     .dialog-content {
       padding: 20px;
-      background: var(--dialog-content-bg);
-      color: var(--dialog-color);
       overflow: auto;
     }
 
@@ -31,7 +29,7 @@
       padding: 10px;
       border-top: none;
       gap: 1rem;
-      background: var(--dialog-header-bg);
+      background: var(--primary-600);
       position: sticky;
       bottom: 0;
       width: 100%;

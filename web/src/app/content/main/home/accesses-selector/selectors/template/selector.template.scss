@@ -52,14 +52,15 @@
       padding: 1rem;
 
       &:hover {
-        background-color: var(--color-1);
+        background-color: var(--primary-color);
         cursor: pointer;
       }
 
       &.selected {
-        background-color: var(--color-2);
+        background-color: var(--primary-600);
+        color: var(--primary-color-text);
         &:hover {
-          background-color: var(--color-3);
+          background-color: var(--primary-700);
         }
       }
     }

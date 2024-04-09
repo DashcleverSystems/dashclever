@@ -6,7 +6,7 @@
   position: fixed;
   height: 50px;
   width: 150px;
-  background-color: var(--color-2);
+  background-color: var(--primary-color);
   right: 2rem;
   top: 2rem;
   border-radius: 25px;
@@ -16,10 +16,10 @@
   align-items: center;
 
   cursor: pointer;
-  color: var(--color);
+  color: var(--primary-color-text);
 
   i {
-    background-color: var(--color);
+    background-color: var(--primary-color-text);
   }
 
   @include shadow();

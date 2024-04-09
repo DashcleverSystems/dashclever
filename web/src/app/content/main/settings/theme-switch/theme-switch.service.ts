@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 export enum ThemeType {
   LIGHT = 'LIGHT',
@@ -25,6 +26,8 @@ export class ThemeSwitchService {
 
   private STORAGE_KEY: string = 'theme';
 
+  constructor(@Inject(DOCUMENT) private document: Document) {}
+
   public checkTheme(): void {
     if (this.checkIfInsideLocalStorageExistSelectedTheme()) {
       const theme: ThemeType = this.getSelectedThemeFromStorage();
@@ -46,7 +49,15 @@ export class ThemeSwitchService {
 
   private updateSelectedTheme(theme: ThemeType) {
     localStorage.setItem(this.STORAGE_KEY, theme);
-    document.body.classList.toggle('dark', theme === ThemeType.DARK);
+
+    const themeLink = this.document.getElementById(
+      'app-theme',
+    ) as HTMLLinkElement;
+
+    if (themeLink) {
+      themeLink.href = theme.toLowerCase() + '.css';
+      this.document.body.classList.toggle('dark', theme === ThemeType.DARK);
+    }
   }
 
   private checkUserSystemPreferences(): ThemeType {

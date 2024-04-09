@@ -5,81 +5,21 @@ $icons: poland;
 }
 
 :root {
-  --global-bg-color: #f0f6fa;
+  --icon-bg: var(--primary-600);
+  --border-color: var(--surface-600);
 
-  --color-1: #a9d6e5;
-  --color-2: #89c2d9;
-  --color-3: #61a5c2;
-  --color-4: #468faf;
-  --color-5: #2c7da0;
+  --color: black;
+  --color-dialog: var(--primary-color-text);
 
-  --border-color: #2c7da0;
-
-  --input-bg: #cbecf4;
-  --input-color: #012a4a;
-
-  --dialog-header-bg: #306c86;
-  --dialog-content-bg: #f0f6fa;
-  --dialog-color: #012a4a;
-
-  --icon-bg: #2a6f97;
-
-  --active-border: #d5edf6;
-  --active-bg: #2a6f97;
-  --active-icon-bg: #d5edf6;
-  --box-shadow-color: #014f86;
-
-  --color: #012a4a;
-  --active-color: #d5edf6;
-
-  --selected-color: #d34766;
-  --invalid-color: #a02c2c;
-
-  --job-list-color: black;
-  --job-list-color-selected: white;
-
-  --table-row-color: #cdecf6;
-  --table-even-row-color: #89c2d9;
-  --table-header-bg-color: #61a5c2;
-  --table-header-color: white;
+  --background-url: url("/assets/images/background/background-light.svg");
 }
 
 .dark {
-  --global-bg-color: #011a2e;
+  --icon-bg: var(--primary-600);
+  --border-color: var(--surface-border);
 
-  --color-1: #2a6f97;
-  --color-2: #014f86;
-  --color-3: #01497c;
-  --color-4: #013a63;
-  --color-5: #012a4a;
+  --color: white;
+  --color-dialog: white;
 
-  --icon-bg: #a9d6e5;
-
-  --border-color: #89c2d9;
-
-  --input-bg: #2a6f97;
-  --input-color: #a9d6e5;
-
-  --dialog-header-bg: #013a63;
-  --dialog-content-bg: #01497c;
-  --dialog-color: #a9d6e5;
-
-  --active-border: #011a2e;
-  --active-bg: #2a6f97;
-  --active-icon-bg: #d5edf6;
-  --box-shadow-color: #468faf;
-
-  --color: #a9d6e5;
-  --active-color: #a9d6e5;
-
-  --selected-color: #d34766;
-  --invalid-color: #a02c2c;
-
-  --job-list-color: white;
-  --job-list-color-selected: white;
-
-  --table-row-color: #2a6f97;
-  --table-even-row-color: #014f86;
-  --table-header-bg-color: #013a63;
-  --table-header-color: white;
+  --background-url: url("/assets/images/background/background-dark.svg");
 }

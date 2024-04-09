@@ -34,7 +34,7 @@ export class EstimatePageComponent
   ) {
     super(tableStore);
     this.filters = {
-      estimateName: null,
+      estimateId: null,
       createdAfter: null,
     };
   }
@@ -58,7 +58,7 @@ export class EstimatePageComponent
 
   checkEmpty(newValue: string | null) {
     if (newValue != null && newValue.length === 0) {
-      this.filters.estimateName = null;
+      this.filters.estimateId = null;
     }
   }
 
