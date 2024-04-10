@@ -1,8 +1,5 @@
 @mixin shadow() {
-  box-shadow: 4px 10px 12px -9px rgba($color: rgba($color: #6b9080, $alpha: 1), $alpha:
-        0.69);
-  -webkit-box-shadow: 4px 10px 12px -9px rgba($color:
-        rgba($color: #6b9080, $alpha: 1), $alpha: 0.69);
-  -moz-box-shadow: 4px 10px 12px -9px rgba($color:
-        rgba($color: #6b9080, $alpha: 1), $alpha: 0.69);
+  box-shadow: 4px 5px 15px -10px var(--surface-400);
+  -webkit-box-shadow: 4px 5px 15px -10px var(--surface-400);
+  -moz-box-shadow: 4px 5px 15px -10px var(--surface-400);
 }

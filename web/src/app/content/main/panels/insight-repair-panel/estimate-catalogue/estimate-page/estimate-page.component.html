@@ -27,27 +27,70 @@
         class="submit"
       />
     </div>
-
-    <p-table [value]="data$ | async">
+    <p-table
+      [lazy]="true"
+      [value]="data$ | async"
+      (onLazyLoad)="filter($event)"
+    >
       <ng-template pTemplate="header">
         <tr>
-          <th>{{ 'components.estimatePage.registration' | translate }}</th>
-          <th>{{ 'components.estimatePage.brand' | translate }}</th>
+          <th>
+            {{ 'components.estimatePage.customerName' | translate }}
+            <p-columnFilter
+              type="text"
+              display="menu"
+              field="customerName"
+              [showOperator]="false"
+              [showAddButton]="false"
+              [showMatchModes]="false"
+            />
+          </th>
+          <th>
+            {{ 'components.estimatePage.registration' | translate }}
+            <p-columnFilter
+              type="text"
+              display="menu"
+              field="registration"
+              [showOperator]="false"
+              [showAddButton]="false"
+              [showMatchModes]="false"
+            />
+          </th>
+          <th>
+            {{ 'components.estimatePage.brand' | translate }}
+            <p-columnFilter
+              type="text"
+              display="menu"
+              field="brand"
+              [showOperator]="false"
+              [showAddButton]="false"
+              [showMatchModes]="false"
+            />
+          </th>
           <th>{{ 'components.estimatePage.model' | translate }}</th>
           <th>
             {{ 'components.estimatePage.creationTimestamp' | translate }}
+            <p-columnFilter
+              type="date"
+              display="menu"
+              field="createdAfter"
+              [showOperator]="false"
+              [showAddButton]="false"
+              [showMatchModes]="false"
+            />
           </th>
           <th class="plan-icon-column"></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-estimate>
         <tr [pTooltip]="estimate.estimateId">
+          <td>{{ estimate.customerName }}</td>
           <td>{{ estimate.vehicleInfo.registration }}</td>
           <td>{{ estimate.vehicleInfo.brand }}</td>
           <td>{{ estimate.vehicleInfo.model }}</td>
           <td>{{ estimate.creationTimestamp | date: 'YYYY-MM-d HH:mm' }}</td>
           <td class="plan-icon-column">
-            <div>
+            <div class="flex justify-content-center align-items-center">
               <i
                 class="pi pi-book pointer"
                 pTooltip="{{

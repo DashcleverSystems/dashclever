@@ -105,7 +105,7 @@ class PlanReader(
         if (this.sortDirection == null) {
             return null
         }
-        return Sort("createdOn", this.sortDirection ?: DESC)
+        return Sort("createdOn", this.sortDirection)
     }
 
     private fun Sort?.toJpaSort(): JpaSort {

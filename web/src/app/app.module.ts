@@ -1,4 +1,4 @@
-import { NgModule, isDevMode } from '@angular/core';
+import { NgModule, isDevMode, Self } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -19,6 +19,7 @@ import {
   Configuration,
   ConfigurationParameters,
 } from 'generated/openapi';
+import { ThemeSwitchService } from '@content/main/settings/theme-switch/theme-switch.service';
 
 export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
@@ -51,6 +52,7 @@ export function apiConfigFactory(): Configuration {
       multi: true,
     },
     MessageService,
+    ThemeSwitchService,
   ],
   bootstrap: [AppComponent],
 })

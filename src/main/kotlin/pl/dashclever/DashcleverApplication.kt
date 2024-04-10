@@ -7,6 +7,7 @@ import org.springframework.boot.runApplication
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import pl.dashclever.spring.events.InMemoryAsyncDomainEventsPublisherBeansInitializer
 
 @OpenAPIDefinition(
     servers = [
@@ -25,7 +26,9 @@ class DashcleverApplication
 
 @Suppress("SpreadOperator")
 fun main(args: Array<String>) {
-    runApplication<DashcleverApplication>(*args)
+    runApplication<DashcleverApplication>(*args) {
+        addInitializers(InMemoryAsyncDomainEventsPublisherBeansInitializer())
+    }
 }
 
 @RestController

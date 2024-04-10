@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, SkipSelf } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { isMobile } from '@core/store/core-store.selectors';
-import { Subject, distinctUntilChanged, takeUntil, Observable } from 'rxjs';
+import { distinctUntilChanged, Observable, Subject, takeUntil } from 'rxjs';
 import { EstimateDto, EstimateFilters } from 'generated/openapi';
 import { Table } from '@app/shared/services/table/table.service';
 import { EstimatePageTableStore } from './estimate-page.store';
@@ -9,6 +9,8 @@ import { CreatePlanningConfirmationDialog } from '@app/content/main/panels/insig
 import { ToastService } from '@app/shared/services/toast.service';
 import { EstimateCreateNotifier } from '@app/content/main/panels/insight-repair-panel/estimate-catalogue/estimate-create/estimate-create.notifier';
 import { AppDialogService } from '@app/shared/commons/dialog/dialog.service';
+import { TableLazyLoadEvent } from 'primeng/table';
+import { FiltersSetter } from '@shared/commons/primeng/filters-setter';
 
 @Component({
   selector: 'app-estimate-page',
@@ -27,7 +29,7 @@ export class EstimatePageComponent
 
   constructor(
     private store: Store,
-    private toastr: ToastService,
+    private toast: ToastService,
     private notifier: EstimateCreateNotifier,
     tableStore: EstimatePageTableStore,
     @SkipSelf() private dialog: AppDialogService,
@@ -83,7 +85,7 @@ export class EstimatePageComponent
       })
       .onClose.subscribe((res) => {
         if (res) {
-          this.toastr.success({
+          this.toast.success({
             message:
               'components.estimateCatalogueConfirmDialog.actions.success',
             translate: true,
@@ -92,8 +94,52 @@ export class EstimatePageComponent
       });
   }
 
+  filter(event: TableLazyLoadEvent) {
+    const filtersSetter = new FiltersSetter(this.filters, event.filters);
+
+    filtersSetter.setFilter(
+      (filters: EstimateFilters, primeFilterValue: string) =>
+        (filters.customerName = primeFilterValue),
+      'customerName',
+    );
+
+    filtersSetter.setFilter(
+      (filters: EstimateFilters, primeFilterValue: string) =>
+        (filters.vehicleBrand = primeFilterValue),
+      'brand',
+    );
+
+    filtersSetter.setFilter(
+      (filters: EstimateFilters, primeFilterValue: string) =>
+        (filters.registration = primeFilterValue),
+      'registration',
+    );
+
+    filtersSetter.setFilter(
+      (filters: EstimateFilters, primeFilterValue: string) =>
+        (filters.createdAfter = primeFilterValue),
+      'createdAfter',
+      (filterMetadata) => {
+        if (!filterMetadata) return null;
+        const filterValue = filterMetadata[0]?.value ?? null;
+        if (filterValue) return new Date(filterValue).toISOString();
+        else return null;
+      },
+    );
+
+    this.getCollection();
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private subscribeRefreshListener(): void {
+    if (this.refreshContentListener$) {
+      this.refreshContentListener$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(() => this.getCollection());
+    }
   }
 }

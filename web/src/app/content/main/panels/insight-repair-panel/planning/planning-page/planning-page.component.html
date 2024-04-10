@@ -41,7 +41,7 @@
             {{
               'components.planning.planningPage.creationTimestamp' | translate
             }}
-            <p-sortIcon field="creationTimestamp"></p-sortIcon>
+            <p-sortIcon class="" field="creationTimestamp"></p-sortIcon>
           </th>
           <th></th>
         </tr>
@@ -50,8 +50,8 @@
         <tr>
           <td>{{ planning.estimateName }}</td>
           <td>{{ planning.createdOn | date: 'YYYY-MM-d HH:mm' }}</td>
-          <td>
-            <div class="flex justify-content-end align-items-center">
+          <td class="plan-icon-column">
+            <div class="flex justify-content-center align-items-center">
               <i
                 class="pi pi-hourglass pointer"
                 pTooltip="{{

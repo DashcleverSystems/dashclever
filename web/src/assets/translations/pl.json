@@ -1,5 +1,11 @@
 {
   "Home": "Strona główna",
+  "settings": {
+    "title": "Ustawienia",
+    "switch-theme": {
+      "switch": "Zmień motyw"
+    }
+  },
   "login": {
     "username": "Nazwa użytkownika",
     "password": "Hasło",
@@ -42,6 +48,9 @@
         "workshopName": "Nazwa"
       }
     },
+    "languageSelector": {
+      "label": "Język strony"
+    },
     "accessesSelector": {
       "users": {
         "title": "Wybierz pracownika"
@@ -70,6 +79,7 @@
       }
     },
     "estimatePage": {
+      "customerName": "Klient",
       "title": "Kosztorysy",
       "estimateCreate": "Utwórz kosztorys",
       "createPlanning": "Utwórz plan",

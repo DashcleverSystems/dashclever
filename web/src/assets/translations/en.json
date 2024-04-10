@@ -1,5 +1,11 @@
 {
   "Home": "Home",
+  "settings": {
+    "title": "Settings",
+    "switch-theme": {
+      "switch": "Change theme"
+    }
+  },
   "login": {
     "username": "Username",
     "password": "Password",
@@ -42,6 +48,9 @@
         "workshopName": "Name"
       }
     },
+    "languageSelector": {
+      "label": "Language"
+    },
     "accessesSelector": {
       "users": {
         "title": "Choose worker"
@@ -70,6 +79,7 @@
       }
     },
     "estimatePage": {
+      "customerName": "Client",
       "title": "Estimates",
       "estimateCreate": "Create estimate",
       "createPlanning": "Create planning",

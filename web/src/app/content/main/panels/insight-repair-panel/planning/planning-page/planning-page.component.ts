@@ -27,9 +27,8 @@ export class PlanningPageComponent
   ) {
     super(tableStore);
     this.filters = {
-      estimateId: undefined,
-      createdAfter: undefined,
       estimateName: undefined,
+      createdAfter: undefined,
       sortDirection: undefined,
     };
   }
@@ -63,6 +62,11 @@ export class PlanningPageComponent
     this.router.navigate(['insight-repair/planning', planningId, 'plan']);
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   private determineSortDirection(sortOrder?: number): SortDirection | null {
     switch (sortOrder) {
       case -1:
@@ -72,10 +76,5 @@ export class PlanningPageComponent
       default:
         return null;
     }
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

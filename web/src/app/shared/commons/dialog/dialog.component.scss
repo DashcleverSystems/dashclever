@@ -7,9 +7,12 @@
 
     .dialog-header {
       padding: 20px;
-      color: $header-color;
-      border-bottom: 1px solid rgba($color: #a4c3b2, $alpha: 1);
-      background: $secondary-light;
+      border-bottom: 1px solid var(--border-color);
+      background: var(--primary-600);
+      color: var(--color-dialog);
+      position: sticky;
+      top: 0;
+      z-index: 10;
 
       letter-spacing: 0.28px;
       ::ng-deep h2 {
@@ -18,16 +21,15 @@
     }
 
     .dialog-content {
-      overflow: auto;
       padding: 20px;
-      background: $secondary-light;
+      overflow: auto;
     }
 
     .dialog-footer {
       padding: 10px;
       border-top: none;
       gap: 1rem;
-      background: $secondary-light;
+      background: var(--primary-600);
       position: sticky;
       bottom: 0;
       width: 100%;
