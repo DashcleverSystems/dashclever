@@ -50,28 +50,6 @@ export class EstimatePageComponent
     this.getCollection();
   }
 
-  private subscribeRefreshListener(): void {
-    if (this.refreshContentListener$) {
-      this.refreshContentListener$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(() => this.getCollection());
-    }
-  }
-
-  setCreatedAfterFilter(date?: Date | null) {
-    if (date != null) {
-      this.filters.createdAfter = date.toISOString();
-    } else {
-      this.filters.createdAfter = null;
-    }
-  }
-
-  checkEmpty(newValue: string | null) {
-    if (newValue != null && newValue.length == 0) {
-      this.filters.estimateName = null;
-    }
-  }
-
   createPlanningFromEstimate(estimate: EstimateDto): void {
     this.dialog
       .open(CreatePlanningConfirmationDialog, {
@@ -135,4 +113,11 @@ export class EstimatePageComponent
     this.destroy$.complete();
   }
 
+  private subscribeRefreshListener(): void {
+    if (this.refreshContentListener$) {
+      this.refreshContentListener$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(() => this.getCollection());
+    }
+  }
 }
