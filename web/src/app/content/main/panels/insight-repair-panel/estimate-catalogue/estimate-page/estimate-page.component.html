@@ -1,32 +1,5 @@
 <app-card title="components.estimatePage.title">
   <div class="table-container">
-    <div class="filters">
-      <input
-        pInputText
-        type="text"
-        class="estimateId"
-        [placeholder]="'components.estimatePage.filters.estimateId' | translate"
-        [(ngModel)]="filters.estimateName"
-        (ngModelChange)="checkEmpty($event)"
-      />
-      <p-calendar
-        class="createdAfter"
-        [placeholder]="
-          'components.estimatePage.filters.createdAfter' | translate
-        "
-        (onClear)="setCreatedAfterFilter($event)"
-        (onSelect)="setCreatedAfterFilter($event)"
-        [showTime]="true"
-        [showClear]="true"
-        [showIcon]="true"
-      />
-      <p-button
-        (click)="onFilter(filters)"
-        icon="pi pi-search"
-        size="large"
-        class="submit"
-      />
-    </div>
     <p-table
       [lazy]="true"
       [value]="data$ | async"
