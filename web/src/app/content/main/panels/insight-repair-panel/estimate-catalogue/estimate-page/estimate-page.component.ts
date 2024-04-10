@@ -135,11 +135,4 @@ export class EstimatePageComponent
     this.destroy$.complete();
   }
 
-  private subscribeRefreshListener(): void {
-    if (this.refreshContentListener$) {
-      this.refreshContentListener$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(() => this.getCollection());
-    }
-  }
 }
