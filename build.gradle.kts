@@ -139,7 +139,7 @@ val cleanWebBuild = tasks.register<Delete>("cleanDist") {
 }
 
 openApi {
-    apiDocsUrl.set("http://10.5.0.10:9999/open-api")
+    apiDocsUrl.set("http://localhost:9999/open-api")
     customBootRun {
         devSystemProperties.forEach { (property, value) ->
             this.systemProperties.put(property, value)
