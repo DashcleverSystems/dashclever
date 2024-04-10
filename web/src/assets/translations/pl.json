@@ -123,6 +123,7 @@
         "jobs": "Prace",
         "name": "Nazwa",
         "manMinutes": "Roboczogodziny",
+        "startDate": "Data rozpoczęcia [opcjonalne]",
         "worth": "Wartość",
         "currency": "Waluta",
         "jobType": "Typ pracy",

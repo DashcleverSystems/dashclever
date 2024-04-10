@@ -8,8 +8,9 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import pl.dashclever.commons.hibernate.OptimisticLockEntity
+import java.time.LocalDate
 import java.time.LocalDateTime
-import java.util.UUID
+import java.util.*
 
 @Entity
 @Table(name = "RM_ESTIMATECATALOGUE_ESTIMATE")
@@ -19,6 +20,7 @@ class Estimate(
     val customerName: String,
     val vehicleInfo: VehicleInfo,
     val paintInfo: PaintInfo,
+    var startDate: LocalDate?,
     @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true, fetch = EAGER)
     @JoinColumn(name = "estimate_id")
     val jobs: Set<Job> = emptySet()

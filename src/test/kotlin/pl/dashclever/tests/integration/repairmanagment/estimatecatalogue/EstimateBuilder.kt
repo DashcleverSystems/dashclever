@@ -4,6 +4,7 @@ import pl.dashclever.repairmanagment.estimatecatalogue.Estimate
 import pl.dashclever.repairmanagment.estimatecatalogue.Job
 import pl.dashclever.repairmanagment.estimatecatalogue.PaintInfo
 import pl.dashclever.repairmanagment.estimatecatalogue.VehicleInfo
+import java.time.LocalDate
 
 internal object EstimateBuilder {
 
@@ -23,6 +24,7 @@ internal object EstimateBuilder {
             customerName = builder.customerName,
             vehicleInfo = builder.vehicleInfo,
             paintInfo = builder.paintInfo,
+            startDate = LocalDate.of(2024, 4, 8),
             jobs = builder.jobs
         )
     }

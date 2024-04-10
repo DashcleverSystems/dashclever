@@ -39,6 +39,9 @@ export class EstimateFormService {
       ),
       vehicleInfo: this.getVehicleInfoGroup(data?.vehicleInfo),
       paintInfo: this.getVehiclePaintInfoGroup(data?.paintInfo),
+      startDate: this.fb.control<Date | null>(
+        data?.startDate ?? null
+      ),
       jobs: this.fb.array<FormGroup<IEstimatedJobForm>>(
         data?.jobs && Array.isArray(data.jobs) && data.jobs.length > 0
           ? Array.from(data.jobs, (job) => this.getJobGroup(job))
@@ -60,6 +63,7 @@ export class EstimateFormService {
         ...data?.paint,
         varnishingPaintInfo: data?.paint.varnishingPaintInfo.join(', '),
       },
+      startDate: null,
       jobs: [
         ...Array.from(data?.labourJobs ?? [], (job) => ({
           ...job,
