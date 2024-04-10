@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: estimate1.0.3_rename_estimateid_to_name
+      id: estimate1.0.2_rename_estimateid_to_name
       author: pawel
       changes:
         - renameColumn:
