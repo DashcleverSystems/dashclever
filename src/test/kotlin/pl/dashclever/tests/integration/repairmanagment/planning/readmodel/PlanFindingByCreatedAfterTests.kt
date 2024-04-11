@@ -83,7 +83,7 @@ internal class PlanFindingByCreatedAfterTests(
         // then
         assertThat(result.content).singleElement().satisfies(
             {
-                assertThat(it.createdOn.toLocalDateTime()).isAfterOrEqualTo(LocalDateTime.of(2023, 1, 1, 12, 30))
+                assertThat(it.createdOn?.toLocalDateTime()).isAfterOrEqualTo(LocalDateTime.of(2023, 1, 1, 12, 30))
             }
         )
     }
