@@ -31,8 +31,9 @@ internal class SecurityConfig(
             .authorizeHttpRequests {
                 it.requestMatchers(HttpMethod.GET, "/*").permitAll()
                 it.requestMatchers(HttpMethod.GET, "/assets/**").permitAll()
-                it.requestMatchers("/api/**").authenticated()
                 it.requestMatchers(HttpMethod.POST, "/api/account").permitAll()
+                it.requestMatchers(HttpMethod.GET, "/api/account").permitAll()
+                it.requestMatchers("/api/**").authenticated()
                 it.requestMatchers(HttpMethod.GET, "/login").denyAll()
                 it.anyRequest().authenticated()
             }
