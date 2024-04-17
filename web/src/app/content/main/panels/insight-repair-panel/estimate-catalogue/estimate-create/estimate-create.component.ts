@@ -67,9 +67,7 @@ export class EstimateCreateComponent implements OnInit, OnDestroy {
   private openModalForm(data?: IEstimatePdfDTO): void {
     this.dialog
       .open(EstimateFormComponent, {
-        data: {
-          data: data,
-        },
+        data: { data },
         showHeader: false,
         closable: false,
         width: this.isMobile ? '100svw' : undefined,
