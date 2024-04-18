@@ -4,13 +4,13 @@ sealed interface PlanEvent {
 
     val planId: String
 
-    data class TaskAssigned(
+    data class JobAssigned(
         override val planId: String,
         val jobId: String,
         val employeeId: String
     ) : PlanEvent
 
-    data class TaskUnassigned(
+    data class JobUnassigned(
         override val planId: String,
         val jobId: String
     ) : PlanEvent

@@ -9,8 +9,8 @@ import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import pl.dashclever.commons.exception.DomainException
 import pl.dashclever.commons.hibernate.OptimisticLockEntity
-import pl.dashclever.repairmanagment.plannig.model.PlanEvent.TaskAssigned
-import pl.dashclever.repairmanagment.plannig.model.PlanEvent.TaskUnassigned
+import pl.dashclever.repairmanagment.plannig.model.PlanEvent.JobAssigned
+import pl.dashclever.repairmanagment.plannig.model.PlanEvent.JobUnassigned
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.UUID
@@ -29,13 +29,13 @@ class Plan internal constructor(
     private val jobs: Set<Job>
 ) : OptimisticLockEntity<UUID>() {
 
-    fun removeAssignment(jobId: Long): TaskUnassigned {
+    fun removeAssignment(jobId: Long): JobUnassigned {
         val job = tryFindJob(jobId)
         job.removeAssignment()
-        return TaskUnassigned(this.id.toString(), job.catalogueJobId.toString())
+        return JobUnassigned(this.id.toString(), job.catalogueJobId.toString())
     }
 
-    fun assign(jobId: Long, employeeId: String, at: LocalDate): TaskAssigned {
+    fun assign(jobId: Long, employeeId: String, at: LocalDate): JobAssigned {
         val job = tryFindJob(jobId)
         if (isNoneJobAssigned()) {
             return assign(job, employeeId, at)
@@ -46,7 +46,7 @@ class Plan internal constructor(
         return assign(job, employeeId, at)
     }
 
-    fun assignWithTime(jobId: Long, employeeId: String, at: LocalDate, hour: Int): TaskAssigned {
+    fun assignWithTime(jobId: Long, employeeId: String, at: LocalDate, hour: Int): JobAssigned {
         if (!isWithinWorkingHours(hour)) {
             throw DomainException("It is not possible to assign job not within working hours")
         }
@@ -70,13 +70,13 @@ class Plan internal constructor(
     private fun isNoneJobAssigned() =
         this.jobs.none { it.isAssigned() }
 
-    private fun assign(job: Job, employeeId: String, at: LocalDate, hour: Int? = null): TaskAssigned {
+    private fun assign(job: Job, employeeId: String, at: LocalDate, hour: Int? = null): JobAssigned {
         return if (hour == null) {
             job.assign(employeeId, at)
-            TaskAssigned(this.id.toString(), job.catalogueJobId.toString(), employeeId)
+            JobAssigned(this.id.toString(), job.catalogueJobId.toString(), employeeId)
         } else {
             job.assign(employeeId, at, hour)
-            TaskAssigned(this.id.toString(), job.catalogueJobId.toString(), employeeId)
+            JobAssigned(this.id.toString(), job.catalogueJobId.toString(), employeeId)
         }
     }
 

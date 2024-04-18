@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import pl.dashclever.commons.exception.DomainException
 import pl.dashclever.repairmanagment.plannig.model.Plan
-import pl.dashclever.repairmanagment.plannig.model.PlanEvent.TaskAssigned
+import pl.dashclever.repairmanagment.plannig.model.PlanEvent.JobAssigned
 import pl.dashclever.repairmanagment.plannig.model.PlanFactory
 import java.time.LocalDate
 import java.util.*
@@ -63,7 +63,7 @@ internal class JobAssigningTests {
     @MethodSource("providePassingPlans")
     fun `GIVEN plan with jobs SHOULD assign job`(passingPlan: Plan) {
         // given
-        val expected = TaskAssigned(passingPlan.id.toString(), "1", "employeeId")
+        val expected = JobAssigned(passingPlan.id.toString(), "1", "employeeId")
 
         // when
         val result = passingPlan.assign(1, "employeeId", LocalDate.of(2023, 1, 6))
@@ -109,7 +109,7 @@ internal class JobAssigningTests {
 
         // then
         assertThat(result).isEqualTo(
-            TaskAssigned(
+			JobAssigned(
                 planId = plan.id.toString(),
                 jobId = "2",
                 employeeId = "employeeId"
