@@ -109,7 +109,7 @@ internal class JobAssigningTests {
 
         // then
         assertThat(result).isEqualTo(
-			JobAssigned(
+            JobAssigned(
                 planId = plan.id.toString(),
                 jobId = "2",
                 employeeId = "employeeId"
