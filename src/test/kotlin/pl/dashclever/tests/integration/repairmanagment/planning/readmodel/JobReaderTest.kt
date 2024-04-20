@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.ContextConfiguration
 import org.springframework.transaction.annotation.Transactional
 import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository
 import pl.dashclever.repairmanagment.estimatecatalogue.JobType
@@ -14,7 +13,7 @@ import pl.dashclever.repairmanagment.plannig.model.PlanFactory
 import pl.dashclever.repairmanagment.plannig.model.PlanRepository
 import pl.dashclever.repairmanagment.plannig.readmodel.JobDto
 import pl.dashclever.repairmanagment.plannig.readmodel.JobReader
-import pl.dashclever.tests.integration.TestcontainersInitializer
+import pl.dashclever.tests.integration.DefaultTestContextConfiguration
 import pl.dashclever.tests.integration.repairmanagment.estimatecatalogue.EstimateBuilder
 import pl.dashclever.tests.integration.repairmanagment.estimatecatalogue.JobBuilder
 import pl.dashclever.tests.integration.spring.TestAccess
@@ -24,11 +23,11 @@ import java.util.UUID
 
 @SpringBootTest
 @Transactional
-@ContextConfiguration(initializers = [TestcontainersInitializer::class])
+@DefaultTestContextConfiguration
 internal class JobReaderTest(
     @Autowired private val planRepository: PlanRepository,
     @Autowired private val estimateRepository: EstimateRepository,
-    @Autowired private val jobReader: JobReader
+    @Autowired private val jobReader: JobReader,
 ) {
 
     private val testAccessSetter = TestAccessSetter()

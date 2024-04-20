@@ -11,30 +11,30 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.SpyBean
 import org.springframework.data.auditing.AuditingHandler
 import org.springframework.data.domain.PageRequest
-import org.springframework.test.context.ContextConfiguration
 import org.springframework.transaction.annotation.Transactional
 import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository
 import pl.dashclever.repairmanagment.plannig.model.PlanFactory
 import pl.dashclever.repairmanagment.plannig.model.PlanRepository
 import pl.dashclever.repairmanagment.plannig.readmodel.PlanReader
 import pl.dashclever.repairmanagment.plannig.readmodel.PlanReader.PlanFilters
-import pl.dashclever.tests.integration.TestcontainersInitializer
+import pl.dashclever.tests.integration.DefaultTestContextConfiguration
 import pl.dashclever.tests.integration.repairmanagment.estimatecatalogue.EstimateBuilder
 import pl.dashclever.tests.integration.spring.TestAccess
 import pl.dashclever.tests.integration.spring.TestAccessSetter
 import java.time.LocalDateTime
-import java.util.*
+import java.util.Optional
+import java.util.UUID
 
 @SpringBootTest
 @Transactional
 @ExtendWith(MockitoExtension::class)
-@ContextConfiguration(initializers = [TestcontainersInitializer::class])
+@DefaultTestContextConfiguration
 internal class PlanFindingByCreatedAfterTests(
     @Autowired private val planRepository: PlanRepository,
     @Autowired private val planReader: PlanReader,
     @Autowired private val estimateRepository: EstimateRepository,
     @Autowired @SpyBean
-    private val auditingHandler: AuditingHandler
+    private val auditingHandler: AuditingHandler,
 ) {
 
     private val testAccessSetter = TestAccessSetter()

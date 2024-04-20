@@ -4,7 +4,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.ContextConfiguration
 import org.springframework.transaction.annotation.Transactional
 import pl.dashclever.accountresources.employee.Employee
 import pl.dashclever.accountresources.employee.Workplace
@@ -12,7 +11,7 @@ import pl.dashclever.accountresources.employee.Workplace.LABOUR
 import pl.dashclever.accountresources.employee.infrastrucutre.repository.EmployeeWorkshopSecuredRepository
 import pl.dashclever.accountresources.employee.infrastrucutre.repository.WorkshopEmployee
 import pl.dashclever.commons.security.EntitySecurityRecordRepository
-import pl.dashclever.tests.integration.TestcontainersInitializer
+import pl.dashclever.tests.integration.DefaultTestContextConfiguration
 import pl.dashclever.tests.integration.spring.AllAuthoritiesAccess
 import pl.dashclever.tests.integration.spring.TestAccessSetter
 import java.util.Optional
@@ -20,10 +19,10 @@ import java.util.UUID
 
 @SpringBootTest
 @Transactional
-@ContextConfiguration(initializers = [TestcontainersInitializer::class])
+@DefaultTestContextConfiguration
 internal class EmployeeWorkshopSecuredRepositoryTests(
     @Autowired private val employeeWorkshopSecuredRepository: EmployeeWorkshopSecuredRepository,
-    @Autowired private val employeeSecurityRecordRepository: EntitySecurityRecordRepository<Employee, UUID, WorkshopEmployee>
+    @Autowired private val employeeSecurityRecordRepository: EntitySecurityRecordRepository<Employee, UUID, WorkshopEmployee>,
 ) {
 
     private val testApplicationAccessSetter = TestAccessSetter()
@@ -86,6 +85,6 @@ internal class EmployeeWorkshopSecuredRepositoryTests(
     private fun createEmployee(
         firstName: String = "Jane",
         lastName: String = "Doe",
-        workplace: Workplace = LABOUR
-    ): Employee = Employee(firstName, lastName, workplace)
+        workplace: Workplace = LABOUR,
+	): Employee = Employee(firstName, lastName, workplace)
 }

@@ -7,26 +7,25 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.PageRequest
-import org.springframework.test.context.ContextConfiguration
 import org.springframework.transaction.annotation.Transactional
 import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository
 import pl.dashclever.repairmanagment.plannig.model.PlanFactory
 import pl.dashclever.repairmanagment.plannig.model.PlanRepository
 import pl.dashclever.repairmanagment.plannig.readmodel.PlanReader
 import pl.dashclever.repairmanagment.plannig.readmodel.PlanReader.PlanFilters
-import pl.dashclever.tests.integration.TestcontainersInitializer
+import pl.dashclever.tests.integration.DefaultTestContextConfiguration
 import pl.dashclever.tests.integration.repairmanagment.estimatecatalogue.EstimateBuilder
 import pl.dashclever.tests.integration.spring.TestAccess
 import pl.dashclever.tests.integration.spring.TestAccessSetter
-import java.util.*
+import java.util.UUID
 
 @SpringBootTest
 @Transactional
-@ContextConfiguration(initializers = [TestcontainersInitializer::class])
+@DefaultTestContextConfiguration
 internal class PlanFindingByEstimateNameTests(
     @Autowired private val estimateRepository: EstimateRepository,
     @Autowired private val planRepository: PlanRepository,
-    @Autowired private val planReader: PlanReader
+    @Autowired private val planReader: PlanReader,
 ) {
 
     private val testAccessSetter = TestAccessSetter()
@@ -72,7 +71,7 @@ internal class PlanFindingByEstimateNameTests(
 
         // then
         assertThat(result.content).singleElement().satisfies({
-            assertThat(it.estimateName).isEqualTo("25/2022WK")
-        })
+                                                                 assertThat(it.estimateName).isEqualTo("25/2022WK")
+                                                             })
     }
 }
