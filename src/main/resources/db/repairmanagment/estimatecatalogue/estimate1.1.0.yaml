@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: add_has_repair_in_progress_column
+      author: damian
+      changes:
+        - addColumn:
+            tableName: RM_ESTIMATECATALOGUE_ESTIMATE
+            columns:
+              - column:
+                  name: has_repair_in_progress
+                  type: boolean
+        - addNotNullConstraint:
+            tableName: RM_ESTIMATECATALOGUE_ESTIMATE
+            columnName: has_repair_in_progress
+            constraintName: RM_ESTIMATECATALOGUE_ESTIMATE_has_repair_in_progress_not_null
+            defaultNullValue: false
