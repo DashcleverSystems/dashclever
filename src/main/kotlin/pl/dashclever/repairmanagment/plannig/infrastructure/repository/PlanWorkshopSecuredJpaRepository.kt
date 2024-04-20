@@ -11,4 +11,7 @@ interface PlanWorkshopSecuredJpaRepository : Repository<Plan, UUID> {
 
     @Query("SELECT p FROM Plan p INNER JOIN WorkshopPlan sr ON sr.id.planId = p.id WHERE sr.id.workshopId = :workshopId AND p.id = :planId")
     fun findById(workshopId: UUID, planId: UUID): Plan?
+
+    @Query("SELECT p FROM Plan p INNER JOIN WorkshopPlan sr ON sr.id.planId = p.id WHERE sr.id.workshopId = :workshopId AND p.estimateId = :estimateId")
+    fun findAllByEstimateIdAndBelongingToWorkshop(estimateId: UUID, workshopId: UUID): Set<Plan>
 }

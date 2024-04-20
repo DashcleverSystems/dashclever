@@ -47,6 +47,11 @@ class PlanWorkshopSecuredRepository(
         }
     }
 
+    override fun findAllByEstimateId(estimateId: UUID): Set<Plan> {
+        val currentAccess = this.currentAccessProvider.currentWorkshop()
+        return planWorkshopSecuredJpaRepository.findAllByEstimateIdAndBelongingToWorkshop(estimateId, currentAccess.workshopId)
+    }
+
     private fun isAlreadySecured(plan: Plan): Boolean =
         this.securityRecordRepository.doesSecurityRecordExistFor(plan)
 }
