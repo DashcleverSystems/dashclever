@@ -20,7 +20,7 @@ import java.util.UUID
 @DefaultTestContextConfiguration
 internal class RepairWorkshopSecuredRepositoryTests(
     @Autowired private val repairRepository: RepairRepository,
-    @Autowired private val repairWorkshopSecuredRepository: EntitySecurityRecordRepository<Repair, UUID, RepairWorkshop>,
+    @Autowired private val repairWorkshopSecuredRepository: EntitySecurityRecordRepository<Repair, UUID, RepairWorkshop>
 ) {
 
     private val testAccessSetter = TestAccessSetter()

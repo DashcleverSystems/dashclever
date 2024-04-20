@@ -14,7 +14,6 @@ class RepairService(
     private val domainEvents: DomainEvents
 ) {
 
-
     fun createRepairOfPlan(planId: UUID): Repair {
         val plan = planRepository.findByIdOrThrow(planId)
         val repair = Repair(plan.id)

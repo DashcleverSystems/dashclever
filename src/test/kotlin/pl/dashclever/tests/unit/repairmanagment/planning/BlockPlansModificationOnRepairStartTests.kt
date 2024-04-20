@@ -38,7 +38,7 @@ internal class BlockPlansModificationOnRepairStartTests {
         val plansOfEstimate = setOf(planOfRepair, plan2)
         every { planRepository.findAllByEstimateId(estimateId) } returns plansOfEstimate
 
-            // when
+        // when
         repairEventsHandler.handle(StartedRepairOfPlan(repairId, planOfRepair.id))
 
         // then

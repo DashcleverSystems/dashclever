@@ -9,7 +9,7 @@ import pl.dashclever.spring.TransactionalRunner
 @Component("PlanningRepairEventsListener")
 internal class RepairEventsListener(
     private val repairEventsHandler: RepairEventsHandler,
-    private val transactionalRunner: TransactionalRunner,
+    private val transactionalRunner: TransactionalRunner
 ) {
 
     @EventListener

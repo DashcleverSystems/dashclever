@@ -13,7 +13,7 @@ import java.util.UUID
 class RepairWorkshopSecuredRepository(
     private val entityManager: EntityManager,
     private val currentAccessProvider: CurrentAccessProvider,
-    private val securityRecordRepository: EntitySecurityRecordRepository<Repair, UUID, RepairWorkshop>,
+    private val securityRecordRepository: EntitySecurityRecordRepository<Repair, UUID, RepairWorkshop>
 ) : RepairRepository {
 
     @Transactional

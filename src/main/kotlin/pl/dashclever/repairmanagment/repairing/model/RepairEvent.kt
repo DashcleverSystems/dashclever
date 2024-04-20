@@ -9,6 +9,6 @@ sealed interface RepairEvent : DomainEvent {
 
     data class StartedRepairOfPlan(
         override val repairId: UUID,
-        val planId: UUID,
-	) : RepairEvent
+        val planId: UUID
+    ) : RepairEvent
 }

@@ -56,7 +56,7 @@ interface RepairSecurityRecordRepository :
 @Table(name = securityRecordTable)
 class RepairWorkshop(
     workshopId: UUID,
-    repairId: UUID,
+    repairId: UUID
 ) : WorkshopSecurityRecord {
 
     override val workshopId: UUID get() = id.workshopId
@@ -70,7 +70,7 @@ class RepairWorkshop(
         @Column(name = "workshop_id")
         val workshopId: UUID,
         @Column(name = "repair_id")
-        val repairId: UUID,
+        val repairId: UUID
     ) : Serializable {
 
         companion object {

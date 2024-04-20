@@ -16,7 +16,7 @@ private const val PATH = "/api/repairing"
 @Tag(name = "repairing-api")
 internal class RepairApi(
     private val repairService: RepairService,
-    private val transactionalRunner: TransactionalRunner,
+    private val transactionalRunner: TransactionalRunner
 ) {
 
     @PostMapping("/repair")

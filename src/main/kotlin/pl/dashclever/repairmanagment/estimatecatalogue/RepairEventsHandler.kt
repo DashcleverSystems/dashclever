@@ -7,7 +7,7 @@ import pl.dashclever.repairmanagment.repairing.model.RepairEvent.StartedRepairOf
 @Component("EstimateCatalogueRepairEventsHandler")
 class RepairEventsHandler(
     private val planRepository: PlanRepository,
-    private val estimateRepository: EstimateRepository,
+    private val estimateRepository: EstimateRepository
 ) {
 
     fun handle(startedRepairOfPlan: StartedRepairOfPlan) {

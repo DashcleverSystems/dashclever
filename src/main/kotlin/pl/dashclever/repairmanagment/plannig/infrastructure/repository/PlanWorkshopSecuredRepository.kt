@@ -18,7 +18,7 @@ class PlanWorkshopSecuredRepository(
     private val entityManager: EntityManager,
     private val securityRecordRepository: EntitySecurityRecordRepository<Plan, UUID, WorkshopPlan>,
     private val planWorkshopSecuredJpaRepository: PlanWorkshopSecuredJpaRepository,
-    private val currentAccessProvider: CurrentAccessProvider,
+    private val currentAccessProvider: CurrentAccessProvider
 ) : PlanRepository {
 
     @Transactional
