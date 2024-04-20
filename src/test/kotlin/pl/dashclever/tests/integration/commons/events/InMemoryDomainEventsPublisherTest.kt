@@ -94,6 +94,6 @@ internal class InMemoryDomainEventsPublisherTest(
     }
 
     private data class TestDomainEvent(
-        override val id: UUID = UUID.randomUUID()
+        val id: UUID = UUID.randomUUID()
     ) : DomainEvent
 }
