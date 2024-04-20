@@ -32,7 +32,7 @@ internal class EstimateWorkshopSecuredReadRepositoryTest(
     @Autowired private val testee: EstimateWorkshopSecuredRepository,
     @Autowired private val estimateWorkshopSecurityRecordTestReadRepository: EstimateWorkshopSecurityRecordTestReadRepository,
     @Autowired @SpyBean
-    private val auditingHandler: AuditingHandler
+    private val auditingHandler: AuditingHandler,
 ) {
 
     private val testAccessSetter = TestAccessSetter()

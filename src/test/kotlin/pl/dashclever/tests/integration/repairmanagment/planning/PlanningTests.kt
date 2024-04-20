@@ -25,7 +25,7 @@ internal class PlanningTests(
     @LocalServerPort private val port: Int,
     @Autowired private val estimateRepository: pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository,
     @Autowired private val estimateTestsRepository: EstimateTestsRepository,
-    @Autowired private val planCreating: PlanCreating
+    @Autowired private val planCreating: PlanCreating,
 ) {
 
     @BeforeEach

@@ -27,7 +27,7 @@ import java.util.UUID
 internal class JobReaderTest(
     @Autowired private val planRepository: PlanRepository,
     @Autowired private val estimateRepository: EstimateRepository,
-    @Autowired private val jobReader: JobReader
+    @Autowired private val jobReader: JobReader,
 ) {
 
     private val testAccessSetter = TestAccessSetter()

@@ -20,7 +20,7 @@ import java.util.UUID
 @DefaultTestContextConfiguration
 internal class EmployeeOccupationReaderTest(
     @Autowired private val planRepository: PlanRepository,
-    @Autowired private val employeeOccupationReader: EmployeeOccupationReader
+    @Autowired private val employeeOccupationReader: EmployeeOccupationReader,
 ) {
 
     private val testAccessSetter = TestAccessSetter()
