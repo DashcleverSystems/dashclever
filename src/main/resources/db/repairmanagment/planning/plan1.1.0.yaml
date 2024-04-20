@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: add_can_be_modified_column
+      author: damian
+      changes:
+        - addColumn:
+            tableName: RM_PLANNING_PLAN
+            columns:
+              - column:
+                  name: can_be_modified
+                  type: boolean
+        - addNotNullConstraint:
+            columnName: can_be_modified
+            constraintName: RM_PLANNING_PLAN_can_be_modified_not_null
+            defaultNullValue: true
+            tableName: RM_PLANNING_PLAN
