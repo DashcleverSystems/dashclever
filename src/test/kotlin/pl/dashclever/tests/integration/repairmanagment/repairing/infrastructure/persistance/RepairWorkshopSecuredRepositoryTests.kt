@@ -1,6 +1,8 @@
 package pl.dashclever.tests.integration.repairmanagment.repairing.infrastructure.persistance
 
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -23,17 +25,26 @@ internal class RepairWorkshopSecuredRepositoryTests(
     @Autowired private val repairWorkshopSecuredRepository: EntitySecurityRecordRepository<Repair, UUID, RepairWorkshop>
 ) {
 
+    private val testAccess = TestAccess(
+        accountId = UUID.randomUUID(),
+        authorities = emptySet(),
+        workshopId = UUID.randomUUID()
+    )
     private val testAccessSetter = TestAccessSetter()
+
+    @BeforeEach
+    fun setUp() {
+        testAccessSetter.setAccess(testAccess)
+    }
+
+    @AfterEach
+    fun tearDown() {
+        testAccessSetter.setAccess(null)
+    }
 
     @Test
     fun `should create a security record`() {
         // given
-        val testAccess = TestAccess(
-            accountId = UUID.randomUUID(),
-            authorities = emptySet(),
-            workshopId = UUID.randomUUID()
-        )
-        testAccessSetter.setAccess(testAccess)
         val repair = Repair(planId = UUID.randomUUID())
 
         // when
@@ -41,5 +52,36 @@ internal class RepairWorkshopSecuredRepositoryTests(
 
         // then
         assertThat(repairWorkshopSecuredRepository.doesSecurityRecordExistFor(repair)).isTrue()
+    }
+
+    @Test
+    fun `should find existing repair of given plans belonging to workshop`() {
+        // given
+        val planId = UUID.randomUUID()
+        repairRepository.save(Repair(planId))
+        repairRepository.save(Repair(planId))
+        repairRepository.save(Repair(UUID.randomUUID()))
+
+        // when
+        val result = repairRepository.anyRunningRepairOfPlanIdIn(setOf(planId))
+
+        // then
+        assertThat(result).isTrue()
+    }
+
+    @Test
+    fun `should not find existing repair of given plans belonging to workshop`() {
+        // given
+        val planId = UUID.randomUUID()
+        val planIdOfNoneRepair = UUID.randomUUID()
+        repairRepository.save(Repair(planId))
+        repairRepository.save(Repair(planId))
+        repairRepository.save(Repair(UUID.randomUUID()))
+
+        // when
+        val result = repairRepository.anyRunningRepairOfPlanIdIn(setOf(planIdOfNoneRepair))
+
+        // then
+        assertThat(result).isFalse()
     }
 }

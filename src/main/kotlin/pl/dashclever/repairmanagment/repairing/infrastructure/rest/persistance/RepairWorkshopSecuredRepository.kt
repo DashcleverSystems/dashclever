@@ -13,7 +13,8 @@ import java.util.UUID
 class RepairWorkshopSecuredRepository(
     private val entityManager: EntityManager,
     private val currentAccessProvider: CurrentAccessProvider,
-    private val securityRecordRepository: EntitySecurityRecordRepository<Repair, UUID, RepairWorkshop>
+    private val securityRecordRepository: EntitySecurityRecordRepository<Repair, UUID, RepairWorkshop>,
+    private val repairWorkshopSecuredJpaRepository: RepairWorkshopSecuredJpaRepository,
 ) : RepairRepository {
 
     @Transactional
@@ -23,6 +24,14 @@ class RepairWorkshopSecuredRepository(
             val currentAccess = this.currentAccessProvider.currentWorkshop()
             this.securityRecordRepository.create(RepairWorkshop(currentAccess.workshopId, repair.id))
         }
+    }
+
+    override fun anyRunningRepairOfPlanIdIn(planIds: Set<UUID>): Boolean {
+        val currentWorkshopAccess = currentAccessProvider.currentWorkshop()
+        return repairWorkshopSecuredJpaRepository.findAnyRunningRepairWithPlanIdInBelongingToWorkshop(
+            planIds,
+            currentWorkshopAccess.workshopId
+        )
     }
 
     private fun isAlreadySecured(repair: Repair): Boolean =
