@@ -31,7 +31,6 @@ export class EstimateReportFormService {
   }
 
   save(data: IEstimateReportDto): Observable<any> {
-    console.log("dupa");
     return this.http.post("/api/estimatecatalogue/report", data);
   }
 }
