@@ -14,7 +14,7 @@ class RepairWorkshopSecuredRepository(
     private val entityManager: EntityManager,
     private val currentAccessProvider: CurrentAccessProvider,
     private val securityRecordRepository: EntitySecurityRecordRepository<Repair, UUID, RepairWorkshop>,
-    private val repairWorkshopSecuredJpaRepository: RepairWorkshopSecuredJpaRepository,
+    private val repairWorkshopSecuredJpaRepository: RepairWorkshopSecuredJpaRepository
 ) : RepairRepository {
 
     @Transactional
