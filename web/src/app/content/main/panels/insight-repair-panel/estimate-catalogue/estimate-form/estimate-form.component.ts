@@ -8,6 +8,9 @@ import { DictionaryDTO, enumToDictionary } from '@app/shared/utils/dictionary';
 import { JobType } from '@app/shared/enums/job-type';
 import { Currency } from '@app/shared/enums/currency';
 import { catchError, EMPTY, finalize } from 'rxjs';
+import {
+  EstimateReportFormService
+} from "./estimate-report-form/estimate-report-form.service";
 
 interface Dictionaries {
   jobTypes: DictionaryDTO<JobType, string>[];
@@ -17,7 +20,7 @@ interface Dictionaries {
 @Component({
   templateUrl: './estimate-form.component.html',
   styleUrls: ['./estimate-form.component.scss'],
-  providers: [EstimateFormService],
+  providers: [EstimateFormService, EstimateReportFormService],
 })
 export class EstimateFormComponent implements OnInit {
   form: FormGroup<IEstimateForm> = this.service.createForm();
@@ -29,6 +32,7 @@ export class EstimateFormComponent implements OnInit {
     private conf: DynamicDialogConfig,
     public ref: DynamicDialogRef,
     private toast: ToastService,
+    private reportService: EstimateReportFormService
   ) {}
 
   ngOnInit(): void {
@@ -88,4 +92,8 @@ export class EstimateFormComponent implements OnInit {
     jobTypes: enumToDictionary(JobType, 'enum.JobType'),
     currencies: enumToDictionary(Currency, 'enum.Currency'),
   };
+
+  createEstimateReport(): void {
+    this.reportService.createForm();
+  }
 }

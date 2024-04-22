@@ -291,6 +291,13 @@
       <app-spinner [enable]="loadingSpinner">
         <button
           pButton
+          type="button"
+          (click)="createEstimateReport()"
+          [style]="{ width: '100px', backgroundColor: 'red' }"
+          translate="components.estimateCatalogue.form.actions.report"
+        ></button>
+        <button
+          pButton
           type="submit"
           (click)="submitForm()"
           [style]="{ width: '100px' }"

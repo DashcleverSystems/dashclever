@@ -131,7 +131,8 @@
           "save": "Save",
           "close": "Close",
           "add": "Add job",
-          "remove": "Remove job"
+          "remove": "Remove job",
+          "report": "Report"
         },
         "toast": {
           "titleSave": "Estimate save",

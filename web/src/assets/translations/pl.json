@@ -131,7 +131,8 @@
           "save": "Zapisz",
           "close": "Zamknij",
           "add": "Dodaj prace",
-          "remove": "Usuń prace"
+          "remove": "Usuń prace",
+          "report": "Zgłoś błąd"
         },
         "toast": {
           "unknown": "Wystąpił nieznany błąd",

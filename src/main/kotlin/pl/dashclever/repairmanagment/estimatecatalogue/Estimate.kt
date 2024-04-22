@@ -23,7 +23,9 @@ class Estimate(
     var startDate: LocalDate?,
     @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true, fetch = EAGER)
     @JoinColumn(name = "estimate_id")
-    val jobs: Set<Job> = emptySet()
+    val jobs: Set<Job> = emptySet(),
+    @OneToMany(mappedBy = "estimate", cascade = [CascadeType.ALL], orphanRemoval = true)
+    val reports: Set<EstimateReport> = emptySet()
 ) : OptimisticLockEntity<UUID>() {
 
     fun getCreationTimestamp(): LocalDateTime? = super.getCreatedOn()
