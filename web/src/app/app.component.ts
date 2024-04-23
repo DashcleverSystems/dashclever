@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, SkipSelf } from '@angular/core';
+import { Component, OnInit, SkipSelf } from '@angular/core';
 import { CoreTranslateService } from './core/translate/core-translate.service';
 import { environment } from '@env/environments';
 import { Language } from './shared/enums/languages';
@@ -9,7 +9,7 @@ import { ThemeSwitchService } from '@content/main/settings/theme-switch/theme-sw
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   constructor(
     private coreTranslateService: CoreTranslateService,
     @SkipSelf() private themeService: ThemeSwitchService,
@@ -22,9 +22,5 @@ export class AppComponent implements OnInit, OnDestroy {
     );
 
     this.themeService.checkTheme();
-  }
-
-  ngOnDestroy(): void {
-    this.coreTranslateService.destroy();
   }
 }

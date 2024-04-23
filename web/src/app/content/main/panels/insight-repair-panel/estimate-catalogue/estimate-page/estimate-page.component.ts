@@ -1,16 +1,21 @@
-import { Component, Input, OnDestroy, OnInit, SkipSelf } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { isMobile } from '@core/store/core-store.selectors';
-import { distinctUntilChanged, Observable, Subject, takeUntil } from 'rxjs';
+import {
+  Component,
+  inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  SkipSelf,
+} from '@angular/core';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { EstimateDto, EstimateFilters } from 'generated/openapi';
 import { Table } from '@app/shared/services/table/table.service';
 import { EstimatePageTableStore } from './estimate-page.store';
 import { CreatePlanningConfirmationDialog } from '@app/content/main/panels/insight-repair-panel/planning/create-confirmation-dialog/create-planning.component';
 import { ToastService } from '@app/shared/services/toast.service';
-import { EstimateCreateNotifier } from '@app/content/main/panels/insight-repair-panel/estimate-catalogue/estimate-create/estimate-create.notifier';
 import { AppDialogService } from '@app/shared/commons/dialog/dialog.service';
 import { TableLazyLoadEvent } from 'primeng/table';
 import { FiltersSetter } from '@shared/commons/primeng/filters-setter';
+import CoreStore from '@app/core/store/core-store';
 
 @Component({
   selector: 'app-estimate-page',
@@ -23,14 +28,16 @@ export class EstimatePageComponent
   implements OnInit, OnDestroy
 {
   @Input() refreshContentListener$: Observable<void> | undefined;
-  isMobile: boolean = false;
+
+  get isMobile() {
+    return this.coreStore.mobile();
+  }
 
   private destroy$ = new Subject<void>();
+  private coreStore = inject(CoreStore);
 
   constructor(
-    private store: Store,
     private toast: ToastService,
-    private notifier: EstimateCreateNotifier,
     tableStore: EstimatePageTableStore,
     @SkipSelf() private dialog: AppDialogService,
   ) {
@@ -42,12 +49,13 @@ export class EstimatePageComponent
   }
 
   ngOnInit(): void {
-    this.store
-      .select(isMobile)
-      .pipe(takeUntil(this.destroy$), distinctUntilChanged())
-      .subscribe((mobile) => (this.isMobile = mobile));
     this.subscribeRefreshListener();
     this.getCollection();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   createPlanningFromEstimate(estimate: EstimateDto): void {
@@ -106,11 +114,6 @@ export class EstimatePageComponent
     );
 
     this.getCollection();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   private subscribeRefreshListener(): void {

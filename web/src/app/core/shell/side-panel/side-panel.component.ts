@@ -2,10 +2,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   Input,
   OnInit,
 } from '@angular/core';
 import { IShellRoute, ShellRoutes } from '../shell-routes';
+import CoreStore from '@app/core/store/core-store';
 
 @Component({
   selector: 'app-side-panel',
@@ -14,18 +16,14 @@ import { IShellRoute, ShellRoutes } from '../shell-routes';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidePanelComponent implements OnInit {
-  @Input() mobile: boolean = false;
-
-  private open: boolean = false;
-
-  get openValue() {
-    return this.open;
-  }
-
-  set openValue(val: boolean) {
-    this.open = val;
-  }
+  navList: IShellRoute[] = [];
   isDarkTheme: boolean = false;
+
+  get isMobile() {
+    return this.coreStore.mobile;
+  }
+
+  private coreStore = inject(CoreStore);
 
   toggleTheme(): void {
     this.isDarkTheme = !this.isDarkTheme;
@@ -34,8 +32,6 @@ export class SidePanelComponent implements OnInit {
       document.body.classList.add('dark');
     } else document.body.classList.remove('dark');
   }
-
-  navList: IShellRoute[] = [];
 
   trackBy = (index: number) => index;
 

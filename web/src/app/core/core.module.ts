@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
-import { StoreModule } from '@ngrx/store';
-import { coreStoreReducer } from './store/core-store.reducer';
+import { CoreService } from './store/core-store.service';
 
 @NgModule({
-  imports: [SharedModule, StoreModule.forRoot({ core: coreStoreReducer })],
+  imports: [SharedModule],
   exports: [],
-  providers: [],
+  providers: [CoreService],
 })
 export class CoreModule {}

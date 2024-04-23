@@ -1,6 +1,6 @@
-<div class="blur" *ngIf="mobile"></div>
-<div class="side-panel-container" [class.mobile]="mobile">
-  <div class="side-panel-el" [class.mobile]="mobile" id="side-panel">
+<div class="blur" *ngIf="isMobile()"></div>
+<div class="side-panel-container" [class.mobile]="isMobile()">
+  <div class="side-panel-el" [class.mobile]="isMobile()" id="side-panel">
     <div class="menu-container">
       <ng-container *ngTemplateOutlet="nav"></ng-container>
     </div>
