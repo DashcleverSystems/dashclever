@@ -7,10 +7,10 @@ import {
   EstimateReportFormService
 } from "@content/main/panels/insight-repair-panel/estimate-catalogue/estimate-form/estimate-report-form/estimate-report-form.service";
 import {catchError, EMPTY, finalize} from "rxjs";
-import {
-  EstimateFormComponent
-} from "@content/main/panels/insight-repair-panel/estimate-catalogue/estimate-form/estimate-form.component";
 import {AppDialogService} from "@shared/commons/dialog/dialog.service";
+import {
+  IEstimatePdfDTO
+} from "@content/main/panels/insight-repair-panel/estimate-catalogue/estimate-form/estimate-form";
 
 @Component({
   templateUrl: './estimate-report-form.component.html',
@@ -30,6 +30,11 @@ export class EstimateReportFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    let data: IEstimateReportDto | null = this.conf.data?.data;
+    if (data === null || data === undefined) {
+          return;
+    }
+    this.service.patchValues(this.form, data);
   }
 
   submitForm(): void {
@@ -46,7 +51,10 @@ export class EstimateReportFormComponent implements OnInit {
     }
 
     this.service
-      .save(this.form.getRawValue() as IEstimateReportDto)
+      .save({
+        pdfName: this.form.getRawValue().pdfName,
+        content: this.form.getRawValue().content
+      } as IEstimateReportDto)
       .pipe(
         catchError((err) => {
           this.toast.error({
@@ -67,24 +75,5 @@ export class EstimateReportFormComponent implements OnInit {
         });
         this.ref.close({ result: 'success' });
       });
-  }
-
-  createEstimateReport(): void {
-    this.openModalForm();
-  }
-
-  private openModalForm(data?: IEstimateReportDto): void {
-    this.dialog
-      .open(EstimateFormComponent, {
-        data: {
-          data: data,
-        },
-        showHeader: false,
-        closable: false,
-        width: undefined,
-        style: { 'min-width': undefined },
-        modal: true,
-      }
-    );
   }
 }

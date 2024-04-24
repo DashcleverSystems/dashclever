@@ -10,6 +10,7 @@ public record RepairInfo(
     EstimateReader.VehicleInfo vehicleInfo,
     EstimateReader.Paint paint,
     Set<EstimateReader.Job> labourJobs,
-    Set<EstimateReader.Job> varnishingJobs
+    Set<EstimateReader.Job> varnishingJobs,
+    String reportId
 ) {
 }

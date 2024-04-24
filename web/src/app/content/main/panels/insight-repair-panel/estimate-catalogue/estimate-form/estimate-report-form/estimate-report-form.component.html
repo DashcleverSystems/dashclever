@@ -8,29 +8,17 @@
     <div class="content">
       <div class="section">
         <div class="controls-container">
-          @if (form.controls.pdfName; as control) {
-          <div class="control">
-            <label htmlFor="field-pdfName">
-            PDF Name
-            </label>
-              <input
-                pInputText
-                id="field-pdfName"
-                type="text"
-                aria-describedby="pdfName-help"
-                formControlName="pdfName"
-              />
-              <app-form-control-error-output
-                [control]="control"
-              ></app-form-control-error-output>
-            </div>
-          }
-        </div>
-        <div class="controls-container">
           <div class="control">
             <label htmlFor="field-content">
               Content
             </label>
+            <input
+              pInputText
+              id="field-pdfName"
+              type="hidden"
+              aria-describedby="pdfName-help"
+              formControlName="pdfName"
+            />
             <input
               pInputText
               id="field-content"

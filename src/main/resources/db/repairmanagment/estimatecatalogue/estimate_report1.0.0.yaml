@@ -20,10 +20,3 @@ databaseChangeLog:
               - column:
                   name: estimate_id
                   type: UUID
-            foreignKeyConstraints:
-              - foreignKeyConstraint:
-                  baseTableName: RM_ESTIMATECATALOGUE_ESTIMATEREPORT
-                  baseColumnNames: estimate_id
-                  referencedTableName: RM_ESTIMATECATALOGUE_ESTIMATE
-                  referencedColumnNames: id
-                  constraintName: FK_ESTIMATEREPORT_ESTIMATE

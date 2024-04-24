@@ -28,7 +28,7 @@ public class EstimateReadingRestApi {
     )
     public RepairInfo readEstimate(@RequestParam("file") final MultipartFile file) throws IOException, ReaderException {
         var repairInfo = estimateReading.retrieveRepairInfo(file.getInputStream());
-        estimateSaver.savePDF(file, repairInfo.uniqueId());
+        estimateSaver.savePDF(file, repairInfo.reportId());
         return repairInfo;
     }
 

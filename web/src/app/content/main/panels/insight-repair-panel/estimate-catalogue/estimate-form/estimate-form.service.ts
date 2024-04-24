@@ -47,6 +47,9 @@ export class EstimateFormService {
           ? Array.from(data.jobs, (job) => this.getJobGroup(job))
           : [this.getJobGroup()],
       ),
+      reportId: this.fb.control<string|null>(
+        data?.reportId ?? null
+      )
     });
   }
 
@@ -82,6 +85,7 @@ export class EstimateFormService {
           jobType: JobType.VARNISHING,
         })),
       ],
+    reportId: data?.reportId
     };
   }
 
@@ -94,6 +98,7 @@ export class EstimateFormService {
     data.jobs.forEach((job) =>
       form.controls.jobs.controls.push(this.getJobGroup(job)),
     );
+    form.controls.reportId.patchValue(data.reportId);
   }
 
   getVehicleInfoGroup(

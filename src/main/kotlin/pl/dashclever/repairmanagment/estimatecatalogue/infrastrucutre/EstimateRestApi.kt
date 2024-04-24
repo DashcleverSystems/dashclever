@@ -29,6 +29,7 @@ import pl.dashclever.commons.paging.SortDirection.ASC
 import pl.dashclever.commons.paging.SortDirection.DESC
 import pl.dashclever.commons.time.LocalDateTimeHelper.asGmt
 import pl.dashclever.repairmanagment.estimatecatalogue.Estimate
+import pl.dashclever.repairmanagment.estimatecatalogue.EstimateReport
 import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository
 import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository.EstimateSpecifications
 import pl.dashclever.repairmanagment.estimatecatalogue.Job
@@ -112,6 +113,17 @@ internal class EstimateRestApi(
         return this.estimateRepository.deleteById(estimateId)
     }
 
+    @PostMapping("/report")
+    @ResponseStatus(NO_CONTENT)
+    fun createReport(
+        @Valid @RequestBody
+        estimateReportDto: EstimateReportDto
+    ) {
+        println(estimateReportDto.pdfName)
+        println(estimateReportDto.content)
+    }
+
+
     internal data class EstimateDto(
         val id: UUID?,
         @field:Size(min = 1, max = 24, message = "$SIZE_BETWEEN;1;24")
@@ -147,5 +159,16 @@ internal class EstimateRestApi(
             this.startDate,
             this.jobs,
             this.getCreationTimestamp()?.asGmt()
+        )
+
+    internal data class EstimateReportDto(
+        val pdfName: String,
+        val content: String
+    )
+
+    private fun EstimateReportDto.toEntity(): EstimateReport =
+        EstimateReport(
+            pdfName,
+            content
         )
 }

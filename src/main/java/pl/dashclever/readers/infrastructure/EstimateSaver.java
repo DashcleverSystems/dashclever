@@ -14,10 +14,9 @@ class EstimateSaver {
     final String UPLOAD_DIRECTORY = "src/main/resources/pdf/";
 
     void savePDF(MultipartFile file, String uniqueId) throws IOException {
-        var transformedId = uniqueId.replaceAll("/", "-");
         var bytes = file.getBytes();
 
-        Path path = Paths.get(UPLOAD_DIRECTORY + transformedId + ".pdf");
+        Path path = Paths.get(UPLOAD_DIRECTORY + uniqueId + ".pdf");
 
         Files.write(path, bytes);
     }

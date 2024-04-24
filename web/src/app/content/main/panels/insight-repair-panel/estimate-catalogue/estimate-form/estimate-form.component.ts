@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { EstimateFormService } from './estimate-form.service';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { IEstimateDTO, IEstimateForm, IEstimatePdfDTO } from './estimate-form';
-import { FormGroup } from '@angular/forms';
-import { ToastService } from '@app/shared/services/toast.service';
-import { DictionaryDTO, enumToDictionary } from '@app/shared/utils/dictionary';
-import { JobType } from '@app/shared/enums/job-type';
-import { Currency } from '@app/shared/enums/currency';
-import { catchError, EMPTY, finalize } from 'rxjs';
-import {
-  EstimateReportFormService
-} from "./estimate-report-form/estimate-report-form.service";
+import {Component, OnInit} from '@angular/core';
+import {EstimateFormService} from './estimate-form.service';
+import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
+import {IEstimateDTO, IEstimateForm, IEstimatePdfDTO} from './estimate-form';
+import {FormGroup} from '@angular/forms';
+import {ToastService} from '@app/shared/services/toast.service';
+import {DictionaryDTO, enumToDictionary} from '@app/shared/utils/dictionary';
+import {JobType} from '@app/shared/enums/job-type';
+import {Currency} from '@app/shared/enums/currency';
+import {catchError, EMPTY, finalize} from 'rxjs';
+import {IEstimateReportDto} from "./estimate-report-form/estimate-report-form";
+import {EstimateReportFormComponent} from "./estimate-report-form/estimate-report-form.component";
+import {AppDialogService} from "@shared/commons/dialog/dialog.service";
 
 interface Dictionaries {
   jobTypes: DictionaryDTO<JobType, string>[];
@@ -20,7 +20,7 @@ interface Dictionaries {
 @Component({
   templateUrl: './estimate-form.component.html',
   styleUrls: ['./estimate-form.component.scss'],
-  providers: [EstimateFormService, EstimateReportFormService],
+  providers: [EstimateFormService],
 })
 export class EstimateFormComponent implements OnInit {
   form: FormGroup<IEstimateForm> = this.service.createForm();
@@ -32,7 +32,7 @@ export class EstimateFormComponent implements OnInit {
     private conf: DynamicDialogConfig,
     public ref: DynamicDialogRef,
     private toast: ToastService,
-    private reportService: EstimateReportFormService
+    private dialog: AppDialogService
   ) {}
 
   ngOnInit(): void {
@@ -93,7 +93,23 @@ export class EstimateFormComponent implements OnInit {
     currencies: enumToDictionary(Currency, 'enum.Currency'),
   };
 
-  createEstimateReport(): void {
-    this.reportService.createForm();
+  openModalForm(reportId: string, data?: IEstimateReportDto): void {
+    const newData: IEstimateReportDto = {
+      pdfName: reportId,
+      content: data?.content || ''
+    };
+    this.dialog
+        .open(EstimateReportFormComponent, {
+            data: {
+              data: newData,
+            },
+            showHeader: false,
+            closable: false,
+            width: undefined,
+            style: { 'min-width': undefined },
+            modal: true,
+        }
+      );
   }
+
 }
