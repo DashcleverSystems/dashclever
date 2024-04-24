@@ -12,8 +12,9 @@
   }
 
   .content {
-    width: 100vw;
+    width: calc(100svw - 30px);
 
+    padding-left: 10px;
     height: auto;
     overflow: auto;
     scroll-behavior: smooth;
@@ -22,9 +23,7 @@
     &.mobile {
       width: 100vw;
       margin-left: 0;
-      padding-top: 50px;
-      height: 100%;
-      padding-bottom: 20px;
+      height: calc(100% - 30px);
     }
   }
 }

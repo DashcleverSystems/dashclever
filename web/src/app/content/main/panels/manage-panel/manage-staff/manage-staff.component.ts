@@ -59,8 +59,6 @@ export class ManageStaffComponent implements OnInit, OnDestroy {
         employee: employee,
       },
       closable: false,
-      width: this.isMobile ? '100svw' : undefined,
-      style: { 'min-width': !this.isMobile ? '40svw' : undefined },
     });
 
     ref.onClose.subscribe((res) => res && this.manageStore.loadCollection());

@@ -1,16 +1,18 @@
-import { inject, Inject, Injectable, OnInit } from '@angular/core';
+import { inject, Inject, Injectable } from '@angular/core';
 import CoreStore from './core-store';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CoreService {
   private coreStore = inject(CoreStore);
+
   private resizeObserver: ResizeObserver = new ResizeObserver(() =>
     Promise.resolve().then(() => this.checkMobile()),
   );
 
-  constructor(@Inject(Document) private document: Document) {
+  constructor(@Inject(DOCUMENT) private document: Document) {
     this.initObserver();
   }
 

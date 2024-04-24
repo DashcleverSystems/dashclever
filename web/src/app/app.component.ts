@@ -3,6 +3,7 @@ import { CoreTranslateService } from './core/translate/core-translate.service';
 import { environment } from '@env/environments';
 import { Language } from './shared/enums/languages';
 import { ThemeSwitchService } from '@content/main/settings/theme-switch/theme-switch.service';
+import { CoreService } from './core/store/core-store.service';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ export class AppComponent implements OnInit {
   constructor(
     private coreTranslateService: CoreTranslateService,
     @SkipSelf() private themeService: ThemeSwitchService,
+    @SkipSelf() private coreService: CoreService,
   ) {}
 
   ngOnInit(): void {

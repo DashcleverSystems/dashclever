@@ -65,8 +65,6 @@ export class EstimateCreateComponent implements OnDestroy {
         data: { data },
         showHeader: false,
         closable: false,
-        width: this.isMobile ? '100svw' : undefined,
-        style: { 'min-width': !this.isMobile ? '40svw' : undefined },
         modal: true,
       })
       .onClose.subscribe(
