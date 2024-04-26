@@ -25,7 +25,7 @@ import java.util.UUID
 internal class PlanFindingByEstimateNameTests(
     @Autowired private val estimateRepository: EstimateRepository,
     @Autowired private val planRepository: PlanRepository,
-    @Autowired private val planReader: PlanReader,
+    @Autowired private val planReader: PlanReader
 ) {
 
     private val testAccessSetter = TestAccessSetter()
@@ -71,7 +71,7 @@ internal class PlanFindingByEstimateNameTests(
 
         // then
         assertThat(result.content).singleElement().satisfies({
-                                                                 assertThat(it.estimateName).isEqualTo("25/2022WK")
-                                                             })
+            assertThat(it.estimateName).isEqualTo("25/2022WK")
+        })
     }
 }

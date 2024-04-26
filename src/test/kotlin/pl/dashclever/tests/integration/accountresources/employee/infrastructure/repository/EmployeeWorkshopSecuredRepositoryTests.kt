@@ -22,7 +22,7 @@ import java.util.UUID
 @DefaultTestContextConfiguration
 internal class EmployeeWorkshopSecuredRepositoryTests(
     @Autowired private val employeeWorkshopSecuredRepository: EmployeeWorkshopSecuredRepository,
-    @Autowired private val employeeSecurityRecordRepository: EntitySecurityRecordRepository<Employee, UUID, WorkshopEmployee>,
+    @Autowired private val employeeSecurityRecordRepository: EntitySecurityRecordRepository<Employee, UUID, WorkshopEmployee>
 ) {
 
     private val testApplicationAccessSetter = TestAccessSetter()
@@ -85,6 +85,6 @@ internal class EmployeeWorkshopSecuredRepositoryTests(
     private fun createEmployee(
         firstName: String = "Jane",
         lastName: String = "Doe",
-        workplace: Workplace = LABOUR,
-	): Employee = Employee(firstName, lastName, workplace)
+        workplace: Workplace = LABOUR
+    ): Employee = Employee(firstName, lastName, workplace)
 }

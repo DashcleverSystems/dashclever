@@ -24,7 +24,7 @@ import pl.dashclever.tests.integration.repairmanagment.`new estimate`
 internal class EstimateCatalogueTests(
     @LocalServerPort private val port: Int,
     @Autowired private val estimateRepository: pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository,
-    @Autowired private val estimateTestsRepository: EstimateTestsRepository,
+    @Autowired private val estimateTestsRepository: EstimateTestsRepository
 ) {
 
     @BeforeEach

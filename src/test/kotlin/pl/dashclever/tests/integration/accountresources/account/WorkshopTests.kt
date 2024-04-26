@@ -24,7 +24,7 @@ import pl.dashclever.tests.integration.DefaultTestContextConfiguration
 internal class WorkshopTests(
     @Autowired private val accountService: AccountService,
     @Autowired private val accountCleaner: AccountCleaner,
-    @LocalServerPort private val port: Int,
+    @LocalServerPort private val port: Int
 ) {
 
     @BeforeEach

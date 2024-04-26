@@ -30,7 +30,7 @@ internal class PlanReadModelTests(
     @Autowired private val estimateRepository: EstimateRepository,
     @Autowired private val estimateTestsRepository: EstimateTestsRepository,
     @Autowired private val planCreating: PlanCreating,
-    @Autowired private val planRepository: PlanRepository,
+    @Autowired private val planRepository: PlanRepository
 ) {
 
     @BeforeEach
