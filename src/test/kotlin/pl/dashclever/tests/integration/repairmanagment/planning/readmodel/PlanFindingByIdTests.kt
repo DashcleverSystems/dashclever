@@ -29,7 +29,7 @@ import java.util.UUID
 internal class PlanFindingByIdTests @Autowired constructor(
     private val estimateRepository: EstimateRepository,
     private val planRepository: PlanRepository,
-    private val planReader: PlanReader,
+    private val planReader: PlanReader
 ) {
 
     private val testAccessSetter = TestAccessSetter()

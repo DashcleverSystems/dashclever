@@ -34,7 +34,7 @@ internal class PlanFindingByCreatedAfterTests(
     @Autowired private val planReader: PlanReader,
     @Autowired private val estimateRepository: EstimateRepository,
     @Autowired @SpyBean
-    private val auditingHandler: AuditingHandler,
+    private val auditingHandler: AuditingHandler
 ) {
 
     private val testAccessSetter = TestAccessSetter()

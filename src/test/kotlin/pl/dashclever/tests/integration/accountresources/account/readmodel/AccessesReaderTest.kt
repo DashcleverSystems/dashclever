@@ -15,7 +15,7 @@ import pl.dashclever.tests.integration.DefaultTestContextConfiguration
 @DefaultTestContextConfiguration
 internal class AccessesReaderTest(
     @Autowired private val accountRepository: AccountRepository,
-    @Autowired private val accessesReader: AccessesReader,
+    @Autowired private val accessesReader: AccessesReader
 ) {
 
     @Test

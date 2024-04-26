@@ -13,7 +13,7 @@ import pl.dashclever.tests.integration.DefaultTestContextConfiguration
 @DefaultTestContextConfiguration
 internal class CredentialsReaderTest(
     @Autowired private val accountRepository: AccountRepository,
-    @Autowired private val credentialsReader: CredentialsReader,
+    @Autowired private val credentialsReader: CredentialsReader
 ) {
 
     @Test
