@@ -29,8 +29,8 @@
         <div class="controls-container">
           <div class="control">
             <label htmlFor="field-customerName">{{
-                'components.estimateCatalogue.form.customerName' | translate
-              }}</label>
+              'components.estimateCatalogue.form.customerName' | translate
+            }}</label>
             <input
               pInputText
               id="field-customerName"
@@ -42,7 +42,7 @@
           <div class="control">
             <label htmlFor="field-startDate">{{
               'components.estimateCatalogue.form.startDate' | translate
-              }}</label>
+            }}</label>
             <input
               pInputText
               id="field-startDate"
@@ -236,7 +236,7 @@
                       formControlName="currency"
                       optionLabel="value"
                       optionValue="id"
-                      [style]="{ width: '100%' }"
+                      class="w-full"
                     >
                       <ng-template pTemplate="selectedItem" let-currency>
                         <div class="flex align-items-center gap-2">
@@ -265,7 +265,7 @@
                     formControlName="jobType"
                     optionLabel="value"
                     optionValue="id"
-                    [style]="{ width: '100%' }"
+                    class="w-full"
                   >
                     <ng-template pTemplate="selectedItem" let-jobType>
                       <div class="flex align-items-center gap-2">
@@ -293,7 +293,6 @@
           pButton
           type="submit"
           (click)="submitForm()"
-          [style]="{ width: '100px' }"
           translate="components.estimateCatalogue.form.actions.save"
         ></button>
       </app-spinner>

@@ -1,33 +1,43 @@
-import { Injectable } from '@angular/core';
-import { ComponentStore, OnStoreInit } from '@ngrx/component-store';
-import { AccountRestApiService } from '@api/services/accountRestApi.service';
+import { inject } from '@angular/core';
+import {
+  patchState,
+  signalStore,
+  withHooks,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
+import { AccountRestApiService } from 'generated/openapi';
+import { firstValueFrom } from 'rxjs';
 
 interface AuthState {
   isAuthenticated: boolean;
 }
 
-@Injectable()
-export class AuthStore
-  extends ComponentStore<AuthState>
-  implements OnStoreInit
-{
-  constructor(private accountApi: AccountRestApiService) {
-    super({ isAuthenticated: false });
-  }
+const initialState: AuthState = {
+  isAuthenticated: false,
+};
 
-  ngrxOnStoreInit(): void {
-    this.accountApi.currentUser().subscribe({
-      next: () => this.authenticated(true),
-      error: () => this.authenticated(false),
-    });
-  }
+const AuthStore = signalStore(
+  withState<AuthState>(initialState),
+  withMethods((store, accountApi = inject(AccountRestApiService)) => ({
+    async initStore(): Promise<void> {
+      patchState(store, { isAuthenticated: false });
 
-  readonly authenticated = this.updater((state, isAuthenticated: boolean) => {
-    return {
-      ...state,
-      isAuthenticated: isAuthenticated,
-    };
-  });
+      const isAuth = await firstValueFrom(accountApi.currentUser());
 
-  readonly isAuthenticated$ = this.select((state) => state.isAuthenticated);
-}
+      if (!!isAuth) {
+        patchState(store, { isAuthenticated: true });
+      }
+    },
+    changeIsAuth(isAuth: boolean) {
+      patchState(store, { isAuthenticated: isAuth });
+    },
+  })),
+  withHooks({
+    async onInit(store) {
+      await store.initStore();
+    },
+  }),
+);
+
+export default AuthStore;

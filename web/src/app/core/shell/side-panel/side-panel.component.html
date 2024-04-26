@@ -1,31 +1,57 @@
-<div class="blur" *ngIf="mobile"></div>
-<div class="side-panel-container" [class.mobile]="mobile">
-  <div class="side-panel-el" [class.mobile]="mobile" id="side-panel">
-    <div class="menu-container">
-      <ng-container *ngTemplateOutlet="nav"></ng-container>
-    </div>
-  </div>
+<div class="side-panel-container" [class.mobile]="isMobile()" #sidebarHolder>
+  <i
+    class="pi"
+    [ngClass]="isMobile() ? 'pi-chevron-down' : 'pi-chevron-right'"
+    (click)="sidebarVisibility = true"
+  ></i>
 </div>
+<p-sidebar
+  #sidebar
+  [(visible)]="sidebarVisibility"
+  [position]="isMobile() ? 'top' : 'left'"
+>
+  <ng-template pTemplate="headless">
+    <div class="sidebar-wrapper" [class.mobile]="isMobile()">
+      @if (!isMobile()) {
+        <div class="sidebar-header" (click)="onClose($event)">
+          <h2>Dashclever App</h2>
+          <i class="pi pi-chevron-left mr-2"></i>
+        </div>
+      }
+
+      <div class="sidebar-content">
+        <div class="menu-container">
+          <ng-container *ngTemplateOutlet="nav"></ng-container>
+        </div>
+      </div>
+
+      @if (isMobile()) {
+        <div class="sidebar-footer" (click)="onClose($event)">
+          <i class="pi pi-chevron-up"></i>
+        </div>
+      }
+    </div>
+  </ng-template>
+</p-sidebar>
 
 <ng-template #nav>
-  <div class="nav">
-    <ul>
-      <li *ngFor="let route of navList; trackBy: trackBy">
-        <ng-container
-          *ngTemplateOutlet="nav_item; context: { item: route }"
-        ></ng-container>
-      </li>
-    </ul>
-  </div>
+  <ul>
+    <li *ngFor="let route of navList; trackBy: trackBy">
+      <ng-container
+        *ngTemplateOutlet="nav_item; context: { item: route }"
+      ></ng-container>
+    </li>
+  </ul>
 </ng-template>
 
 <ng-template #nav_item let-item="item">
   <div
-    class="item-el pointer"
+    class="route-element pointer"
     [routerLink]="item.url"
     routerLinkActive="active"
-    [pTooltip]="item.name | translate"
+    (click)="onClose($event)"
   >
     <i [ngClass]="'icon small icon--' + item?.iconName"></i>
+    <div class="route-name">{{ item.name | translate }}</div>
   </div>
 </ng-template>
