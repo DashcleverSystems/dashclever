@@ -14,7 +14,7 @@ services:
     ports:
       - "5432:5432"
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    image: rabbitmq:3-management
     container_name: 'dashclever-rabbitmq'
     ports:
       - 5672:5672

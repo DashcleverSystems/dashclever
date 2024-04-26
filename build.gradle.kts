@@ -91,7 +91,7 @@ val devSystemProperties = mapOf(
     "rabbitmq.port" to 5672,
     "rabbitmq.host" to "localhost",
     "rabbitmq.username" to "admin",
-    "rabbitmq.password" to "admin",
+    "rabbitmq.password" to "admin"
 )
 
 val setDev = tasks.register<Exec>("setDev") {

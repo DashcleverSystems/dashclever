@@ -10,9 +10,9 @@ import org.springframework.core.env.PropertySource
 import org.springframework.stereotype.Component
 
 @Component
-class CloudStreamBeanPostProcessor(
+internal class CloudStreamBeanPostProcessor(
     private val applicationContext: ApplicationContext,
-    private val environment: ConfigurableEnvironment,
+    private val environment: ConfigurableEnvironment
 ) : BeanPostProcessor {
 
     var initialized = false
@@ -33,14 +33,14 @@ class CloudStreamBeanPostProcessor(
             CloudStreamConsumer::class.java,
             CloudStreamFunction::class.java,
             TransactionlessCloudStreamConsumer::class.java,
-            TransactionlessCloudStreamFunction::class.java,
+            TransactionlessCloudStreamFunction::class.java
         ).flatMap { applicationContext.getBeanNamesForType(it).toList() }
         val beanNamesAsString = beanNames.joinToString(";")
         return MapPropertySource(
             "cloudStream",
             mapOf(
-                FunctionProperties.FUNCTION_DEFINITION to beanNamesAsString,
-            ),
+                FunctionProperties.FUNCTION_DEFINITION to beanNamesAsString
+            )
         )
     }
 }
