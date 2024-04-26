@@ -41,6 +41,15 @@ spring:
           consumer:
             autoBindDlq: true
             republishToDlq: true
+      bindings:
+        StartedRepairOfPlan-out-0:
+          destination: dashclever.repairmanagment.repairing.repair-started
+        blockPlansModifications-in-0:
+          destination: dashclever.repairmanagment.repairing.repair-started
+          group: dashclever.repairmanagment.planning.block-plans-modification
+        indicateOngoingRepairOfEstimate-in-0:
+          destination: dashclever.repairmanagment.repairing.repair-started
+          group: dashclever.repairmanagment.planning.indicate-ongoing-repair-of-estimate
 
 logging:
   level:
