@@ -4,8 +4,11 @@ object ConnectionUrlParser {
 
     operator fun invoke(connectionUrl: String): RabbitMqConnectionProperties {
         val trimmedUrl = connectionUrl.trim()
-        val withoutSuffix = if (trimmedUrl.startsWith("amqp://")) trimmedUrl.replaceFirst("amqp://", "", ignoreCase = true)
-        else trimmedUrl.replaceFirst("amqps://", "", ignoreCase = true)
+        val withoutSuffix = if (trimmedUrl.startsWith("amqp://")) {
+            trimmedUrl.replaceFirst("amqp://", "", ignoreCase = true)
+        } else {
+            trimmedUrl.replaceFirst("amqps://", "", ignoreCase = true)
+        }
         val usernameDelimiterPosition = withoutSuffix.indexOfFirst { it == ':' }
         val username = withoutSuffix.substring(0, usernameDelimiterPosition)
         val passwordDelimiterPosition = withoutSuffix.indexOfFirst { it == '@' }
@@ -27,7 +30,7 @@ object ConnectionUrlParser {
         }
 
         val host = withoutSuffix.substring(passwordDelimiterPosition + 1, hostDelimiterPosition)
-        val virtualHost = virtualHostPosition?.let { withoutSuffix.substring(it, withoutSuffix.length) } ?: null
+        val virtualHost = virtualHostPosition?.let { withoutSuffix.substring(it, withoutSuffix.length) }
         return RabbitMqConnectionProperties(host, virtualHost, username, password, port)
     }
 
@@ -36,6 +39,6 @@ object ConnectionUrlParser {
         val virtualHost: String?,
         val username: String,
         val password: String,
-        val port: Int = 5672,
+        val port: Int = 5672
     )
 }

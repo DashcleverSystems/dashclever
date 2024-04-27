@@ -12,7 +12,6 @@ class ConnectionUrlCachingConnectionFactory(
     private val rabbitMqConnectionString: String
 ) {
 
-
     @Bean
     fun connection() {
         val rabbitConnectionProperties = ConnectionUrlParser(rabbitMqConnectionString)
