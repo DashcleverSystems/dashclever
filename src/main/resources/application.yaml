@@ -33,10 +33,7 @@ spring:
                 time_zone: UTC
     open-in-view: false
   rabbitmq:
-    port: ${rabbitmq.port}
-    host: ${rabbitmq.host}
-    username: ${rabbitmq.username}
-    password: ${rabbitmq.password}
+    connection-url: ${rabbitmq.connection-url}
   cloud:
     stream:
       rabbit:

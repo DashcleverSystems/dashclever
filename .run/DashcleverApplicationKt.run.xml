@@ -2,7 +2,7 @@
   <configuration default="false" name="DashcleverApplicationKt" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
     <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
     <module name="dashclever.main" />
-    <option name="PROGRAM_PARAMETERS" value="--jdbc.db.url=&quot;jdbc:postgresql://localhost:5432/dashclever&quot; --jdbc.db.username=&quot;postgres&quot; --jdbc.db.password=&quot;postgres&quot; --spring.security.logging=&quot;TRACE&quot; --openapi.enabled=true --rabbitmq.port=5672 --rabbitmq.host=&quot;localhost&quot; --rabbitmq.username=&quot;admin&quot; --rabbitmq.password=&quot;admin&quot;" />
+    <option name="PROGRAM_PARAMETERS" value="--jdbc.db.url=&quot;jdbc:postgresql://localhost:5432/dashclever&quot; --jdbc.db.username=&quot;postgres&quot; --jdbc.db.password=&quot;postgres&quot; --spring.security.logging=&quot;TRACE&quot; --openapi.enabled=true --rabbitmq.connection-url=&quot;amqps://admin:admin@localhost:5672&quot;" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="pl.dashclever.DashcleverApplicationKt" />
     <option name="VM_PARAMETERS" value="-Duser.timezone=UTC" />
     <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">

@@ -88,10 +88,7 @@ val devSystemProperties = mapOf(
     "jdbc.db.password" to "postgres",
     "spring.security.logging" to "TRACE",
     "openapi.enabled" to "true",
-    "rabbitmq.port" to 5672,
-    "rabbitmq.host" to "localhost",
-    "rabbitmq.username" to "admin",
-    "rabbitmq.password" to "admin"
+    "rabbitmq.connection-url" to "amqps://admin:admin@localhost"
 )
 
 val setDev = tasks.register<Exec>("setDev") {
