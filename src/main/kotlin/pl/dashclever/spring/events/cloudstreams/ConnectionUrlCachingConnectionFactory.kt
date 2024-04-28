@@ -2,25 +2,28 @@ package pl.dashclever.spring.events.cloudstreams
 
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.context.annotation.Bean
+import org.springframework.beans.factory.config.BeanPostProcessor
 import org.springframework.context.annotation.Configuration
+
+private const val UNDEFINED_CONNECTION_URL = "undefined"
 
 @Configuration
 class ConnectionUrlCachingConnectionFactory(
-    private val cachingConnectionFactory: CachingConnectionFactory,
-    @Value("\${spring.rabbitmq.connection-url}")
+    @Value("\${spring.rabbitmq.connection-url:$UNDEFINED_CONNECTION_URL}")
     private val rabbitMqConnectionString: String
-) {
+) : BeanPostProcessor {
 
-    @Bean
-    fun connection() {
-        val rabbitConnectionProperties = ConnectionUrlParser(rabbitMqConnectionString)
-        cachingConnectionFactory.apply {
-            setHost(rabbitConnectionProperties.host)
-            rabbitConnectionProperties.virtualHost?.let { virtualHost = it }
-            port = rabbitConnectionProperties.port
-            username = rabbitConnectionProperties.username
-            setPassword(rabbitConnectionProperties.password)
+    override fun postProcessAfterInitialization(bean: Any, beanName: String): Any? {
+        if (bean is CachingConnectionFactory && rabbitMqConnectionString != UNDEFINED_CONNECTION_URL) {
+            val connectionProperties = ConnectionUrlParser(rabbitMqConnectionString)
+            bean.setHost(connectionProperties.host)
+            if (connectionProperties.virtualHost != null) {
+                bean.virtualHost = connectionProperties.virtualHost
+            }
+            bean.port = connectionProperties.port
+            bean.username = connectionProperties.username
+            bean.setPassword(connectionProperties.password)
         }
+        return super.postProcessAfterInitialization(bean, beanName)
     }
 }
