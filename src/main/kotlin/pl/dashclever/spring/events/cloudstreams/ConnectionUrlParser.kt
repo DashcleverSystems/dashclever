@@ -20,16 +20,22 @@ object ConnectionUrlParser {
         }
         val hostDelimiterPosition = if (withoutSuffix.indexOfLast { it == ':' } != -1 && withoutSuffix.indexOfFirst { it == ':' } != withoutSuffix.indexOfLast { it == ':' }) {
             withoutSuffix.indexOfLast { it == ':' }
-        } else {
+        } else if (withoutSuffix.indexOfFirst { it == '/' } != -1) {
             withoutSuffix.indexOfFirst { it == '/' }
+        } else {
+            -1
         }
-        val port = if (withoutSuffix.elementAt(hostDelimiterPosition) == ':') {
-            withoutSuffix.substring(hostDelimiterPosition + 1, virtualHostPosition?.let { it - 1 } ?: withoutSuffix.length).toInt()
+        val port = if (hostDelimiterPosition != -1 && withoutSuffix.elementAt(hostDelimiterPosition) == ':') {
+            withoutSuffix.substring(hostDelimiterPosition + 1, virtualHostPosition?.let { it - 1 } ?: (withoutSuffix.length)).toInt()
         } else {
             5672
         }
-
-        val host = withoutSuffix.substring(passwordDelimiterPosition + 1, hostDelimiterPosition)
+        val hostPartLastIndex = if (hostDelimiterPosition != -1) {
+            hostDelimiterPosition
+        } else {
+            withoutSuffix.length
+        }
+        val host = withoutSuffix.substring(passwordDelimiterPosition + 1, hostPartLastIndex)
         val virtualHost = virtualHostPosition?.let { withoutSuffix.substring(it, withoutSuffix.length) }
         return RabbitMqConnectionProperties(host, virtualHost, username, password, port)
     }

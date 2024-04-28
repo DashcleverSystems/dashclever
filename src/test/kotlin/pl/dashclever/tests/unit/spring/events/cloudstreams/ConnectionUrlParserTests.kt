@@ -22,6 +22,21 @@ internal class ConnectionUrlParserTests {
     }
 
     @Test
+    fun `should parse a localhost connection url without port`() {
+        // given
+        val connectionUrl = "amqps://admin:admin@localhost"
+
+        // when
+        val properties = ConnectionUrlParser(connectionUrl)
+
+        // the
+        assertThat(properties.host).isEqualTo("localhost")
+        assertThat(properties.virtualHost).isEqualTo(null)
+        assertThat(properties.username).isEqualTo("admin")
+        assertThat(properties.password).isEqualTo("admin")
+    }
+
+    @Test
     fun `should parse connection url with port`() {
         // given
         val connectionUrl = "amqps://admin:admin@localhost:9999/fyqpsgvz"
