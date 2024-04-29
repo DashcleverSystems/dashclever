@@ -20,7 +20,6 @@
     "module": "ES2022",
     "useDefineForClassFields": false,
     "lib": ["ES2022", "dom"],
-    "typeRoots": ["node_modules/@types"],
     "paths": {
       "@app/*": ["src/app/*"],
       "@shared": ["src/app/shared"],
@@ -37,7 +36,8 @@
       "@api/models/*": ["generated/openapi/model/*"],
       "@api/models": ["generated/openapi/model"]
     },
-    "plugins": [{ "name": "@angular/language-service" }]
+    "plugins": [{ "name": "@angular/language-service" }],
+    "allowJs": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

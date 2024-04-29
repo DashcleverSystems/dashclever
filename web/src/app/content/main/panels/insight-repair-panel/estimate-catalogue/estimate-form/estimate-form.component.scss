@@ -1,6 +1,6 @@
 .header {
   width: 100%;
-  height: 50px;
+  height: 20px;
   font-size: 1.6rem;
   font-weight: 600;
 }
@@ -77,4 +77,9 @@
 .report-button {
   width: 100px;
   background-color: red;
+}
+.footer .actions {
+  button {
+    width: 100px;
+  }
 }

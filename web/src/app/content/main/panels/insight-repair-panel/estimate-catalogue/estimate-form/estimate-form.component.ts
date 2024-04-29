@@ -23,6 +23,11 @@ interface Dictionaries {
   providers: [EstimateFormService],
 })
 export class EstimateFormComponent implements OnInit {
+  dictionaries: Dictionaries = {
+    jobTypes: enumToDictionary(JobType, 'enum.JobType'),
+    currencies: enumToDictionary(Currency, 'enum.Currency'),
+  };
+
   form: FormGroup<IEstimateForm> = this.service.createForm();
 
   loadingSpinner = false;
@@ -36,7 +41,7 @@ export class EstimateFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    let data: IEstimatePdfDTO | null = this.conf.data?.data;
+    const data: IEstimatePdfDTO | null = this.conf.data?.data;
     if (data === null || data === undefined) {
       return;
     }

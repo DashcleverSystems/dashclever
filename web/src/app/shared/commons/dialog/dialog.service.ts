@@ -1,4 +1,4 @@
-import { Injectable, Type } from '@angular/core';
+import { inject, Injectable, Type } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   DialogService,
@@ -7,11 +7,14 @@ import {
 } from 'primeng/dynamicdialog';
 import { DialogExtension } from './dialog-extension';
 import { first } from 'rxjs';
+import CoreStore from '@app/core/store/core-store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppDialogService {
+  private coreStore = inject(CoreStore);
+
   constructor(
     private router: Router,
     private dialogService: DialogService,
@@ -25,9 +28,11 @@ export class AppDialogService {
       showHeader: false,
       contentStyle: {
         'min-height': '100px',
-        'max-height': '96vh',
+        'max-height': '98svh',
         'overflow-y': 'auto',
+        'overflow-x': 'hidden',
         padding: 0,
+        width: this.coreStore.mobile() ? '95svw' : 'auto',
       },
       baseZIndex: 10000,
       ...configuration,

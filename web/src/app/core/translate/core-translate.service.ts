@@ -1,14 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { CoreSelectors } from '../store';
 
 import pl from 'src/assets/translations/pl.json';
 import en from 'src/assets/translations/en.json';
 
+import { effect } from '@angular/core';
 import { Language } from '@app/shared/enums/languages';
-import { Subscription, last, skip } from 'rxjs';
-import { coreStoreActions } from '../store/core-store.actions';
+import CoreStore from '../store/core-store';
 
 const languageKey = 'language';
 
@@ -19,38 +17,28 @@ export class CoreTranslateService {
   defaultLanguage!: Language;
   supportedLanguages!: Language[];
 
-  private langChangeSubscription!: Subscription;
+  private coreStore = inject(CoreStore);
 
-  constructor(
-    private translateService: TranslateService,
-    private store: Store
-  ) {
+  constructor(private translateService: TranslateService) {
     translateService.setTranslation('pl', pl);
     translateService.setTranslation('en', en);
+
+    effect(() => {
+      const lang = this.coreStore.lang();
+
+      localStorage.setItem(languageKey, lang);
+    });
   }
 
   init(defaultLanguage: Language, supportedLanguages: Language[]) {
     this.defaultLanguage = defaultLanguage;
     this.supportedLanguages = supportedLanguages;
 
-    this.langChangeSubscription = this.store
-      .select(CoreSelectors.selectedLanguage)
-      .pipe(skip(1))
-      .subscribe((event: Language) => {
-        localStorage.setItem(languageKey, event);
-      });
-
     const lastUsedLanguage = localStorage.getItem(languageKey);
     if (lastUsedLanguage) {
       this.translateService.use(lastUsedLanguage);
       this.language = lastUsedLanguage as Language;
     } else this.translateService.use(this.defaultLanguage);
-  }
-
-  destroy() {
-    if (this.langChangeSubscription) {
-      this.langChangeSubscription.unsubscribe();
-    }
   }
 
   set language(language: Language) {
@@ -61,7 +49,7 @@ export class CoreTranslateService {
       '';
 
     const isSupportedLanguage = this.supportedLanguages.includes(
-      newLanguage as Language
+      newLanguage as Language,
     );
     if (!newLanguage || !isSupportedLanguage) {
       newLanguage = this.defaultLanguage;
@@ -70,7 +58,7 @@ export class CoreTranslateService {
     language = newLanguage as Language;
 
     this.translateService.use(language);
-    this.store.dispatch(coreStoreActions.changeLanguage({ lang: language }));
+    this.coreStore.changeLanguage(language);
   }
 
   get language(): Language {

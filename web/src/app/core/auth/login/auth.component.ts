@@ -1,16 +1,14 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, effect, HostListener, inject, OnInit } from '@angular/core';
 import { AuthService, ILoginForm } from './auth.service';
 import { FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthStore } from '@core/auth/login/auth.store';
-import { takeUntil } from 'rxjs';
 import { ToastService } from '@shared/services/toast.service';
-import { provideComponentStore } from '@ngrx/component-store';
+import AuthStore from './auth.store';
 
 @Component({
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
-  providers: [provideComponentStore(AuthStore)],
+  providers: [AuthStore],
 })
 export class AuthComponent implements OnInit {
   @HostListener('keydown', ['$event']) onKeyDown = (e: any) => {
@@ -20,7 +18,6 @@ export class AuthComponent implements OnInit {
   };
 
   isRegisterForm: boolean = false;
-
   form: FormGroup<ILoginForm> = this.authService.createForm();
 
   get emailControl() {
@@ -31,26 +28,24 @@ export class AuthComponent implements OnInit {
     return false;
   }
 
+  private authStore = inject(AuthStore);
+
   constructor(
     private authService: AuthService,
-    private authStore: AuthStore,
     private toast: ToastService,
     private router: Router,
-  ) {}
+  ) {
+    effect(() => {
+      const isAuth = this.authStore.isAuthenticated();
+
+      if (isAuth) {
+        this.router.navigate(['home']);
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.onLogin();
-    this.redirectToHomeIfAuthenticated();
-  }
-
-  private redirectToHomeIfAuthenticated(): void {
-    this.authStore.isAuthenticated$
-      .pipe(takeUntil(this.authStore.destroy$))
-      .subscribe((isAuthenticated: boolean) => {
-        if (isAuthenticated === true) {
-          this.router.navigate(['home']);
-        }
-      });
   }
 
   onRegister(): void {
@@ -83,10 +78,11 @@ export class AuthComponent implements OnInit {
       username: this.form.controls.username.value ?? '',
       password: this.form.controls.password.value ?? '',
     };
+
     this.authService.login(credentials).subscribe({
-      next: () => this.authStore.authenticated(true),
+      next: () => this.authStore.changeIsAuth(true),
       error: (response) => {
-        this.authStore.authenticated(false);
+        this.authStore.changeIsAuth(false);
         if (response.status == 400) {
           this.toast.warn({
             title: 'toast.wrongCredentials.title',

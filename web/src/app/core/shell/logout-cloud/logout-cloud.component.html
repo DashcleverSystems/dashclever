@@ -1,9 +1,9 @@
 <div
   class="login-cloud-container"
-  [class.mobile]="mobile"
+  [class.mobile]="isMobile()"
   (click)="onLogout()"
   id="login-cloud"
 >
-  {{ !mobile ? ('shell.logout' | translate) : '' }}
+  {{ !isMobile() ? ('shell.logout' | translate) : '' }}
   <i class="icon icon--logout small light ml-1"></i>
 </div>
