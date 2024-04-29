@@ -296,11 +296,11 @@
   <div class="footer" modal-footer>
     <div class="actions">
       <app-spinner [enable]="loadingSpinner">
-        @if (this.form.getRawValue().reportId != null) {
+        @if (getReportingId) {
           <button class="report-button"
           pButton
           type="button"
-          (click)="openModalForm(this.form.getRawValue().reportId)"
+          (click)="openModalForm(getReportingId())"
           translate="components.estimateCatalogue.form.actions.report"
           ></button>
         }

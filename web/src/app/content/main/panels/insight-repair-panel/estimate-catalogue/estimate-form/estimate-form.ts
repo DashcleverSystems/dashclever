@@ -9,7 +9,7 @@ export interface IEstimateDTO {
   paintInfo: IEstimatedPaintInfo;
   startDate: Date;
   jobs: IEstimatedJob[];
-  reportId: string;
+  reportingId: string;
 }
 
 export interface IEstimatePdfDTO {
@@ -22,7 +22,7 @@ export interface IEstimatePdfDTO {
   };
   labourJobs: Omit<IEstimatedJob, 'jobType'>[];
   varnishingJobs: Omit<IEstimatedJob, 'jobType'>[];
-  reportId: string;
+  reportingId: string;
 }
 
 export interface IEstimateForm {
@@ -32,7 +32,7 @@ export interface IEstimateForm {
   paintInfo: FormGroup<IEstimatedPaintInfoForm>;
   startDate: FormControl<Date | null>
   jobs: FormArray<FormGroup<IEstimatedJobForm>>;
-  reportId: FormControl<string | null>
+  reportingId: FormControl<string | null>
 }
 
 export interface ICustomerInfo {

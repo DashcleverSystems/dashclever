@@ -11,6 +11,6 @@ public record RepairInfo(
     EstimateReader.Paint paint,
     Set<EstimateReader.Job> labourJobs,
     Set<EstimateReader.Job> varnishingJobs,
-    String reportId
+    String reportingId
 ) {
 }

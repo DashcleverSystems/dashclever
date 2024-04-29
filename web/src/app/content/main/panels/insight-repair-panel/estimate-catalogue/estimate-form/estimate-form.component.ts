@@ -93,10 +93,16 @@ export class EstimateFormComponent implements OnInit {
     currencies: enumToDictionary(Currency, 'enum.Currency'),
   };
 
+  getReportingId(): string {
+    const reportingId: string = this.form.getRawValue().reportingId;
+    if (reportingId === null || reportingId === undefined) return null;
+    else return reportingId;
+  }
+
   openModalForm(reportId: string, data?: IEstimateReportDto): void {
     const newData: IEstimateReportDto = {
       pdfName: reportId,
-      content: data?.content || ''
+      content: data?.content ?? ''
     };
     this.dialog
         .open(EstimateReportFormComponent, {
@@ -106,7 +112,6 @@ export class EstimateFormComponent implements OnInit {
             showHeader: false,
             closable: false,
             width: undefined,
-            style: { 'min-width': undefined },
             modal: true,
         }
       );

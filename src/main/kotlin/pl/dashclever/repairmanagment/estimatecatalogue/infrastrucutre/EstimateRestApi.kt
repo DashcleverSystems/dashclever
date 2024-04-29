@@ -29,7 +29,6 @@ import pl.dashclever.commons.paging.SortDirection.ASC
 import pl.dashclever.commons.paging.SortDirection.DESC
 import pl.dashclever.commons.time.LocalDateTimeHelper.asGmt
 import pl.dashclever.repairmanagment.estimatecatalogue.Estimate
-import pl.dashclever.repairmanagment.estimatecatalogue.EstimateReport
 import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository
 import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository.EstimateSpecifications
 import pl.dashclever.repairmanagment.estimatecatalogue.Job
@@ -47,7 +46,7 @@ private const val PATH = "/api/estimatecatalogue"
 @RequestMapping(PATH)
 @Tag(name = "estimate-api")
 internal class EstimateRestApi(
-    private val estimateRepository: EstimateRepository
+    private val estimateRepository: EstimateRepository,
 ) {
 
     @PostMapping
@@ -113,16 +112,6 @@ internal class EstimateRestApi(
         return this.estimateRepository.deleteById(estimateId)
     }
 
-    @PostMapping("/report")
-    @ResponseStatus(NO_CONTENT)
-    fun createReport(
-        @Valid @RequestBody
-        estimateReportDto: EstimateReportDto
-    ) {
-        println(estimateReportDto.pdfName)
-        println(estimateReportDto.content)
-    }
-
 
     internal data class EstimateDto(
         val id: UUID?,
@@ -136,6 +125,7 @@ internal class EstimateRestApi(
         val paintInfo: PaintInfo,
         val startDate: LocalDate? = null,
         val jobs: Set<Job>,
+        val reportingId: String,
         val creationTimestamp: ZonedDateTime? = null
     )
 
@@ -158,17 +148,8 @@ internal class EstimateRestApi(
             this.paintInfo,
             this.startDate,
             this.jobs,
+            "",
             this.getCreationTimestamp()?.asGmt()
         )
 
-    internal data class EstimateReportDto(
-        val pdfName: String,
-        val content: String
-    )
-
-    private fun EstimateReportDto.toEntity(): EstimateReport =
-        EstimateReport(
-            pdfName,
-            content
-        )
 }

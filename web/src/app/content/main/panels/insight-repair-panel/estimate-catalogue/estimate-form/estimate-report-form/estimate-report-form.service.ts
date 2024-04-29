@@ -32,6 +32,6 @@ export class EstimateReportFormService {
   }
 
   save(data: IEstimateReportDto): Observable<any> {
-    return this.http.post("/api/estimatecatalogue/report", data);
+    return this.http.post("/api/estimate/report", data);
   }
 }
