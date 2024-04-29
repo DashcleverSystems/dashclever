@@ -1,11 +1,18 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input,
+  ElementRef,
+  inject,
+  OnDestroy,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { IShellRoute, ShellRoutes } from '../shell-routes';
+import CoreStore from '@app/core/store/core-store';
+import { Sidebar } from 'primeng/sidebar';
+import { fromEvent, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-side-panel',
@@ -13,19 +20,22 @@ import { IShellRoute, ShellRoutes } from '../shell-routes';
   styleUrls: ['./side-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidePanelComponent implements OnInit {
-  @Input() mobile: boolean = false;
+export class SidePanelComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('sidebarHolder', { read: ElementRef })
+  sidebarHolder: ElementRef<HTMLDivElement>;
+  @ViewChild('sidebar')
+  sidebar: Sidebar;
 
-  private open: boolean = false;
-
-  get openValue() {
-    return this.open;
-  }
-
-  set openValue(val: boolean) {
-    this.open = val;
-  }
+  navList: IShellRoute[] = [];
   isDarkTheme: boolean = false;
+  sidebarVisibility: boolean = false;
+
+  get isMobile() {
+    return this.coreStore.mobile;
+  }
+
+  private destroy$ = new Subject<void>();
+  private coreStore = inject(CoreStore);
 
   toggleTheme(): void {
     this.isDarkTheme = !this.isDarkTheme;
@@ -35,8 +45,6 @@ export class SidePanelComponent implements OnInit {
     } else document.body.classList.remove('dark');
   }
 
-  navList: IShellRoute[] = [];
-
   trackBy = (index: number) => index;
 
   constructor(private readonly _cdr: ChangeDetectorRef) {}
@@ -44,5 +52,25 @@ export class SidePanelComponent implements OnInit {
   ngOnInit(): void {
     this.navList = ShellRoutes;
     this._cdr.markForCheck();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.sidebarHolder) {
+      fromEvent(this.sidebarHolder.nativeElement, 'click')
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(() => {
+          this.sidebarVisibility = true;
+          this._cdr.markForCheck();
+        });
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  onClose(event: Event): void {
+    this.sidebar.close(event);
   }
 }

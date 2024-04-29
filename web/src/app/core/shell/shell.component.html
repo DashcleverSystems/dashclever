@@ -1,7 +1,7 @@
-<div class="shell-container" #container>
-  <app-side-panel [mobile]="mobile"></app-side-panel>
-  <div class="content" #content>
+<div class="shell-container" [class.mobile]="isMobile()">
+  <app-side-panel></app-side-panel>
+  <div class="content" [class.mobile]="isMobile()">
     <router-outlet></router-outlet>
   </div>
 </div>
-<app-login-cloud [mobile]="mobile"></app-login-cloud>
+<app-login-cloud></app-login-cloud>

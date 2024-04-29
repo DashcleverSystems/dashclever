@@ -21,6 +21,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { ChartModule } from 'primeng/chart';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { SidebarModule } from 'primeng/sidebar';
 @NgModule({
   imports: [
     ButtonModule,
@@ -44,6 +45,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     SelectButtonModule,
     ChartModule,
     InputSwitchModule,
+    SidebarModule,
   ],
   exports: [
     ButtonModule,
@@ -67,6 +69,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     SelectButtonModule,
     ChartModule,
     InputSwitchModule,
+    SidebarModule,
   ],
 })
 export class PrimeModule {}
