@@ -93,11 +93,6 @@ export class EstimateFormComponent implements OnInit {
       });
   }
 
-  dictionaries: Dictionaries = {
-    jobTypes: enumToDictionary(JobType, 'enum.JobType'),
-    currencies: enumToDictionary(Currency, 'enum.Currency'),
-  };
-
   getReportingId(): string {
     const reportingId: string = this.form.getRawValue().reportingId;
     if (reportingId === null || reportingId === undefined) return null;
