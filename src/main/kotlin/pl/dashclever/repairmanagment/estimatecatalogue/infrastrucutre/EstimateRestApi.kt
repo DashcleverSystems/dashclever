@@ -46,7 +46,7 @@ private const val PATH = "/api/estimatecatalogue"
 @RequestMapping(PATH)
 @Tag(name = "estimate-api")
 internal class EstimateRestApi(
-    private val estimateRepository: EstimateRepository,
+    private val estimateRepository: EstimateRepository
 ) {
 
     @PostMapping
@@ -112,7 +112,6 @@ internal class EstimateRestApi(
         return this.estimateRepository.deleteById(estimateId)
     }
 
-
     internal data class EstimateDto(
         val id: UUID?,
         @field:Size(min = 1, max = 24, message = "$SIZE_BETWEEN;1;24")
@@ -151,5 +150,4 @@ internal class EstimateRestApi(
             "",
             this.getCreationTimestamp()?.asGmt()
         )
-
 }
