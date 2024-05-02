@@ -4,9 +4,10 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
-import pl.dashclever.commons.security.Access.WithAuthorities
-import pl.dashclever.commons.security.Access.WithAuthorities.Authority
-import pl.dashclever.commons.security.Access.WithWorkshopId
+import pl.dashclever.commons.security.WithAccountId
+import pl.dashclever.commons.security.WithAuthorities
+import pl.dashclever.commons.security.WithAuthorities.Authority
+import pl.dashclever.commons.security.WithWorkshopId
 import java.util.*
 
 internal class TestAccessSetter {
@@ -30,7 +31,7 @@ internal data class TestAccess(
     override val accountId: UUID,
     override val authorities: Set<Authority>,
     override val workshopId: UUID
-) : WithWorkshopId, WithAuthorities, UserDetails {
+) : WithAccountId, WithWorkshopId, WithAuthorities, UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> =
         this.authorities.map { GrantedAuthority { it.name } }.toMutableSet()
 

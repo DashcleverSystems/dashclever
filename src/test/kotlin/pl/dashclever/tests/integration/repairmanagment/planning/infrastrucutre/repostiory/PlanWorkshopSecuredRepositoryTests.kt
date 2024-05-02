@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
 import org.springframework.transaction.annotation.Transactional
-import pl.dashclever.commons.security.Access.WithAuthorities.Authority
+import pl.dashclever.commons.security.WithAuthorities.Authority
 import pl.dashclever.repairmanagment.plannig.infrastructure.repository.PlanWorkshopSecuredRepository
 import pl.dashclever.repairmanagment.plannig.infrastructure.repository.WorkshopPlanSecurityRecordRepository
 import pl.dashclever.repairmanagment.plannig.model.PlanFactory

@@ -1,14 +1,8 @@
 package pl.dashclever.commons.security
 
-import pl.dashclever.commons.security.Access.WithWorkshopId
+interface CurrentAccessProvider {
 
-fun interface CurrentAccessProvider {
+    fun currentAccountId(): WithAccountId
 
-    fun currentAccess(): Access
-
-    fun currentWorkshop(): WithWorkshopId {
-        val currentAccess = this.currentAccess()
-        return (currentAccess as? WithWorkshopId)
-            ?: error("Could not determine current access workshop: $currentAccess")
-    }
+    fun currentWorkshopId(): WithWorkshopId
 }

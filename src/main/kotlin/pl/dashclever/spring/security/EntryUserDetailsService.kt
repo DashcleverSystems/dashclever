@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import pl.dashclever.accountresources.account.readmodel.CredentialsReader
-import pl.dashclever.commons.security.Access
+import pl.dashclever.commons.security.WithAccountId
 import java.util.UUID
 
 class EntryUserDetailsService(
@@ -17,14 +17,14 @@ class EntryUserDetailsService(
         if (username == null) throw UsernameNotFoundException("Not specified username!")
         val credentialsDto = credentialsReader.findByUsername(username)
             .orElseThrow { UsernameNotFoundException("No user with $username found") }
-        return EntryAccessUserDetails(credentialsDto.accId, credentialsDto.username, credentialsDto.password)
+        return EntryUserDetails(credentialsDto.accId, credentialsDto.username, credentialsDto.password)
     }
 
-    private data class EntryAccessUserDetails(
+    private data class EntryUserDetails(
         override val accountId: UUID,
         private val username: String,
         private val passwordHash: String
-    ) : Access, WithAccess, UserDetails {
+    ) : WithAccountId, UserDetails {
 
         override fun getAuthorities(): MutableCollection<out GrantedAuthority> =
             mutableSetOf()
@@ -46,7 +46,5 @@ class EntryUserDetailsService(
 
         override fun isEnabled(): Boolean =
             true
-
-        override val access: Access = this
     }
 }

@@ -70,7 +70,7 @@ class PlanReader(
     }
 
     fun filter(filters: PlanFilters, pageRequest: PageRequest): PagingInfo<PlanDto> {
-        val currentAccessWorkshop = this.currentAccessProvider.currentWorkshop()
+        val currentAccessWorkshop = this.currentAccessProvider.currentWorkshopId()
         val specification = listOfNotNull(
             Specifications.belongingToWorkshop(currentAccessWorkshop.workshopId),
             filters.createdAfter?.let { Specifications.createdAfter(it) },

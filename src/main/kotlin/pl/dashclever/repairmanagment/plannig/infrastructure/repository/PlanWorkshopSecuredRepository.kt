@@ -21,14 +21,14 @@ class PlanWorkshopSecuredRepository(
     override fun save(plan: Plan): Plan {
         this.entityManager.persist(plan)
         if (isAlreadySecured(plan).not()) {
-            val currentAccess = this.currentAccessProvider.currentWorkshop()
+            val currentAccess = this.currentAccessProvider.currentWorkshopId()
             this.securityRecordRepository.create(WorkshopPlan(currentAccess.workshopId, plan.id))
         }
         return plan
     }
 
     override fun findById(id: UUID): Plan? {
-        val currentAccess = this.currentAccessProvider.currentWorkshop()
+        val currentAccess = this.currentAccessProvider.currentWorkshopId()
         return this.planWorkshopSecuredJpaRepository.findById(currentAccess.workshopId, id)
     }
 

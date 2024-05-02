@@ -24,15 +24,15 @@ import pl.dashclever.accountresources.account.readmodel.AccountDto
 import pl.dashclever.accountresources.account.readmodel.AccountReader
 import pl.dashclever.accountresources.account.readmodel.AuthorityDto
 import pl.dashclever.accountresources.account.readmodel.WorkshopAccessesDto
-import pl.dashclever.commons.security.Access.WithAuthorities.Authority
-import pl.dashclever.commons.security.Access.WithAuthorities.Authority.INSIGHT_REPAIR
-import pl.dashclever.commons.security.Access.WithAuthorities.Authority.MANAGE_STAFF
-import pl.dashclever.commons.security.Access.WithAuthorities.Authority.REPAIR_PROCESS
-import pl.dashclever.commons.security.Access.WorkshopEmployeeAccess
-import pl.dashclever.commons.security.Access.WorkshopOwnerAccess
 import pl.dashclever.commons.security.CurrentAccessProvider
+import pl.dashclever.commons.security.WithAccountId
+import pl.dashclever.commons.security.WithAuthorities
+import pl.dashclever.commons.security.WithAuthorities.Authority
+import pl.dashclever.commons.security.WithAuthorities.Authority.INSIGHT_REPAIR
+import pl.dashclever.commons.security.WithAuthorities.Authority.MANAGE_STAFF
+import pl.dashclever.commons.security.WithAuthorities.Authority.REPAIR_PROCESS
+import pl.dashclever.commons.security.WithWorkshopId
 import pl.dashclever.spring.security.SpringSecurityApplicationFacade
-import pl.dashclever.spring.security.WithAccess
 import java.net.URI
 
 private const val PATH = "/api/account"
@@ -67,7 +67,7 @@ internal class AccountRestApi(
         req: CreateWorkshopReq,
         authentication: Authentication
     ): ResponseEntity<AccessDto> {
-        val accountId = (authentication.principal as? WithAccess?)?.access?.accountId
+        val accountId = (authentication.principal as? WithAccountId)?.accountId
             ?: throw IllegalAccessException("Could not determine account id")
         val workshopId = accountHandler.createWorkshop(
             CreateWorkshop(
@@ -96,40 +96,18 @@ internal class AccountRestApi(
             throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
         }
 
-        val currentAccess = currentAccessProvider.currentAccess()
-
-        fun WorkshopOwnerAccess.toAccessDto(): AccessDto = accessesReader.findWorkshopOwnerAccesses(accountId)
-            .firstOrNull { it.workshopId == workshopId }
-            ?.let { ownerAccessDto ->
-                AccessDto(
-                    workshopId = ownerAccessDto.workshopId,
-                    workshopName = ownerAccessDto.workshopName,
-                    isOwnerAccess = true,
-                    employeeId = null,
-                    employeeFirstName = null,
-                    authorities = this.authorities.map { it.toDto() }.toSet()
-                )
-            }
-            ?: throw IllegalArgumentException("Could not find corresponding owner access for: $this")
-
-        fun WorkshopEmployeeAccess.toAccessDto(): AccessDto = accessesReader.findEmployeeAccesses(this.accountId)
-            .firstOrNull { it.workshopId == this.workshopId && it.employeeId == this.employeeId }
-            ?.let { employeeAccessDto ->
-                AccessDto(
-                    workshopId = employeeAccessDto.workshopId,
-                    workshopName = employeeAccessDto.workshopName,
-                    isOwnerAccess = false,
-                    employeeId = employeeAccessDto.employeeId,
-                    employeeFirstName = employeeAccessDto.employeeFirstName,
-                    authorities = this.authorities.map { it.toDto() }.toSet()
-                )
-            } ?: throw IllegalArgumentException("Could not find corresponding employee access for: $this")
-
-        return when (currentAccess) {
-            is WorkshopOwnerAccess -> currentAccess.toAccessDto()
-            is WorkshopEmployeeAccess -> currentAccess.toAccessDto()
-            else -> null
-        }
+        val currentAccount = currentAccessProvider.currentAccountId()
+        val workshopId = (currentAccount as? WithWorkshopId)?.workshopId ?: return null
+        val workshopName = accessesReader.findWorkshopName(workshopId)
+        val isOwnerAccess = accessesReader.findWorkshopOwnerAccesses(currentAccount.accountId).any { it.workshopId == workshopId }
+        return AccessDto(
+            workshopId,
+            workshopName,
+            isOwnerAccess,
+            null, // null until we introduce possibility to register and login as employee
+            null, // null until we introduce possibility to register and login as employee
+            (currentAccount as? WithAuthorities)?.authorities?.map { it.toDto() }?.toSet() ?: emptySet()
+        )
     }
 
     private fun Authority.toDto(): AuthorityDto = when (this) {

@@ -89,6 +89,11 @@ interface AccessesReader : Repository<Account, UUID> {
         nativeQuery = true
     )
     fun findWorkshopOwnerAccesses(accountId: UUID): Set<OwnerAccessDto>
+
+    @Query(
+        "SELECT w.displayName FROM Workshop w WHERE w.id = :workshopId"
+    )
+    fun findWorkshopName(workshopId: UUID): String
 }
 
 interface OwnerAccessDto {

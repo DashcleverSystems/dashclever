@@ -22,7 +22,7 @@ internal class PlanJobReadRestApi(
 
     @GetMapping
     fun getAllByPlanningId(@PathVariable planningId: UUID): List<JobDto> {
-        val currentAccess = this.currentAccessProvider.currentWorkshop()
+        val currentAccess = this.currentAccessProvider.currentWorkshopId()
         return jobsReader.findByPlanId(currentAccess.workshopId, planningId).toList()
     }
 }

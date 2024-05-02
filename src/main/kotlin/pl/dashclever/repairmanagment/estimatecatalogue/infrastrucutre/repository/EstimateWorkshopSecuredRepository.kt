@@ -27,7 +27,7 @@ class EstimateWorkshopSecuredRepository(
         if (isAlreadySecured(estimate)) {
             return estimate
         }
-        val currentAccess = this.springCurrentAccessProvider.currentWorkshop()
+        val currentAccess = this.springCurrentAccessProvider.currentWorkshopId()
         this.securityRecordRepository.create(WorkshopEstimate(currentAccess.workshopId, estimate.id))
         return estimate
     }
@@ -36,29 +36,29 @@ class EstimateWorkshopSecuredRepository(
         this.securityRecordRepository.doesSecurityRecordExistFor(estimate)
 
     override fun findById(id: UUID): Estimate? {
-        val currentAccess = this.springCurrentAccessProvider.currentWorkshop()
+        val currentAccess = this.springCurrentAccessProvider.currentWorkshopId()
         return this.estimateWorkshopSecuredJpaReadRepository.findById(currentAccess.workshopId, id)
     }
 
     override fun findAll(specification: Specification<Estimate>, pageable: Pageable): Page<Estimate> {
-        val currentAccess = this.springCurrentAccessProvider.currentWorkshop()
+        val currentAccess = this.springCurrentAccessProvider.currentWorkshopId()
         val spec = specification.and(belongingToWorkshop(currentAccess.workshopId))
         return this.estimateWorkshopSecuredJpaReadRepository.findAll(spec, pageable)
     }
 
     override fun findAll(pageable: Pageable): Page<Estimate> {
-        val currentAccess = this.springCurrentAccessProvider.currentWorkshop()
+        val currentAccess = this.springCurrentAccessProvider.currentWorkshopId()
         return this.estimateWorkshopSecuredJpaReadRepository.findAll(currentAccess.workshopId, pageable)
     }
 
     override fun existsByEstimateName(estimateName: String): Boolean {
-        val currentAccess = this.springCurrentAccessProvider.currentWorkshop()
+        val currentAccess = this.springCurrentAccessProvider.currentWorkshopId()
         return this.estimateWorkshopSecuredJpaReadRepository.existsByEstimateName(currentAccess.workshopId, estimateName)
     }
 
     @Transactional
     override fun deleteById(id: UUID) {
-        val currentAccess = this.springCurrentAccessProvider.currentWorkshop()
+        val currentAccess = this.springCurrentAccessProvider.currentWorkshopId()
         this.securityRecordRepository.deleteByEntityId(id)
         return this.estimateWorkshopSecuredJpaReadRepository.deleteById(currentAccess.workshopId, id)
     }
