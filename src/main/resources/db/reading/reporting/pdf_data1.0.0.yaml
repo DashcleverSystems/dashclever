@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: estimate_report1.0.0
+      id: pdf_data1.0.0
       author: pawel
       changes:
         - createTable:
-            tableName: RM_ESTIMATECATALOGUE_REPORT
+            tableName: READERS_REPORTING_PDF_DATA
             columns:
               - column:
                   name: id
@@ -12,11 +12,11 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
               - column:
-                  name: pdf_name
-                  type: VARCHAR(255)
+                  name: reporting_id
+                  type: UUID
               - column:
-                  name: content
-                  type: VARCHAR(1000)
+                  name: file_data
+                  type: BYTEA
               - column:
                   name: created_on
                   type: timestamp

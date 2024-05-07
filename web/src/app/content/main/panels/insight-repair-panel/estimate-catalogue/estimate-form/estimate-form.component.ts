@@ -11,6 +11,7 @@ import {catchError, EMPTY, finalize} from 'rxjs';
 import {IEstimateReportDto} from "./estimate-report-form/estimate-report-form";
 import {EstimateReportFormComponent} from "./estimate-report-form/estimate-report-form.component";
 import {AppDialogService} from "@shared/commons/dialog/dialog.service";
+import {UUID} from "angular2-uuid";
 
 interface Dictionaries {
   jobTypes: DictionaryDTO<JobType, string>[];
@@ -93,21 +94,16 @@ export class EstimateFormComponent implements OnInit {
       });
   }
 
-  dictionaries: Dictionaries = {
-    jobTypes: enumToDictionary(JobType, 'enum.JobType'),
-    currencies: enumToDictionary(Currency, 'enum.Currency'),
-  };
-
-  getReportingId(): string {
-    const reportingId: string = this.form.getRawValue().reportingId;
+  getReportingId(): UUID {
+    const reportingId: UUID = this.form.getRawValue().reportingId;
     if (reportingId === null || reportingId === undefined) return null;
     else return reportingId;
   }
 
-  openModalForm(reportId: string, data?: IEstimateReportDto): void {
+  openModalForm(reportingId: UUID, data?: IEstimateReportDto): void {
     const newData: IEstimateReportDto = {
-      pdfName: reportId,
-      content: data?.content ?? ''
+      reportingId: reportingId,
+      description: data?.description ?? ''
     };
     this.dialog
         .open(EstimateReportFormComponent, {

@@ -1,7 +1,9 @@
 <app-dialog>
   <div class="header" modal-header>
     <div class="title">
-      Report
+      {{
+      'components.estimateCatalogue.form.reportTitle' | translate
+      }}
     </div>
   </div>
   <div modal-content [formGroup]="form">
@@ -10,21 +12,23 @@
         <div class="controls-container">
           <div class="control">
             <label htmlFor="field-content">
-              Content
+              {{
+              'components.estimateCatalogue.form.reportDescription' | translate
+              }}
             </label>
             <input
               pInputText
-              id="field-pdfName"
+              id="field-reportingId"
               type="hidden"
-              aria-describedby="pdfName-help"
-              formControlName="pdfName"
+              aria-describedby="reportingId-help"
+              formControlName="reportingId"
             />
             <input
               pInputText
-              id="field-content"
+              id="field-description"
               type="text"
-              aria-describedby="content-help"
-              formControlName="content"
+              aria-describedby="description-help"
+              formControlName="description"
             />
           </div>
         </div>

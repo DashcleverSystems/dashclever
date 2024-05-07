@@ -52,13 +52,13 @@ export class EstimateReportFormComponent implements OnInit {
 
     this.service
       .save({
-        pdfName: this.form.getRawValue().pdfName,
-        content: this.form.getRawValue().content
+        reportingId: this.form.getRawValue().reportingId,
+        description: this.form.getRawValue().description
       } as IEstimateReportDto)
       .pipe(
         catchError((err) => {
           this.toast.error({
-            title: 'components.estimateCatalogue.form.toast.titleSave',
+            title: 'components.estimateCatalogue.form.toast.reportSave',
             message: err.error.message,
             translate: true,
           });
@@ -69,8 +69,8 @@ export class EstimateReportFormComponent implements OnInit {
       )
       .subscribe(() => {
         this.toast.success({
-          title: 'components.estimateCatalogue.form.toast.titleSave',
-          message: 'components.estimateCatalogue.form.toast.successSave',
+          title: 'components.estimateCatalogue.form.toast.reportSave',
+          message: 'components.estimateCatalogue.form.toast.successReportSave',
           translate: true,
         });
         this.ref.close({ result: 'success' });

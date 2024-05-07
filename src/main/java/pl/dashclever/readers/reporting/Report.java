@@ -1,4 +1,4 @@
-package pl.dashclever.readers;
+package pl.dashclever.readers.reporting;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,20 +16,20 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@Table(name = "RM_ESTIMATECATALOGUE_REPORT")
+@Table(name = "READERS_REPORTING_REPORT")
 @NoArgsConstructor
 public class Report extends OptimisticLockEntity<UUID> {
     @Id
     private UUID id = UUID.randomUUID();
     @NotNull
-    @Column(name = "pdf_name")
-    private String pdfName;
+    @Column(name = "reporting_id")
+    private UUID reportingId;
     @Length(min = 1, max = 1000)
-    private String content;
+    private String description;
 
-    public Report(String pdfName, String content) {
-        this.pdfName = pdfName;
-        this.content = content;
+    public Report(UUID reportingId, String description) {
+        this.reportingId = reportingId;
+        this.description = description;
     }
 
     @Override

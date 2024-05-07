@@ -22,7 +22,7 @@ public class EstimateReading {
         Set<EstimateReader.Job> varnishingJobs = estimateReader.FindVarnishingJobs();
         EstimateReader.CustomerInfo customerInfo = estimateReader.findCustomerInfo();
         String uniqueId = estimateReader.findUniqueNr();
-        return new RepairInfo(uniqueId, customerInfo, vehicleInfo, paintInfo, labourJobs, varnishingJobs , UUID.randomUUID().toString());
+        return new RepairInfo(uniqueId, customerInfo, vehicleInfo, paintInfo, labourJobs, varnishingJobs , UUID.randomUUID());
     }
 
     public RepairInfo retrieveRepairInfo(InputStream file) throws IOException, ReaderException {

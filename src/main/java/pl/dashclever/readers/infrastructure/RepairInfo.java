@@ -3,6 +3,7 @@ package pl.dashclever.readers.infrastructure;
 import pl.dashclever.readers.domain.EstimateReader;
 
 import java.util.Set;
+import java.util.UUID;
 
 public record RepairInfo(
     String uniqueId,
@@ -11,6 +12,6 @@ public record RepairInfo(
     EstimateReader.Paint paint,
     Set<EstimateReader.Job> labourJobs,
     Set<EstimateReader.Job> varnishingJobs,
-    String reportingId
+    UUID reportingId
 ) {
 }

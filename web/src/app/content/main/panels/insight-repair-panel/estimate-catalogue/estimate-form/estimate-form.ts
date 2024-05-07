@@ -1,6 +1,7 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Currency } from '@app/shared/enums/currency';
 import { JobType } from '@app/shared/enums/job-type';
+import {UUID} from "angular2-uuid";
 
 export interface IEstimateDTO {
   estimateName: string;
@@ -9,7 +10,7 @@ export interface IEstimateDTO {
   paintInfo: IEstimatedPaintInfo;
   startDate: Date;
   jobs: IEstimatedJob[];
-  reportingId: string;
+  reportingId: UUID;
 }
 
 export interface IEstimatePdfDTO {
@@ -22,7 +23,7 @@ export interface IEstimatePdfDTO {
   };
   labourJobs: Omit<IEstimatedJob, 'jobType'>[];
   varnishingJobs: Omit<IEstimatedJob, 'jobType'>[];
-  reportingId: string;
+  reportingId: UUID;
 }
 
 export interface IEstimateForm {
@@ -32,7 +33,7 @@ export interface IEstimateForm {
   paintInfo: FormGroup<IEstimatedPaintInfoForm>;
   startDate: FormControl<Date | null>
   jobs: FormArray<FormGroup<IEstimatedJobForm>>;
-  reportingId: FormControl<string | null>
+  reportingId: FormControl<UUID | null>
 }
 
 export interface ICustomerInfo {

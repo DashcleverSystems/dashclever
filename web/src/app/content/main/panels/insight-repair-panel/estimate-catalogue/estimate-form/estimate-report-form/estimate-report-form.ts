@@ -1,11 +1,12 @@
 import {FormControl} from "@angular/forms";
+import {UUID} from "angular2-uuid";
 
 export interface IEstimateReportDto {
-  pdfName: string;
-  content: string;
+  reportingId: UUID;
+  description: string;
 }
 
 export interface IEstimateReportForm {
-  pdfName: FormControl<string | null>;
-  content: FormControl<string | null>;
+  reportingId: FormControl<UUID | null>;
+  description: FormControl<string | null>;
 }

@@ -22,10 +22,10 @@
               />
               <input
                 pInputText
-                id="field-reportId"
+                id="field-reportingId"
                 type="hidden"
-                aria-describedby="reportId-help"
-                formControlName="reportId"
+                aria-describedby="reportingId-help"
+                formControlName="reportingId"
               />
               <app-form-control-error-output
                 [control]="control"
@@ -296,7 +296,7 @@
   <div class="footer" modal-footer>
     <div class="actions">
       <app-spinner [enable]="loadingSpinner">
-        @if (getReportingId) {
+        @if (getReportingId() !== null) {
           <button class="report-button"
           pButton
           type="button"
