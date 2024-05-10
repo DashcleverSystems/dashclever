@@ -35,7 +35,6 @@ public class EstimateReadingRestApi {
 
     @PostMapping("report")
     public ResponseEntity<HttpStatus> createReport(@RequestBody ReportDto reportDto) {
-        System.out.println(reportDto.reportingId().toString());
         reportingService.saveReport(reportDto);
         return ResponseEntity.ok().build();
     }
