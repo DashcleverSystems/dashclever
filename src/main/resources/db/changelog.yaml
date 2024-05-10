@@ -38,6 +38,6 @@ databaseChangeLog:
   - include:
       file: db/repairmanagment/estimatecatalogue/estimate1.0.4.yaml
   - include:
-      file: db/reading/reporting/report1.0.0.yaml
+      file: db/readers/reporting/report1.0.0.yaml
   - include:
-      file: db/reading/reporting/pdf_data1.0.0.yaml
+      file: db/readers/reporting/pdf_generated_model1.0.0.yaml

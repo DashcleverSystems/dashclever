@@ -100,10 +100,10 @@ export class EstimateFormComponent implements OnInit {
     else return reportingId;
   }
 
-  openModalForm(reportingId: UUID, data?: IEstimateReportDto): void {
+  openModalForm(reportingId: UUID): void {
     const newData: IEstimateReportDto = {
       reportingId: reportingId,
-      description: data?.description ?? ''
+      description: ''
     };
     this.dialog
         .open(EstimateReportFormComponent, {

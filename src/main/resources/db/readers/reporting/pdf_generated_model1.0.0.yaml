@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: report1.0.0
+      id: pdf_data1.0.0
       author: pawel
       changes:
         - createTable:
-            tableName: READERS_REPORTING_REPORT
+            tableName: READERS_REPORTING_PDF_GENERATED_MODEL
             columns:
               - column:
                   name: id
@@ -12,16 +12,13 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
               - column:
-                  name: reporting_id
-                  type: UUID
+                  name: file_data
+                  type: BYTEA
               - column:
-                  name: description
-                  type: VARCHAR(1000)
+                  name: generated_data
+                  type: TEXT
               - column:
                   name: created_on
-                  type: timestamp
-              - column:
-                  name: last_modified_on
                   type: timestamp
               - column:
                   name: version

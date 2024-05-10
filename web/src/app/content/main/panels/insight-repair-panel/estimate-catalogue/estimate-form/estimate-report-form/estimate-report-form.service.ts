@@ -4,6 +4,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {UUID} from "angular2-uuid";
+import {EstimateApiService} from "@api/services/estimateApi.service";
+import {ReportDto} from "@api/models/reportDto";
 
 @Injectable()
 export class EstimateReportFormService {
@@ -11,6 +13,7 @@ export class EstimateReportFormService {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
+    private service: EstimateApiService
   ) {}
 
   createForm(
@@ -33,6 +36,6 @@ export class EstimateReportFormService {
   }
 
   save(data: IEstimateReportDto): Observable<any> {
-    return this.http.post("/api/estimate/report", data);
+    return this.service.createReport(data as ReportDto);
   }
 }

@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+import pl.dashclever.commons.hibernate.CreationTimestampEntity;
 import pl.dashclever.commons.hibernate.OptimisticLockEntity;
 
 import java.util.UUID;
@@ -18,7 +19,7 @@ import java.util.UUID;
 @Setter
 @Table(name = "READERS_REPORTING_REPORT")
 @NoArgsConstructor
-public class Report extends OptimisticLockEntity<UUID> {
+public class Report extends CreationTimestampEntity<UUID> {
     @Id
     private UUID id = UUID.randomUUID();
     @NotNull

@@ -124,7 +124,7 @@ internal class EstimateRestApi(
         val paintInfo: PaintInfo,
         val startDate: LocalDate? = null,
         val jobs: Set<Job>,
-        val reportingId: String,
+        val reportingId: UUID?,
         val creationTimestamp: ZonedDateTime? = null
     )
 
@@ -147,7 +147,7 @@ internal class EstimateRestApi(
             this.paintInfo,
             this.startDate,
             this.jobs,
-            "",
+            null,
             this.getCreationTimestamp()?.asGmt()
         )
 }

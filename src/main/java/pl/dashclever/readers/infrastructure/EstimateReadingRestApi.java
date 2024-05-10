@@ -7,11 +7,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import pl.dashclever.readers.domain.repository.PdfDataRepository;
-import pl.dashclever.readers.reporting.PdfData;
-import pl.dashclever.readers.reporting.ReportDto;
 import pl.dashclever.readers.domain.ReaderException;
-import pl.dashclever.readers.domain.repository.ReportRepository;
+import pl.dashclever.readers.reporting.ReportDto;
+import pl.dashclever.readers.reporting.ReportingService;
 
 import java.io.IOException;
 
@@ -22,8 +20,7 @@ import java.io.IOException;
 @Tag(name = "estimate-api")
 public class EstimateReadingRestApi {
     private final EstimateReading estimateReading;
-    private final ReportRepository reportRepository;
-    private final PdfDataRepository pdfDataRepository;
+    private final ReportingService reportingService;
 
     @PostMapping(
         value = "reader",
@@ -32,13 +29,14 @@ public class EstimateReadingRestApi {
     )
     public RepairInfo readEstimate(@RequestParam("file") final MultipartFile file) throws IOException, ReaderException {
         var repairInfo = estimateReading.retrieveRepairInfo(file.getInputStream());
-        pdfDataRepository.save(new PdfData(repairInfo.reportingId(), file));
+        reportingService.savePdfGeneratedModel(repairInfo.reportingId(), file, repairInfo);
         return repairInfo;
     }
 
     @PostMapping("report")
     public ResponseEntity<HttpStatus> createReport(@RequestBody ReportDto reportDto) {
-        reportRepository.save(reportDto.toEntity());
+        System.out.println(reportDto.reportingId().toString());
+        reportingService.saveReport(reportDto);
         return ResponseEntity.ok().build();
     }
 
