@@ -29,7 +29,7 @@ public class EstimateReadingRestApi {
     )
     public RepairInfo readEstimate(@RequestParam("file") final MultipartFile file) throws IOException, ReaderException {
         var repairInfo = estimateReading.retrieveRepairInfo(file.getInputStream());
-        reportingService.savePdfGeneratedModel(repairInfo.reportingId(), file, repairInfo);
+        reportingService.savePdfGeneratedModel(file, repairInfo);
         return repairInfo;
     }
 

@@ -24,7 +24,8 @@ import java.util.UUID;
 @NoArgsConstructor
 public class PdfGeneratedModel extends CreationTimestampEntity<UUID> {
     @Id
-    private UUID id;
+    @Column(name = "reporting_id")
+    private UUID reportingId;
     @NotNull
     @Column(name = "file_data")
     private byte[] fileData;
@@ -34,13 +35,13 @@ public class PdfGeneratedModel extends CreationTimestampEntity<UUID> {
     private String generatedData;
 
     public PdfGeneratedModel(UUID reportingId, MultipartFile file, String generatedData) throws IOException {
-        this.id = reportingId;
+        this.reportingId = reportingId;
         this.fileData = file.getBytes();
         this.generatedData = generatedData;
     }
 
     @Override
     protected UUID getIdentifierValue() {
-        return this.id;
+        return this.reportingId;
     }
 }

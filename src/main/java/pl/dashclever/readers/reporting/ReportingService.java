@@ -10,7 +10,6 @@ import pl.dashclever.readers.reporting.repository.PdfGeneratedModelRepository;
 import pl.dashclever.readers.reporting.repository.ReportRepository;
 
 import java.io.IOException;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -24,9 +23,9 @@ public class ReportingService {
         reportRepository.save(report);
     }
 
-    public void savePdfGeneratedModel(UUID reportingId, MultipartFile file, RepairInfo repairInfo) throws IOException {
+    public void savePdfGeneratedModel(MultipartFile file, RepairInfo repairInfo) throws IOException {
         var generatedData = mapper.writeValueAsString(repairInfo);
-        pdfRepository.save(new PdfGeneratedModel(reportingId, file, generatedData));
+        pdfRepository.save(new PdfGeneratedModel(repairInfo.reportingId(), file, generatedData));
     }
 
     public RepairInfo retrieveGeneratedData(PdfGeneratedModel model) throws JsonProcessingException {

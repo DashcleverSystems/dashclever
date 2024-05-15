@@ -7,7 +7,7 @@ databaseChangeLog:
             tableName: READERS_REPORTING_PDF_GENERATED_MODEL
             columns:
               - column:
-                  name: id
+                  name: reporting_id
                   type: UUID
                   constraints:
                     primaryKey: true
