@@ -1,13 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { EstimateFormService } from './estimate-form.service';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { IEstimateDTO, IEstimateForm, IEstimatePdfDTO } from './estimate-form';
-import { FormGroup } from '@angular/forms';
-import { ToastService } from '@app/shared/services/toast.service';
-import { DictionaryDTO, enumToDictionary } from '@app/shared/utils/dictionary';
-import { JobType } from '@app/shared/enums/job-type';
-import { Currency } from '@app/shared/enums/currency';
-import { catchError, EMPTY, finalize } from 'rxjs';
+import {Component, OnInit} from '@angular/core';
+import {EstimateFormService} from './estimate-form.service';
+import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
+import {IEstimateDTO, IEstimateForm, IEstimatePdfDTO} from './estimate-form';
+import {FormGroup} from '@angular/forms';
+import {ToastService} from '@app/shared/services/toast.service';
+import {DictionaryDTO, enumToDictionary} from '@app/shared/utils/dictionary';
+import {JobType} from '@app/shared/enums/job-type';
+import {Currency} from '@app/shared/enums/currency';
+import {catchError, EMPTY, finalize} from 'rxjs';
+import {IEstimateReportDto} from "./estimate-report-form/estimate-report-form";
+import {EstimateReportFormComponent} from "./estimate-report-form/estimate-report-form.component";
+import {AppDialogService} from "@shared/commons/dialog/dialog.service";
+import {UUID} from "angular2-uuid";
 
 interface Dictionaries {
   jobTypes: DictionaryDTO<JobType, string>[];
@@ -34,6 +38,7 @@ export class EstimateFormComponent implements OnInit {
     private conf: DynamicDialogConfig,
     public ref: DynamicDialogRef,
     private toast: ToastService,
+    private dialog: AppDialogService
   ) {}
 
   ngOnInit(): void {
@@ -87,5 +92,29 @@ export class EstimateFormComponent implements OnInit {
         });
         this.ref.close({ result: 'success' });
       });
+  }
+
+  getReportingId(): UUID {
+    const reportingId: UUID = this.form.getRawValue().reportingId;
+    if (reportingId === null || reportingId === undefined) return null;
+    else return reportingId;
+  }
+
+  openModalForm(reportingId: UUID): void {
+    const newData: IEstimateReportDto = {
+      reportingId: reportingId,
+      description: ''
+    };
+    this.dialog
+        .open(EstimateReportFormComponent, {
+            data: {
+              data: newData,
+            },
+            showHeader: false,
+            closable: false,
+            width: undefined,
+            modal: true,
+        }
+      );
   }
 }

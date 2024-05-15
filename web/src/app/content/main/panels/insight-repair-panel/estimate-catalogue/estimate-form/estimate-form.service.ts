@@ -17,6 +17,7 @@ import { Currency } from '@app/shared/enums/currency';
 import { JobType } from '@app/shared/enums/job-type';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {UUID} from "angular2-uuid";
 
 @Injectable()
 export class EstimateFormService {
@@ -47,6 +48,9 @@ export class EstimateFormService {
           ? Array.from(data.jobs, (job) => this.getJobGroup(job))
           : [this.getJobGroup()],
       ),
+      reportingId: this.fb.control<UUID|null>(
+        data?.reportingId ?? null
+      )
     });
   }
 
@@ -82,6 +86,7 @@ export class EstimateFormService {
           jobType: JobType.VARNISHING,
         })),
       ],
+      reportingId: data?.reportingId
     };
   }
 
@@ -94,6 +99,7 @@ export class EstimateFormService {
     data.jobs.forEach((job) =>
       form.controls.jobs.controls.push(this.getJobGroup(job)),
     );
+    form.controls.reportingId.patchValue(data.reportingId);
   }
 
   getVehicleInfoGroup(

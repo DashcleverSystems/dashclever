@@ -131,13 +131,18 @@
           "save": "Zapisz",
           "close": "Zamknij",
           "add": "Dodaj prace",
-          "remove": "Usuń prace"
+          "remove": "Usuń prace",
+          "report": "Zgłoś błąd"
         },
         "toast": {
           "unknown": "Wystąpił nieznany błąd",
           "titleSave": "Zapisywanie kosztorysu",
-          "successSave": "Kosztorys zapisano prawidłowo"
-        }
+          "reportSave": "Zapisywanie zgłoszenia",
+          "successSave": "Kosztorys zapisano prawidłowo",
+          "successReportSave": "Zgłoszenie zostało wysłane"
+        },
+        "reportTitle": "Zgłoś błąd",
+        "reportDescription": "Opisz błąd"
       },
       "actions": {
         "generatePDF": "Generuj z pliku",

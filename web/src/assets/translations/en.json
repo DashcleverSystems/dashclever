@@ -131,12 +131,17 @@
           "save": "Save",
           "close": "Close",
           "add": "Add job",
-          "remove": "Remove job"
+          "remove": "Remove job",
+          "report": "Report"
         },
         "toast": {
           "titleSave": "Estimate save",
-          "successSave": "Estimate saved successfully"
-        }
+          "reportSave": "Report save",
+          "successSave": "Estimate saved successfully",
+          "successReportSave": "Report sent successfully"
+        },
+        "reportTitle": "Report errors",
+        "reportDescription": "Describe the issue"
       },
       "actions": {
         "generatePDF": "Generate from file",

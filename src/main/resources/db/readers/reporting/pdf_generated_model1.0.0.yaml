@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: pdf_data1.0.0
+      author: pawel
+      changes:
+        - createTable:
+            tableName: READERS_REPORTING_PDF_GENERATED_MODEL
+            columns:
+              - column:
+                  name: reporting_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: file_data
+                  type: BYTEA
+              - column:
+                  name: generated_data
+                  type: TEXT
+              - column:
+                  name: created_on
+                  type: timestamp
+              - column:
+                  name: version
+                  type: bigint

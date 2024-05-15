@@ -20,6 +20,13 @@
                 aria-describedby="estimateName-help"
                 formControlName="estimateName"
               />
+              <input
+                pInputText
+                id="field-reportingId"
+                type="hidden"
+                aria-describedby="reportingId-help"
+                formControlName="reportingId"
+              />
               <app-form-control-error-output
                 [control]="control"
               ></app-form-control-error-output>
@@ -289,6 +296,14 @@
   <div class="footer" modal-footer>
     <div class="actions">
       <app-spinner [enable]="loadingSpinner">
+        @if (getReportingId() !== null) {
+          <button class="report-button"
+          pButton
+          type="button"
+          (click)="openModalForm(getReportingId())"
+          translate="components.estimateCatalogue.form.actions.report"
+          ></button>
+        }
         <button
           pButton
           type="submit"
