@@ -12,15 +12,15 @@ import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.core.context.SecurityContextHolder
-import pl.dashclever.commons.security.Access
-import pl.dashclever.commons.security.Access.WithAuthorities.Authority.REPAIR_PROCESS
-import pl.dashclever.commons.security.Access.WorkshopEmployeeAccess
-import pl.dashclever.commons.security.Access.WorkshopOwnerAccess
+import pl.dashclever.commons.security.WithAccountId
+import pl.dashclever.commons.security.WithAuthorities.Authority.REPAIR_PROCESS
+import pl.dashclever.commons.security.WorkshopEmployee
+import pl.dashclever.commons.security.WorkshopOwner
 import pl.dashclever.spring.security.SpringCurrentAccessProvider
 import java.lang.IllegalStateException
 import java.util.UUID
 
-internal class SpringCurrentAccessProviderTest {
+internal class SpringCurrentAccountIdProviderTest {
 
     @AfterEach
     fun tearDown() {
@@ -29,7 +29,7 @@ internal class SpringCurrentAccessProviderTest {
 
     @ParameterizedTest
     @MethodSource("provide valid accesses")
-    fun `should return current access`(accessWithType: AccessWithType) {
+    fun `should return current accountId`(accessWithType: AccessWithType) {
         // given
         val securityContext = mockk<SecurityContext>()
         val authentication = mockk<Authentication>()
@@ -39,12 +39,12 @@ internal class SpringCurrentAccessProviderTest {
         val testee = SpringCurrentAccessProvider()
 
         // when
-        val result: Access? = testee.currentAccess()
+        val result: WithAccountId = testee.currentAccountId()
 
         // then
         assertThat(result).isNotNull
         assertThat(result).isEqualTo(accessWithType.first)
-        assertThat(result!!::class.java).isEqualTo(accessWithType.second)
+        assertThat(result::class.java).isEqualTo(accessWithType.second)
     }
 
     @Test
@@ -59,10 +59,10 @@ internal class SpringCurrentAccessProviderTest {
         val testee = SpringCurrentAccessProvider()
 
         // when
-        val result = assertThrows<IllegalStateException> { testee.currentAccess() }
+        val result = assertThrows<IllegalStateException> { testee.currentAccountId() }
 
         // then
-        assertThat(result).hasMessage("Could not provide current access. Current authentication principal is of unknown type.")
+        assertThat(result).hasMessage("Could not provide currently authenticated account id. Current authentication principal is of unknown type.")
     }
 
     private companion object {
@@ -70,11 +70,11 @@ internal class SpringCurrentAccessProviderTest {
         @JvmStatic
         fun `provide valid accesses`(): List<AccessWithType> {
             return listOf(
-                WorkshopOwnerAccess(UUID.randomUUID(), UUID.randomUUID()) to WorkshopOwnerAccess::class.java,
-                WorkshopEmployeeAccess(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), setOf(REPAIR_PROCESS)) to WorkshopEmployeeAccess::class.java
+                WorkshopOwner(UUID.randomUUID(), UUID.randomUUID()) to WorkshopOwner::class.java,
+                WorkshopEmployee(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), setOf(REPAIR_PROCESS)) to WorkshopEmployee::class.java
             )
         }
     }
 }
 
-private typealias AccessWithType = Pair<Access, Class<*>>
+private typealias AccessWithType = Pair<WithAccountId, Class<*>>

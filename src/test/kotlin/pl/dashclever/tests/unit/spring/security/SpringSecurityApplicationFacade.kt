@@ -9,12 +9,12 @@ import pl.dashclever.accountresources.account.readmodel.AccessesReader.EmployeeA
 import pl.dashclever.accountresources.account.readmodel.OwnerAccessDto
 import pl.dashclever.accountresources.employee.Workplace
 import pl.dashclever.accountresources.employee.Workplace.LABOUR
-import pl.dashclever.commons.security.Access
-import pl.dashclever.commons.security.Access.WithAuthorities.Authority
-import pl.dashclever.commons.security.Access.WithAuthorities.Authority.REPAIR_PROCESS
-import pl.dashclever.commons.security.Access.WorkshopEmployeeAccess
-import pl.dashclever.commons.security.Access.WorkshopOwnerAccess
 import pl.dashclever.commons.security.CurrentAccessProvider
+import pl.dashclever.commons.security.WithAccountId
+import pl.dashclever.commons.security.WithAuthorities.Authority
+import pl.dashclever.commons.security.WithAuthorities.Authority.REPAIR_PROCESS
+import pl.dashclever.commons.security.WorkshopEmployee
+import pl.dashclever.commons.security.WorkshopOwner
 import pl.dashclever.spring.security.SpringApplicationAccessesSetter
 import pl.dashclever.spring.security.SpringSecurityApplicationFacade
 import java.util.*
@@ -26,10 +26,10 @@ internal class SpringSecurityApplicationFacade {
         // given
         val accessReader = mockk<AccessesReader>()
         val currentAccessProvider = mockk<CurrentAccessProvider>()
-        val loggedInAccount = object : Access {
+        val loggedInAccount = object : WithAccountId {
             override val accountId: UUID = UUID.randomUUID()
         }
-        every { currentAccessProvider.currentAccess() } returns loggedInAccount
+        every { currentAccessProvider.currentAccountId() } returns loggedInAccount
         val employeeId = UUID.randomUUID()
         val employeeAccessDto = object : EmployeeAccessDto {
             override val workshopId: UUID = UUID.randomUUID()
@@ -40,7 +40,7 @@ internal class SpringSecurityApplicationFacade {
         }
         every { accessReader.findEmployeeAccesses(loggedInAccount.accountId) } returns setOf(employeeAccessDto)
         val springApplicationAccessesSetter = mockk<SpringApplicationAccessesSetter>()
-        every { springApplicationAccessesSetter.set(any<WorkshopEmployeeAccess>()) } returnsArgument 0
+        every { springApplicationAccessesSetter.set(any<WorkshopEmployee>()) } returnsArgument 0
 
         val testee = SpringSecurityApplicationFacade(
             accessReader,
@@ -64,10 +64,10 @@ internal class SpringSecurityApplicationFacade {
         // given
         val accessReader = mockk<AccessesReader>()
         val currentAccessProvider = mockk<CurrentAccessProvider>()
-        val loggedInAccount = object : Access {
+        val loggedInAccount = object : WithAccountId {
             override val accountId: UUID = UUID.randomUUID()
         }
-        every { currentAccessProvider.currentAccess() } returns loggedInAccount
+        every { currentAccessProvider.currentAccountId() } returns loggedInAccount
         val workshopId = UUID.randomUUID()
         val ownerAccessDto = object : OwnerAccessDto {
             override val workshopId: UUID = workshopId
@@ -75,7 +75,7 @@ internal class SpringSecurityApplicationFacade {
         }
         every { accessReader.findWorkshopOwnerAccesses(loggedInAccount.accountId) } returns setOf(ownerAccessDto)
         val springApplicationAccessesSetter = mockk<SpringApplicationAccessesSetter>()
-        every { springApplicationAccessesSetter.set(any<WorkshopOwnerAccess>()) } returnsArgument 0
+        every { springApplicationAccessesSetter.set(any<WorkshopOwner>()) } returnsArgument 0
 
         val testee = SpringSecurityApplicationFacade(
             accessReader,

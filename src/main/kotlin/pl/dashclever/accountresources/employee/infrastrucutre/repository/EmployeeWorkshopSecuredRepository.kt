@@ -23,18 +23,18 @@ class EmployeeWorkshopSecuredRepository(
         if (securityRecordRepository.doesSecurityRecordExistFor(employee)) {
             return employee
         }
-        val currentAccessWorkshop = currentAccessProvider.currentWorkshop()
+        val currentAccessWorkshop = currentAccessProvider.currentWorkshopId()
         securityRecordRepository.create(WorkshopEmployee(currentAccessWorkshop.workshopId, employee.id))
         return employee
     }
 
     override fun findById(id: UUID): Optional<Employee> {
-        val currentWorkshopAccess = currentAccessProvider.currentWorkshop()
+        val currentWorkshopAccess = currentAccessProvider.currentWorkshopId()
         return employeeWorkshopSecuredJpaRepository.findById(currentWorkshopAccess.workshopId, id)
     }
 
     override fun findAll(): Set<Employee> {
-        val currentWorkshopAccess = currentAccessProvider.currentWorkshop()
+        val currentWorkshopAccess = currentAccessProvider.currentWorkshopId()
         return employeeWorkshopSecuredJpaRepository.findAllByWorkshopId(currentWorkshopAccess.workshopId)
     }
 }

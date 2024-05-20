@@ -4,7 +4,7 @@ import pl.dashclever.accountresources.account.readmodel.AuthorityDto.INSIGHT_REP
 import pl.dashclever.accountresources.account.readmodel.AuthorityDto.MANAGE_STAFF
 import pl.dashclever.accountresources.account.readmodel.AuthorityDto.REPAIR_PROCESS
 import pl.dashclever.accountresources.employee.Workplace
-import pl.dashclever.commons.security.Access.WithAuthorities.Authority
+import pl.dashclever.commons.security.WithAuthorities.Authority
 import java.util.UUID
 
 data class AccessDto(

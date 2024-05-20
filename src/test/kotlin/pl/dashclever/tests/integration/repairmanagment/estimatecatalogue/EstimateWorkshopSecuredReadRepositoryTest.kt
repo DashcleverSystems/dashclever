@@ -13,7 +13,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean
 import org.springframework.data.auditing.AuditingHandler
 import org.springframework.data.domain.PageRequest
 import org.springframework.transaction.annotation.Transactional
-import pl.dashclever.commons.security.Access.WithAuthorities.Authority
+import pl.dashclever.commons.security.WithAuthorities.Authority
 import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository.EstimateSpecifications
 import pl.dashclever.repairmanagment.estimatecatalogue.infrastrucutre.repository.EstimateWorkshopSecuredRepository
 import pl.dashclever.repairmanagment.estimatecatalogue.infrastrucutre.repository.WorkshopEstimate

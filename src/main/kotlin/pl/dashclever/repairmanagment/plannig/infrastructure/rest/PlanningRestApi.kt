@@ -50,7 +50,7 @@ internal class PlanningRestApi(
     ): Set<JobDto> {
         val commands = assignments.map { AssignJob(planId, it.employeeId, it.catalogueJobId, it.at, it.hour) }.toSet()
         assignJobHandler.handle(commands)
-        val currentAccess = currentAccessProvider.currentWorkshop()
+        val currentAccess = currentAccessProvider.currentWorkshopId()
         return jobReader.findByPlanId(currentAccess.workshopId, planId)
     }
 
