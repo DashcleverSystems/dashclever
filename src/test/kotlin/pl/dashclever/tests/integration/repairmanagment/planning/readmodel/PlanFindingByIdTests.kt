@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.PageRequest
-import org.springframework.test.context.ContextConfiguration
 import org.springframework.transaction.annotation.Transactional
 import pl.dashclever.repairmanagment.estimatecatalogue.EstimateRepository
 import pl.dashclever.repairmanagment.plannig.model.PlanFactory
@@ -15,17 +14,18 @@ import pl.dashclever.repairmanagment.plannig.model.PlanRepository
 import pl.dashclever.repairmanagment.plannig.readmodel.PlanReader
 import pl.dashclever.repairmanagment.plannig.readmodel.PlanReader.PlanDto
 import pl.dashclever.repairmanagment.plannig.readmodel.PlanReader.PlanFilters
-import pl.dashclever.tests.integration.TestcontainersInitializer
+import pl.dashclever.tests.integration.DefaultTestContextConfiguration
 import pl.dashclever.tests.integration.repairmanagment.estimatecatalogue.EstimateBuilder
 import pl.dashclever.tests.integration.repairmanagment.estimatecatalogue.JobBuilder
 import pl.dashclever.tests.integration.spring.TestAccess
 import pl.dashclever.tests.integration.spring.TestAccessSetter
 import java.lang.Thread.sleep
-import java.util.*
+import java.util.Optional
+import java.util.UUID
 
 @SpringBootTest
 @Transactional
-@ContextConfiguration(initializers = [TestcontainersInitializer::class])
+@DefaultTestContextConfiguration
 internal class PlanFindingByIdTests @Autowired constructor(
     private val estimateRepository: EstimateRepository,
     private val planRepository: PlanRepository,

@@ -26,6 +26,11 @@ resource "heroku_addon" "dev_db" {
     plan   = "heroku-postgresql:mini"
 }
 
+resource "heroku_addon" "dev_rabbit_mq" {
+    app_id = heroku_app.app_dev.id
+    plan   = "cloudamqp:lemur"
+}
+
 resource "heroku_build" "dashclever_backend_build" {
     app_id     = heroku_app.app_dev.id
     buildpacks = [
@@ -84,3 +89,7 @@ resource "heroku_app_config_association" "dev_conf_assoc" {
 #  plan   = "heroku-postgresql:mini"
 #}
 
+# resource "heroku_addon" "prd_rabbit_mq" {
+#     app_id = heroku_app.app_prd.id
+#     plan   = "cloudamqp:lemur"
+# }

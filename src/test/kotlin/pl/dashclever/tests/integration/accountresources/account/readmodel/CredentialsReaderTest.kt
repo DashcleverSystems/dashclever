@@ -4,14 +4,13 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.ContextConfiguration
 import pl.dashclever.accountresources.account.model.Account
 import pl.dashclever.accountresources.account.model.AccountRepository
 import pl.dashclever.accountresources.account.readmodel.CredentialsReader
-import pl.dashclever.tests.integration.TestcontainersInitializer
+import pl.dashclever.tests.integration.DefaultTestContextConfiguration
 
 @SpringBootTest
-@ContextConfiguration(initializers = [TestcontainersInitializer::class])
+@DefaultTestContextConfiguration
 internal class CredentialsReaderTest(
     @Autowired private val accountRepository: AccountRepository,
     @Autowired private val credentialsReader: CredentialsReader

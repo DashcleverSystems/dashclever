@@ -20,6 +20,7 @@ repositories {
 }
 
 extra["testcontainersVersion"] = "1.18.0"
+extra["springCloudVersion"] = "2023.0.1"
 
 tasks.processResources.configure {
     dependsOn(installWeb)
@@ -31,6 +32,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.cloud:spring-cloud-starter-stream-rabbit")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("com.google.guava:guava:32.1.3-jre")
     implementation("org.apache.commons:commons-lang3:3.13.0")
@@ -47,6 +49,7 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("org.springframework.cloud:spring-cloud-stream-test-binder")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
     testImplementation("io.rest-assured:rest-assured:5.3.2")
@@ -62,6 +65,7 @@ dependencies {
 dependencyManagement {
     imports {
         mavenBom("org.testcontainers:testcontainers-bom:${property("testcontainersVersion")}")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
     }
 }
 
@@ -84,7 +88,8 @@ val devSystemProperties = mapOf(
     "jdbc.db.username" to "postgres",
     "jdbc.db.password" to "postgres",
     "spring.security.logging" to "TRACE",
-    "openapi.enabled" to "true"
+    "openapi.enabled" to "true",
+    "rabbitmq.connection-url" to "amqps://admin:admin@localhost"
 )
 
 val setDev = tasks.register<Exec>("setDev") {

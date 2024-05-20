@@ -4,16 +4,15 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.ContextConfiguration
 import org.springframework.transaction.annotation.Transactional
 import pl.dashclever.accountresources.account.model.Account
 import pl.dashclever.accountresources.account.model.AccountRepository
 import pl.dashclever.accountresources.account.readmodel.AccessesReader
-import pl.dashclever.tests.integration.TestcontainersInitializer
+import pl.dashclever.tests.integration.DefaultTestContextConfiguration
 
 @SpringBootTest
 @Transactional
-@ContextConfiguration(initializers = [TestcontainersInitializer::class])
+@DefaultTestContextConfiguration
 internal class AccessesReaderTest(
     @Autowired private val accountRepository: AccountRepository,
     @Autowired private val accessesReader: AccessesReader

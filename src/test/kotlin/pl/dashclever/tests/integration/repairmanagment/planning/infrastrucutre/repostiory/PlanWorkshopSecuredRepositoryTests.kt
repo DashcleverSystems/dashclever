@@ -5,21 +5,20 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
-import org.springframework.test.context.ContextConfiguration
 import org.springframework.transaction.annotation.Transactional
 import pl.dashclever.commons.security.Access.WithAuthorities.Authority
 import pl.dashclever.repairmanagment.plannig.infrastructure.repository.PlanWorkshopSecuredRepository
 import pl.dashclever.repairmanagment.plannig.infrastructure.repository.WorkshopPlanSecurityRecordRepository
 import pl.dashclever.repairmanagment.plannig.model.PlanFactory
-import pl.dashclever.tests.integration.TestcontainersInitializer
+import pl.dashclever.tests.integration.DefaultTestContextConfiguration
 import pl.dashclever.tests.integration.spring.TestAccess
 import pl.dashclever.tests.integration.spring.TestAccessSetter
 import java.util.UUID
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @Transactional
-@ContextConfiguration(initializers = [TestcontainersInitializer::class])
-internal class PlanWorkshopSecuredRepository(
+@DefaultTestContextConfiguration
+internal class PlanWorkshopSecuredRepositoryTests(
     @Autowired private val planWorkshopSecuredRepository: PlanWorkshopSecuredRepository,
     @Autowired private val workshopPlanSecurityRecordRepository: WorkshopPlanSecurityRecordRepository
 ) {

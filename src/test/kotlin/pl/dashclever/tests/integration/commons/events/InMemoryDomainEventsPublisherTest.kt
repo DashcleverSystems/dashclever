@@ -1,25 +1,24 @@
 package pl.dashclever.tests.integration.commons.events
 
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
 import org.springframework.context.PayloadApplicationEvent
-import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.event.ApplicationEvents
 import org.springframework.test.context.event.RecordApplicationEvents
 import org.springframework.transaction.UnexpectedRollbackException
 import org.springframework.transaction.support.TransactionTemplate
 import pl.dashclever.commons.events.DomainEvent
 import pl.dashclever.commons.events.DomainEvents
-import pl.dashclever.tests.integration.TestcontainersInitializer
-import pl.dashclever.tests.integration.spring.TestInMemorySyncDomainEventsPublisherBeansInitializer
-import java.util.*
+import java.util.UUID
 
+@Disabled("We do not use spring events to send domain events. Publishing is done the right way. It is really unintuitive to set up events consuming on the other hand.")
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @RecordApplicationEvents
-@ContextConfiguration(initializers = [TestcontainersInitializer::class, TestInMemorySyncDomainEventsPublisherBeansInitializer::class])
+// @ContextConfiguration(initializers = [TestcontainersInitializer::class, TestInMemorySyncDomainEventsPublisherBeansInitializer::class])
 internal class InMemoryDomainEventsPublisherTest(
     @Autowired private val domainEvents: DomainEvents,
     @Autowired private val transactionTemplate: TransactionTemplate
@@ -94,6 +93,6 @@ internal class InMemoryDomainEventsPublisherTest(
     }
 
     private data class TestDomainEvent(
-        override val id: UUID = UUID.randomUUID()
+        val id: UUID = UUID.randomUUID()
     ) : DomainEvent
 }

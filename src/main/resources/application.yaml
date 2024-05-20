@@ -32,6 +32,15 @@ spring:
             jdbc:
                 time_zone: UTC
     open-in-view: false
+  rabbitmq:
+    connection-url: ${rabbitmq.connection-url}
+  cloud:
+    stream:
+      rabbit:
+        default:
+          consumer:
+            autoBindDlq: true
+            republishToDlq: true
 
 logging:
   level:
