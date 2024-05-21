@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import pl.dashclever.commons.security.CurrentAccessProvider
 import pl.dashclever.commons.security.EntitySecurityRecordRepository
+import pl.dashclever.commons.security.WithWorkshopId
 import pl.dashclever.repairmanagment.plannig.model.Plan
 import pl.dashclever.repairmanagment.plannig.model.PlanRepository
 import java.util.UUID
@@ -37,7 +38,7 @@ class PlanWorkshopSecuredRepository(
     }
 
     override fun findByIdOrThrow(id: UUID): Plan {
-        val currentAccess = this.currentAccessProvider.currentWorkshop()
+        val currentAccess: WithWorkshopId = this.currentAccessProvider.currentWorkshopId()
         val plan = this.planWorkshopSecuredJpaRepository.findById(currentAccess.workshopId, id)
         if (plan == null) {
             logger.error { "Could not find a plan with id: $id for access: $currentAccess" }
@@ -48,7 +49,7 @@ class PlanWorkshopSecuredRepository(
     }
 
     override fun findAllByEstimateId(estimateId: UUID): Set<Plan> {
-        val currentAccess = this.currentAccessProvider.currentWorkshop()
+        val currentAccess: WithWorkshopId = this.currentAccessProvider.currentWorkshopId()
         return planWorkshopSecuredJpaRepository.findAllByEstimateIdAndBelongingToWorkshop(estimateId, currentAccess.workshopId)
     }
 

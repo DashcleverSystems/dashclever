@@ -12,7 +12,7 @@ class RepairEventsHandler(
         val planOfRepair = planRepository.findByIdOrThrow(startedRepairOfPlan.planId)
         val plansOfSameEstimate = planRepository.findAllByEstimateId(planOfRepair.estimateId)
         for (plan in plansOfSameEstimate) {
-            plan.doNotAllowToModify()
+            plan.hasRunningRepair = true
         }
     }
 }
