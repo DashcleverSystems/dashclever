@@ -118,10 +118,10 @@ internal class JobAssigningTests {
     }
 
     @Test
-    fun `should not allow to assign a job  if plan is not modifiable`() {
+    fun `should not allow to assign a job if there is a running repair of the estimate`() {
         // given
         val plan = PlanFactory.create(UUID.randomUUID(), mapOf(1L to 60))
-        plan.doNotAllowToModify()
+        plan.hasRunningRepair = true
 
         // when
         val result = assertThrows<DomainException> { plan.assign(1, "employeeId", LocalDate.of(2023, 1, 10)) }
@@ -153,7 +153,7 @@ internal class JobAssigningTests {
     fun `should not allow to assign a job with time if plan is not modifiable`() {
         // given
         val plan = PlanFactory.create(UUID.randomUUID(), mapOf(1L to 60))
-        plan.doNotAllowToModify()
+        plan.hasRunningRepair = true
 
         // when
         val result = assertThrows<DomainException> { plan.assignWithTime(1, "employeeId", LocalDate.of(2023, 1, 7), 9) }
@@ -186,7 +186,7 @@ internal class JobAssigningTests {
     fun `should not allow to remove a job if plan is not modifiable`() {
         // given
         val plan = PlanFactory.create(UUID.randomUUID(), mapOf(1L to 60))
-        plan.doNotAllowToModify()
+        plan.hasRunningRepair = true
 
         // when
         val result = assertThrows<DomainException> { plan.removeAssignment(1L) }

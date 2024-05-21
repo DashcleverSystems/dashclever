@@ -41,3 +41,11 @@ databaseChangeLog:
       file: db/readers/reporting/report1.0.0.yaml
   - include:
       file: db/readers/reporting/pdf_generated_model1.0.0.yaml
+  - include:
+      file: db/repairmanagment/repairing/repair1.0.0.yaml
+  - include:
+      file: db/repairmanagment/estimatecatalogue/estimate1.1.0.yaml
+  - include:
+      file: db/repairmanagment/planning/plan1.1.0.yaml
+  - include:
+      file: db/repairmanagment/repairing/sr_repair_plan1.0.0.yaml

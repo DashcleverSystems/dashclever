@@ -42,6 +42,6 @@ internal class BlockPlansModificationOnRepairStartTests {
         repairEventsHandler.handle(StartedRepairOfPlan(repairId, planOfRepair.id))
 
         // then
-        assertThat(plansOfEstimate).allMatch { it.canBeModified.not() }
+        assertThat(plansOfEstimate).allMatch { it.hasRunningRepair }
     }
 }

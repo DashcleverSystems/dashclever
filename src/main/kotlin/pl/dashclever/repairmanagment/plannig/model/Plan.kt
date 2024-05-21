@@ -30,18 +30,18 @@ class Plan internal constructor(
     private val jobs: Set<Job>
 ) : OptimisticLockEntity<UUID>() {
 
-    @Column(name = "has_running_reapir", updatable = true, nullable = false)
+    @Column(name = "has_running_repair", updatable = true, nullable = false)
     var hasRunningRepair = false
 
     fun removeAssignment(jobId: Long): JobUnassigned {
-        require(hasRunningRepair.not())
+        if (hasRunningRepair) throw DomainException("Plan $id can not be modified anymore. Repair already started")
         val job = tryFindJob(jobId)
         job.removeAssignment()
         return JobUnassigned(this.id.toString(), job.catalogueJobId.toString())
     }
 
     fun assign(jobId: Long, employeeId: String, at: LocalDate): JobAssigned {
-        require(hasRunningRepair.not())
+        if (hasRunningRepair) throw DomainException("Plan $id can not be modified anymore. Repair already started")
         val job = tryFindJob(jobId)
         if (isNoneJobAssigned()) {
             return assign(job, employeeId, at)
@@ -53,7 +53,7 @@ class Plan internal constructor(
     }
 
     fun assignWithTime(jobId: Long, employeeId: String, at: LocalDate, hour: Int): JobAssigned {
-        require(hasRunningRepair.not())
+        if (hasRunningRepair) throw DomainException("Plan $id can not be modified anymore. Repair already started")
         if (!isWithinWorkingHours(hour)) {
             throw DomainException("It is not possible to assign job not within working hours")
         }

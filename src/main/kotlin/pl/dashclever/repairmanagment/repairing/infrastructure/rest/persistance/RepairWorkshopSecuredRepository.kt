@@ -5,6 +5,7 @@ import jakarta.transaction.Transactional
 import org.springframework.stereotype.Repository
 import pl.dashclever.commons.security.CurrentAccessProvider
 import pl.dashclever.commons.security.EntitySecurityRecordRepository
+import pl.dashclever.commons.security.WithWorkshopId
 import pl.dashclever.repairmanagment.repairing.application.RepairRepository
 import pl.dashclever.repairmanagment.repairing.model.Repair
 import java.util.UUID
@@ -21,16 +22,16 @@ class RepairWorkshopSecuredRepository(
     override fun save(repair: Repair) {
         this.entityManager.persist(repair)
         if (isAlreadySecured(repair).not()) {
-            val currentAccess = this.currentAccessProvider.currentWorkshop()
+            val currentAccess: WithWorkshopId = this.currentAccessProvider.currentWorkshopId()
             this.securityRecordRepository.create(RepairWorkshop(currentAccess.workshopId, repair.id))
         }
     }
 
     override fun anyRunningRepairOfPlanIdIn(planIds: Set<UUID>): Boolean {
-        val currentWorkshopAccess = currentAccessProvider.currentWorkshop()
+        val currentAccess: WithWorkshopId = currentAccessProvider.currentWorkshopId()
         return repairWorkshopSecuredJpaRepository.findAnyRunningRepairWithPlanIdInBelongingToWorkshop(
             planIds,
-            currentWorkshopAccess.workshopId
+            currentAccess.workshopId
         )
     }
 

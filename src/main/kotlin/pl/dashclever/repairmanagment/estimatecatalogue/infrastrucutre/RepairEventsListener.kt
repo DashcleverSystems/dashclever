@@ -10,7 +10,7 @@ import pl.dashclever.spring.events.cloudstreams.CloudStreamConsumer
 @Configuration("EstimateCatalogueRepairEventsListener")
 internal class RepairEventsListener(
     private val repairEventsHandler: RepairEventsHandler,
-    private val transactionalRunner: TransactionalRunner,
+    private val transactionalRunner: TransactionalRunner
 ) {
 
     @Bean
