@@ -11,6 +11,6 @@ databaseChangeLog:
                   type: boolean
         - addNotNullConstraint:
             columnName: has_running_repair
-            constraintName: RM_PLANNING_PLAN_can_be_modified_not_null
-            defaultNullValue: true
+            constraintName: RM_PLANNING_PLAN_has_running_repair_not_null
+            defaultNullValue: false
             tableName: RM_PLANNING_PLAN
