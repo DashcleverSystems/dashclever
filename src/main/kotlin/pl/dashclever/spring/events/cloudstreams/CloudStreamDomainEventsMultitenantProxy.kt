@@ -7,7 +7,7 @@ import java.util.UUID
 
 class CloudStreamDomainEventsMultitenantProxy(
     private val cloudStreamDomainEvents: CloudStreamDomainEvents,
-    private val currentAccessProvider: CurrentAccessProvider,
+    private val currentAccessProvider: CurrentAccessProvider
 ) : DomainEvents {
 
     override fun publish(event: DomainEvent) {

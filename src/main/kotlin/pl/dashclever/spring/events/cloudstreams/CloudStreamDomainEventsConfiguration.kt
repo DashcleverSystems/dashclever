@@ -8,7 +8,7 @@ import pl.dashclever.commons.security.CurrentAccessProvider
 @Configuration
 class CloudStreamDomainEventsConfiguration(
     currentAccessProvider: CurrentAccessProvider,
-    streamBridge: StreamBridge,
+    streamBridge: StreamBridge
 ) {
 
     private val cloudStreamDomainEvents = CloudStreamDomainEvents(streamBridge)
