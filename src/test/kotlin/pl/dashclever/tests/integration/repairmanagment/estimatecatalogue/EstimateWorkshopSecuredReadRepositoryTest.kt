@@ -315,5 +315,43 @@ internal class EstimateWorkshopSecuredReadRepositoryTest(
                 }
             )
         }
+
+        @Test
+        fun `should filter only estimates having a running repair`() {
+            // given
+            val access = TestAccess(
+                accountId = UUID.randomUUID(),
+                authorities = Authority.values().toSet(),
+                workshopId = UUID.randomUUID()
+            )
+            testAccessSetter.setAccess(access)
+
+            testee.save(
+                EstimateBuilder {
+                    this.estimateName = "23/2023dk"
+                    this.hasRepairInProgress = true
+                }
+            )
+
+            testee.save(
+                EstimateBuilder {
+                    this.estimateName = "24/2023dk"
+                    this.hasRepairInProgress = false
+                }
+            )
+
+            // when
+            val result = testee.findAll(
+                EstimateSpecifications.hasRepairInProgress(true),
+                PageRequest.of(0, 10)
+            )
+
+            // then
+            assertThat(result).singleElement().satisfies(
+                {
+                    assertThat(it.name).isEqualTo("23/2023dk")
+                }
+            )
+        }
     }
 }

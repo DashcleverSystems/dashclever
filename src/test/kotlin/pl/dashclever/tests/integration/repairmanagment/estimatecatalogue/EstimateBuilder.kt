@@ -14,6 +14,7 @@ internal object EstimateBuilder {
         var vehicleInfo: VehicleInfo = VehicleInfoBuilder { }
         var paintInfo: PaintInfo = PaintInfoBuilder { }
         var jobs: Set<Job> = emptySet()
+        var hasRepairInProgress = false
     }
 
     operator fun invoke(init: Builder.() -> Unit): Estimate {
@@ -26,6 +27,6 @@ internal object EstimateBuilder {
             paintInfo = builder.paintInfo,
             startDate = LocalDate.of(2024, 4, 8),
             jobs = builder.jobs
-        )
+        ).apply { hasRepairInProgress = builder.hasRepairInProgress }
     }
 }
