@@ -1,13 +1,11 @@
 package pl.dashclever.spring.events.cloudstreams
 
 import org.springframework.cloud.stream.function.StreamBridge
-import org.springframework.stereotype.Component
 import org.springframework.transaction.support.TransactionSynchronization
 import org.springframework.transaction.support.TransactionSynchronizationManager
 import pl.dashclever.commons.events.DomainEvent
 import pl.dashclever.commons.events.DomainEvents
 
-@Component
 class CloudStreamDomainEvents(
     private val streamBridge: StreamBridge
 ) : DomainEvents {
