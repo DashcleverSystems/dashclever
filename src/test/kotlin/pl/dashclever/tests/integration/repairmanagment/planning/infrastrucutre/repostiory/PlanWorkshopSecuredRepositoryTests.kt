@@ -73,4 +73,29 @@ internal class PlanWorkshopSecuredRepositoryTests(
         // then
         assertThat(result).isNull()
     }
+
+    @Test
+    fun `should find plans of given estimate and workshop`() {
+        // given
+        val access = TestAccess(
+            accountId = UUID.randomUUID(),
+            authorities = Authority.values().toSet(),
+            workshopId = UUID.randomUUID()
+        )
+        testAccessSetter.setAccess(access)
+        fun savePlan(estimateId: UUID) = PlanFactory.create(estimateId, jobs = mapOf(2L to 60)).run {
+            planWorkshopSecuredRepository.save(this)
+        }
+        val estimateId = UUID.randomUUID()
+        savePlan(estimateId)
+        savePlan(estimateId)
+        savePlan(UUID.randomUUID())
+
+        // when
+        val result = planWorkshopSecuredRepository.findAllByEstimateId(estimateId)
+
+        // then
+        assertThat(result).hasSize(2)
+        assertThat(result).allMatch { it.estimateId == estimateId }
+    }
 }

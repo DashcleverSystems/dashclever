@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: sr_rm_repairing_repair_workshop1.0.0
+      author: damian
+      changes:
+        - createTable:
+            tableName: RM_REPAIRING_SR_REPAIR_WORKSHOP
+            columns:
+              - column:
+                  name: workshop_id
+                  type: uuid
+                  constraints:
+                    - primaryKey: true
+                    - nullable: false
+              - column:
+                  name: repair_id
+                  type: uuid
+                  constraints:
+                    - primaryKey: true
+                    - nullable: false
+                    - foreignKeyName: RM_REPAIRING_SR_REPAIR_WORKSHOP_RM_REPAIRING_REPAIR_FK
+                    - references: RM_REPAIRING_REPAIR(id)

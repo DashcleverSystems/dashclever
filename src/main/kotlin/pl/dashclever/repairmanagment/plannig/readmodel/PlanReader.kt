@@ -45,7 +45,8 @@ class PlanReader(
         val createdAfter: LocalDateTime? = null,
         val estimateId: UUID? = null,
         val estimateName: String? = null,
-        val sortDirection: SortDirection? = null
+        val sortDirection: SortDirection? = null,
+        val hasRunningRepair: Boolean = false
     )
 
     fun findById(id: UUID): Optional<PlanDto> {
@@ -75,7 +76,8 @@ class PlanReader(
             Specifications.belongingToWorkshop(currentAccessWorkshop.workshopId),
             filters.createdAfter?.let { Specifications.createdAfter(it) },
             filters.estimateName?.let { Specifications.withEstimateNameLike(it) },
-            filters.estimateId?.let { Specifications.withEstimateId(it) }
+            filters.estimateId?.let { Specifications.withEstimateId(it) },
+            Specifications.hasRunningRepair(filters.hasRunningRepair)
         ).reduce { acc, specification -> acc.and(specification) }
         val sortPageRequest = pageRequest.withSort(filters.getSort().toJpaSort())
         val plans: Page<Plan> = planRepository.findAll(specification, sortPageRequest)
@@ -155,5 +157,8 @@ class PlanReader(
                 val workshopIdPredicate = criteriaBuilder.equal(securityRecordRoot.get<WorkshopPlan.ComposePk>("id").get<UUID>("workshopId"), workshopId)
                 criteriaBuilder.and(innerJoinPredicate, workshopIdPredicate)
             }
+
+        fun hasRunningRepair(boolean: Boolean): Specification<Plan> =
+            Specification { root, _, criteriaBuilder -> criteriaBuilder.equal(root.get<Boolean>("hasRunningRepair"), boolean) }
     }
 }

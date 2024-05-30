@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: rm_repairing_repair1.0.0
+      author: damian
+      changes:
+        - createTable:
+            tableName: RM_REPAIRING_REPAIR
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    - primaryKey: true
+                    - nullable: false
+                    - unique: true
+              - column:
+                  name: plan_id
+                  type: uuid
+              - column:
+                  name: version
+                  type: int
+              - column:
+                  name: created_on
+                  type: timestamp
+              - column:
+                  name: last_modified_on
+                  type: timestamp
+            constraints:
+              - foreignKey:
+                  constraintName: RM_REPAIRING_REPAIR_PLAN_fk
+                  baseColumnNames: plan_id
+                  baseTableName: RM_REPAIRING_REPAIR
+                  referencedColumnNames: id
+                  referencedTableName: RM_PLANNING_PLAN

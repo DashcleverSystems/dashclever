@@ -3,6 +3,7 @@ package pl.dashclever.spring.events.cloudstreams
 import pl.dashclever.commons.events.DomainEvent
 import pl.dashclever.commons.events.DomainEvents
 import pl.dashclever.commons.security.CurrentAccessProvider
+import pl.dashclever.repairmanagment.repairing.model.RepairEvent.StartedRepairOfPlan
 import java.util.UUID
 
 class CloudStreamDomainEventsMultitenantProxy(
@@ -27,7 +28,8 @@ class CloudStreamDomainEventsMultitenantProxy(
     ) : DomainEvent
 
     private fun DomainEvent.isWorkshopSpecificDomainEvent(): Boolean {
-        when (this) {
+        return when (this) {
+            is StartedRepairOfPlan -> true
             else -> error("Could not deduce if $this event of type ${this::class.simpleName} is workshop specific or not.")
         }
     }

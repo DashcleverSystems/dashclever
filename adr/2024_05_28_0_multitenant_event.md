@@ -14,6 +14,8 @@ Whenever a domain event is published from within domain layer there will be `wor
 On the consumer side, when the event is dispatched, by given cloud stream function (e.g. CloudStreamConsumer),
 executing thread gets authenticated on behalf of workshop specified by the property workshopId of MultitenantDomainEvent
 
+Have a look at package: `pl.dashclever.spring.events.cloudstreams`
+
 ## Example
 - given event: StartedRepair(repairId: 1)
 - given currently authenticated user of workshopId: some employee of workshopId = 2

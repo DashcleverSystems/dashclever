@@ -41,5 +41,9 @@ interface EstimateRepository {
         fun vehicleBrand(brand: String): Specification<Estimate> {
             return Specification<Estimate> { root, _, cb -> cb.like(root.get<VehicleInfo>("vehicleInfo").get("brand"), brand) }
         }
+
+        fun hasRepairInProgress(boolean: Boolean): Specification<Estimate> {
+            return Specification<Estimate> { root, _, cb -> cb.equal(root.get<Boolean>("hasRepairInProgress"), boolean) }
+        }
     }
 }

@@ -26,6 +26,8 @@ class Estimate(
     val jobs: Set<Job> = emptySet()
 ) : OptimisticLockEntity<UUID>() {
 
+    var hasRepairInProgress = false
+
     fun getCreationTimestamp(): LocalDateTime? = super.getCreatedOn()
 
     @Id

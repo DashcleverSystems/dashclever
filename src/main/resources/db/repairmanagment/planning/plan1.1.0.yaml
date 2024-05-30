@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: add_has_running_repair
+      author: damian
+      changes:
+        - addColumn:
+            tableName: RM_PLANNING_PLAN
+            columns:
+              - column:
+                  name: has_running_repair
+                  type: boolean
+        - addNotNullConstraint:
+            columnName: has_running_repair
+            constraintName: RM_PLANNING_PLAN_has_running_repair_not_null
+            defaultNullValue: false
+            tableName: RM_PLANNING_PLAN

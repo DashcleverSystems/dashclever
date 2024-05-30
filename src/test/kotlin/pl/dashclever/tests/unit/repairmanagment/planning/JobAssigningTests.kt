@@ -118,6 +118,19 @@ internal class JobAssigningTests {
     }
 
     @Test
+    fun `should not allow to assign a job if there is a running repair of the estimate`() {
+        // given
+        val plan = PlanFactory.create(UUID.randomUUID(), mapOf(1L to 60))
+        plan.hasRunningRepair = true
+
+        // when
+        val result = assertThrows<DomainException> { plan.assign(1, "employeeId", LocalDate.of(2023, 1, 10)) }
+
+        // then
+        assertThat(result.message).isEqualTo("Plan ${plan.id} can not be modified anymore. Repair already started")
+    }
+
+    @Test
     fun `GIVEN plan with jobs SHOULD not allow to assign job with time within not working hours`() {
         // given
         val plan = PlanFactory.create(
@@ -134,6 +147,19 @@ internal class JobAssigningTests {
         assertThrows<DomainException> {
             plan.assignWithTime(2, "employeeId", LocalDate.of(2023, 1, 7), 24)
         }
+    }
+
+    @Test
+    fun `should not allow to assign a job with time if plan is not modifiable`() {
+        // given
+        val plan = PlanFactory.create(UUID.randomUUID(), mapOf(1L to 60))
+        plan.hasRunningRepair = true
+
+        // when
+        val result = assertThrows<DomainException> { plan.assignWithTime(1, "employeeId", LocalDate.of(2023, 1, 7), 9) }
+
+        // then
+        assertThat(result.message).isEqualTo("Plan ${plan.id} can not be modified anymore. Repair already started")
     }
 
     @Test
@@ -154,5 +180,18 @@ internal class JobAssigningTests {
         // then
         assertThat(result.jobId).isEqualTo("1")
         assertThat(result.planId).isEqualTo(plan.id.toString())
+    }
+
+    @Test
+    fun `should not allow to remove a job if plan is not modifiable`() {
+        // given
+        val plan = PlanFactory.create(UUID.randomUUID(), mapOf(1L to 60))
+        plan.hasRunningRepair = true
+
+        // when
+        val result = assertThrows<DomainException> { plan.removeAssignment(1L) }
+
+        // then
+        assertThat(result.message).isEqualTo("Plan ${plan.id} can not be modified anymore. Repair already started")
     }
 }

@@ -1,13 +1,18 @@
 package pl.dashclever.repairmanagment.plannig.infrastructure.repository
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.persistence.EntityManager
+import org.hibernate.ObjectNotFoundException
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import pl.dashclever.commons.security.CurrentAccessProvider
 import pl.dashclever.commons.security.EntitySecurityRecordRepository
+import pl.dashclever.commons.security.WithWorkshopId
 import pl.dashclever.repairmanagment.plannig.model.Plan
 import pl.dashclever.repairmanagment.plannig.model.PlanRepository
 import java.util.UUID
+
+private val logger = KotlinLogging.logger {}
 
 @Repository
 class PlanWorkshopSecuredRepository(
@@ -30,6 +35,22 @@ class PlanWorkshopSecuredRepository(
     override fun findById(id: UUID): Plan? {
         val currentAccess = this.currentAccessProvider.currentWorkshopId()
         return this.planWorkshopSecuredJpaRepository.findById(currentAccess.workshopId, id)
+    }
+
+    override fun findByIdOrThrow(id: UUID): Plan {
+        val currentAccess: WithWorkshopId = this.currentAccessProvider.currentWorkshopId()
+        val plan = this.planWorkshopSecuredJpaRepository.findById(currentAccess.workshopId, id)
+        if (plan == null) {
+            logger.error { "Could not find a plan with id: $id for access: $currentAccess" }
+            throw ObjectNotFoundException(id, Plan::class.qualifiedName)
+        } else {
+            return plan
+        }
+    }
+
+    override fun findAllByEstimateId(estimateId: UUID): Set<Plan> {
+        val currentAccess: WithWorkshopId = this.currentAccessProvider.currentWorkshopId()
+        return planWorkshopSecuredJpaRepository.findAllByEstimateIdAndBelongingToWorkshop(estimateId, currentAccess.workshopId)
     }
 
     private fun isAlreadySecured(plan: Plan): Boolean =

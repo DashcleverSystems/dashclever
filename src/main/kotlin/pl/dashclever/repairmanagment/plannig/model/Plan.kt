@@ -1,6 +1,7 @@
 package pl.dashclever.repairmanagment.plannig.model
 
 import jakarta.persistence.CascadeType.ALL
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType.EAGER
 import jakarta.persistence.Id
@@ -29,13 +30,18 @@ class Plan internal constructor(
     private val jobs: Set<Job>
 ) : OptimisticLockEntity<UUID>() {
 
+    @Column(name = "has_running_repair", updatable = true, nullable = false)
+    var hasRunningRepair = false
+
     fun removeAssignment(jobId: Long): JobUnassigned {
+        if (hasRunningRepair) throw DomainException("Plan $id can not be modified anymore. Repair already started")
         val job = tryFindJob(jobId)
         job.removeAssignment()
         return JobUnassigned(this.id.toString(), job.catalogueJobId.toString())
     }
 
     fun assign(jobId: Long, employeeId: String, at: LocalDate): JobAssigned {
+        if (hasRunningRepair) throw DomainException("Plan $id can not be modified anymore. Repair already started")
         val job = tryFindJob(jobId)
         if (isNoneJobAssigned()) {
             return assign(job, employeeId, at)
@@ -47,6 +53,7 @@ class Plan internal constructor(
     }
 
     fun assignWithTime(jobId: Long, employeeId: String, at: LocalDate, hour: Int): JobAssigned {
+        if (hasRunningRepair) throw DomainException("Plan $id can not be modified anymore. Repair already started")
         if (!isWithinWorkingHours(hour)) {
             throw DomainException("It is not possible to assign job not within working hours")
         }

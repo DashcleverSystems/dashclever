@@ -67,7 +67,8 @@ internal class EstimateRestApi(
         val vehicleBrand: String? = null,
         val registration: String? = null,
         val createdAfter: ZonedDateTime? = null,
-        val sortDirection: SortDirection = DESC
+        val sortDirection: SortDirection = DESC,
+        val hasRunningRepair: Boolean = false
     )
 
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
@@ -93,6 +94,7 @@ internal class EstimateRestApi(
         if (filters.vehicleBrand != null) {
             specification = specification.and(EstimateSpecifications.vehicleBrand(filters.vehicleBrand))
         }
+        specification = specification.and(EstimateSpecifications.hasRepairInProgress(filters.hasRunningRepair))
 
         val sort = when (filters.sortDirection) {
             ASC -> Sort.by("createdOn").ascending()
