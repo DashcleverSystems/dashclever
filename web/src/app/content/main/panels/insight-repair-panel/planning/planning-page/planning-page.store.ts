@@ -24,6 +24,7 @@ export class PlanningPageStore extends TableStore<PlanDto> {
               createdAfter: filtersWithPageReq.createdAfter,
               estimateName: filtersWithPageReq.estimateName,
               sortDirection: filtersWithPageReq.sortDirection,
+              hasRunningRepair: filtersWithPageReq.hasRunningRepair,
             },
             {
               pageNumber: filtersWithPageReq.pageNumber,
