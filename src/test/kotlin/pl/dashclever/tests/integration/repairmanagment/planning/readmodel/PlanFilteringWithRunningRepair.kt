@@ -17,7 +17,6 @@ import pl.dashclever.tests.integration.DefaultTestContextConfiguration
 import pl.dashclever.tests.integration.repairmanagment.estimatecatalogue.EstimateBuilder
 import pl.dashclever.tests.integration.spring.TestAccess
 import pl.dashclever.tests.integration.spring.TestAccessSetter
-import java.time.LocalDateTime
 import java.util.UUID
 
 @SpringBootTest
@@ -26,7 +25,7 @@ import java.util.UUID
 internal class PlanFilteringWithRunningRepair(
     @Autowired private val estimateRepository: EstimateRepository,
     @Autowired private val planRepository: PlanRepository,
-    @Autowired private val planReader: PlanReader,
+    @Autowired private val planReader: PlanReader
 ) {
 
     private val testAccessSetter = TestAccessSetter()
