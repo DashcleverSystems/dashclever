@@ -24,7 +24,7 @@ import { fromEvent, take } from 'rxjs';
   styleUrl: './bubble.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InsightRepairAssignBubble implements AfterViewInit, OnChanges {
+export class BubbleComponent implements AfterViewInit, OnChanges {
   @ViewChild('bubble') bubble: Chart;
   @Input({ required: true }) worker: Worker;
 
