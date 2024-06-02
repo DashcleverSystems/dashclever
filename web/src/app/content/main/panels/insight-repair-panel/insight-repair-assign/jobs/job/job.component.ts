@@ -11,8 +11,6 @@ import {
   BubbleWorker,
   InsightRepairAssignStore,
 } from '@content/main/panels/insight-repair-panel/insight-repair-assign/insight-repair-assign.store';
-import { InsightRepairAssignService } from '@content/main/panels/insight-repair-panel/insight-repair-assign/insight-repair-assign.service';
-import { Translator } from '@angular/compiler-cli/linker/src/file_linker/translator';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -74,7 +72,7 @@ import { TranslateService } from '@ngx-translate/core';
     }
   `,
 })
-export class InsightRepairAssignJob implements OnInit, OnChanges {
+export class JobComponent implements OnInit, OnChanges {
   @Input({ required: true }) job: JobDto;
 
   worker?: BubbleWorker;
@@ -95,6 +93,7 @@ export class InsightRepairAssignJob implements OnInit, OnChanges {
     }
     return result;
   }
+
   constructor(
     @SkipSelf() private store: InsightRepairAssignStore,
     @SkipSelf() private translateService: TranslateService,
