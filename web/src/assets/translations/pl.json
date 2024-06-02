@@ -233,5 +233,8 @@
     }
   },
   "unknown": "Przepraszamy, wystąpił niespodziewnay błąd. Spróbuj ponownie później",
-  "errorOccurred": "Wystąpił błąd"
+  "errorOccurred": "Wystąpił błąd",
+  "general": {
+    "manHours": "Roboczogodziny"
+  }
 }

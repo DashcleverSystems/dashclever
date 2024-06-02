@@ -12,6 +12,8 @@ import {
   InsightRepairAssignStore,
 } from '@content/main/panels/insight-repair-panel/insight-repair-assign/insight-repair-assign.store';
 import { InsightRepairAssignService } from '@content/main/panels/insight-repair-panel/insight-repair-assign/insight-repair-assign.service';
+import { Translator } from '@angular/compiler-cli/linker/src/file_linker/translator';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-repair-assign-job',
@@ -20,8 +22,7 @@ import { InsightRepairAssignService } from '@content/main/panels/insight-repair-
     cdkDragHandle
     class="job"
     [class.assigned]="isAssignedToSomeone"
-    [pTooltip]="isAssignedTo"
-    [tooltipDisabled]="!isAssignedToSomeone"
+    [pTooltip]="tooltipText"
     [attr.inputId]="job.catalogueJobId"
   >
     <div class="description">
@@ -82,14 +83,21 @@ export class InsightRepairAssignJob implements OnInit, OnChanges {
     return this.job.assignedTo !== null;
   }
 
-  get isAssignedTo() {
-    if (this.worker) {
-      return `${this.worker.name}\n${this.job.assignedAt}`;
-    } else return '';
+  get tooltipText(): string {
+    let result: string;
+    const manHourTranslation =
+      this.translateService.instant('general.manHours');
+    const hours = ~~(this.job.manMinutes / 60);
+    const minutes = this.job.manMinutes % 60;
+    result = `${manHourTranslation}: ${hours}:${minutes}`;
+    if (this.isAssignedToSomeone) {
+      result = `${result}\n${this.worker.name}\n${this.job.assignedAt}`;
+    }
+    return result;
   }
   constructor(
     @SkipSelf() private store: InsightRepairAssignStore,
-    @SkipSelf() private service: InsightRepairAssignService,
+    @SkipSelf() private translateService: TranslateService,
   ) {}
 
   ngOnInit() {
