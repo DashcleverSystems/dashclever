@@ -4,6 +4,7 @@ import { combineLatest, Observable, of, switchMap, take, tap } from 'rxjs';
 import { InsightRepairAssignService } from './insight-repair-assign.service';
 import { EmployeeDto, EmployeeOccupationDto, JobDto } from 'generated/openapi';
 import { JobType } from '@app/shared/enums/job-type';
+import { Workplace } from '@shared/models/employee';
 
 export type BubbleWorker = {
   id: string;
@@ -34,7 +35,7 @@ export class InsightRepairAssignStore extends ComponentStore<InsightRepairAssign
           [JobDto[], EmployeeDto[], EmployeeOccupationDto[], string]
         >([
           this.service.getPlanJobsById(planningId),
-          this.service.getAllWorkers(),
+          this.service.filterEmployees(Workplace.LABOUR),
           this.service.getWorkersOccupationByDay(new Date()),
           of(planningId),
         ]),

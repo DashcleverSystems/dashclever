@@ -1,13 +1,23 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EmployeeDto, EmployeeOccupationDto, JobDto } from 'generated/openapi';
+import {
+  EmployeeApiService,
+  EmployeeDto,
+  EmployeeOccupationDto,
+  JobDto,
+} from 'generated/openapi';
 import { Observable } from 'rxjs';
 
 import moment from 'moment';
+import { Workplace } from '@shared/models/employee';
 
 @Injectable()
 export class InsightRepairAssignService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    // TODO change http calls with open api calls
+    private http: HttpClient,
+    private employeeApi: EmployeeApiService,
+  ) {}
 
   getPlanJobsById(id: string): Observable<JobDto[]> {
     return this.http.get<JobDto[]>(`/api/planning/${id}/job`);
@@ -15,6 +25,10 @@ export class InsightRepairAssignService {
 
   getAllWorkers(): Observable<EmployeeDto[]> {
     return this.http.get<EmployeeDto[]>(`/api/employee`);
+  }
+
+  filterEmployees(workplace: Workplace): Observable<EmployeeDto[]> {
+    return this.employeeApi.getAll(workplace);
   }
 
   getWorkersOccupationByDay(day: Date): Observable<EmployeeOccupationDto[]> {
