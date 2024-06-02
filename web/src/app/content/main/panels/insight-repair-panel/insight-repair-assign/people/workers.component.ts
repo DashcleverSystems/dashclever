@@ -6,10 +6,10 @@ import {
 import { Observable } from 'rxjs';
 @Component({
   selector: 'app-repair-process-people',
-  templateUrl: './people.component.html',
-  styleUrl: './people.component.scss',
+  templateUrl: './workers.component.html',
+  styleUrl: './workers.component.scss',
 })
-export class InsightRepairPeopleComponent {
+export class WorkersComponent {
   readonly workers$: Observable<Worker[]> = this.store.workers$;
   constructor(@SkipSelf() private store: InsightRepairAssignStore) {}
 }

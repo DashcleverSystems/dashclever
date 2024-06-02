@@ -5,7 +5,7 @@ import { JobComponent } from './jobs/job/job.component';
 import { InsightRepairAssignStore } from './insight-repair-assign.store';
 import { InsightRepairAssignService } from './insight-repair-assign.service';
 import { SharedModule } from '@app/shared/shared.module';
-import { InsightRepairPeopleComponent } from './people/people.component';
+import { WorkersComponent } from './people/workers.component';
 import { InsightRepairAssignBubble } from './people/bubble/bubble.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
@@ -14,7 +14,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     InsightRepairAssign,
     InsightRepairAssignJobs,
     JobComponent,
-    InsightRepairPeopleComponent,
+    WorkersComponent,
     InsightRepairAssignBubble,
   ],
   exports: [],
