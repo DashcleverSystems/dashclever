@@ -1,11 +1,4 @@
-import {
-  Component,
-  inject,
-  Input,
-  OnDestroy,
-  OnInit,
-  SkipSelf,
-} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, SkipSelf } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { EstimateDto, EstimateFilters } from 'generated/openapi';
 import { Table } from '@app/shared/services/table/table.service';
@@ -15,7 +8,6 @@ import { ToastService } from '@app/shared/services/toast.service';
 import { AppDialogService } from '@app/shared/commons/dialog/dialog.service';
 import { TableLazyLoadEvent } from 'primeng/table';
 import { FiltersSetter } from '@shared/commons/primeng/filters-setter';
-import CoreStore from '@app/core/store/core-store';
 
 @Component({
   selector: 'app-estimate-page',
@@ -29,12 +21,7 @@ export class EstimatePageComponent
 {
   @Input() refreshContentListener$: Observable<void> | undefined;
 
-  get isMobile() {
-    return this.coreStore.mobile();
-  }
-
   private destroy$ = new Subject<void>();
-  private coreStore = inject(CoreStore);
 
   constructor(
     private toast: ToastService,
