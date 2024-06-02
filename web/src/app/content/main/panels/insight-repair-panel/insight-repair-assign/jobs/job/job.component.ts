@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { JobDto } from 'generated/openapi';
 import {
-  BubbleWorker,
+  Worker,
   InsightRepairAssignStore,
 } from '@content/main/panels/insight-repair-panel/insight-repair-assign/insight-repair-assign.store';
 import { TranslateService } from '@ngx-translate/core';
@@ -75,7 +75,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class JobComponent implements OnInit, OnChanges {
   @Input({ required: true }) job: JobDto;
 
-  worker?: BubbleWorker;
+  worker?: Worker;
 
   get isAssignedToSomeone() {
     return this.job.assignedTo !== null;

@@ -15,7 +15,7 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
 import { Chart } from 'chart.js';
-import { BubbleWorker } from '@content/main/panels/insight-repair-panel/insight-repair-assign/insight-repair-assign.store';
+import { Worker } from '@content/main/panels/insight-repair-panel/insight-repair-assign/insight-repair-assign.store';
 import { fromEvent, take } from 'rxjs';
 
 @Component({
@@ -26,7 +26,7 @@ import { fromEvent, take } from 'rxjs';
 })
 export class InsightRepairAssignBubble implements AfterViewInit, OnChanges {
   @ViewChild('bubble') bubble: Chart;
-  @Input({ required: true }) worker: BubbleWorker;
+  @Input({ required: true }) worker: Worker;
 
   isDragAbove: boolean = false;
 

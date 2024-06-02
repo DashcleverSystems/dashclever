@@ -6,7 +6,7 @@ import { EmployeeDto, EmployeeOccupationDto, JobDto } from 'generated/openapi';
 import { JobType } from '@app/shared/enums/job-type';
 import { Workplace } from '@shared/models/employee';
 
-export type BubbleWorker = {
+export type Worker = {
   id: string;
   name: string;
   occupation: number;
@@ -77,7 +77,7 @@ export class InsightRepairAssignStore extends ComponentStore<InsightRepairAssign
     _state.jobs.filter((job) => job.jobType === JobType.LABOUR),
   );
 
-  readonly workers$: Observable<BubbleWorker[]> = this.select((_state) => {
+  readonly workers$: Observable<Worker[]> = this.select((_state) => {
     return _state.workers.map((worker) => {
       const assignedJobs = _state.jobs.filter(
         (job) => job.assignedTo === worker.id,

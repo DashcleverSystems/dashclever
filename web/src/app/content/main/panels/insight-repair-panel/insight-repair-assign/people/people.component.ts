@@ -1,6 +1,6 @@
 import { Component, SkipSelf } from '@angular/core';
 import {
-  BubbleWorker,
+  Worker,
   InsightRepairAssignStore,
 } from '@content/main/panels/insight-repair-panel/insight-repair-assign/insight-repair-assign.store';
 import { Observable } from 'rxjs';
@@ -10,6 +10,6 @@ import { Observable } from 'rxjs';
   styleUrl: './people.component.scss',
 })
 export class InsightRepairPeopleComponent {
-  readonly workers$: Observable<BubbleWorker[]> = this.store.workers$;
+  readonly workers$: Observable<Worker[]> = this.store.workers$;
   constructor(@SkipSelf() private store: InsightRepairAssignStore) {}
 }
