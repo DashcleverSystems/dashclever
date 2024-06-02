@@ -12,6 +12,7 @@ export type Worker = {
   occupation: number;
   assignedJobs: JobDto[];
 };
+
 export interface InsightRepairAssignState {
   jobs: JobDto[];
   workers: EmployeeDto[];
@@ -41,13 +42,18 @@ export class InsightRepairAssignStore extends ComponentStore<InsightRepairAssign
         ]),
       ),
       tap(
-        ([jobs, workers, currentDayOccupation, planId]: [
+        ([jobs, employees, currentDayOccupation, planId]: [
           JobDto[],
           EmployeeDto[],
           EmployeeOccupationDto[],
           string,
         ]) => {
-          this.setData({ jobs, workers, currentDayOccupation, planId });
+          this.setData({
+            jobs,
+            workers: employees,
+            currentDayOccupation,
+            planId,
+          });
         },
       ),
     ),
