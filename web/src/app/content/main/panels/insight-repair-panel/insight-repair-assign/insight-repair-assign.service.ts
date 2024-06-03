@@ -23,10 +23,6 @@ export class InsightRepairAssignService {
     return this.http.get<JobDto[]>(`/api/planning/${id}/job`);
   }
 
-  getAllWorkers(): Observable<EmployeeDto[]> {
-    return this.http.get<EmployeeDto[]>(`/api/employee`);
-  }
-
   filterEmployees(workplace: Workplace): Observable<EmployeeDto[]> {
     return this.employeeApi.getAll(workplace);
   }
