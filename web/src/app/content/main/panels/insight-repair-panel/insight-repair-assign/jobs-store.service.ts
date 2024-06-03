@@ -28,7 +28,7 @@ const initialState: InsightRepairAssignState = {
 };
 
 @Injectable()
-export class InsightRepairAssignStore extends ComponentStore<InsightRepairAssignState> {
+export class JobsStore extends ComponentStore<InsightRepairAssignState> {
   readonly loadCollection = this.effect((planningId$: Observable<string>) =>
     planningId$.pipe(
       switchMap((planningId) =>

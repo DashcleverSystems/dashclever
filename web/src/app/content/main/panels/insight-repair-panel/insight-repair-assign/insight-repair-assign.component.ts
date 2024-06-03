@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, SkipSelf } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { InsightRepairAssignStore } from './insight-repair-assign.store';
+import { JobsStore } from './jobs-store.service';
 import { FormControl } from '@angular/forms';
 import { catchError, distinctUntilChanged, EMPTY } from 'rxjs';
 import { isEqual } from 'lodash';
@@ -21,7 +21,7 @@ export class InsightRepairAssign implements OnInit {
 
   constructor(
     @SkipSelf() private route: ActivatedRoute,
-    @SkipSelf() private store: InsightRepairAssignStore,
+    @SkipSelf() private store: JobsStore,
     @SkipSelf() private serivce: InsightRepairAssignService,
   ) {
     this.planId = this.route.snapshot.paramMap.get('id');

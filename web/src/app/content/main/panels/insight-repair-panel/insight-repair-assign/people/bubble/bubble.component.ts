@@ -15,7 +15,7 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
 import { Chart } from 'chart.js';
-import { Worker } from '@content/main/panels/insight-repair-panel/insight-repair-assign/insight-repair-assign.store';
+import { Worker } from '@content/main/panels/insight-repair-panel/insight-repair-assign/jobs-store.service';
 import { fromEvent, take } from 'rxjs';
 
 @Component({

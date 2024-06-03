@@ -1,8 +1,8 @@
 import { Component, SkipSelf } from '@angular/core';
 import {
   Worker,
-  InsightRepairAssignStore,
-} from '@content/main/panels/insight-repair-panel/insight-repair-assign/insight-repair-assign.store';
+  JobsStore,
+} from '@content/main/panels/insight-repair-panel/insight-repair-assign/jobs-store.service';
 import { Observable } from 'rxjs';
 @Component({
   selector: 'app-repair-process-people',
@@ -11,5 +11,5 @@ import { Observable } from 'rxjs';
 })
 export class WorkersComponent {
   readonly workers$: Observable<Worker[]> = this.store.workers$;
-  constructor(@SkipSelf() private store: InsightRepairAssignStore) {}
+  constructor(@SkipSelf() private store: JobsStore) {}
 }

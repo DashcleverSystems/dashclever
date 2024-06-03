@@ -9,8 +9,8 @@ import {
 import { JobDto } from 'generated/openapi';
 import {
   Worker,
-  InsightRepairAssignStore,
-} from '@content/main/panels/insight-repair-panel/insight-repair-assign/insight-repair-assign.store';
+  JobsStore,
+} from '@content/main/panels/insight-repair-panel/insight-repair-assign/jobs-store.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -95,7 +95,7 @@ export class JobComponent implements OnInit, OnChanges {
   }
 
   constructor(
-    @SkipSelf() private store: InsightRepairAssignStore,
+    @SkipSelf() private store: JobsStore,
     @SkipSelf() private translateService: TranslateService,
   ) {}
 
