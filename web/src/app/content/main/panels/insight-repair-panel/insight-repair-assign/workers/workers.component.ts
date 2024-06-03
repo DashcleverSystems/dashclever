@@ -5,7 +5,7 @@ import {
 } from '@content/main/panels/insight-repair-panel/insight-repair-assign/jobs-store.service';
 import { Observable } from 'rxjs';
 @Component({
-  selector: 'app-repair-process-workers',
+  selector: 'app-planning-workers',
   templateUrl: './workers.component.html',
   styleUrl: './workers.component.scss',
 })
