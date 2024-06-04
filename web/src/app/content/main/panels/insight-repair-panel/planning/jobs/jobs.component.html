@@ -5,7 +5,7 @@
       <div class="content">
         @if (paintingJobs$ | async; as paintingJobs) {
           @for (job of paintingJobs; track job.catalogueJobId) {
-            <app-repair-assign-job [job]="job" />
+            <app-planning-job [job]="job" />
           }
         }
       </div>
@@ -15,7 +15,7 @@
       <div class="content">
         @if (labourJobs$ | async; as labourJobs) {
           @for (job of labourJobs; track job.catalogueJobId) {
-            <app-repair-assign-job [job]="job"></app-repair-assign-job>
+            <app-planning-job [job]="job"></app-planning-job>
           }
         }
       </div>

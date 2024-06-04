@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { combineLatest, Observable, of, switchMap, take, tap } from 'rxjs';
-import { InsightRepairAssignService } from './insight-repair-assign.service';
+import { PlanningService } from './planning.service';
 import { EmployeeDto, EmployeeOccupationDto, JobDto } from 'generated/openapi';
 import { JobType } from '@app/shared/enums/job-type';
 import { Workplace } from '@shared/models/employee';
@@ -13,14 +13,14 @@ export type Worker = {
   assignedJobs: JobDto[];
 };
 
-export interface InsightRepairAssignState {
+export interface PlanningState {
   jobs: JobDto[];
   workers: EmployeeDto[];
   currentDayOccupation: EmployeeOccupationDto[];
   planId: string | null;
 }
 
-const initialState: InsightRepairAssignState = {
+const initialState: PlanningState = {
   jobs: [],
   workers: [],
   currentDayOccupation: [],
@@ -28,7 +28,7 @@ const initialState: InsightRepairAssignState = {
 };
 
 @Injectable()
-export class JobsStore extends ComponentStore<InsightRepairAssignState> {
+export class PlanningStore extends ComponentStore<PlanningState> {
   readonly loadCollection = this.effect((planningId$: Observable<string>) =>
     planningId$.pipe(
       switchMap((planningId) =>
@@ -60,7 +60,7 @@ export class JobsStore extends ComponentStore<InsightRepairAssignState> {
   );
 
   readonly setData = this.updater(
-    (_state, data: Partial<InsightRepairAssignState>) => ({
+    (_state, data: Partial<PlanningState>) => ({
       ..._state,
       ...data,
     }),
@@ -109,7 +109,7 @@ export class JobsStore extends ComponentStore<InsightRepairAssignState> {
     ),
   );
 
-  constructor(private service: InsightRepairAssignService) {
+  constructor(private service: PlanningService) {
     super(initialState);
   }
 

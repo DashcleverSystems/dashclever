@@ -10,7 +10,7 @@ import {
 import { switchMap, tap } from 'rxjs';
 
 @Injectable()
-export class PlansStore extends TableStore<PlanDto> {
+export class PlansPagingStore extends TableStore<PlanDto> {
   constructor(private service: PlanningApiService) {
     super();
   }

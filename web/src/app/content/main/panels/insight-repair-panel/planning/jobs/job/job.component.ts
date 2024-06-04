@@ -1,40 +1,31 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  SkipSelf,
-} from '@angular/core';
-import { JobDto } from 'generated/openapi';
-import {
-  Worker,
-  JobsStore,
-} from '@content/main/panels/insight-repair-panel/insight-repair-assign/jobs-store.service';
-import { TranslateService } from '@ngx-translate/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges, SkipSelf,} from '@angular/core';
+import {JobDto} from 'generated/openapi';
+import {TranslateService} from '@ngx-translate/core';
+import {PlanningStore, Worker} from "@content/main/panels/insight-repair-panel/planning/planning.store";
 
 @Component({
-  selector: 'app-repair-assign-job',
-  template: ` <div
-    cdkDrag
-    cdkDragHandle
-    class="job"
-    [class.assigned]="isAssignedToSomeone"
-    [pTooltip]="tooltipText"
-    [attr.inputId]="job.catalogueJobId"
-  >
-    <div class="description">
-      <span> {{ job.jobDescription }}</span>
-      @if (isAssignedToSomeone) {
-        <span class="delete" (click)="onRemoveAssignment()"
+  selector: 'app-planning-job',
+  template: `
+    <div
+      cdkDrag
+      cdkDragHandle
+      class="job"
+      [class.assigned]="isAssignedToSomeone"
+      [pTooltip]="tooltipText"
+      [attr.inputId]="job.catalogueJobId"
+    >
+      <div class="description">
+        <span> {{ job.jobDescription }}</span>
+        @if (isAssignedToSomeone) {
+          <span class="delete" (click)="onRemoveAssignment()"
           ><i class="pi pi-times"></i
-        ></span>
-      }
-    </div>
-  </div>`,
+          ></span>
+        }
+      </div>
+    </div>`,
   styles: `
-    @import 'src/assets/styles/variables.scss';
-    @import 'src/assets/styles/mixins.scss';
+    @import '/src/assets/styles/variables.scss';
+    @import '/src/assets/styles/mixins.scss';
 
     .job {
       padding: 10px;
@@ -73,7 +64,7 @@ import { TranslateService } from '@ngx-translate/core';
   `,
 })
 export class JobComponent implements OnInit, OnChanges {
-  @Input({ required: true }) job: JobDto;
+  @Input({required: true}) job: JobDto;
 
   worker?: Worker;
 
@@ -95,9 +86,10 @@ export class JobComponent implements OnInit, OnChanges {
   }
 
   constructor(
-    @SkipSelf() private store: JobsStore,
+    @SkipSelf() private store: PlanningStore,
     @SkipSelf() private translateService: TranslateService,
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.getAssignedWorker();

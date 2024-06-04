@@ -12,7 +12,7 @@ import moment from 'moment';
 import { Workplace } from '@shared/models/employee';
 
 @Injectable()
-export class InsightRepairAssignService {
+export class PlanningService {
   constructor(
     // TODO change http calls with open api calls
     private http: HttpClient,

@@ -1,20 +1,20 @@
 import { Component, Self } from '@angular/core';
 import { EstimateDto } from '@api/models/estimateDto';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { CreatePlanningService } from '@app/content/main/panels/insight-repair-panel/planning/create-confirmation-dialog/create-planning.service';
+import {CreatePlanService} from "@content/main/panels/insight-repair-panel/plans/create-confirmation-dialog/create-plan.service";
 
 @Component({
-  templateUrl: './create-planning.component.html',
-  styleUrl: './create-planning.component.scss',
-  providers: [CreatePlanningService],
+  templateUrl: './create-plan.component.html',
+  styleUrl: './create-plan.component.scss',
+  providers: [CreatePlanService],
 })
-export class CreatePlanningConfirmationDialog {
+export class CreatePlanConfirmationDialog {
   estimate: EstimateDto;
 
   isLoading = false;
 
   constructor(
-    @Self() private service: CreatePlanningService,
+    @Self() private service: CreatePlanService,
     public ref: DynamicDialogRef,
     private conf: DynamicDialogConfig,
   ) {

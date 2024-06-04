@@ -1,8 +1,8 @@
 import { Component, SkipSelf } from '@angular/core';
-import { JobsStore } from '../jobs-store.service';
+import { PlanningStore } from '../planning.store';
 
 @Component({
-  selector: 'app-repair-process-jobs',
+  selector: 'app-planning-jobs',
   templateUrl: './jobs.component.html',
   styleUrl: './jobs.component.scss',
 })
@@ -15,5 +15,5 @@ export class JobsComponent {
     return this.store.paintingJobs$;
   }
 
-  constructor(@SkipSelf() private store: JobsStore) {}
+  constructor(@SkipSelf() private store: PlanningStore) {}
 }

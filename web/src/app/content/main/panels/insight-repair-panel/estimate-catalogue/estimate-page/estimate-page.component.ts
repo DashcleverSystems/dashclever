@@ -3,11 +3,11 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { EstimateDto, EstimateFilters } from 'generated/openapi';
 import { Table } from '@app/shared/services/table/table.service';
 import { EstimatePageTableStore } from './estimate-page.store';
-import { CreatePlanningConfirmationDialog } from '@app/content/main/panels/insight-repair-panel/planning/create-confirmation-dialog/create-planning.component';
 import { ToastService } from '@app/shared/services/toast.service';
 import { AppDialogService } from '@app/shared/commons/dialog/dialog.service';
 import { TableLazyLoadEvent } from 'primeng/table';
 import { FiltersSetter } from '@shared/commons/primeng/filters-setter';
+import {CreatePlanConfirmationDialog} from "@content/main/panels/insight-repair-panel/plans/create-confirmation-dialog/create-plan.component";
 
 @Component({
   selector: 'app-estimate-page',
@@ -47,7 +47,7 @@ export class EstimatePageComponent
 
   createPlanningFromEstimate(estimate: EstimateDto): void {
     this.dialog
-      .open(CreatePlanningConfirmationDialog, {
+      .open(CreatePlanConfirmationDialog, {
         data: {
           estimate,
         },

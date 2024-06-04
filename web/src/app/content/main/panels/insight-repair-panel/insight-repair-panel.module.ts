@@ -4,15 +4,15 @@ import { InsightRepairPanelRoutingModule } from './insight-repair-panel.routing'
 import { SharedModule } from '@app/shared/shared.module';
 import { EstimateCatalogueModule } from './estimate-catalogue/estimate-catalogue.module';
 import { PlanningModule } from './planning/planning.module';
-import { InsightRepairAssignModule } from './insight-repair-assign/insight-repair-assign.module';
+import {PlansModule} from "@content/main/panels/insight-repair-panel/plans/plans.module";
 
 @NgModule({
   imports: [
     SharedModule,
     InsightRepairPanelRoutingModule,
     EstimateCatalogueModule,
+    PlansModule,
     PlanningModule,
-    InsightRepairAssignModule,
   ],
   declarations: [InsightRepairPanelComponent],
 })
