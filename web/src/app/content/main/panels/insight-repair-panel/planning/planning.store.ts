@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { combineLatest, Observable, of, switchMap, take, tap } from 'rxjs';
-import { PlanningService } from './planning.service';
+import { PlanningService } from '@content/main/panels/insight-repair-panel/planning/planning.service';
 import { EmployeeDto, EmployeeOccupationDto, JobDto } from 'generated/openapi';
 import { JobType } from '@app/shared/enums/job-type';
 import { Workplace } from '@shared/models/employee';
