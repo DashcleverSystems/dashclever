@@ -2,6 +2,7 @@ package pl.dashclever.repairmanagment.plannig.infrastructure.rest
 
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
+import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.http.ResponseEntity
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -27,7 +28,7 @@ import java.util.*
 private const val PATH = "/api/planning"
 
 @RestController
-@RequestMapping(PATH)
+@RequestMapping(PATH, produces = [APPLICATION_JSON_VALUE])
 @Tag(name = "planning-api")
 internal class PlanningRestApi(
     private val planCreating: PlanCreating,
@@ -46,12 +47,12 @@ internal class PlanningRestApi(
     fun assignJobs(
         @PathVariable planId: UUID,
         @Valid @RequestBody
-        assignments: Set<Assignment>
-    ): Set<JobDto> {
+        assignments: List<Assignment>
+    ): List<JobDto> {
         val commands = assignments.map { AssignJob(planId, it.employeeId, it.catalogueJobId, it.at, it.hour) }.toSet()
         assignJobHandler.handle(commands)
         val currentAccess = currentAccessProvider.currentWorkshopId()
-        return jobReader.findByPlanId(currentAccess.workshopId, planId)
+        return jobReader.findByPlanId(currentAccess.workshopId, planId).toList()
     }
 
     @DeleteMapping("/{planId}/job/{catalogueJobId}")

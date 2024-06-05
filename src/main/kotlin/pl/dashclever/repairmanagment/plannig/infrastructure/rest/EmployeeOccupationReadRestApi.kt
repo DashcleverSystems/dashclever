@@ -11,32 +11,43 @@ import pl.dashclever.repairmanagment.plannig.readmodel.EmployeeOccupationDto
 import pl.dashclever.repairmanagment.plannig.readmodel.EmployeeOccupationReader
 import java.time.LocalDate
 import java.util.*
+import java.util.stream.Stream
 
-private const val PATH = "/api/employee"
+private const val PATH = "/api/planning"
 
 @RestController
 @RequestMapping(PATH, produces = [MediaType.APPLICATION_JSON_VALUE])
-@Tag(name = "employee-api")
+@Tag(name = "planning-api")
 internal class EmployeeOccupationReadRestApi(
-    private val employeeOccupationReader: EmployeeOccupationReader
+    private val employeeOccupationReader: EmployeeOccupationReader,
 ) {
 
-    @GetMapping("/{employeeId}/occupation")
+    @GetMapping("/{planId}/employee/{employeeId}/occupation")
     fun getOccupation(
+        @PathVariable planId: UUID,
         @PathVariable employeeId: UUID,
-        @RequestParam("at") at: LocalDate
+        @RequestParam("at") at: LocalDate,
     ): EmployeeOccupationDto =
-        employeeOccupationReader.findByEmployeeIdAt(employeeId.toString(), at)
-            .orElse(NotOccupiedEmployee(employeeId.toString()))
+        Stream.of(
+            employeeOccupationReader.findByEmployeeId(employeeId.toString(), at),
+            employeeOccupationReader.findByPlanIdAndEmployeeId(planId, employeeId.toString(), at)
+        )
+            .filter { it.isPresent }
+            .map { it.get() }
+            .reduce { acc: EmployeeOccupationDto, next: EmployeeOccupationDto -> acc + next }
+            .orElseGet { NotOccupiedEmployee(employeeId.toString()) }
 
-    @GetMapping("/occupation")
+    @GetMapping("/{planId}/employee/occupation")
     fun getOccupation(
-        @RequestParam("at") at: LocalDate
-    ): Set<EmployeeOccupationDto> = employeeOccupationReader.findAll(at)
-
-    private data class NotOccupiedEmployee(
-        override val employeeId: String
-    ) : EmployeeOccupationDto {
-        override val manMinutes: Int = 0
-    }
+        @PathVariable planId: UUID,
+        @RequestParam("at") at: LocalDate,
+    ): List<EmployeeOccupationDto> = (employeeOccupationReader.findAll(at) + employeeOccupationReader.findAllByPlanId(planId, at)).toList()
 }
+
+private data class NotOccupiedEmployee(
+    override val employeeId: String,
+) : EmployeeOccupationDto {
+
+    override val manMinutes: Int = 0
+}
+

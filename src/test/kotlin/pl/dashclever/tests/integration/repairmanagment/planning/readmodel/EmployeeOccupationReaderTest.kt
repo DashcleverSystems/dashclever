@@ -55,7 +55,7 @@ internal class EmployeeOccupationReaderTest(
         planRepository.save(plan)
 
         // when
-        val result = employeeOccupationReader.findByEmployeeIdAt("employeeId", LocalDate.of(2020, 2, 2))
+        val result = employeeOccupationReader.findByEmployeeId("employeeId", LocalDate.of(2020, 2, 2))
 
         // then
         assertThat(result).hasValueSatisfying {
