@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { PlanningCreatedNotifier } from '@app/content/main/panels/insight-repair-panel/planning/create-confirmation-dialog/planning-created.notifier';
+import {PlanCreatedNotifier} from "@content/main/panels/insight-repair-panel/plans/create-confirmation-dialog/plan-created-notifier.service";
 
 @Injectable()
-export class CreatePlanningService {
+export class CreatePlanService {
   constructor(
     private readonly http: HttpClient,
-    private readonly planningCreatedNotifier: PlanningCreatedNotifier,
+    private readonly planningCreatedNotifier: PlanCreatedNotifier,
   ) {}
 
   createPlan(estimateId: string): Observable<any> {

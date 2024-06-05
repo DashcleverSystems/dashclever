@@ -1,22 +1,9 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  HostListener,
-  Input,
-  OnChanges,
-  Self,
-  SimpleChanges,
-  SkipSelf,
-  ViewChild,
-} from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnChanges, Self, SimpleChanges, SkipSelf, ViewChild,} from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
 import moment from 'moment';
-import { Chart } from 'chart.js';
-import { BubbleWorker } from '@content/main/panels/insight-repair-panel/insight-repair-assign/insight-repair-assign.store';
-import { fromEvent, take } from 'rxjs';
+import {Chart} from 'chart.js';
+import {Worker} from "@content/main/panels/insight-repair-panel/planning/planning.store";
+import {fromEvent, take} from 'rxjs';
 
 @Component({
   selector: 'app-bubble',
@@ -24,9 +11,9 @@ import { fromEvent, take } from 'rxjs';
   styleUrl: './bubble.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InsightRepairAssignBubble implements AfterViewInit, OnChanges {
+export class BubbleComponent implements AfterViewInit, OnChanges {
   @ViewChild('bubble') bubble: Chart;
-  @Input({ required: true }) worker: BubbleWorker;
+  @Input({required: true}) worker: Worker;
 
   isDragAbove: boolean = false;
 
@@ -35,14 +22,17 @@ export class InsightRepairAssignBubble implements AfterViewInit, OnChanges {
     '#49b0ce',
     '#7a3a8e',
   ];
+
   get id() {
     return this.worker.id;
   }
+
   constructor(
     @Self() private _cdr: ChangeDetectorRef,
     @Self() private ref: ElementRef,
     @SkipSelf() private translate: TranslateService,
-  ) {}
+  ) {
+  }
 
   @HostListener('mouseenter', ['$event']) MouseOver(event: MouseEvent) {
     if (event.buttons > 0) {

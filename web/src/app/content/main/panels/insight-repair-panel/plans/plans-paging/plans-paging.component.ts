@@ -1,28 +1,27 @@
-import { Component, OnDestroy, OnInit, SkipSelf } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
-import { PlanDto, PlanFilters } from 'generated/openapi';
-import { Table } from '@app/shared/services/table/table.service';
-import { PlanningPageStore } from '@app/content/main/panels/insight-repair-panel/planning/planning-page/planning-page.store';
-import { PlanningCreatedNotifier } from '@app/content/main/panels/insight-repair-panel/planning/create-confirmation-dialog/planning-created.notifier';
-import { SortDirection } from '@shared/enums/sort-direction';
-import { TableLazyLoadEvent } from 'primeng/table';
-import { Router } from '@angular/router';
+import {Component, OnDestroy, OnInit, SkipSelf} from '@angular/core';
+import {Subject, takeUntil} from 'rxjs';
+import {PlanDto, PlanFilters} from 'generated/openapi';
+import {Table} from '@app/shared/services/table/table.service';
+import {SortDirection} from '@shared/enums/sort-direction';
+import {TableLazyLoadEvent} from 'primeng/table';
+import {Router} from '@angular/router';
+import {PlansPagingStore} from "@content/main/panels/insight-repair-panel/plans/plans-paging/plans-paging.store";
+import {PlanCreatedNotifier} from "@content/main/panels/insight-repair-panel/plans/create-confirmation-dialog/plan-created-notifier.service";
 
 @Component({
-  selector: 'app-planning-page',
-  templateUrl: './planning-page.component.html',
-  styleUrls: ['./planning-page.component.scss'],
-  providers: [PlanningPageStore],
+  selector: 'app-plans-paging',
+  templateUrl: './plans-paging.component.html',
+  styleUrls: ['./plans-paging.component.scss'],
+  providers: [PlansPagingStore],
 })
-export class PlanningPageComponent
+export class PlansPagingComponent
   extends Table<PlanDto, PlanFilters>
-  implements OnInit, OnDestroy
-{
+  implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
-    private readonly planningCreatedNotifier: PlanningCreatedNotifier,
-    tableStore: PlanningPageStore,
+    private readonly planningCreatedNotifier: PlanCreatedNotifier,
+    tableStore: PlansPagingStore,
     @SkipSelf() private router: Router,
   ) {
     super(tableStore);
@@ -41,7 +40,8 @@ export class PlanningPageComponent
       .subscribe(() => this.getCollection());
   }
 
-  setCreatedAfterFilter(date?: Date | null) {}
+  setCreatedAfterFilter(date?: Date | null) {
+  }
 
   checkEmpty(value?: string | null) {
     if (value == null || value.length <= 0) {

@@ -232,5 +232,8 @@
     },
     "errorOccurred": "Error occurred",
     "unknown": "We are sorry something went wrong. Please try again later"
+  },
+  "general": {
+    "manHours": "Man-hours"
   }
 }

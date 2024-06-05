@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { InsightRepairPanelComponent } from './insight-repair-panel.component';
 import { PlanningComponent } from './planning/planning.component';
 import { EstimateCatalogueComponent } from './estimate-catalogue/estimate-catalogue.component';
-import { InsightRepairAssign } from './insight-repair-assign/insight-repair-assign.component';
+import {PlansComponent} from "@content/main/panels/insight-repair-panel/plans/plans.component";
 
 const routes: Routes = [
   {
@@ -12,7 +12,7 @@ const routes: Routes = [
     children: [
       {
         path: 'planning',
-        component: PlanningComponent,
+        component: PlansComponent,
       },
       {
         path: 'estimate-catalogue',
@@ -22,7 +22,7 @@ const routes: Routes = [
   },
   {
     path: 'planning/:id/plan',
-    component: InsightRepairAssign,
+    component: PlanningComponent,
   },
 ];
 

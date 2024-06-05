@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
 import java.net.URI
@@ -55,7 +56,13 @@ internal class EmployeeRestApi(
     }
 
     @GetMapping("/employee", produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun getAll(): List<EmployeeDto> {
-        return employeeRepository.findAll().map { EmployeeDto.from(it) }
+    fun getAll(
+        @RequestParam workplace: Workplace?
+    ): List<EmployeeDto> {
+        var result = employeeRepository.findAll()
+        if (workplace != null) {
+            result = result.filter { it.workplace == workplace }.toSet()
+        }
+        return result.map { EmployeeDto.from(it) }
     }
 }

@@ -1,24 +1,26 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { combineLatest, Observable, of, switchMap, take, tap } from 'rxjs';
-import { InsightRepairAssignService } from './insight-repair-assign.service';
+import { PlanningService } from '@content/main/panels/insight-repair-panel/planning/planning.service';
 import { EmployeeDto, EmployeeOccupationDto, JobDto } from 'generated/openapi';
 import { JobType } from '@app/shared/enums/job-type';
+import { Workplace } from '@shared/models/employee';
 
-export type BubbleWorker = {
+export type Worker = {
   id: string;
   name: string;
   occupation: number;
   assignedJobs: JobDto[];
 };
-export interface InsightRepairAssignState {
+
+export interface PlanningState {
   jobs: JobDto[];
   workers: EmployeeDto[];
   currentDayOccupation: EmployeeOccupationDto[];
   planId: string | null;
 }
 
-const initialState: InsightRepairAssignState = {
+const initialState: PlanningState = {
   jobs: [],
   workers: [],
   currentDayOccupation: [],
@@ -26,7 +28,7 @@ const initialState: InsightRepairAssignState = {
 };
 
 @Injectable()
-export class InsightRepairAssignStore extends ComponentStore<InsightRepairAssignState> {
+export class PlanningStore extends ComponentStore<PlanningState> {
   readonly loadCollection = this.effect((planningId$: Observable<string>) =>
     planningId$.pipe(
       switchMap((planningId) =>
@@ -34,26 +36,31 @@ export class InsightRepairAssignStore extends ComponentStore<InsightRepairAssign
           [JobDto[], EmployeeDto[], EmployeeOccupationDto[], string]
         >([
           this.service.getPlanJobsById(planningId),
-          this.service.getAllWorkers(),
+          this.service.filterEmployees(Workplace.LABOUR),
           this.service.getWorkersOccupationByDay(new Date()),
           of(planningId),
         ]),
       ),
       tap(
-        ([jobs, workers, currentDayOccupation, planId]: [
+        ([jobs, employees, currentDayOccupation, planId]: [
           JobDto[],
           EmployeeDto[],
           EmployeeOccupationDto[],
           string,
         ]) => {
-          this.setData({ jobs, workers, currentDayOccupation, planId });
+          this.setData({
+            jobs,
+            workers: employees,
+            currentDayOccupation,
+            planId,
+          });
         },
       ),
     ),
   );
 
   readonly setData = this.updater(
-    (_state, data: Partial<InsightRepairAssignState>) => ({
+    (_state, data: Partial<PlanningState>) => ({
       ..._state,
       ...data,
     }),
@@ -76,7 +83,7 @@ export class InsightRepairAssignStore extends ComponentStore<InsightRepairAssign
     _state.jobs.filter((job) => job.jobType === JobType.LABOUR),
   );
 
-  readonly workers$: Observable<BubbleWorker[]> = this.select((_state) => {
+  readonly workers$: Observable<Worker[]> = this.select((_state) => {
     return _state.workers.map((worker) => {
       const assignedJobs = _state.jobs.filter(
         (job) => job.assignedTo === worker.id,
@@ -102,7 +109,7 @@ export class InsightRepairAssignStore extends ComponentStore<InsightRepairAssign
     ),
   );
 
-  constructor(private service: InsightRepairAssignService) {
+  constructor(private service: PlanningService) {
     super(initialState);
   }
 
