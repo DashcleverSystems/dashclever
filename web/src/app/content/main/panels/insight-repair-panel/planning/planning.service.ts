@@ -9,11 +9,7 @@ import { Observable } from 'rxjs';
 
 import moment from 'moment';
 import { Workplace } from '@shared/models/employee';
-import { EmployeeOccupationDto } from '@api/models/employeeOccupationDto';
-import { EmployeeDto } from '@api/models/employeeDto';
-import { JobDto } from '@api/models/jobDto';
 import { PlanningApiService } from '@api/services/planningApi.service';
-import { EmployeeApiService } from '@api/services/employeeApi.service';
 import { Assignment } from '@api/models/assignment';
 
 @Injectable()
