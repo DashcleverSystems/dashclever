@@ -12,28 +12,26 @@ import java.util.UUID
 interface EmployeeOccupationReader : Repository<Plan, UUID> {
 
     @Query(
-        nativeQuery = true,
         value = """
-    SELECT j.assigned_to AS employeeId, SUM(j.man_minutes) AS manMinutes
-    FROM RM_PLANNING_JOB j
-    JOIN RM_PLANNING_PLAN p ON p.id = j.plan_id
-    WHERE j.assigned_at = :at
-    AND j.assigned_to = :employeeId
-    AND p.has_running_repair = TRUE
-    GROUP BY j.assigned_to
+    SELECT j.assignedTo AS employeeId, SUM(j.manMinutes) AS manMinutes
+    FROM Plan p
+    JOIN p.jobs j
+    WHERE j.assignedAt = :at
+    AND j.assignedTo = :employeeId
+    AND p.hasRunningRepair = TRUE
+    GROUP BY j.assignedTo
     """
     )
     fun findByEmployeeId(employeeId: String, at: LocalDate): Optional<EmployeeOccupationDto>
 
     @Query(
-        nativeQuery = true,
         value = """
-    SELECT j.assigned_to AS employeeId, SUM(j.man_minutes) AS manMinutes
-    FROM RM_PLANNING_JOB j
-    JOIN RM_PLANNING_PLAN p ON p.id = j.plan_id
-    WHERE j.assigned_at = :at
-    AND p.has_running_repair = TRUE
-    GROUP BY j.assigned_to
+    SELECT j.assignedTo AS employeeId, SUM(j.manMinutes) AS manMinutes
+    FROM Plan p
+    JOIN p.jobs j
+    WHERE j.assignedAt = :at
+    AND p.hasRunningRepair = TRUE
+    GROUP BY j.assignedTo
     """
     )
     fun findAll(at: LocalDate): Set<EmployeeOccupationDto>
