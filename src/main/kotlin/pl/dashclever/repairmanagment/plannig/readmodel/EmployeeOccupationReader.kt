@@ -22,31 +22,10 @@ interface EmployeeOccupationReader : Repository<Plan, UUID> {
     GROUP BY j.assignedTo
     """
     )
-    fun findByEmployeeId(employeeId: String, at: LocalDate): Optional<EmployeeOccupationDto>
-
-    @Query(
-        value = """
-    SELECT j.assignedTo AS employeeId, SUM(j.manMinutes) AS manMinutes
-    FROM Plan p
-    JOIN p.jobs j
-    WHERE j.assignedAt = :at
-    AND p.hasRunningRepair = TRUE
-    GROUP BY j.assignedTo
-    """
-    )
-    fun findAll(at: LocalDate): Set<EmployeeOccupationDto>
-
-    @Query(
-        value = """
-    SELECT j.assignedTo AS employeeId, SUM(j.manMinutes) AS manMinutes
-    FROM Plan p
-    JOIN p.jobs j
-    WHERE j.assignedAt = :at
-    AND p.id = :planningId
-    GROUP BY j.assignedTo
-    """
-    )
-    fun findAllByPlanId(planningId: UUID, at: LocalDate): Set<EmployeeOccupationDto>
+    fun findByEmployeeIdWithRunningRepair(
+        employeeId: String,
+        at: LocalDate,
+    ): Optional<EmployeeOccupationDto>
 
     @Query(
         value = """
@@ -58,7 +37,55 @@ interface EmployeeOccupationReader : Repository<Plan, UUID> {
     AND j.assignedTo = :employeeId
     """
     )
-    fun findByPlanIdAndEmployeeId(planningId: UUID, employeeId: String, at: LocalDate): Optional<EmployeeOccupationDto>
+    fun findByPlanIdAndEmployeeId(
+        planningId: UUID,
+        employeeId: String,
+        at: LocalDate,
+    ): Optional<EmployeeOccupationDto>
+
+    @Query(
+        value = """
+    SELECT j.assignedTo AS employeeId, SUM(j.manMinutes) AS manMinutes
+    FROM Plan p
+    JOIN p.jobs j
+    WHERE j.assignedAt = :at
+    AND p.hasRunningRepair = TRUE
+    GROUP BY j.assignedTo
+    """
+    )
+    fun findAllWithRunningRepair(
+        at: LocalDate,
+    ): Set<EmployeeOccupationDto>
+
+    @Query(
+        value = """
+    SELECT j.assignedTo AS employeeId, SUM(j.manMinutes) AS manMinutes
+    FROM Plan p
+    JOIN p.jobs j
+    WHERE j.assignedAt = :at
+    AND p.id = :planningId
+    GROUP BY j.assignedTo
+    """
+    )
+    fun findAllByPlanId(
+        planningId: UUID,
+        at: LocalDate,
+    ): Set<EmployeeOccupationDto>
+
+    fun findAllEmployeeOccupationsForPlanning(
+        planningId: UUID,
+        at: LocalDate,
+    ): Set<EmployeeOccupationDto> =
+        (findAllWithRunningRepair(at) + findAllByPlanId(planningId, at))
+            .groupBy { it.employeeId }
+            .mapNotNullTo(mutableSetOf()) { (employeeId: String, occupations: List<EmployeeOccupationDto>) ->
+                val employeeOccupation = occupations.map { it.manMinutes }
+                    .reduce { acc, manMinutes -> acc + manMinutes }
+                object : EmployeeOccupationDto {
+                    override val employeeId = employeeId
+                    override val manMinutes = employeeOccupation
+                }
+            }
 }
 
 interface EmployeeOccupationDto {

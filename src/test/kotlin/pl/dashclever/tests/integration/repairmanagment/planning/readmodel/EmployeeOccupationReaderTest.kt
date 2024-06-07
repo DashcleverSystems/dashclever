@@ -52,10 +52,11 @@ internal class EmployeeOccupationReaderTest(
         )
         plan.assign(1L, "employeeId", LocalDate.of(2020, 2, 2))
         plan.assign(2L, "employeeId", LocalDate.of(2020, 2, 2))
+        plan.hasRunningRepair = true
         planRepository.save(plan)
 
         // when
-        val result = employeeOccupationReader.findByEmployeeId("employeeId", LocalDate.of(2020, 2, 2))
+        val result = employeeOccupationReader.findByEmployeeIdWithRunningRepair("employeeId", LocalDate.of(2020, 2, 2))
 
         // then
         assertThat(result).hasValueSatisfying {
@@ -76,10 +77,11 @@ internal class EmployeeOccupationReaderTest(
         )
         plan.assign(1L, "employeeId1", LocalDate.of(2020, 2, 2))
         plan.assign(2L, "employeeId2", LocalDate.of(2020, 2, 2))
+        plan.hasRunningRepair = true
         planRepository.save(plan)
 
         // when
-        val result: Set<EmployeeOccupationDto> = employeeOccupationReader.findAll(LocalDate.of(2020, 2, 2))
+        val result: Set<EmployeeOccupationDto> = employeeOccupationReader.findAllWithRunningRepair(LocalDate.of(2020, 2, 2))
 
         // then
         assertThat(result).satisfiesExactlyInAnyOrder(
@@ -90,6 +92,52 @@ internal class EmployeeOccupationReaderTest(
             {
                 assertThat(it.employeeId).isEqualTo("employeeId2")
                 assertThat(it.manMinutes).isEqualTo(40)
+            }
+        )
+    }
+
+    @Test
+    fun `should return sum of all employee occupations of a given plan and all employee occupations of plans having a running repair at given date`() {
+        // given
+        val today = LocalDate.of(2020, 2, 2)
+        val planWithRunningRepair = PlanFactory.create(
+            estimateId = UUID.randomUUID(),
+            jobs = mapOf(
+                1L to 30,
+                2L to 70
+            )
+        )
+        planWithRunningRepair.assign(1L, "employeeId1", today)
+        planWithRunningRepair.assign(2L, "employeeId2", today)
+        planWithRunningRepair.hasRunningRepair = true
+        planRepository.save(planWithRunningRepair)
+
+        val plan = PlanFactory.create(
+            estimateId = UUID.randomUUID(),
+            jobs = mapOf(
+                3L to 60,
+                4L to 40
+            )
+        )
+        plan.assign(3L, "employeeId1", today)
+        plan.assign(4L, "employeeId2", today)
+        planRepository.save(plan)
+
+        // when
+        val result: Set<EmployeeOccupationDto> = employeeOccupationReader.findAllEmployeeOccupationsForPlanning(
+            plan.id,
+            today
+        )
+
+        // then
+        assertThat(result).satisfiesExactlyInAnyOrder(
+            {
+                assertThat(it.employeeId).isEqualTo("employeeId1")
+                assertThat(it.manMinutes).isEqualTo(90)
+            },
+            {
+                assertThat(it.employeeId).isEqualTo("employeeId2")
+                assertThat(it.manMinutes).isEqualTo(110)
             }
         )
     }

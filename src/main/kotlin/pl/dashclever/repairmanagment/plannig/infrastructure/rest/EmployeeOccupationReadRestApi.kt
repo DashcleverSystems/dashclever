@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 import pl.dashclever.repairmanagment.plannig.readmodel.EmployeeOccupationDto
 import pl.dashclever.repairmanagment.plannig.readmodel.EmployeeOccupationReader
 import java.time.LocalDate
-import java.util.*
+import java.util.UUID
 import java.util.stream.Stream
 
 private const val PATH = "/api/planning"
@@ -23,13 +23,13 @@ internal class EmployeeOccupationReadRestApi(
 ) {
 
     @GetMapping("/{planId}/employee/{employeeId}/occupation")
-    fun getOccupation(
+    fun getEmployeeOccupation(
         @PathVariable planId: UUID,
         @PathVariable employeeId: UUID,
         @RequestParam("at") at: LocalDate,
     ): EmployeeOccupationDto =
         Stream.of(
-            employeeOccupationReader.findByEmployeeId(employeeId.toString(), at),
+            employeeOccupationReader.findByEmployeeIdWithRunningRepair(employeeId.toString(), at),
             employeeOccupationReader.findByPlanIdAndEmployeeId(planId, employeeId.toString(), at)
         )
             .filter { it.isPresent }
@@ -38,10 +38,12 @@ internal class EmployeeOccupationReadRestApi(
             .orElseGet { NotOccupiedEmployee(employeeId.toString()) }
 
     @GetMapping("/{planId}/employee/occupation")
-    fun getOccupation(
+    fun getAllEmployeeOccupations(
         @PathVariable planId: UUID,
         @RequestParam("at") at: LocalDate,
-    ): List<EmployeeOccupationDto> = (employeeOccupationReader.findAll(at) + employeeOccupationReader.findAllByPlanId(planId, at)).toList()
+    ): List<EmployeeOccupationDto> =
+        employeeOccupationReader.findAllEmployeeOccupationsForPlanning(planId, at)
+            .toList()
 }
 
 private data class NotOccupiedEmployee(
@@ -50,4 +52,3 @@ private data class NotOccupiedEmployee(
 
     override val manMinutes: Int = 0
 }
-

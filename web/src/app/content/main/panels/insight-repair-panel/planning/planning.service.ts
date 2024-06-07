@@ -31,7 +31,7 @@ export class PlanningService {
     planId: string,
     day: Date,
   ): Observable<EmployeeOccupationDto[]> {
-    return this.planningApi.getOccupation1(
+    return this.planningApi.getAllEmployeeOccupations(
       planId,
       moment(day).format('YYYY-MM-DD'),
     );
