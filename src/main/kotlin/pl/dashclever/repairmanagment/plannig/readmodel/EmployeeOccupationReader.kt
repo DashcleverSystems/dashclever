@@ -24,7 +24,7 @@ interface EmployeeOccupationReader : Repository<Plan, UUID> {
     )
     fun findByEmployeeIdWithRunningRepair(
         employeeId: String,
-        at: LocalDate,
+        at: LocalDate
     ): Optional<EmployeeOccupationDto>
 
     @Query(
@@ -40,7 +40,7 @@ interface EmployeeOccupationReader : Repository<Plan, UUID> {
     fun findByPlanIdAndEmployeeId(
         planningId: UUID,
         employeeId: String,
-        at: LocalDate,
+        at: LocalDate
     ): Optional<EmployeeOccupationDto>
 
     @Query(
@@ -54,7 +54,7 @@ interface EmployeeOccupationReader : Repository<Plan, UUID> {
     """
     )
     fun findAllWithRunningRepair(
-        at: LocalDate,
+        at: LocalDate
     ): Set<EmployeeOccupationDto>
 
     @Query(
@@ -69,12 +69,12 @@ interface EmployeeOccupationReader : Repository<Plan, UUID> {
     )
     fun findAllByPlanId(
         planningId: UUID,
-        at: LocalDate,
+        at: LocalDate
     ): Set<EmployeeOccupationDto>
 
     fun findAllEmployeeOccupationsForPlanning(
         planningId: UUID,
-        at: LocalDate,
+        at: LocalDate
     ): Set<EmployeeOccupationDto> =
         (findAllWithRunningRepair(at) + findAllByPlanId(planningId, at))
             .groupBy { it.employeeId }

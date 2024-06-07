@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.transaction.annotation.Transactional
 import pl.dashclever.repairmanagment.plannig.model.PlanFactory
 import pl.dashclever.repairmanagment.plannig.model.PlanRepository
 import pl.dashclever.repairmanagment.plannig.readmodel.EmployeeOccupationDto
@@ -17,6 +18,7 @@ import java.time.LocalDate
 import java.util.UUID
 
 @SpringBootTest
+@Transactional
 @DefaultTestContextConfiguration
 internal class EmployeeOccupationReaderTest(
     @Autowired private val planRepository: PlanRepository,

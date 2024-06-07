@@ -19,14 +19,14 @@ private const val PATH = "/api/planning"
 @RequestMapping(PATH, produces = [MediaType.APPLICATION_JSON_VALUE])
 @Tag(name = "planning-api")
 internal class EmployeeOccupationReadRestApi(
-    private val employeeOccupationReader: EmployeeOccupationReader,
+    private val employeeOccupationReader: EmployeeOccupationReader
 ) {
 
     @GetMapping("/{planId}/employee/{employeeId}/occupation")
     fun getEmployeeOccupation(
         @PathVariable planId: UUID,
         @PathVariable employeeId: UUID,
-        @RequestParam("at") at: LocalDate,
+        @RequestParam("at") at: LocalDate
     ): EmployeeOccupationDto =
         Stream.of(
             employeeOccupationReader.findByEmployeeIdWithRunningRepair(employeeId.toString(), at),
@@ -40,14 +40,14 @@ internal class EmployeeOccupationReadRestApi(
     @GetMapping("/{planId}/employee/occupation")
     fun getAllEmployeeOccupations(
         @PathVariable planId: UUID,
-        @RequestParam("at") at: LocalDate,
+        @RequestParam("at") at: LocalDate
     ): List<EmployeeOccupationDto> =
         employeeOccupationReader.findAllEmployeeOccupationsForPlanning(planId, at)
             .toList()
 }
 
 private data class NotOccupiedEmployee(
-    override val employeeId: String,
+    override val employeeId: String
 ) : EmployeeOccupationDto {
 
     override val manMinutes: Int = 0
