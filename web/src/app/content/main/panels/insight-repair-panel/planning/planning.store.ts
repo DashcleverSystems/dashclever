@@ -45,7 +45,7 @@ export class PlanningStore extends ComponentStore<PlanningState> {
         >([
           this.service.getPlanJobsById(planId),
           this.service.filterEmployees(Workplace.LABOUR),
-          this.service.getWorkersOccupationByDay(planId, new Date()),
+          this.service.getEmployeeOccupations(planId, new Date()),
           of(planId),
         ]),
       ),
@@ -67,12 +67,10 @@ export class PlanningStore extends ComponentStore<PlanningState> {
     ),
   );
 
-  readonly setData = this.updater(
-    (_state, data: Partial<PlanningState>) => ({
-      ..._state,
-      ...data,
-    }),
-  );
+  readonly setData = this.updater((_state, data: Partial<PlanningState>) => ({
+    ..._state,
+    ...data,
+  }));
 
   readonly updateOccupationByDate = this.effect(($effect: Observable<Date>) =>
     $effect.pipe(
@@ -83,7 +81,7 @@ export class PlanningStore extends ComponentStore<PlanningState> {
         ]),
       ),
       mergeMap(([planId, date]: [string, Date]) =>
-        this.service.getWorkersOccupationByDay(planId, date),
+        this.service.getEmployeeOccupations(planId, date),
       ),
       tap((currentDayOccupation: EmployeeOccupationDto[]) => {
         this.setData({ currentDayOccupation });

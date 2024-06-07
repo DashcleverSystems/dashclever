@@ -27,7 +27,7 @@ export class PlanningService {
     return this.employeeApi.getAll(workplace);
   }
 
-  getWorkersOccupationByDay(
+  getEmployeeOccupations(
     planId: string,
     day: Date,
   ): Observable<EmployeeOccupationDto[]> {
