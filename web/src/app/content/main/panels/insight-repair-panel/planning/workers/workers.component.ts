@@ -1,6 +1,5 @@
-import {Component, SkipSelf} from '@angular/core';
-import {Observable} from 'rxjs';
-import {PlanningStore, Worker} from "@content/main/panels/insight-repair-panel/planning/planning.store";
+import { Component, inject } from '@angular/core';
+import PlanningStore from '@content/main/panels/insight-repair-panel/planning/planning.store';
 
 @Component({
   selector: 'app-planning-workers',
@@ -8,8 +7,6 @@ import {PlanningStore, Worker} from "@content/main/panels/insight-repair-panel/p
   styleUrl: './workers.component.scss',
 })
 export class WorkersComponent {
-  readonly workers$: Observable<Worker[]> = this.store.workers$;
-
-  constructor(@SkipSelf() private store: PlanningStore) {
-  }
+  private planningStore = inject(PlanningStore);
+  workers = this.planningStore.workers;
 }

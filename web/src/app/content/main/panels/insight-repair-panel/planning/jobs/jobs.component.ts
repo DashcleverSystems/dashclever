@@ -1,5 +1,5 @@
-import { Component, SkipSelf } from '@angular/core';
-import { PlanningStore } from '../planning.store';
+import { Component, inject } from '@angular/core';
+import PlanningStore from '@content/main/panels/insight-repair-panel/planning/planning.store';
 
 @Component({
   selector: 'app-planning-jobs',
@@ -7,13 +7,7 @@ import { PlanningStore } from '../planning.store';
   styleUrl: './jobs.component.scss',
 })
 export class JobsComponent {
-  get labourJobs$() {
-    return this.store.labouringJobs$;
-  }
-
-  get paintingJobs$() {
-    return this.store.paintingJobs$;
-  }
-
-  constructor(@SkipSelf() private store: PlanningStore) {}
+  private planningStore = inject(PlanningStore);
+  labourJobs = this.planningStore.labourJobs;
+  paintingJobs = this.planningStore.paintingJobs;
 }
