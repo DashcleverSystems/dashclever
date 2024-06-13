@@ -74,6 +74,10 @@ const PlanningStore = signalStore(
       async removeJobAssignment(jobId: number) {
         const planId = store.planId();
         await firstValueFrom(planningService.removeAssigned(planId, jobId));
+        const jobs = await firstValueFrom(
+          planningService.getPlanJobsById(planId),
+        );
+        patchState(store, { jobs });
       },
 
       setPlanId(planId: string) {
