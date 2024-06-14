@@ -3,11 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { catchError, distinctUntilChanged, EMPTY, switchMap } from 'rxjs';
 import { isEqual } from 'lodash';
-import { PlanningService } from '@content/main/panels/insight-repair-panel/planning/planning.service';
 import { RepairingApiService } from '@api/services/repairingApi.service';
 import { IToastMessage, ToastService } from '@shared/services/toast.service';
-import { PlanningService } from '@content/main/panels/insight-repair-panel/planning/planning.service';
 import PlanningStore from '@content/main/panels/insight-repair-panel/planning/planning.store';
+import { PlanningService } from '@content/main/panels/insight-repair-panel/planning/planning.service';
 
 @Component({
   selector: 'app-insight-repair-assign',
