@@ -1,4 +1,3 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   EmployeeApiService,
@@ -10,27 +9,32 @@ import { Observable } from 'rxjs';
 
 import moment from 'moment';
 import { Workplace } from '@shared/models/employee';
+import { PlanningApiService } from '@api/services/planningApi.service';
+import { Assignment } from '@api/models/assignment';
 
 @Injectable()
 export class PlanningService {
   constructor(
-    // TODO change http calls with open api calls
-    private http: HttpClient,
-    private employeeApi: EmployeeApiService,
+    private readonly employeeApi: EmployeeApiService,
+    private readonly planningApi: PlanningApiService,
   ) {}
 
   getPlanJobsById(id: string): Observable<JobDto[]> {
-    return this.http.get<JobDto[]>(`/api/planning/${id}/job`);
+    return this.planningApi.getAllByPlanningId(id);
   }
 
   filterEmployees(workplace: Workplace): Observable<EmployeeDto[]> {
     return this.employeeApi.getAll(workplace);
   }
 
-  getWorkersOccupationByDay(day: Date): Observable<EmployeeOccupationDto[]> {
-    return this.http.get<EmployeeOccupationDto[]>(`/api/employee/occupation`, {
-      params: new HttpParams().set('at', moment(day).format('YYYY-MM-DD')),
-    });
+  getEmployeeOccupations(
+    planId: string,
+    day: Date,
+  ): Observable<EmployeeOccupationDto[]> {
+    return this.planningApi.getAllEmployeeOccupations(
+      planId,
+      moment(day).format('YYYY-MM-DD'),
+    );
   }
 
   assignJob(
@@ -39,16 +43,15 @@ export class PlanningService {
     workerId: string,
     jobId: number,
   ): Observable<JobDto[]> {
-    return this.http.patch<JobDto[]>(`/api/planning/${planId}/job`, [
-      {
-        employeeId: workerId,
-        catalogueJobId: jobId,
-        at: moment(at).format('YYYY-MM-DD'),
-      },
-    ]);
+    const assignment: Assignment = {
+      employeeId: workerId,
+      catalogueJobId: jobId,
+      at: moment(at).format('YYYY-MM-DD'),
+    };
+    return this.planningApi.assignJobs(planId, [assignment]);
   }
 
   removeAssigned(planId: string, jobId: number): Observable<any> {
-    return this.http.delete(`/api/planning/${planId}/job/${jobId}`);
+    return this.planningApi.removeAssignment(planId, jobId);
   }
 }

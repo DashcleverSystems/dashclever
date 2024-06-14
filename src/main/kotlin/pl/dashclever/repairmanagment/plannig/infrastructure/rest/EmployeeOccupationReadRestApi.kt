@@ -10,33 +10,45 @@ import org.springframework.web.bind.annotation.RestController
 import pl.dashclever.repairmanagment.plannig.readmodel.EmployeeOccupationDto
 import pl.dashclever.repairmanagment.plannig.readmodel.EmployeeOccupationReader
 import java.time.LocalDate
-import java.util.*
+import java.util.UUID
+import java.util.stream.Stream
 
-private const val PATH = "/api/employee"
+private const val PATH = "/api/planning"
 
 @RestController
 @RequestMapping(PATH, produces = [MediaType.APPLICATION_JSON_VALUE])
-@Tag(name = "employee-api")
+@Tag(name = "planning-api")
 internal class EmployeeOccupationReadRestApi(
     private val employeeOccupationReader: EmployeeOccupationReader
 ) {
 
-    @GetMapping("/{employeeId}/occupation")
-    fun getOccupation(
+    @GetMapping("/{planId}/employee/{employeeId}/occupation")
+    fun getEmployeeOccupation(
+        @PathVariable planId: UUID,
         @PathVariable employeeId: UUID,
         @RequestParam("at") at: LocalDate
     ): EmployeeOccupationDto =
-        employeeOccupationReader.findByEmployeeIdAt(employeeId.toString(), at)
-            .orElse(NotOccupiedEmployee(employeeId.toString()))
+        Stream.of(
+            employeeOccupationReader.findByEmployeeIdWithRunningRepair(employeeId.toString(), at),
+            employeeOccupationReader.findByPlanIdAndEmployeeId(planId, employeeId.toString(), at)
+        )
+            .filter { it.isPresent }
+            .map { it.get() }
+            .reduce { acc: EmployeeOccupationDto, next: EmployeeOccupationDto -> acc + next }
+            .orElseGet { NotOccupiedEmployee(employeeId.toString()) }
 
-    @GetMapping("/occupation")
-    fun getOccupation(
+    @GetMapping("/{planId}/employee/occupation")
+    fun getAllEmployeeOccupations(
+        @PathVariable planId: UUID,
         @RequestParam("at") at: LocalDate
-    ): Set<EmployeeOccupationDto> = employeeOccupationReader.findAll(at)
+    ): List<EmployeeOccupationDto> =
+        employeeOccupationReader.findAllEmployeeOccupationsForPlanning(planId, at)
+            .toList()
+}
 
-    private data class NotOccupiedEmployee(
-        override val employeeId: String
-    ) : EmployeeOccupationDto {
-        override val manMinutes: Int = 0
-    }
+private data class NotOccupiedEmployee(
+    override val employeeId: String
+) : EmployeeOccupationDto {
+
+    override val manMinutes: Int = 0
 }

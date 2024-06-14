@@ -1,6 +1,7 @@
 package pl.dashclever.repairmanagment.plannig.infrastructure.rest
 
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -13,7 +14,7 @@ import java.util.UUID
 private const val PATH = "/api/planning/{planningId}/job"
 
 @RestController
-@RequestMapping(PATH)
+@RequestMapping(PATH, produces = [APPLICATION_JSON_VALUE])
 @Tag(name = "planning-api")
 internal class PlanJobReadRestApi(
     private val jobsReader: JobReader,

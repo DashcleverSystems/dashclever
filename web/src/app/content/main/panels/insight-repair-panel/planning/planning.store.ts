@@ -1,6 +1,14 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { combineLatest, Observable, of, switchMap, take, tap } from 'rxjs';
+import {
+  combineLatest,
+  mergeMap,
+  Observable,
+  of,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 import { PlanningService } from '@content/main/panels/insight-repair-panel/planning/planning.service';
 import { EmployeeDto, EmployeeOccupationDto, JobDto } from 'generated/openapi';
 import { JobType } from '@app/shared/enums/job-type';
@@ -29,20 +37,20 @@ const initialState: PlanningState = {
 
 @Injectable()
 export class PlanningStore extends ComponentStore<PlanningState> {
-  readonly loadCollection = this.effect((planningId$: Observable<string>) =>
-    planningId$.pipe(
-      switchMap((planningId) =>
+  readonly loadCollection = this.effect((planId$: Observable<string>) =>
+    planId$.pipe(
+      switchMap((planId) =>
         combineLatest<
           [JobDto[], EmployeeDto[], EmployeeOccupationDto[], string]
         >([
-          this.service.getPlanJobsById(planningId),
+          this.service.getPlanJobsById(planId),
           this.service.filterEmployees(Workplace.LABOUR),
-          this.service.getWorkersOccupationByDay(new Date()),
-          of(planningId),
+          this.service.getEmployeeOccupations(planId, new Date()),
+          of(planId),
         ]),
       ),
       tap(
-        ([jobs, employees, currentDayOccupation, planId]: [
+        ([jobs, labours, currentDayOccupation, planId]: [
           JobDto[],
           EmployeeDto[],
           EmployeeOccupationDto[],
@@ -50,7 +58,7 @@ export class PlanningStore extends ComponentStore<PlanningState> {
         ]) => {
           this.setData({
             jobs,
-            workers: employees,
+            workers: labours,
             currentDayOccupation,
             planId,
           });
@@ -59,16 +67,22 @@ export class PlanningStore extends ComponentStore<PlanningState> {
     ),
   );
 
-  readonly setData = this.updater(
-    (_state, data: Partial<PlanningState>) => ({
-      ..._state,
-      ...data,
-    }),
-  );
+  readonly setData = this.updater((_state, data: Partial<PlanningState>) => ({
+    ..._state,
+    ...data,
+  }));
 
   readonly updateOccupationByDate = this.effect(($effect: Observable<Date>) =>
     $effect.pipe(
-      switchMap((date: Date) => this.service.getWorkersOccupationByDay(date)),
+      switchMap((date: Date) =>
+        combineLatest<[string, Date]>([
+          this.select((_state) => _state.planId).pipe(take(1)),
+          of(date),
+        ]),
+      ),
+      mergeMap(([planId, date]: [string, Date]) =>
+        this.service.getEmployeeOccupations(planId, date),
+      ),
       tap((currentDayOccupation: EmployeeOccupationDto[]) => {
         this.setData({ currentDayOccupation });
       }),
