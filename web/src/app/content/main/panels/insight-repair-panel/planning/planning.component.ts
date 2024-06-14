@@ -1,8 +1,11 @@
 import { Component, ElementRef, inject, OnInit, SkipSelf } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
-import { catchError, distinctUntilChanged, EMPTY } from 'rxjs';
+import { catchError, distinctUntilChanged, EMPTY, switchMap } from 'rxjs';
 import { isEqual } from 'lodash';
+import { PlanningService } from '@content/main/panels/insight-repair-panel/planning/planning.service';
+import { RepairingApiService } from '@api/services/repairingApi.service';
+import { IToastMessage, ToastService } from '@shared/services/toast.service';
 import { PlanningService } from '@content/main/panels/insight-repair-panel/planning/planning.service';
 import PlanningStore from '@content/main/panels/insight-repair-panel/planning/planning.store';
 
@@ -25,6 +28,9 @@ export class PlanningComponent implements OnInit {
   constructor(
     @SkipSelf() private route: ActivatedRoute,
     @SkipSelf() private service: PlanningService,
+    @SkipSelf() private repairingApi: RepairingApiService,
+    @SkipSelf() private router: Router,
+    @SkipSelf() private toast: ToastService,
   ) {
     this.planId = this.route.snapshot.paramMap.get('id');
     this.planningStore.setPlanId(this.planId);
@@ -65,6 +71,25 @@ export class PlanningComponent implements OnInit {
           });
       }
     }
+  }
+
+  startRepair() {
+    const successToastMessage: IToastMessage = {
+      message: 'components.planning.start-repair.success',
+      translate: true,
+    };
+    this.repairingApi
+      .startRepairOfPlan(this.planId)
+      .pipe(
+        switchMap(() =>
+          this.router.navigate(['/insight-repair/estimate-catalogue']),
+        ),
+      )
+      .subscribe((success) => {
+        if (success) {
+          this.toast.success(successToastMessage);
+        }
+      });
   }
 
   private subscribeDateChange(): void {

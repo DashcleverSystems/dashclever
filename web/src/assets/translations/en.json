@@ -60,6 +60,10 @@
       }
     },
     "planning": {
+      "start-repair": {
+        "button": "Start repairing",
+        "success": "Repair has started"
+      },
       "planningPage": {
         "title": "Plannings",
         "estimateId": "Estimate identifier",

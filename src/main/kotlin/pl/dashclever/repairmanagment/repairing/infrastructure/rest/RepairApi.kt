@@ -1,6 +1,7 @@
 package pl.dashclever.repairmanagment.repairing.infrastructure.rest
 
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -12,7 +13,7 @@ import java.util.UUID
 private const val PATH = "/api/repairing"
 
 @RestController
-@RequestMapping(PATH)
+@RequestMapping(PATH, produces = [MediaType.APPLICATION_JSON_VALUE])
 @Tag(name = "repairing-api")
 internal class RepairApi(
     private val repairService: RepairService,
