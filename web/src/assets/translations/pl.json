@@ -60,6 +60,10 @@
       }
     },
     "planning": {
+      "start-repair": {
+        "button": "Rozpocznij naprawę",
+        "success": "Rozpoczęto naprawę"
+      },
       "planningPage": {
         "title": "Plany napraw",
         "estimateId": "Identyfikator kosztorysu",
