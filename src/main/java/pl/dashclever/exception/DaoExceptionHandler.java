@@ -15,7 +15,7 @@ public class DaoExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorMessage> handleException(DataIntegrityViolationException ex) {
-        LOG.warn(ex.getMessage());
+        LOG.error("Dao exception: {}", ex.getMessage(), ex);
         ErrorMessage errorMessage = new ErrorMessage("Sql exception", "Sql exception");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
     }

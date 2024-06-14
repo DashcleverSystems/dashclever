@@ -1,19 +1,22 @@
-import { Component, ElementRef, OnInit, SkipSelf } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, SkipSelf } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PlanningStore } from './planning.store';
 import { FormControl } from '@angular/forms';
 import { catchError, distinctUntilChanged, EMPTY, switchMap } from 'rxjs';
 import { isEqual } from 'lodash';
-import { PlanningService } from '@content/main/panels/insight-repair-panel/planning/planning.service';
 import { RepairingApiService } from '@api/services/repairingApi.service';
 import { IToastMessage, ToastService } from '@shared/services/toast.service';
+import PlanningStore from '@content/main/panels/insight-repair-panel/planning/planning.store';
+import { PlanningService } from '@content/main/panels/insight-repair-panel/planning/planning.service';
 
 @Component({
   selector: 'app-insight-repair-assign',
   templateUrl: './planning.component.html',
   styleUrl: './planning.component.scss',
+  providers: [PlanningStore],
 })
 export class PlanningComponent implements OnInit {
+  private planningStore = inject(PlanningStore);
+
   selectedDate: FormControl<Date> = new FormControl({
     value: new Date(),
     disabled: false,
@@ -23,15 +26,14 @@ export class PlanningComponent implements OnInit {
 
   constructor(
     @SkipSelf() private route: ActivatedRoute,
-    @SkipSelf() private store: PlanningStore,
     @SkipSelf() private service: PlanningService,
     @SkipSelf() private repairingApi: RepairingApiService,
     @SkipSelf() private router: Router,
     @SkipSelf() private toast: ToastService,
   ) {
     this.planId = this.route.snapshot.paramMap.get('id');
-
-    this.store.loadCollection(this.planId);
+    this.planningStore.setPlanId(this.planId);
+    this.planningStore.fetchState();
   }
 
   ngOnInit() {
@@ -63,8 +65,8 @@ export class PlanningComponent implements OnInit {
             }),
           )
           .subscribe((newJobsList) => {
-            this.store.setData({ jobs: newJobsList });
-            this.store.updateOccupationByDate(date);
+            this.planningStore.setJobs(newJobsList);
+            this.planningStore.changeDay(date);
           });
       }
     }
@@ -93,7 +95,7 @@ export class PlanningComponent implements OnInit {
     this.selectedDate.valueChanges
       .pipe(distinctUntilChanged(isEqual))
       .subscribe((date) => {
-        this.store.updateOccupationByDate(date);
+        this.planningStore.changeDay(date);
       });
   }
 }

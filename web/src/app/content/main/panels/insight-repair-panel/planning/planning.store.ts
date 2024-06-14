@@ -1,18 +1,16 @@
-import { Injectable } from '@angular/core';
-import { ComponentStore } from '@ngrx/component-store';
-import {
-  combineLatest,
-  mergeMap,
-  Observable,
-  of,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs';
+import { computed, inject, InjectionToken } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { PlanningService } from '@content/main/panels/insight-repair-panel/planning/planning.service';
 import { EmployeeDto, EmployeeOccupationDto, JobDto } from 'generated/openapi';
 import { JobType } from '@app/shared/enums/job-type';
 import { Workplace } from '@shared/models/employee';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
 
 export type Worker = {
   id: string;
@@ -23,113 +21,96 @@ export type Worker = {
 
 export interface PlanningState {
   jobs: JobDto[];
-  workers: EmployeeDto[];
+  employees: EmployeeDto[];
   currentDayOccupation: EmployeeOccupationDto[];
   planId: string | null;
 }
 
 const initialState: PlanningState = {
   jobs: [],
-  workers: [],
+  employees: [],
   currentDayOccupation: [],
   planId: null,
 };
 
-@Injectable()
-export class PlanningStore extends ComponentStore<PlanningState> {
-  readonly loadCollection = this.effect((planId$: Observable<string>) =>
-    planId$.pipe(
-      switchMap((planId) =>
-        combineLatest<
-          [JobDto[], EmployeeDto[], EmployeeOccupationDto[], string]
-        >([
-          this.service.getPlanJobsById(planId),
-          this.service.filterEmployees(Workplace.LABOUR),
-          this.service.getEmployeeOccupations(planId, new Date()),
-          of(planId),
-        ]),
-      ),
-      tap(
-        ([jobs, labours, currentDayOccupation, planId]: [
-          JobDto[],
-          EmployeeDto[],
-          EmployeeOccupationDto[],
-          string,
-        ]) => {
-          this.setData({
-            jobs,
-            workers: labours,
-            currentDayOccupation,
-            planId,
-          });
-        },
-      ),
+const PLANNING_STORE_STATE = new InjectionToken<PlanningState>(
+  'PlanningState',
+  {
+    factory: () => initialState,
+  },
+);
+
+const PlanningStore = signalStore(
+  withState<PlanningState>(() => inject(PLANNING_STORE_STATE)),
+  withComputed((store) => ({
+    paintingJobs: computed<JobDto[]>(() =>
+      store.jobs().filter((job) => job.jobType === JobType.VARNISHING),
     ),
-  );
-
-  readonly setData = this.updater((_state, data: Partial<PlanningState>) => ({
-    ..._state,
-    ...data,
-  }));
-
-  readonly updateOccupationByDate = this.effect(($effect: Observable<Date>) =>
-    $effect.pipe(
-      switchMap((date: Date) =>
-        combineLatest<[string, Date]>([
-          this.select((_state) => _state.planId).pipe(take(1)),
-          of(date),
-        ]),
-      ),
-      mergeMap(([planId, date]: [string, Date]) =>
-        this.service.getEmployeeOccupations(planId, date),
-      ),
-      tap((currentDayOccupation: EmployeeOccupationDto[]) => {
-        this.setData({ currentDayOccupation });
-      }),
+    labourJobs: computed<JobDto[]>(() =>
+      store.jobs().filter((job) => job.jobType === JobType.LABOUR),
     ),
-  );
+    workers: computed<Worker[]>(() => {
+      const workers = store.employees();
+      return workers.map((worker) => {
+        const assignedJobs = store
+          .jobs()
+          .filter((job) => job.assignedTo === worker.id);
+        const occupation = store
+          .currentDayOccupation()
+          .find(
+            (occupation) => occupation.employeeId === worker.id,
+          )?.manMinutes;
+        return {
+          id: worker.id,
+          name: `${worker.firstName} ${worker.lastName}`,
+          occupation: occupation || 0,
+          assignedJobs,
+        };
+      });
+    }),
+  })),
+  withMethods(
+    (store, planningService: PlanningService = inject(PlanningService)) => ({
+      async removeJobAssignment(jobId: number) {
+        const planId = store.planId();
+        await firstValueFrom(planningService.removeAssigned(planId, jobId));
+        const jobs = await firstValueFrom(
+          planningService.getPlanJobsById(planId),
+        );
+        patchState(store, { jobs });
+      },
 
-  readonly paintingJobs$ = this.select((_state) =>
-    _state.jobs.filter((job) => job.jobType === JobType.VARNISHING),
-  );
+      setPlanId(planId: string) {
+        patchState(store, { planId });
+      },
 
-  readonly labouringJobs$ = this.select((_state) =>
-    _state.jobs.filter((job) => job.jobType === JobType.LABOUR),
-  );
+      setJobs(jobs: JobDto[]) {
+        patchState(store, { jobs });
+      },
 
-  readonly workers$: Observable<Worker[]> = this.select((_state) => {
-    return _state.workers.map((worker) => {
-      const assignedJobs = _state.jobs.filter(
-        (job) => job.assignedTo === worker.id,
-      );
-      const occupation = _state.currentDayOccupation.find(
-        (occupation) => occupation.employeeId === worker.id,
-      )?.manMinutes;
-      return {
-        id: worker.id,
-        name: `${worker.firstName} ${worker.lastName}`,
-        occupation: occupation || 0,
-        assignedJobs,
-      };
-    });
-  });
+      async fetchState() {
+        const planId = store.planId();
+        const jobs = await firstValueFrom(
+          planningService.getPlanJobsById(planId),
+        );
+        const employees = await firstValueFrom(
+          planningService.filterEmployees(Workplace.LABOUR),
+        );
+        const currentDayOccupation = await firstValueFrom(
+          planningService.getEmployeeOccupations(planId, new Date()),
+        );
+        patchState(store, { jobs, employees, currentDayOccupation, planId });
+      },
 
-  readonly removeJobAssigment = this.effect(($effect: Observable<number>) =>
-    $effect.pipe(
-      switchMap((jobId: number) =>
-        this.service.removeAssigned(this.get().planId, jobId),
-      ),
-      tap(() => this.loadCollection(this.get().planId)),
-    ),
-  );
+      async changeDay(day: Date) {
+        const currentDayOccupation = await firstValueFrom(
+          planningService.getEmployeeOccupations(store.planId(), day),
+        );
 
-  constructor(private service: PlanningService) {
-    super(initialState);
-  }
+        patchState(store, { currentDayOccupation });
+      },
+    }),
+  ),
+);
 
-  readonly getWorkerById = (id: string) =>
-    this.workers$.pipe(
-      take(1),
-      switchMap((workers) => of(workers.find((worker) => worker.id === id))),
-    );
-}
+export default PlanningStore;
